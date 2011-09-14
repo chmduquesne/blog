@@ -13,3 +13,6 @@ $(OUTPUTDIR)/%.html:
 
 upload:
 	lftp $(USER)@$(HOST) -e "mirror -R $(OUTPUTDIR) $(TARGETDIR) ; quit"
+
+clean:
+	rm -rf $(OUTPUTDIR)
