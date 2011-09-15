@@ -30,8 +30,8 @@ of this xml file to generate rst files using pandoc. Or if you are lazy,
 you can just provide an rss feed to the pelican importer, but you'll still
 miss a way to get the comments.
 
-Getting you comments
---------------------
+Extracting your comments
+------------------------
 
 Pelican does not provide a comment system by itself, but integrates nicely
 with [disqus][4]. Just make an account and upload the Wordpress xml export
@@ -56,11 +56,11 @@ What I could not fix
 The blog entries on my previous blog were obtained through links looking
 like
 
-    http://chm.duquesne.free.fr/blog/?p=xxx
+    "http://chm.duquesne.free.fr/blog/?p=xxx"
 
 Whereas on the new version, they look like
 
-    http://blog.chmd.fr/title-of-the-article.html
+    "http://blog.chmd.fr/title-of-the-article.html"
 
 It would have been cool to be able to put 301 redirect entries in a
 .htaccess, for the sake of SEO-friendliness. However, this would require
