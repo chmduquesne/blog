@@ -1,5 +1,5 @@
-l&#039;UML automatisé et le libre : c&#039;est pas gagné!
-#########################################################
+l'UML automatisé et le libre : c'est pas gagné!
+###############################################
 :date: 2008-06-08 16:34
 :category: BonTuyaux, Code
 :tags: Fortran, Libre
@@ -16,6 +16,7 @@ compris, Umbrello est bien capable de générer du code, mais
 malheureusement l'import est une autre histoire : si celui-ci est
 bien capable d'importer une classe à partir du C++, en revanche il
 ne génère aucun diagramme (voir `la page consacrée de l'aide`_) :
+
     Note that Umbrello UML Modeller will not create any kind of Diagram
     for showing your classes, they will only be imported into your
     Model so that you can use them later in any diagram you want.
@@ -23,7 +24,8 @@ ne génère aucun diagramme (voir `la page consacrée de l'aide`_) :
 J'ai aussi jeté un coup d'oeil du côté d'ArgoUml. Malheureusement,
 de ce côté non plus c'est pas la panacée puisqu'ici on ne parle que
 de java : moi, je veux du C++.
-    What is ArgoUML? 
+
+    What is ArgoUML?
         [...]
         ArgoUML also has the ability to reverse engineer compiling Java
         code and generate UML diagrams for it.
@@ -34,11 +36,12 @@ sur un outil intéressant : `dia2code`_. Celui-ci prend en entrée un
 schéma uml en dia, et génère du code dans le langage choisi. J'ai
 regardé la section `examples`_ du site, c'est assez convaincant.
 Pour ce schéma :`|image0|`_ Les fichiers suivants seront générés :
+
 foowindow.cpp 1/14
 ::
 
     #include "foowindow.h"
-    
+
     void FooWindow::redraw (  ){
     }
 
@@ -47,9 +50,9 @@ foowindow.h 2/14
 
     #ifndef FOOWINDOW_H
     #define FOOWINDOW_H
-    
+
     #include "window.h"
-    
+
     class FooWindow: public Window {
       // Associations
       // Attributes
@@ -57,7 +60,7 @@ foowindow.h 2/14
       public:
         void redraw (  );
     };
-    
+
     #endif
 
 foowindowmanager.cpp 3/14
@@ -70,28 +73,28 @@ foowindowmanager.h 4/14
 
     #ifndef FOOWINDOWMANAGER_H
     #define FOOWINDOWMANAGER_H
-    
+
     #include "windowmanager.h"
-    
+
     class FooWindowManager: public WindowManager {
       // Associations
       // Attributes
       // Operations
     };
-    
+
     #endif
 
 point.cpp 5/14
 ::
 
     #include "point.h"
-    
+
     Point::Point ( float x, float y ){
     }
-    
+
     float Point::getX (  ){
     }
-    
+
     float Point::getY (  ){
     }
 
@@ -100,7 +103,7 @@ point.h 6/14
 
     #ifndef POINT_H
     #define POINT_H
-    
+
     class Point {
       // Associations
       // Attributes
@@ -113,14 +116,14 @@ point.h 6/14
         float getX (  );
         float getY (  );
     };
-    
+
     #endif
 
 rectangle.cpp 7/14
 ::
 
     #include "rectangle.h"
-    
+
     float Rectangle::getArea (  ){
     }
 
@@ -129,10 +132,10 @@ rectangle.h 8/14
 
     #ifndef RECTANGLE_H
     #define RECTANGLE_H
-    
+
     #include "point.h"
     #include "shape.h"
-    
+
     class Rectangle: public Shape {
       // Associations
        Point points;
@@ -141,7 +144,7 @@ rectangle.h 8/14
       public:
         float getArea (  );
     };
-    
+
     #endif
 
 shape.cpp 9/14
@@ -154,7 +157,7 @@ shape.h 10/14
 
     #ifndef SHAPE_H
     #define SHAPE_H
-    
+
     class Shape {
       // Associations
       // Attributes
@@ -162,7 +165,7 @@ shape.h 10/14
       public:
         virtual float getArea (  ) = 0;
     };
-    
+
     #endif
 
 window.cpp 11/14
@@ -175,9 +178,9 @@ window.h 12/14
 
     #ifndef WINDOW_H
     #define WINDOW_H
-    
+
     #include "shape.h"
-    
+
     class Window {
       // Associations
       // Attributes
@@ -187,7 +190,7 @@ window.h 12/14
       public:
         virtual void redraw (  ) = 0;
     };
-    
+
     #endif
 
 windowmanager.cpp 13/14
@@ -200,16 +203,16 @@ windowmanager.h 14/14
 
     #ifndef WINDOWMANAGER_H
     #define WINDOWMANAGER_H
-    
+
     #include "window.h"
-    
+
     class WindowManager {
       // Associations
        Window windows;
       // Attributes
       // Operations
     };
-    
+
     #endif
 
 Pas mal. Il y a de l'idée. Maintenant, cherchons s'il existe le

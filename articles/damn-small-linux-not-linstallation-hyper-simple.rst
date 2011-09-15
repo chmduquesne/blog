@@ -1,5 +1,5 @@
-Damn Small Linux (Not) : l&#039;installation hyper simple
-#########################################################
+Damn Small Linux (Not) : l'installation hyper simple
+####################################################
 :date: 2008-03-19 01:52
 :category: BonTuyaux
 :tags: Libre, Ubuntu

@@ -58,7 +58,6 @@ j'ai un lecteur de flux rss, c'est pour gagner en productivité.
 .. _extension firefox pour les notifications: https://addons.mozilla.org/firefox/3342/
 .. _site: http://gregarius.net/
 .. _démo: http://rss.gregarius.net/
-.. _: http://wiki.gregarius.net/index.php/Plugins
 .. _site: http://feedonfeeds.com/
 .. _site: http://fofredux.sourceforge.net/
 .. _démo: http://code.highearthorbit.com/fofredux/fofredux_demo/view.php

@@ -1,5 +1,5 @@
-De l&#039;intérêt de détacher des programmes de la console (sans screen)
-########################################################################
+De l'intérêt de détacher des programmes de la console (sans screen)
+###################################################################
 :date: 2010-04-09 09:57
 :category: BonTuyaux, Code
 :tags: Astuce, Libre

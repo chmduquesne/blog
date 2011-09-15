@@ -19,7 +19,7 @@ j'ai galéré. En fait c'est tout simple, il suffit d'utiliser une
 cible '-local' dans le Makefile.am, qui permet d'overrider les
 cibles par défaut. Ici, ça sera donc all-local. Bon, et comme vous
 voulez que le projet continue à marcher si vous ne disposez pas de
-notify-send, il faut modifier aussi le configure.ac. Ça donne: -
+notify-send, il faut modifier aussi le configure.ac. Ça donne:
 configure.ac :
 ::
 
@@ -29,7 +29,7 @@ configure.ac :
     AC_CHECK_PROG([notify_ok], [notify-send], [yes], [no])
     AM_CONDITIONAL([NOTIFYSEND], [test "x$notify_ok" = xyes])
 
-- Makefile.am :
+Makefile.am :
 ::
 
     if NOTIFYSEND

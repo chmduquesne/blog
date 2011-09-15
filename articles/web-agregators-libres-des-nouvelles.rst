@@ -7,6 +7,7 @@ web-agregators libres : des nouvelles
 Ce petit billet me sert à vous faire suivre une information par le
 développeur de MonkeyChow, un des lecteurs de flux rss "web-based"
 dont je parlais il n'y a pas si longtemps dans `cet article`_.
+
     Greetings. I am the author for MonkeyChow. I’m sorry to resort to
     English. My high-school French serves me poorly here. MonkeyChow is
     updated frequently and can be found here

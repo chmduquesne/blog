@@ -1,5 +1,5 @@
-Faire un gif animé à partir d&#039;un film
-##########################################
+Faire un gif animé à partir d'un film
+#####################################
 :date: 2008-04-06 21:29
 :category: BonTuyaux
 :tags: Howto, Libre

@@ -1,5 +1,5 @@
-Voler les mots de passe d&#039;encryption dans la RAM, une action bientôt possible pour n&#039;importe qui.
-###########################################################################################################
+Voler les mots de passe d'encryption dans la RAM, une action bientôt possible pour n'importe qui.
+#################################################################################################
 :date: 2008-04-25 01:26
 :category: Actualité, Sécurité
 :tags: Libre

@@ -60,19 +60,16 @@ lignes suivantes:
     # http://www.vim.org/scripts/script.php?script_id=1643
     1643 1 :AutoInstall: supertab.vim
 
-- Ouvrez vim, tapez :GLVS. Le script va se mettre à jour de
-lui-même.
-
+- Ouvrez vim, tapez :GLVS. Le script va se mettre à jour de lui-même.
 - Vous pouvez tester le script, assez sympa, qui permet de
-compléter les mots que vous tapez avec la touche de tabulation
-(pour savoir comment ça se paramètre, lisez le script, pour
-l'instant sa doc est incluse en commentaire dans le code - j'ai
-proposé au mainteneur un patch avec une vraie doc vim, accessible
-par :help et j'ai bon espoir qu'il l'inclue dans une future
-version)
-
+  compléter les mots que vous tapez avec la touche de tabulation
+  (pour savoir comment ça se paramètre, lisez le script, pour
+  l'instant sa doc est incluse en commentaire dans le code - j'ai
+  proposé au mainteneur un patch avec une vraie doc vim, accessible
+  par :help et j'ai bon espoir qu'il l'inclue dans une future
+  version)
 - Fin de la démo. Vous pouvez supprimer votre répertoire .vim et
-remettre votre ancienne configuration (si vous en aviez une).
+  remettre votre ancienne configuration (si vous en aviez une).
 
 Une petite explication supplémentaire s'impose. Le mot clé
 :AutoInstall: dans la ligne que j'ai préconisée n'est pas

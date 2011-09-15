@@ -1,5 +1,5 @@
-Couper une vidéo et extraire une scène d&#039;un film
-#####################################################
+Couper une vidéo et extraire une scène d'un film
+################################################
 :date: 2008-04-07 22:28
 :category: BonTuyaux
 :tags: Howto, Libre

@@ -10,6 +10,7 @@ parlais des performances : Michael Larabel a fait
 un gamer fou à la recherche de la performance absolue, vous ne
 ressentirez quasiment pas les effets de ralentissement dû à ce
 cryptage. À bon entendeur...
+
     In the three Linux gaming benchmarks -- Enemy Territory, Doom 3,
     and Enemy Territory: Quake Wars -- the encrypted LVM had little
     impact on the frame-rate performance. In Doom 3 and ET: Quake Wars

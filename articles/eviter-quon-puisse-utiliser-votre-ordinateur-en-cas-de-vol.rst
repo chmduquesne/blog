@@ -1,4 +1,4 @@
-Éviter qu&#039;on puisse utiliser votre ordinateur en cas de vol
+Éviter qu'on puisse utiliser votre ordinateur en cas de vol
 ################################################################
 :date: 2008-03-17 09:22
 :category: Sécurité

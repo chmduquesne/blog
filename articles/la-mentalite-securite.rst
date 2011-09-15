@@ -1,5 +1,5 @@
-La mentalité &quot;sécurité&quot;
-#################################
+La mentalité "sécurité"
+#######################
 :date: 2008-03-26 01:33
 :category: Actualité, Sécurité
 :tags: Libre
@@ -16,6 +16,7 @@ quotidienne comme sur un ordinateur. Cette anecdote donne à Bruce
 Schneier, l'auteur de l'article (`pas n'importe qui!`_) l'occasion
 décrire cet état d'esprit qui anime le professionnel de la
 sécurité.
+
     Les experts en sécurité -- ou au moins, ceux qui sont bons --
     voient le monde de manière différente. Ils ne peuvent pas entrer
     dans une boutique sans remarque comment ils pourraient voler à

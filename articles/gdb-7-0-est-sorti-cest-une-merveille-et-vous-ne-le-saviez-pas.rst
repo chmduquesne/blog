@@ -1,5 +1,5 @@
-gdb 7.0 est sorti, c&#039;est une merveille et vous ne le saviez pas.
-#####################################################################
+gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.
+################################################################
 :date: 2009-10-06 19:19
 :category: Actualité, BonTuyaux, Code
 :tags: Libre

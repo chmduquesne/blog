@@ -1,5 +1,5 @@
-C&#039;est officiel, ton blog a été tunné.
-##########################################
+C'est officiel, ton blog a été tunné.
+#####################################
 :date: 2008-03-24 23:11
 :category: VieDuBlog
 :tags: Cesttoiletag

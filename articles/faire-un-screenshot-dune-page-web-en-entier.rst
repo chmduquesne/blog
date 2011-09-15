@@ -1,5 +1,5 @@
-Faire un screenshot d&#039;une page web en entier
-#################################################
+Faire un screenshot d'une page web en entier
+############################################
 :date: 2008-03-24 22:50
 :category: Actualité, BonTuyaux
 :tags: Astuce, Libre

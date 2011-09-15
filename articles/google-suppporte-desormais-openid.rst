@@ -1,4 +1,4 @@
-Google suppporte(rait) désormais openid (et c&#039;est pas officiel)
+Google suppporte(rait) désormais openid (et c'est pas officiel)
 ####################################################################
 :date: 2008-04-10 00:54
 :category: Sécurité
@@ -27,6 +27,7 @@ raisonnablement penser qu'il n'est pas dangereux de tenter
 l'expérience (ce que j'ai fait, d'ailleurs, car ça faisait
 longtemps que je souhaitais tester openid). Toutefois, il ne s'agit
 pas d'un produit officiel Google :
+
     it's just a sample app for App Engine; it's definitely not a
     full-fledged, official Google product.
 
@@ -34,6 +35,7 @@ D'après ce que j'ai compris (et lu dans son cv), notre ami est, à
 ses heures perdues, contributeur du projet openid. C'est ce qui
 l'aurait poussé à implémenter openid (et d'autres choses rigolotes)
 chez google...
+
     When I found extra time, though, I had a lot of fun writing apps
     and libraries on top of App Engine. I particularly enjoyed writing
     an `interactive shell`_, an `OpenID provider`_, and a

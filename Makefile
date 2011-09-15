@@ -9,7 +9,7 @@ all: $(OUTPUTDIR)/index.html
 	@echo done
 
 $(OUTPUTDIR)/%.html:
-	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE)
+	pelican $(INPUTDIR) -v -o $(OUTPUTDIR) -s $(CONFFILE)
 
 upload:
 	lftp $(USER)@$(HOST) -e "mirror -R $(OUTPUTDIR) $(TARGETDIR) ; quit"
