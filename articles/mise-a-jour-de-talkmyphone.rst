@@ -1,8 +1,8 @@
 Mise à jour de TalkMyPhone
 ##########################
 :date: 2010-09-07 13:07
-:category: BonTuyaux, Code
-:tags: Libre
+:category: misc
+:tags: libre, talkmyphone
 
 Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
 android. Pour ceux qui n'auraient pas suivi le lancement de

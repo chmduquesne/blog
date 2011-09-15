@@ -1,7 +1,8 @@
 Using a shell version of supergenpass from vimperator/pentadactyl
 #################################################################
 :date: 2010-12-20 18:39
-:category: Sécurité
+:category: howto
+:tags: supergenpass, pentadactyl
 
 Last week, I was glad to be a `supergenpass`_ user:
 `gawker.com was hacked`_ and a huge number of their

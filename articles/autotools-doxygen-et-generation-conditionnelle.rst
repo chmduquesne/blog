@@ -1,8 +1,8 @@
 autotools, doxygen, et génération conditionnelle
 ################################################
 :date: 2009-07-10 12:54
-:category: BonTuyaux, Code
-:tags: Astuce, Cesttoiletag, Libre
+:category: code
+:tags: autotools, doxygen, libre
 
 On m'a donné une astuce bien sympa pour générer de la documentation
 de manière conditionnelle avec doxygen. J'utilise ça dans le projet
@@ -21,7 +21,7 @@ complet, mais vous pouvez vous en inspirer: Fichier configure.ac
     AC_PATH_PROG([PERL], [perl], [])
     AM_CONDITIONAL([DOXYGEN], [test "x$doxygen_ok" = xyes])
     AM_CONDITIONAL([DOT], [test "x$dot_ok" = xyes])
-    
+
     AC_CONFIG_FILES(
         doc/doxygen_html.cfg
     )

@@ -1,8 +1,8 @@
 La TODO liste du pauvre
 #######################
 :date: 2009-12-20 22:08
-:category: BonTuyaux, Code
-:tags: Astuce, Howto, Libre
+:category: howto
+:tags: libre, notify-send
 
 Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
 Paradoxalement, si on cherche quelque chose de simple, on ne trouve
@@ -19,16 +19,16 @@ script suivant:
 ::
 
     #!/usr/bin/env bash
-    
+
     # pour que cron sache sur quel moniteur jouer la notification
     DISPLAY=:0.0
-    
+
     #params
     todofile=$HOME/TODO
     icon='/usr/share/icons/gnome/32x32/status/dialog-information.png'
     popupTime=10000
     urgency='low'
-    
+
     if test -f $todofile; then
         notification=`cat $todofile`
         notify-send -u $urgency -t $popupTime -i "$icon" TODO "$notification"

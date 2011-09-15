@@ -1,8 +1,8 @@
 autotools, makefile et notify-send
 ##################################
 :date: 2009-07-03 10:18
-:category: BonTuyaux, Code
-:tags: Astuce, Cesttoiletag, Howto, Libre
+:category: code
+:tags: autotools, makefile, notify-send
 
 Au boulot, j'usilise les autotools comme buildsystem de mon projet.
 C'est pas l'idéal, je préfererais un truc plus moderne du style

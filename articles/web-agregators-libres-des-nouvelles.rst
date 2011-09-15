@@ -1,8 +1,8 @@
 web-agregators libres : des nouvelles
 #####################################
 :date: 2008-07-28 08:00
-:category: Actualité, BonTuyaux
-:tags: Libre
+:category: misc
+:tags: tt-rss, rss
 
 Ce petit billet me sert à vous faire suivre une information par le
 développeur de MonkeyChow, un des lecteurs de flux rss "web-based"

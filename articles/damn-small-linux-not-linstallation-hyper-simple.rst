@@ -1,8 +1,8 @@
 Damn Small Linux (Not) : l'installation hyper simple
 ####################################################
 :date: 2008-03-19 01:52
-:category: BonTuyaux
-:tags: Libre, Ubuntu
+:category: howto
+:tags: libre, damn small linux
 
 Malgré le fait que je pense qu'avoir un linux sur une clé usb est
 en fait assez inutile, il fut une époque où je m'amusais à suivre

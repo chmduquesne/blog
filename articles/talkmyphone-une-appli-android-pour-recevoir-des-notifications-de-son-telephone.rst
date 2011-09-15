@@ -1,8 +1,8 @@
 TalkMyPhone, une appli android pour recevoir des notifications de son téléphone
 ###############################################################################
 :date: 2010-09-01 16:29
-:category: Actualité, Code
-:tags: Cesttoiletag, Libre
+:category: code
+:tags: android, talkmyphone
 
 Hello planet libre, J'ai codé une application android pour recevoir
 des notifications de son téléphone. Le principe est simple: vous

@@ -1,7 +1,8 @@
 SSH over SSL, episode 3: Avoiding using a patched apache.
 #########################################################
 :date: 2011-07-11 13:12
-:category: Sécurité
+:category: howto
+:tags: ssh, ssl, stunnel, apache
 
 Another episode of my adventures of firewall bypassing. In order to
 use the http CONNECT method to tunnel ssh, you have to configure
@@ -39,9 +40,9 @@ Then, I install stunnel, and I set it up to listen on the port 443
 ::
 
     cert = /etc/stunnel/stunnel.pem
-    
+
     ...
-    
+
     [https]
     accept  = 443
     connect = 80

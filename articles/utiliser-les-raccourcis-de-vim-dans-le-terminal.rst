@@ -1,8 +1,8 @@
 Utiliser les raccourcis de vim dans le terminal
 ###############################################
 :date: 2008-06-06 21:43
-:category: BonTuyaux
-:tags: Libre
+:category: howto
+:tags: bash, libre, vim
 
 Je viens de découvrir ça sur `le wiki des astuces de vim.org`_ : on
 peut éditer ses lignes de commande avec vim! Pour résumer le lien
@@ -13,7 +13,7 @@ lignes suivantes :
     # les deux lignes importantes
     set editing-mode vi
     set keymap vi
-    
+
     # Exemple de chose sympa à ajouter:
     # deux fois echap pour faire un clear
     "\e\e": "\C-a\C-k"

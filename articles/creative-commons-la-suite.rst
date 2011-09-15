@@ -1,8 +1,8 @@
 Gérer la licence creative commons de votre blog wordpress
 #########################################################
 :date: 2008-03-23 11:16
-:category: VieDuBlog
-:tags: Libre
+:category: misc
+:tags: libre, blog
 
 Je vous parlais
 `du fait que j'avais mis ce blog sous licence creative commons`_.
@@ -13,7 +13,7 @@ les flux rss, il s'agit de `Creative Commons Configurator`_. Voici
 la liste des features (sous licence `CC-BY-NC-SA`_, plus
 restrictive que la mienne, c'est donc celle-ci qui s'applique à ce
 post)
-    
+
     -  Configuration page in the WordPress administration panel. No
        manual editing of files is needed for basic usage.
     -  License selction by using the web-based license selection engine
@@ -21,7 +21,7 @@ post)
     -  The license information can be reset at any time. This action
        also removes the options that are stored in the WordPress database.
     -  Adds license information to:
-       
+
        -  The HTML head area of the every blog page (this is for search
           engine bots only - Not visible to human visitors).
        -  The Atom, RSS 2.0 and RDF (aka RSS 1.0) feeds through the

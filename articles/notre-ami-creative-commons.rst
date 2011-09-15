@@ -1,8 +1,8 @@
 Notre ami Creative Commons
 ##########################
 :date: 2008-03-20 20:33
-:category: VieDuBlog
-:tags: Libre
+:category: misc
+:tags: libre
 
 Ah ah! J'ai passé le contenu de ce site sous licence creative
 commons (Bon, ok c'est surtout pour rire, mais j'en avais envie).

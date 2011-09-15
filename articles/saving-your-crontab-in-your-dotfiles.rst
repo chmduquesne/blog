@@ -1,7 +1,8 @@
 Saving your crontab in your dotfiles
 ####################################
 :date: 2010-12-02 19:25
-:category: BonTuyaux, Code
+:category: howto
+:tags: crontab
 
 In order to share them across several machine, like a lot of
 people, I synchronize my dotfile using a DCVS on

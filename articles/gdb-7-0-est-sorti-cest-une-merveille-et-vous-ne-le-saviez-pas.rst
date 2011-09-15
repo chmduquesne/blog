@@ -1,8 +1,8 @@
 gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.
 ################################################################
 :date: 2009-10-06 19:19
-:category: Actualité, BonTuyaux, Code
-:tags: Libre
+:category: misc
+:tags: gdb
 
 L'annonce vient de tomber sur la mailing liste : gdb vient de
 sortir dans sa version 7.0! Vous vous dîtes: "Bof, gdb je connais,

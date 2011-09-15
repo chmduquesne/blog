@@ -1,8 +1,8 @@
 Utilisons incron pour être notifiés des événements du système de fichiers
 #########################################################################
 :date: 2010-02-18 00:26
-:category: BonTuyaux, Code
-:tags: Astuce, Cesttoiletag, Howto, Libre
+:category: howto
+:tags: incron, inotify, notify-send
 
 `incron`_ est un programme fonctionnant sur le même principe que
 cron, mais basé sur des événements dans le système de fichiers
@@ -52,39 +52,39 @@ Après tous ces avertissements, voici
 ::
 
     #!/usr/bin/env bash
-    
+
     # Usage: popLog /var/log/yourlog
     # pops a colored log with the last line of the log
-    
+
     export DISPLAY=":0.0"
     export HOME="/home/me"
-    
+
     #Urgency
     infoUrgency='low'
     warningUrgency='normal'
     errorUrgency='critical'
     securityUrgency='critical'
-     
+
     #Popup time
     infoPopupTime=5000
     warningPopupTime=8000
     errorPopupTime=11000
     securityPopupTime=11000
-     
+
     #Icons
     infoIcon='/usr/share/icons/gnome/32x32/status/dialog-information.png'
     warningIcon='/usr/share/icons/gnome/32x32/status/dialog-warning.png'
     errorIcon='/usr/share/icons/gnome/32x32/status/dialog-error.png'
     securityIcon='/usr/share/icons/gnome/32x32/status/security-medium.png'
-    
+
     coloredLog=$(tail -n 1 $1 |                   \
       source-highlight --failsafe                 \
                        --src-lang=log             \
                        --style-file=default.style \
                        --outlang-def=${HOME}/documents/scripts/awesome.outlang)
-        
+
     if [[ $coloredLog!='' ]]; then
-        
+
         if [[ $(echo $1|grep info) ]]; then messageType='info'; fi
         if [[ $(echo $1|grep warn) ]]; then messageType='warning'; fi
         if [[ $(echo $1|grep err) ]]; then messageType='error'; fi
@@ -93,7 +93,7 @@ Après tous ces avertissements, voici
         if [[ $(echo $notification|grep 'UFW BLOCK INPUT') ]]; then
             messageType='security'; fi
         if [[ $messageType == '' ]]; then messageType='info'; fi
-            
+
         case $messageType in
         info)
             urgency=$infoUrgency
@@ -107,16 +107,16 @@ Après tous ces avertissements, voici
         ;;
         error)
             urgency=$errorUrgency
-            icon=$errorIcon            
+            icon=$errorIcon
             popupTime=$errorPopupTime
         ;;
         security)
             urgency=$securityUrgency
-            icon=$securityIcon        
+            icon=$securityIcon
             popupTime=$securityPopupTime
         ;;
         esac
-    
+
         notify-send -u $urgency -t $popupTime -i "$icon" "$1" "$coloredLog"
     fi
 
@@ -124,9 +124,9 @@ Et voici /home/me/documents/scripts/awesome.outlang:
 ::
 
     extension "awesome"
-    
+
     color "<span color=\"$style\">$text</span>"
-    
+
     colormap
     "green" "#33CC00"
     "red" "#FF0000"

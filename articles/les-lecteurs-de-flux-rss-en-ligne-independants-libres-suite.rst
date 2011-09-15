@@ -1,8 +1,8 @@
 Les lecteurs de flux rss, en ligne, indépendants, libres (suite).
 #################################################################
 :date: 2008-05-02 18:51
-:category: Actualité, BonTuyaux, Sécurité
-:tags: Libre
+:category: misc
+:tags: libre
 
 Hier, j'expliquais pourquoi je préférais de loin utiliser un
 lecteur de flux rss en ligne et je donnais un petit panorama des

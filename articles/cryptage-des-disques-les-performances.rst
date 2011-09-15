@@ -1,8 +1,8 @@
 Cryptage des disques : les performances
 #######################################
 :date: 2008-03-18 22:41
-:category: Sécurité
-:tags: Libre, Ubuntu
+:category: misc
+:tags: performance
 
 En référence à `mon dernier article sur l'encryption`_, lorsque je
 parlais des performances : Michael Larabel a fait

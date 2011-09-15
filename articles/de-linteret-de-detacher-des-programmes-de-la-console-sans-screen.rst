@@ -1,8 +1,8 @@
 De l'intérêt de détacher des programmes de la console (sans screen)
 ###################################################################
 :date: 2010-04-09 09:57
-:category: BonTuyaux, Code
-:tags: Astuce, Libre
+:category: howto
+:tags: tmux, irssi, dtach
 
 Qui n'a jamais perdu par erreur une compilation, une session ssh ou
 une fenêtre irssi en fermant une console par inadvertance, à cause

@@ -1,8 +1,8 @@
 Google suppporte(rait) désormais openid (et c'est pas officiel)
 ####################################################################
 :date: 2008-04-10 00:54
-:category: Sécurité
-:tags: Libre
+:category: misc
+:tags: libre
 
 Voilà, une petite news en vitesse... Je viens de découvrir ça sur
 le `flux rss de delicious`_. Si vous avez un compte google, vous

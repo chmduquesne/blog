@@ -1,7 +1,8 @@
 Un petit truc à propager sur la gestion de vos mots de passe.
 #############################################################
 :date: 2010-01-23 18:37
-:category: Sécurité
+:category: misc
+:tags: supergenpass, password
 
 Dans un article intitulé `je connais ton mot de passe`_, freenews
 vient de nous pondre une nouvelle preuve que la plupart des gens

@@ -1,8 +1,8 @@
 Makepasswd, un utilitaire sympa pour générer des mots de passe
 ##############################################################
 :date: 2008-03-19 03:16
-:category: Sécurité
-:tags: Howto, Libre, Ubuntu
+:category: howto
+:tags: makepasswd
 
 On ne pouvait pas parler de sécurité sans aborder ce sujet. Comment
 choisir un bon mot de passe? C'est la partie qui me bloque à chaque

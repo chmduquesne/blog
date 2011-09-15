@@ -1,8 +1,8 @@
 Mettre des couleurs un peu partout (gcc, diff, grep...)
 #######################################################
 :date: 2009-06-19 21:31
-:category: BonTuyaux, Code
-:tags: Astuce, Libre
+:category: howto
+:tags: colors, console
 
 Aujourd'hui, après avoir passé un bout de temps à déchiffrer la
 sortie d'une compilation, je me suis mis en quête d'améliorer mon

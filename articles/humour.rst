@@ -1,8 +1,8 @@
 humour
 ######
 :date: 2008-05-15 00:00
-:category: Actualité, Sécurité
-:tags: Fun, Libre
+:category: misc
+:tags: fun, libre
 
 Je ne résiste pas au plaisir de vous faire profiter d'une image qui n'ira
 pas sans vous rappeler `l'actualité d'aujourd'hui en sécurité`_.

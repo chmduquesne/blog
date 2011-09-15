@@ -1,8 +1,8 @@
 Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete
 ######################################################################################################
 :date: 2010-10-27 23:11
-:category: Actualité, Code
-:tags: En
+:category: code
+:tags: vim, gccsense, clang_complete
 
 It has been a while since I first dreamt about a reliable way to
 complete C++ code within vim. Sure, there was omnicppcomplete,

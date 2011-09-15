@@ -1,8 +1,8 @@
 Faire un gif animé à partir d'un film
 #####################################
 :date: 2008-04-06 21:29
-:category: BonTuyaux
-:tags: Howto, Libre
+:category: howto
+:tags: libre
 
 J'ai souvent vu des gens poser cette question : comment fait-on un
 gif animé à partir d'un film sous linux? Avec ffmpeg, rien de plus

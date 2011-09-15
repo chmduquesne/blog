@@ -1,7 +1,8 @@
 SSH over SSL, a quick and minimal config.
 #########################################
 :date: 2010-11-12 11:52
-:category: BonTuyaux, Code, Sécurité
+:category: howto
+:tags: apache, ssh, ssl, tunnel
 
 So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll

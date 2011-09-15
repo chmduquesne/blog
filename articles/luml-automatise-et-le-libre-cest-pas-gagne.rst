@@ -1,8 +1,8 @@
 l'UML automatisé et le libre : c'est pas gagné!
 ###############################################
 :date: 2008-06-08 16:34
-:category: BonTuyaux, Code
-:tags: Fortran, Libre
+:category: code
+:tags: uml, libre
 
 Je recherche en ce moment des outils qui me permettraient
 d'importer/exporter de l'`uml`_ pour un projet C++ que je vais

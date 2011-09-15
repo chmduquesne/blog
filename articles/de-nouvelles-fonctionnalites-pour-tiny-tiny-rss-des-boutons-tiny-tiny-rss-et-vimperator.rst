@@ -1,8 +1,8 @@
 De nouvelles fonctionnalités pour tiny tiny rss + des boutons tiny tiny rss et vimperator
 #########################################################################################
 :date: 2008-05-18 09:45
-:category: Actualité, BonTuyaux
-:tags: Libre
+:category: misc
+:tags: tt-rss
 
 Les développeurs de tiny tiny rss sont très sympas, ils ont écouté
 ma feature request et l'ont mise en place en un rien de temps.

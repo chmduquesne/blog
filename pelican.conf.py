@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*- #
 
-AUTHOR = "Christophe-Marie Duquesne"
-SITENAME = "ChM.D"
+AUTHOR = "Tof"
+SITENAME = "Ch-M.D"
 SITEURL = '/'
 
-DEFAULT_LANG='fr'
+DEFAULT_LANG='en'
 
 # Blogroll
 #LINKS = (

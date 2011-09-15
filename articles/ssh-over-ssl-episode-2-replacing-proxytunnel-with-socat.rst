@@ -1,7 +1,8 @@
 SSH over SSL, episode 2: replacing proxytunnel with socat
 #########################################################
 :date: 2010-11-15 23:53
-:category: BonTuyaux, Sécurité
+:category: misc
+:tags: socat, ssh, ssl
 
 Last week, I wrote
 `an article about how to quickly set up a server and a client for doing ssh over ssl`_.

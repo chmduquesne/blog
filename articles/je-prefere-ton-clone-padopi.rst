@@ -1,8 +1,8 @@
 [Je préfère ton clone] padopi
 #############################
 :date: 2011-06-19 14:13
-:category: Actualité, Anecdotes
-:tags: Libre
+:category: misc
+:tags: libre
 
 Je reprends du service sur ce blog pour parler d'un petit projet
 libre qui m'a fait bien rigoler: padopi. C'est une application web

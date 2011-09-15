@@ -1,8 +1,8 @@
 Couper une vidéo et extraire une scène d'un film
 ################################################
 :date: 2008-04-07 22:28
-:category: BonTuyaux
-:tags: Howto, Libre
+:category: misc
+:tags: mencoder, gif
 
 Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier

@@ -1,8 +1,8 @@
 Coup de gueule : mettez vous à openPGP!
 #######################################
 :date: 2008-06-07 16:36
-:category: Sécurité
-:tags: Coupdegueule, Libre
+:category: misc
+:tags: gnupg, openpgp
 
 Si vous posez la question, même aux plus purs geeks que vous
 rencontrez : "et toi tu utilises openPGP pour signer tes mails?",

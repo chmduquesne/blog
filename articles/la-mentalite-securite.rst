@@ -1,8 +1,8 @@
 La mentalité "sécurité"
 #######################
 :date: 2008-03-26 01:33
-:category: Actualité, Sécurité
-:tags: Libre
+:category: misc
+:tags: libre
 
 Je viens de lire `un article dément`_ sur la façon de voir les
 choses d'un expert en sécurité. `Un cours`_ "undergraduate" en

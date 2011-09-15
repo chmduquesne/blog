@@ -1,8 +1,8 @@
 Faire un screenshot d'une page web en entier
 ############################################
 :date: 2008-03-24 22:50
-:category: Actualité, BonTuyaux
-:tags: Astuce, Libre
+:category: howto
+:tags: browsershots
 
 Je connaissais des extensions qui faisaient ça (plutôt mal,
 d'ailleurs, et parfois de manière payante), mais je viens de

@@ -1,8 +1,8 @@
 Comment crypter vos partitions sous ubuntu
 ##########################################
 :date: 2008-03-14 01:10
-:category: Sécurité
-:tags: Libre, Ubuntu
+:category: howto
+:tags: libre, dm-crypt, luks
 
 Avant, pour me voler mes données, il suffisait d'extraire le disque
 dur de mon pc et d'explorer celui-ci. À cette époque, les chiens

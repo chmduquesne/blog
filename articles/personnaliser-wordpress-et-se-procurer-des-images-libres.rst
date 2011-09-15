@@ -1,8 +1,8 @@
 Personnaliser Wordpress et se procurer des images libres.
 #########################################################
 :date: 2008-03-21 12:16
-:category: Sécurité
-:tags: Libre, Wordpress
+:category: howto
+:tags: wordpress, libre
 
 Ça a été un peu galère de chercher de quoi faire un en-tête pour ce
 blog. En trifouillant, je me suis rappelé d'un article vu sur le
