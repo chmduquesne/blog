@@ -19,5 +19,9 @@ DEFAULT_LANG='en'
 #('You can add links in your config file', '#'),
 #)
 
+GITHUB_URL = "https://github.com/chmduquesne"
+TWITTER_USERNAME = "chmduquesne"
+DISQUS_SITENAME = "chmd"
+
 WITH_PAGINATION = True
 DEFAULT_PAGINATION = 7
