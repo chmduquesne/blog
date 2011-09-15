@@ -1,7 +1,7 @@
 CONFFILE=pelican.conf.py
 INPUTDIR=articles
 OUTPUTDIR=blog
-TARGETDIR=/blog2
+TARGETDIR=/blog
 USER=chm.duquesne
 HOST=ftpperso.free.fr
 

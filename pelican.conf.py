@@ -5,7 +5,6 @@ SITENAME = "Ch-M.D"
 SITEURL = '/'
 
 DEFAULT_LANG = 'en'
-THEME = '../pelican-themes/brownstone/'
 
 # Blogroll
 #LINKS = (
