@@ -4,7 +4,8 @@ AUTHOR = "Tof"
 SITENAME = "Ch-M.D"
 SITEURL = '/'
 
-DEFAULT_LANG='en'
+DEFAULT_LANG = 'en'
+THEME = '../pelican-themes/brownstone/'
 
 # Blogroll
 #LINKS = (
@@ -22,6 +23,7 @@ DEFAULT_LANG='en'
 GITHUB_URL = "https://github.com/chmduquesne"
 TWITTER_USERNAME = "chmduquesne"
 DISQUS_SITENAME = "chmd"
+STATIC_PATHS = ['images']
 
 WITH_PAGINATION = True
 DEFAULT_PAGINATION = 7
