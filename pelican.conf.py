@@ -15,9 +15,9 @@ DEFAULT_LANG = 'en'
 #)
 
 # Social widget
-#SOCIAL = (
-#('You can add links in your config file', '#'),
-#)
+SOCIAL = (
+('twitter', 'https://twitter.com/#!chmduquesne'),
+)
 
 GITHUB_URL = "https://github.com/chmduquesne"
 TWITTER_USERNAME = "chmduquesne"
@@ -26,4 +26,4 @@ STATIC_PATHS = ['images']
 GOOGLE_ANALYTICS = "UA-17659080-3"
 
 WITH_PAGINATION = True
-DEFAULT_PAGINATION = 7
+DEFAULT_PAGINATION = 1
