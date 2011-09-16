@@ -1,8 +1,7 @@
 Title: plowbot, a jabber bot that downloads links from 1-click hosters
-
-date: 2011-07-26 13:46
-category: code
-tags: plowbot, plowshare
+Date: 2011-07-26 13:46
+Category: code
+Tags: plowbot, plowshare
 
 I wrote a jabber bot that does just one thing: it uses [plowshare][1] to
 download what you paste. It is quite minimalist and thus does not offer
