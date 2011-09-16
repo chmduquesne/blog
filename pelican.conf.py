@@ -2,7 +2,7 @@
 
 AUTHOR = "Tof"
 SITENAME = "Ch-M.D"
-SITEURL = '/'
+SITEURL = 'http://blog.chmd.fr'
 
 DEFAULT_LANG = 'en'
 
