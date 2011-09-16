@@ -3,8 +3,7 @@
 AUTHOR = "Tof"
 SITENAME = "Ch-M.D"
 SITEURL = 'http://blog.chmd.fr'
-
-DEFAULT_LANG = 'en'
+TIMEZONE = "Europe/Paris"
 
 # Blogroll
 #LINKS = (
@@ -17,12 +16,12 @@ DEFAULT_LANG = 'en'
 # Social widget
 SOCIAL = (
 ('twitter', 'https://twitter.com/#!chmduquesne'),
+('github', 'https://github.com/chmduquesne'),
 )
 
 GITHUB_URL = "https://github.com/chmduquesne"
 TWITTER_USERNAME = "chmduquesne"
 DISQUS_SITENAME = "chmd"
-STATIC_PATHS = ['images']
 GOOGLE_ANALYTICS = "UA-17659080-3"
 
 WITH_PAGINATION = True

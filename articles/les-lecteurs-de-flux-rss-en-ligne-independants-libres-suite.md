@@ -8,8 +8,9 @@ lecteur de flux rss en ligne et je donnais un petit panorama des
 web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
 étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
 comme rien ne vaut un petit essai pour se faire une idée, voici des
-liens vers les versions de démo que j'ai pu trouver : Tiny tiny rss
--\> [[site](http://tt-rss.org/trac/)]
+liens vers les versions de démo que j'ai pu trouver :
+
+Tiny tiny rss -\> [[site](http://tt-rss.org/trac/)]
 [[démo](http://tt-rss.org/demo/tt-rss.php)] :
 
 -   Sait aggréger plusieurs flux pour en former un seul dont vous
