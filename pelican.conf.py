@@ -17,6 +17,7 @@ TIMEZONE = "Europe/Paris"
 SOCIAL = (
 ('twitter', 'https://twitter.com/#!chmduquesne'),
 ('github', 'https://github.com/chmduquesne'),
+('about me', 'http://about.me/chmduquesne'),
 )
 
 GITHUB_URL = "https://github.com/chmduquesne"
