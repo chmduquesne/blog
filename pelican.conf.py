@@ -4,7 +4,7 @@ AUTHOR = "Tof"
 SITENAME = "Ch-M.D"
 SITEURL = 'http://blog.chmd.fr'
 TIMEZONE = "Europe/Paris"
-
+STATIC_PATHS = ['images', 'documents']
 # Blogroll
 #LINKS = (
 #('Pelican', 'http://docs.notmyidea.org/alexis/pelican/'),
@@ -18,6 +18,7 @@ SOCIAL = (
 ('twitter', 'https://twitter.com/#!chmduquesne'),
 ('github', 'https://github.com/chmduquesne'),
 ('about me', 'http://about.me/chmduquesne'),
+('résumé', 'articles/documents/christophe-marie_duquesne_resume.pdf'),
 )
 
 GITHUB_URL = "https://github.com/chmduquesne"
