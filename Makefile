@@ -1,5 +1,5 @@
 CONFFILE=pelican.conf.py
-INPUTDIR=articles
+INPUTDIR=content
 OUTPUTDIR=blog
 
 all: $(OUTPUTDIR)/index.html
