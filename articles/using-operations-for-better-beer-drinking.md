@@ -1,4 +1,4 @@
-Title: Using Operations Research to travel in Belgium and drink beers.
+Title: Using Operations Research for better beer drinking.
 Category: misc
 Date: 2011-09-17 17:22
 
