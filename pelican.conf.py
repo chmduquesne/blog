@@ -18,7 +18,7 @@ SOCIAL = (
 ('twitter', 'https://twitter.com/#!chmduquesne'),
 ('github', 'https://github.com/chmduquesne'),
 ('about me', 'http://about.me/chmduquesne'),
-('resume', 'articles/documents/christophe-marie_duquesne_resume.pdf'),
+('resume', 'static/documents/christophe-marie_duquesne_resume.pdf'),
 )
 
 GITHUB_URL = "https://github.com/chmduquesne"
