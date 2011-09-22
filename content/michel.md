@@ -28,8 +28,8 @@ which respectively push and pull taks in a text fashion.
 
 The code is on [github][3]. Just like any python package, you should be
 able to install it using easy\_install (provided you install pyxdg with
-your standard package manager, which does not seem to be installable from
-easy\_install).
+your standard package manager, since it does not seem to be installable
+from easy\_install).
 
     easy_install michel
 
