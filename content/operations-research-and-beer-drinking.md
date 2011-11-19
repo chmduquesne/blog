@@ -1,6 +1,6 @@
 Title: Operations Research and Beer drinking
 Category: misc
-Date: 2011-09-17 17:22
+Date: 2011-11-19 17:06
 
 I am just returning from Charlotte NC, where I had an amazing time at the
 INFORMS 2011 conference. Being in the airport waiting for my flight, I
