@@ -1,37 +1,45 @@
-Title: Using Operations Research for better beer drinking.
+Title: Operations Research and Beer drinking
 Category: misc
 Date: 2011-09-17 17:22
 
-If you are a little bit into beer, you probably know Belgium produces
-among the best beers in the world. You also probably know about the
-[trappist beers][1], which are some of the most famous and the most
+I am just returning from Charlotte NC, where I had an amazing time at the
+INFORMS 2011 conference. Being in the airport waiting for my flight, I
+figured out I could use this spare time to share a cool story about
+Operations Research.
+
+I happen to be a beer lover. If you're anything like me, you probably know
+Belgium produces among the best beers in the world. You also probably know
+about the [trappist beers][1], which are some of the most famous and
 tastiest beers brewed in the area.
 
 Two years ago, [one of my friends][2] had a crazy idea: He looked at a
 map, locating the trappist abbeys producing those excellent beers, and
-noticed they all were in the same area and not too far from each other. He
-thus proposed a tour of Belgium that would visit all of them, by bicycle.
-I was immediately very enthusiastic about the idea and started to think
-about how to make it become true.
+noticed they all were not very far from each other. He thus proposed a
+tour of Belgium that would visit all of them, by bicycle. I was
+immediately very enthusiastic about the idea and started to think about
+how to make it become true.
 
 Planning the trip
 -----------------
 
-The first question about this tour was: How to do it efficiently? Since we
-would do it by bicycle, we had to use the shortest tour in order not to
-waste too much time on the road. As a good Operations Research student, I
-knew this would require to solve an instance of the [TSP][3], which is
-proven to be a NP-hard problem. Fortunately, with only seven abbeys to
-visit (at the time, since very recently the french abbey of [Mont des
-Cats][4] and the german abbey of [Maria Toevlucht][5] both announced their
-plan of brewing their own beers recently) this instance was solvable. I
-used [the online solver][6] from the very good [TSP website][7] of the
-university of Georgia Tech to plan the trip. Then, since I did not need to
-travel back to the first abbey, I removed the longest edge.
+So, given 7 cities and a tour to plan (The french abbey of [Mont des
+Cats][4] and the german abbey of [Maria Toevlucht][5] had not announced
+their plans of brewing their own beers at the time), can you guess what am
+I immediately thought about? That's right, the [Travelling Salesman
+Problem][3]! Of course, the problem itself is NP-hard, but in practice,
+with an instance of this size, it is doable manually.
 
-Do you see my mistake here? I assumed I needed to solve a TSP while I
-actually needed to solve an Hamiltonian path. Both problems are NP-hard,
-but they are not the same.
+I could have done it by myself, but this was a unique opportunity to use
+[the online solver][6] from the [TSP website][7] of the university of
+Georgia Tech! Since we did not actually needed to go back to the first
+abbey, I removed the longest edge.
+
+I know what you are thinking: "Are you kidding me? A TSP Problem? If you
+remove an edge, this is not a tour, this is an Hamiltonian Path!". You are
+completely right, I did not solve the right problem. The thing is, I did
+not know any Online Hamiltonian Path Solver at the time, and this was
+probably the coolest use I could ever make of Concorde. Still a good
+story, isn't it?
 
 Doing it!
 ---------
@@ -53,7 +61,8 @@ make it) with train tickets to Belgium. Cool facts about this trip:
   the [legend of Orval][12].
 - The lady at the little shop in front of the abbey of Koningshoven (the
   one that brews [la Trappe][8]) was so amazed of what we were doing that
-  she gave us a pack of 4 beers that we brought back to France.
+  she gave us a pack of 4 different flavors of Trappes which we brought
+  back to France.
 - In Gent, there is a barber which is called [bar-bier][12], who (I
   believe) serves bier while shaving the clients.
 
@@ -62,7 +71,7 @@ make it) with train tickets to Belgium. Cool facts about this trip:
 - Gent and Antwerpen are two of the most beautiful cities I have ever
   seen.
 
-The only sad thing about it is that we could not get to drink any
+The only sad thing about this trip is that we could not get to drink any
 Westvleteren : it is actually [quite hard to get some][9], given the fact
 the monks over there have chosen to only produce as much beer as needed to
 finance the community: when we arrived, they did not have any beer left.
@@ -70,17 +79,13 @@ finance the community: when we arrived, they did not have any beer left.
 Conclusion
 ----------
 
-Last month (and that is what motivated me to write this article), a friend
-of mine had the opportunity to get some Westvleteren and he invited me to
-taste them, offering me the opportunity to "finish my trip". For the
-record, the Westvleteren 12 is ranked the best beer in the world by
-[ratebeer.com][10]. Needless to say, I enjoyed it very much. I also kept
-the capsules as a souvenir:
+Three months ago, one of my best friends had the opportunity to get some
+Westvleteren and he invited me to taste them, offering me the opportunity
+to "finish my trip". For the record, the Westvleteren 12 is ranked the
+best beer in the world by [ratebeer.com][10]. Needless to say, I enjoyed
+it very much. He let me keep the capsules as a souvenir:
 
 ![westvleteren.jpg](images/westvleteren.jpg)
-
-I realized this story was the perfect opportunity to share my feeling that
-Operations Research is everywhere. I hope you enjoyed it!
 
 [![Our actual map during the trip](images/belgium_trip.resized.jpg "Our
 actual map during the trip")][11]
