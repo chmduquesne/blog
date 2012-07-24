@@ -63,7 +63,7 @@ make it) with train tickets to Belgium. Cool facts about this trip:
   one that brews [la Trappe][8]) was so amazed of what we were doing that
   she gave us a pack of 4 different flavors of Trappes which we brought
   back to France.
-- In Gent, there is a barber which is called [bar-bier][12], who (I
+- In Gent, there is a barber which is called [bar-bier][15], who (I
   believe) serves bier while shaving the clients.
 
 ![gent_barbier.jpg](images/gent_barbier.jpg)
@@ -104,3 +104,4 @@ actual map during the trip")][11]
 [12]: http://en.wikipedia.org/wiki/Orval_Abbey#The_legend_of_Orval
 [13]: http://www.orval.be/fr/accueil/auberge.html
 [14]: http://www.confreries.be/conf/grusalle/index.htm
+[15]: https://maps.google.com/maps?q=9+Sint-Margrietstraat,+Ghent,+Flemish+Region,+Belgium&hl=en&ll=51.058242,3.722069&spn=0.01114,0.027788&sll=51.059112,3.720769&layer=c&cbp=13,181.07,,0,2.78&cbll=51.059172,3.720786&hnear=Sint-Margrietstraat+9,+Gent+9000+Gent,+Oost-Vlaanderen,+Vlaams+Gewest,+Belgium&t=h&panoid=OQiamsdyDTuNWW2nnREx6g&z=16&iwloc=A
