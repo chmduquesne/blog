@@ -1,7 +1,7 @@
 Title: Google releasing a constraint programming library
-date: 2010-09-25 00:31
-category: code
-tags: or
+Date: 2010-09-25 00:31
+Category: code
+Tags: or
 
 As an Operation Research engineer/PhD student, I was very interested to
 discover that Google just released a project in my field. It is simply

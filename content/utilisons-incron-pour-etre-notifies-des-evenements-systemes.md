@@ -1,7 +1,7 @@
 Title: Utilisons incron pour être notifiés des événements du système de fichiers
-date: 2010-02-18 00:26
-category: howto
-tags: incron, inotify, notify-send
+Date: 2010-02-18 00:26
+Category: howto
+Tags: incron, inotify, notify-send
 
 [incron](http://incron.aiken.cz/) est un programme fonctionnant sur
 le même principe que cron, mais basé sur des événements dans le

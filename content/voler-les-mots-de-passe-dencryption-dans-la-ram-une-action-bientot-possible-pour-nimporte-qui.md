@@ -1,7 +1,7 @@
 Title: Voler les mots de passe d'encryption dans la RAM, une action bientôt possible pour n'importe qui.
-date: 2008-04-25 01:26
-category: misc
-tags: security, password
+Date: 2008-04-25 01:26
+Category: misc
+Tags: security, password
 
 Voici une news qui va intéresser les hackers. Dans un des premiers billets
 de ce blog, je parlais de [comment chiffre un disque dur][1] de manière à

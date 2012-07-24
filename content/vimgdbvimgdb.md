@@ -1,7 +1,7 @@
 Title: vim+gdb=vimgdb
-date: 2009-02-25 00:29
-category: code
-tags: vim, gdb
+Date: 2009-02-25 00:29
+Category: code
+Tags: vim, gdb
 
 Ça faisait longtemps que je n'avais pas fait d'article, j'en
 profite donc pour rendre hommage au méconnu

@@ -1,7 +1,7 @@
 Title: Coup de gueule : mettez vous à openPGP!
 Date: 2008-06-07 16:36
 Category: misc
-tags: gnupg, openpgp
+Tags: gnupg, openpgp
 
 Si vous posez la question, même aux plus purs geeks que vous
 rencontrez : "et toi tu utilises openPGP pour signer tes mails?",

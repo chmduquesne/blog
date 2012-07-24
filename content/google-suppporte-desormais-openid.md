@@ -1,7 +1,7 @@
 Title: Google suppporte(rait) désormais openid (et c'est pas officiel)
-date: 2008-04-10 00:54
-category: misc
-tags: libre
+Date: 2008-04-10 00:54
+Category: misc
+Tags: libre
 
 Voilà, une petite news en vitesse... Je viens de découvrir ça sur
 le [flux rss de delicious](http://del.icio.us/rss/popular). Si vous

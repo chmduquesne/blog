@@ -1,7 +1,7 @@
 Title: Continuous background compilation within vim
-date: 2010-03-14 16:36
-category: code
-tags: vim, makefile
+Date: 2010-03-14 16:36
+Category: code
+Tags: vim, makefile
 
 You _can_ do continuous background compilation within vim. The
 following code snippet will compile your project with 'make' each

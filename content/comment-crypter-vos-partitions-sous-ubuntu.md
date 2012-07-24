@@ -1,7 +1,7 @@
 Title: Comment crypter vos partitions sous ubuntu
 Date: 2008-03-14 01:10
-category: howto
-tags: libre, dm-crypt, luks
+Category: howto
+Tags: libre, dm-crypt, luks
 
 *Attention*
 

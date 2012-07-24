@@ -1,7 +1,7 @@
 Title: Éviter qu'on puisse utiliser votre ordinateur en cas de vol
-date: 2008-03-17 09:22
-category: misc
-tags: security
+Date: 2008-03-17 09:22
+Category: misc
+Tags: security
 
 Cet article suit celui que j'ai posté la semaine dernière. Si vous
 avez vu la vidéo que j'avais donné en lien sur le "cold-boot", vous

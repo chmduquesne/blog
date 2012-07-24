@@ -1,7 +1,7 @@
 Title: humour
 Date: 2008-05-15 00:00
-category: misc
-tags: fun, libre
+Category: misc
+Tags: fun, libre
 
 Je ne résiste pas au plaisir de vous faire profiter d'une image qui
 n'ira pas sans vous rappeler

@@ -1,7 +1,7 @@
 Title: Gérer ses plugins vim avec :GetLatestVimScripts
 Date: 2009-11-05 18:52
-category: howto
-tags: vim
+Category: howto
+Tags: vim
 
 J'ai envie d'attirer l'attention sur une fonctionnalité sympa de
 vim, qui pourtant semble méconnue de pas mal de monde, même des

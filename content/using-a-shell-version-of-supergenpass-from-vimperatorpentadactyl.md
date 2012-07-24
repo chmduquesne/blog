@@ -1,7 +1,7 @@
 Title: Using a shell version of supergenpass from vimperator/pentadactyl
-date: 2010-12-20 18:39
-category: howto
-tags: supergenpass, pentadactyl
+Date: 2010-12-20 18:39
+Category: howto
+Tags: supergenpass, pentadactyl
 
 Last week, I was glad to be a
 [supergenpass](http://supergenpass.com/) user:

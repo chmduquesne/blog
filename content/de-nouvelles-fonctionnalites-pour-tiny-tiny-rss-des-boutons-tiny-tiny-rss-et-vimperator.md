@@ -1,7 +1,7 @@
 Title: De nouvelles fonctionnalités pour tiny tiny rss + des boutons tiny tiny rss et vimperator
 Date: 2008-05-18 09:45
-category: misc
-tags: tt-rss
+Category: misc
+Tags: tt-rss
 
 Les développeurs de tiny tiny rss sont très sympas, ils ont écouté
 ma feature request et l'ont mise en place en un rien de temps.

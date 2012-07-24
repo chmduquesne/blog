@@ -1,7 +1,7 @@
 Title: Makepasswd, un utilitaire sympa pour générer des mots de passe
-date: 2008-03-19 03:16
-category: howto
-tags: makepasswd
+Date: 2008-03-19 03:16
+Category: howto
+Tags: makepasswd
 
 On ne pouvait pas parler de sécurité sans aborder ce sujet. Comment
 choisir un bon mot de passe? C'est la partie qui me bloque à chaque

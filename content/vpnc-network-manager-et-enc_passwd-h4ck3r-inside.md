@@ -1,7 +1,7 @@
 Title: vpnc, network-manager et enc_passwd (h4ck3r inside!)
-date: 2008-04-17 20:34
-category: howto
-tags: libre, vpnc, vpn, security
+Date: 2008-04-17 20:34
+Category: howto
+Tags: libre, vpnc, vpn, security
 
 Je me refuse depuis toujours à installer le client vpn cisco
 officiel sur ma machine. Non seulement par principe (non libre = le

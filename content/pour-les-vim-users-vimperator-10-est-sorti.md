@@ -1,7 +1,7 @@
 Title: [pour les vim-users] Vimperator 1.0 est sorti!
-date: 2008-05-14 23:25
-category: misc
-tags: vim, vimperator
+Date: 2008-05-14 23:25
+Category: misc
+Tags: vim, vimperator
 
 Hello à vous, geek obscurs ou simplement gens curieux qui venez
 voir ce post par curiosité!

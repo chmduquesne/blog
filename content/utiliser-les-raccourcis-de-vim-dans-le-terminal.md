@@ -1,7 +1,7 @@
 Title: Utiliser les raccourcis de vim dans le terminal
-date: 2008-06-06 21:43
-category: howto
-tags: bash, libre, vim
+Date: 2008-06-06 21:43
+Category: howto
+Tags: bash, libre, vim
 
 Je viens de découvrir ça sur
 [le wiki des astuces de vim.org](http://vim.wikia.com/wiki/Use_vi_shortcuts_in_terminal)

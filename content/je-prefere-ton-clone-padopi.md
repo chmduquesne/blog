@@ -1,7 +1,7 @@
 Title: [Je préfère ton clone] padopi
 Date: 2011-06-19 14:13
-category: misc
-tags: libre
+Category: misc
+Tags: libre
 
 Je reprends du service sur ce blog pour parler d'un petit projet
 libre qui m'a fait bien rigoler: padopi. C'est une application web

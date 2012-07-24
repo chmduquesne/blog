@@ -1,7 +1,7 @@
 Title: C'est officiel, ton blog a été tunné.
-date: 2008-03-24 23:11
-category: misc
-tags: libre
+Date: 2008-03-24 23:11
+Category: misc
+Tags: libre
 
 Bon, à partir de maintenant faut que je fasse gaffe quand je met le
 tag "libre" sur mes articles, ça parait sur

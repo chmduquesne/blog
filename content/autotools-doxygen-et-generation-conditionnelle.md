@@ -1,7 +1,7 @@
 Title: autotools, doxygen, et génération conditionnelle
-date: 2009-07-10 12:54
-category: code
-tags: autotools, doxygen, libre
+Date: 2009-07-10 12:54
+Category: code
+Tags: autotools, doxygen, libre
 
 On m'a donné une astuce bien sympa pour générer de la documentation
 de manière conditionnelle avec doxygen. J'utilise ça dans le projet

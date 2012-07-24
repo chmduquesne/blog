@@ -1,7 +1,7 @@
 Title: l'UML automatisé et le libre : c'est pas gagné!
 Date: 2008-06-08 16:34
-category: code
-tags: uml, libre
+Category: code
+Tags: uml, libre
 
 Je recherche en ce moment des outils qui me permettraient
 d'importer/exporter de l'[uml][1] pour un projet C++ que je vais faire cet

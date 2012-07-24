@@ -1,7 +1,7 @@
 Title: Notifications from google calendar on my desktop
-date: 2010-11-23 15:11
-category: howto
-tags: notify-send
+Date: 2010-11-23 15:11
+Category: howto
+Tags: notify-send
 
 I just added this in a crontab:
 

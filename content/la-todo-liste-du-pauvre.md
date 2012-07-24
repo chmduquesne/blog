@@ -1,7 +1,7 @@
 Title: La TODO liste du pauvre
-date: 2009-12-20 22:08
-category: howto
-tags: libre, notify-send
+Date: 2009-12-20 22:08
+Category: howto
+Tags: libre, notify-send
 
 Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
 Paradoxalement, si on cherche quelque chose de simple, on ne trouve

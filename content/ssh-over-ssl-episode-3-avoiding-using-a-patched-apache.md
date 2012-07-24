@@ -1,7 +1,7 @@
 Title: SSH over SSL, episode 3: Avoiding using a patched apache.
-date: 2011-07-11 13:12
-category: howto
-tags: ssh, ssl, stunnel, apache
+Date: 2011-07-11 13:12
+Category: howto
+Tags: ssh, ssl, stunnel, apache
 
 Another episode of my adventures of firewall bypassing...
 

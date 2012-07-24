@@ -1,7 +1,7 @@
 Title: renaming files and variables from vim
 Date: 2010-03-26 01:10
-category: code
-tags: vim
+Category: code
+Tags: vim
 
 I just wrote a plugin that does it (thanks to cscope). Find it
 here:

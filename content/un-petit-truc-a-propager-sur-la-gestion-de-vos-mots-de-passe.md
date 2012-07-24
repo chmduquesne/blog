@@ -1,7 +1,7 @@
 Title: Un petit truc à propager sur la gestion de vos mots de passe.
 Date: 2010-01-23 18:37
-category: misc
-tags: supergenpass, password
+Category: misc
+Tags: supergenpass, password
 
 Dans un article intitulé
 [je connais ton mot de passe](http://www.freenews.fr/spip.php?article7661),

@@ -1,7 +1,7 @@
 Title: La mentalité "sécurité"
-date: 2008-03-26 01:33
-category: misc
-tags: libre
+Date: 2008-03-26 01:33
+Category: misc
+Tags: libre
 
 Je viens de lire
 [un article dément](http://www.schneier.com/blog/archives/2008/03/the_security_mi.html)

@@ -1,7 +1,7 @@
 Title: Les lecteurs de flux rss en ligne libres
-date: 2008-05-01 15:19
-category: misc
-tags: tt-rss
+Date: 2008-05-01 15:19
+Category: misc
+Tags: tt-rss
 
 Aujourd'hui, Samuel Martin a fait [un billet][1] que j'ai trouvé assez
 intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
