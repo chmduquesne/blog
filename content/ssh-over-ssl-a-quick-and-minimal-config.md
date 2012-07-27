@@ -99,4 +99,4 @@ will look like it's going to google.
 
 [1]: https://issues.apache.org/bugzilla/show_bug.cgi?id=29744
 [2]: http://www.saulchristie.co.uk/how-to/bypass-firewalls
-[3]: Lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine
+[3]: http://lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine
