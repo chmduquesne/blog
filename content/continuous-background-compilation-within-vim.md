@@ -14,12 +14,7 @@ time you save the current buffer:
                     \ cgetfile ~/.vim/cpperrors
     augroup END
 
-of course you could replace the make command with something more
+Of course you could replace the make command with something more
 complicated (for example calling some script that would run the
 compilation on another machine, and getting the error file back in
-your \~/.vim directory). BTW I just started a github project where
-I keep my dotfiles. It's here:
-[[http://github.com/chmduquesne/my-dot-files](http://github.com/chmduquesne/my-dot-files)](http://github.com/chmduquesne/my-dot-files)
-
-
-
+your \~/.vim directory).
