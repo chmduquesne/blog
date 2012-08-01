@@ -3,10 +3,10 @@ Date: 2012-08-01 17:25
 Category: howto
 Tags: security, passphrase
 
-Lurking on the archlinux [wiki][1], I found a very interesting
-[resource][2] for choosing a strong, easy to remember passphrase. It's
-called the **diceware method**. You basically pick a die and throw it
-repeatedly to determine the words of your passphrase.
+Lurking on the archlinux [wiki][1], I found a very interesting resource
+for choosing a strong, easy to remember passphrase. It's called the
+[diceware method][2]. You basically pick a die and throw it repeatedly
+to determine the words of your passphrase.
 
 To associate a word with the results of the die, you are given a list of
 words that looks like what follows:
