@@ -2,7 +2,7 @@ CONFFILE=pelican.conf.py
 INPUTDIR=content
 OUTPUTDIR=blog
 
-all: $(OUTPUTDIR)/index.html
+all: clean $(OUTPUTDIR)/index.html
 	@echo done
 
 $(OUTPUTDIR)/%.html:
