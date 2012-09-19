@@ -1,5 +1,5 @@
 Title: Jabber notifications on ssh login
-Date: 2012-08-01 17:25
+Date: 2012-09-19 15:33
 Category: howto
 Tags: security, ssh
 
