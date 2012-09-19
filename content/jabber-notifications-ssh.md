@@ -43,4 +43,4 @@ Then, the following line goes at the end of `/etc/pam.d/sshd`:
 
     session         optional        pam_exec.so             /usr/local/bin/login_notify
 
-There you go, notifications each time your login.
+There you go, notifications each time someone logs in.
