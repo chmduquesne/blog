@@ -44,3 +44,22 @@ Then, the following line goes at the end of `/etc/pam.d/sshd`:
     session         optional        pam_exec.so             /usr/local/bin/login_notify
 
 There you go, notifications each time someone logs in.
+
+Are you doing this for real? Read on...
+=======================================
+
+Ok, just a couple of extra instructions for you:
+
+- Be really really careful before modifying `/etc/pam.d/sshd`. If you
+  put a bogus command in there, you might screw up your remote access.
+  Please double check that the command `/usr/local/bin/login_notify` is
+  running with no error. Only when you are sure of that, you can add the
+  line to `/etc/pam.d/sshd`.
+- Don't forget to `chmod +x /usr/local/bin/login_notify`
+- When you run `/usr/local/bin/login_notify`, you should receive a
+  jabber message. If you don't, then you have to verify that you can
+  actually send messages to your gmail account. Use a jabber client
+  and try to have a conversation with your gmail account. Then, try to
+  use `sendxmpp`, then try again with the `login_notify` script.
+- My instructions are probably incomplete. Use your brain to fill in the
+  blanks.
