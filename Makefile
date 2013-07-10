@@ -1,6 +1,6 @@
 CONFFILE=pelican.conf.py
 INPUTDIR=source
-OUTPUTDIR=html
+OUTPUTDIR=blog.chmd.fr
 
 all: clean $(OUTPUTDIR)/index.html
 	@echo done

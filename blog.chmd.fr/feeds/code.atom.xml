@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/code.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2011-09-22T00:00:00+02:00</updated><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
+The main reason why I prefer them over anything else is that I find it
+far easier to display it with notification popups this way.&lt;/p&gt;
+&lt;p&gt;I also heavily rely on gmail to organise myself. When I am reading emails
+and organizing my life, it feels natural to use gtasks to take notes for
+later.&lt;/p&gt;
+&lt;p&gt;Since I both use text files and gtasks, I was missing was a way to sync
+them together. Unfortunately, for a long time, google &lt;a href="http://code.google.com/p/gdata-issues/issues/detail?id=987"&gt;made us wait&lt;/a&gt;
+for a gtask API. But no more! I discovered at the beginning of the week
+that they had &lt;a href="http://googleappsdeveloper.blogspot.com/2011/05/getting-organized-with-tasks-api.html"&gt;announced&lt;/a&gt; a brand new RESTful interface.&lt;/p&gt;
+&lt;p&gt;I decided to give it a go and I have written a small program that suit my
+needs to help me handle my todo list text file. So here comes &lt;a href="https://github.com/chmduquesne/michel"&gt;Michel&lt;/a&gt;,
+your friendly mate that helps you managing your todo list. It features two
+commands&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;michel&lt;/span&gt; &lt;span class="nx"&gt;pull&lt;/span&gt;
+&lt;span class="nx"&gt;michel&lt;/span&gt; &lt;span class="nb"&gt;push&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which respectively push and pull taks in a text fashion.&lt;/p&gt;
+&lt;p&gt;The code is on &lt;a href="https://github.com/chmduquesne/michel"&gt;github&lt;/a&gt;. Just like any python package, you should be
+able to install it using easy_install (provided you install pyxdg with
+your standard package manager, since it does not seem to be installable
+from easy_install).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;michel&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="gtasks"></category></entry><entry><title>plowbot, a jabber bot that downloads links from 1-click hosters</title><link href="http://blog.chmd.fr/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="alternate"></link><updated>2011-07-26T13:46:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-26:plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html</id><summary type="html">&lt;p&gt;I wrote a jabber bot that does just one thing: it uses &lt;a href="https://code.google.com/p/plowshare/"&gt;plowshare&lt;/a&gt; to
+download what you paste. It is quite minimalist and thus does not offer
+queue management features nor advanced captcha solving possibilities, so
+you should not try to use it on links plowshare can't break automatically
+(basically &lt;a href="https://code.google.com/p/plowshare/wiki/Readme"&gt;those that use recaptcha&lt;/a&gt;), otherwise it will eventually
+freeze. I used python-jabberbot, and to maximize the simplicity I store
+the user configuration in json in an xdg fashion (which happened to be
+both user-friendly -probably - and easy to write - certainly). If you want
+to fork it and add whatever you find useful, it's on github:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/chmduquesne/plowbot"&gt;https://github.com/chmduquesne/plowbot&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I am personally quite satisfied with it (it fits my limited usage
+for this kind of service), but I am open to pull requests. Of
+course, I also made an AUR package for arch users, which adds an rc
+script for starting it at boot as your prefered user.&lt;/p&gt;</summary><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</title><link href="http://blog.chmd.fr/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="alternate"></link><updated>2010-10-27T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-10-27:vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html</id><summary type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
+C++ code within vim. Sure, there was omnicppcomplete, which was able to
+complete more or less accurately from ctags databases, but the quality of
+the completion was greatly dependent on your coding style (I never could
+get myself used to put all my methods declarations on the same line).
+What we missed was a clever completion plugin, something that would be
+able to look deep inside the code, to resolve the types of the object you
+are refering to and to provide the set of accurate methods. Actually, we
+needed a plugin that would have the same knowledge the compiler has. That
+is a huge task, which is probably the reason why it has been let aside for
+so long.  But recently, almost at the same time, two plugins have
+appeared, based on this idea.&lt;/p&gt;
+&lt;p&gt;The first plugin, clang_complete, uses a feature from the compiler
+clang++, from the llvm project. This new C++ compiler aims at being as
+reliable as g++. Though as far as I know, it is still not ready for
+production, it recently compiled boost, so expect to hear about it again.
+clang++ features the ability to complete a given line of code from the
+command line, and our first plugin is based on this feature: see
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3302"&gt;http://www.vim.org/scripts/script.php?script&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;p&gt;The second plugin is based on a crazy gcc modification called
+gcc-code-assist. The author has hacked in gcc's code and provides a
+replacement for gcc that also builds a sqlite database at the same time
+you build your code with it. Then a command line tool called gccsense
+allows to query this database.  Basically, you just replace gcc with
+gcc-code-assist in your makefile, and you install the plugin provided on
+the author's website: &lt;a href="http://cx4a.org/software/gccsense/"&gt;http://cx4a.org/software/gccsense/&lt;/a&gt;.  The
+modified gcc is really easy to compile, I even made a package for
+archlinux that you can find on AUR. Obviously, this stuff is very unlikely
+to make it to gcc's upstream...&lt;/p&gt;
+&lt;p&gt;So, what to use?  Well, if clang++ builds your project without errors, I'd
+go for it, because this is for sure a feature that will continue to be
+maintained by the llvm crew. Otherwise, gccsense should work exactly like
+gcc-4.4. Honestly, I did not have the chance to really test any of them,
+so it will be difficult to provide good feedback for me. If someone has
+the opportunity to test it, please leave a comment!&lt;/p&gt;</summary><category term="vim"></category><category term="gccsense"></category><category term="clang_complete"></category></entry><entry><title>Google releasing a constraint programming library</title><link href="http://blog.chmd.fr/google-releasing-a-constraint-programming-library.html" rel="alternate"></link><updated>2010-09-25T00:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-25:google-releasing-a-constraint-programming-library.html</id><summary type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
+discover that Google just released a project in my field. It is simply
+called "or-tools" and contains a constraint programming solver.&lt;/p&gt;
+&lt;p&gt;While CP is not my primary field of study, I know the basics and I gave a
+quick look, just in order to know how big it was and what I would fine
+inside. Technically, I liked what I saw: What is actually inside is C++,
+wrapped in a swig interface. There are 58 C++ files (24 of them are
+headers) and a total number of 35998 lines of code, which is reasonable (=
+rather big, but still readable by 1/2 persons) for a project in this
+language. Embedding C++ in script languages is probably the best way I
+know to get the best of the two worlds since you get the power of scripts,
+and the speed of C++. While this technique is very efficient and more and
+more projects are using it, Operations Research is a field where things
+are usually moving slowly in terms of technology, so I was glad to see
+that google engineers are doing it, it might show the way for the rest of
+the community.&lt;/p&gt;
+&lt;p&gt;The project is supposed to build on the 3 major platforms. For linux, it
+just uses a simple Makefile, which I liked even more: Having used
+autotools a lot, I think I can now say I only have pure hate for them
+(they never made things simpler) and I just want to hug every programmers
+that are handling things with simple Makefiles.&lt;/p&gt;
+&lt;p&gt;There are examples in python and in C++ that are classic CP
+exercises for students (at least I already knew most of them). The
+only thing I did not like was the fact they are using subversion. I
+find it easier to hack in projects when they are distributed with
+DCVS. But I guess the guys who did this don't need my opinion,
+since it is not the first time they are writing code. I was curious
+and googled the name of the commiter: apparently he's a former
+engineer from ilog (now part of IBM), which is famous in the OR
+field for cplex, the famous MIP solver.&lt;/p&gt;
+&lt;p&gt;There are a mailing list:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://groups.google.com/group/or-tools-discuss"&gt;http://groups.google.com/group/or-tools-discuss&lt;/a&gt;
+and a website:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://sites.google.com/site/ortoolssite/"&gt;https://sites.google.com/site/ortoolssite/&lt;/a&gt;,&lt;/p&gt;
+&lt;p&gt;so I guess google also plans to maintain this library. Conclusion:
+Good news for OR!&lt;/p&gt;</summary><category term="or"></category></entry><entry><title>TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</title><link href="http://blog.chmd.fr/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="alternate"></link><updated>2010-09-01T16:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-01:talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html</id><summary type="html">&lt;p&gt;Hello planet libre, J'ai codé une application android pour recevoir
+des notifications de son téléphone. Le principe est simple: vous
+créez un compte jabber pour votre appareil et vous l'inscrivez dans
+vos amis gtalk (vérifiez que ça marche avec pidgin/empathy en vous
+envoyant un message). Puis vous installez l'application sur votre
+appareil et vous la configurez comme il faut en réglant les champs
+"login compte jabber téléphone"/"mot de passe compte jabber
+téléphone"/"adresse gmail à notifier". Vous démarrez alors le
+service et votre téléphone vous transmet les sms qu'il reçoit et
+vous notifie des appels de vos correspondants. J'avoue que ça n'est
+pas d'une utilité fantastique, mais j'aime bien être notifié de
+tout et n'importe quoi sur mon ordinateur, et ce genre de
+notifications me manquait. Je prévois de rajouter de petites
+fonctionnalités comme la possibilité de répondre aux sms quand
+j'aurai un peu de temps. Évidemment le code est libre (LGPL, même,
+puisque google code ne connait pas la WTFPL ;) ). N'hésitez pas à
+me laisser des commentaires gentils. L'url du projet:
+&lt;a href="https://code.google.com/p/talkmyphone/"&gt;[https://code.google.com/p/talkmyphone/](https://code.google.com/p/talkmyphone/)&lt;/a&gt;
+PS: Je ne garantis pas que ça marche sur votre téléphone. J'ai fait
+ça sur mon temps libre, pour le fun, et je ne compte pas y passer
+des nuits blanches. Mais je regarderai les rapports de bug s'il y
+en a...&lt;/p&gt;</summary><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>renaming files and variables from vim</title><link href="http://blog.chmd.fr/renaming-files-and-variables-from-vim.html" rel="alternate"></link><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-26:renaming-files-and-variables-from-vim.html</id><summary type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="alternate"></link><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-14:continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The
+following code snippet will compile your project with 'make' each
+time you save the current buffer:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;
+    &lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufWritePost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.{&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;silent&lt;/span&gt; &lt;span class="n"&gt;execute&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;cgetfile&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cpperrors&lt;/span&gt;
+&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;END&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Of course you could replace the make command with something more
+complicated (for example calling some script that would run the
+compilation on another machine, and getting the error file back in
+your \~/.vim directory).&lt;/p&gt;</summary><category term="vim"></category><category term="makefile"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-07-10:autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
+de manière conditionnelle avec doxygen. J'utilise ça dans le projet
+que je code au boulot, et je pense que ça vaut le coup de partager.
+L'idée est de générer la  documentation automatiquement à chaque
+compilation de mon projet, en faisant appel aux features avancées
+de doxygen en fonction des outils dont dispose l'utilisateur : dot,
+htags, perl, etc... On va donc vérifier quels programmes sont
+présents grâce au configure.ac, et on va générer le doxyfile en
+fonction desquels sont présents. L'exemple que je donne n'est pas
+complet, mais vous pouvez vous en inspirer: Fichier configure.ac&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;AC_CHECK_PROG&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;AC_CHECK_PROG&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;HTAGS&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;htags&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;AC_PATH_PROG&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;PERL&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;perl&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[])&lt;/span&gt;
+&lt;span class="n"&gt;AM_CONDITIONAL&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;DOXYGEN&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;x$doxygen_ok&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xyes&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;AM_CONDITIONAL&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;x$dot_ok&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xyes&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="n"&gt;AC_CONFIG_FILES&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;doxygen_html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ensuite, il suffit de glisser les bonnes références dans le fichier
+doc/doxygen_html.cfg.in :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;USE_HTAGS&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;HTAGS&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;
+&lt;span class="n"&gt;PERL_PATH&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;PERL&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;
+&lt;span class="n"&gt;HAVE_DOT&lt;/span&gt;               &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
+va être généré, et les expressions entre @ vont y être remplacées
+par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
+fichier pour véritablement générer la doc...&lt;/p&gt;</summary><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="alternate"></link><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-02-25:vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en
+profite donc pour rendre hommage au méconnu
+&lt;a href="http://clewn.sourceforge.net/"&gt;vimgdb&lt;/a&gt;. vimgdb est un patch pour
+vim qui permet de débogguer dans vim. On ne vantera jamais assez
+les mérites d'un déboggeur (franchement, il y a un stade où il faut
+arrêter les fprintf(stdout, "kikoo") et les cout &amp;lt;&amp;lt;"lol"), que ce
+soit parce que c'est franchement plus élégant, que c'est plus le
+pratique quand on maitrise, ou parce que c'est mille fois plus
+puissant. Alors, me direz-vous, chers adeptes de gvim, qu'il existe
+déjà un plugin pour vim nommé
+&lt;a href="http://clewn.sourceforge.net/"&gt;clewn&lt;/a&gt; (ou voir mieux,
+&lt;a href="http://pyclewn.wiki.sourceforge.net/"&gt;pyclewn&lt;/a&gt;) qui fait la même
+chose sans se taper de recompilation intempestive de son éditeur
+favori. Eh bien moi je vous répond: oui mais dans gvim on ne peut
+pas retrouver le shell en tapant Ctrl-Z (ce qui met vim en
+arrière-plan) et c'est un sérieux handicap pour les gens comme moi
+qui apprécient énormément cette feature (au fait, fg est votre ami
+si vous découvrez en lisant l'article et que vous ne savez pas
+comment revenir à vim). Malheureusement, le paquet fait défaut sur
+la plupart des distrib (sauf archlinux, où je me suis permis de
+l'ajouter dans
+&lt;a href="http://aur.archlinux.org/packages.php?O=0&amp;amp;K=vimgdb&amp;amp;do_Search=Go"&gt;AUR&lt;/a&gt;
+-- si vous avez des suggestions pour améliorer le pkgbuild,
+n'hésitez pas). Vous pouvez donc vous inspirer dudit pkgbuild pour
+&lt;a href="http://clewn.sourceforge.net/install.html"&gt;compiler votre version&lt;/a&gt;,
+ou suivre les indications du site (je vais pas vous dire comment
+compiler un programme, quand même!). Après, en installant le plugin
+vim pour gdb (comme indiqué dans la procédure du lien précédent),
+vous avez accès à tout un cas de commandes sympa (:help gdb pour
+l'aide), qui permettent de voir vos variables et de suivre le
+déroulement des opérations dans l'éditeur. Cool, non? Preuve que
+c'est bien pensé, je n'ai eu à changer aucun des raccourcis par
+défaut (J'ai juste changé un "where" en "where all" dans
+.vim/macros/gdb_mappings.vim). Evidemment, il est aussi possible
+d'ajouter ses propres mappings ou de modifier ceux qui sont
+fournis. N'oubliez pas de rajouter run macros/gdb_mappings.vim
+dans votre .vimrc! Je vous suggère aussi de vous renseigner sur gdb
+et de suivre le tuto de
+&lt;a href="http://dirac.org/linux/gdb/"&gt;Peter Jay Salzman&lt;/a&gt;, qui m'a bien
+initié. Pour ma part, je conserve aussi dans un coin
+&lt;a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html"&gt;un excellent lien&lt;/a&gt;
+qui me sert de référence en cas de trou de mémoire... Bon
+déboggage! Si vous souhaitez des screenshots, regardez
+&lt;a href="http://sourceforge.net/project/screenshots.php?group_id=111038"&gt;par là&lt;/a&gt;...
+PS: apparemment mon pkgbuild a été marqué "out of date", je vais
+corriger ça dès que possible...&lt;/p&gt;</summary><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-06-08:luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
+d'importer/exporter de l'&lt;a href="http://fr.wikipedia.org/wiki/Unified_Modeling_Language"&gt;uml&lt;/a&gt; pour un projet C++ que je vais faire cet
+été. L'idée est la suivante : je souhaiterais que les modifications de mon
+code soient répercutées sur un fichier contenant de l'uml sous un format
+quelconque, et je souhaiterais par ailleurs pouvoir générer du code à
+partir de ce format. Idéalement, une règle dans le Makefile, appelée à
+chaque génération du projet serait idéale pour ce genre de truc. À moins
+que j'ai mal compris, Umbrello est bien capable de générer du code, mais
+malheureusement l'import est une autre histoire : si celui-ci est bien
+capable d'importer une classe à partir du C++, en revanche il ne génère
+aucun diagramme (voir &lt;a href="http://docs.kde.org/stable/en_GB/kdesdk/umbrello/code-import.html"&gt;la page consacrée de l'aide&lt;/a&gt;):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note that Umbrello UML Modeller will not create any kind of Diagram
+for showing your classes, they will only be imported into your
+Model so that you can use them later in any diagram you want.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;J'ai aussi jeté un coup d'oeil du côté d'ArgoUml. Malheureusement,
+de ce côté non plus c'est pas la panacée puisqu'ici on ne parle que
+de java : moi, je veux du C++.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;What is ArgoUML?
+  ~ [...] ArgoUML also has the ability to reverse engineer
+    compiling Java code and generate UML diagrams for it.
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En allant inspecter les moteurs de recherche, j'ai fini par tomber
+sur un outil intéressant:&lt;a href="http://dia2code.sourceforge.net/index.html"&gt;dia2code&lt;/a&gt;. Celui-ci
+prend en entrée un schéma uml en dia, et génère du code dans le
+langage choisi. J'ai regardé la section
+&lt;a href="http://dia2code.sourceforge.net/examples.html"&gt;examples&lt;/a&gt; du site,
+c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="uml_dia.png" src="images/uml_dia.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Les fichiers suivants seront générés :&lt;/p&gt;
+&lt;p&gt;foowindow.cpp 1/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;foowindow.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;FooWindow&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;foowindow.h 2/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOW_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define FOOWINDOW_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;FooWindow&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;foowindowmanager.cpp 3/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;foowindowmanager.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;foowindowmanager.h 4/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOWMANAGER_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define FOOWINDOWMANAGER_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;FooWindowManager&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;point.cpp 5/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;point.h 6/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef POINT_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define POINT_H&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="nl"&gt;private:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;rectangle.cpp 7/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;rectangle.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;rectangle.h 8/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef RECTANGLE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define RECTANGLE_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+   &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;shape.cpp 9/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;shape.h 10/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef SHAPE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define SHAPE_H&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;window.cpp 11/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;window.h 12/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOW_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define WINDOW_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="nl"&gt;private:&lt;/span&gt;
+    &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="n"&gt;visualrep&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;windowmanager.cpp 13/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;windowmanager.h 14/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOWMANAGER_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define WINDOWMANAGER_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+   &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pas mal. Il y a de l'idée. Maintenant, cherchons s'il existe le procédé
+inverse. J'ai trouvé trois outils capables de générer de l'uml dia à
+partir du C++ : &lt;a href="http://cpp2dia.sourceforge.net/"&gt;cpp2dia&lt;/a&gt;, &lt;a href="http://www.aarontrevena.co.uk/opensource/autodia/index.html"&gt;autodia&lt;/a&gt;, et &lt;a href="http://medoosa.sourceforge.net/"&gt;medoosa&lt;/a&gt;. Autant vous
+dire tout de suite que rien de spécialement convaincant ne sort de ces
+programmes.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Le dernier de ces 3 à avoir été mis à jour semble être autodia
+    (2007). Autodia est un script perl qui peut parser plusieurs
+    langage, mais il semblerait que le module C++ soit buggué. D'abord,
+    la sortie est immonde et complètement enchevêtrée. Mais ça, ça
+    s'édite avec dia (du moment que les associations sont bonnes, moi
+    je suis content). Ensuite il prend mal les noms des classes
+    puisqu'il m'a embarqué l'accolade ouvrante à chaque génération de
+    classe (Je le soupçonne en fait d'avoir oublié de gérer les
+    namespaces). J'ai tout de même écrit à l'auteur pour lui signaler
+    le problème.&lt;/li&gt;
+&lt;li&gt;cpp2dia est celui qui n'a pas été mis à jour depuis le plus de
+    temps (mai 2003). Cependant, les
+    &lt;a href="http://cpp2dia.sourceforge.net/screenshots.html"&gt;screenshots&lt;/a&gt; ont
+    l'air sympa. C'est un script tcl que j'ai réussi à faire marcher,
+    mais qui ne m'a pas du tout donné le même genre de résultat que ce
+    qu'on peut voir sur le site. Pourtant, l'idée est intéressante : au
+    lieu de parser le programme lui-même, il se sert des ctags pour
+    récupérer ce qui l'intéresse, comptant ainsi sur un programme qui
+    marche assez bien et auquel on peut résolument faire confiance. Par
+    ailleurs, il utilise neato (qui fait partie de
+    &lt;a href="http://www.graphviz.org/"&gt;graphviz&lt;/a&gt;) pour organiser le tout, donc
+    la sortie est nettement plus lisible. Malheurleusement, j'ai eu
+    beau traffiquer mon \~/.cpp2diarc, dans tous les sens, pas de bol
+    pour moi, les attributs ne sont pas pris en compte (J'ai aussi
+    contacté l'auteur pour lui demander s'il avait une astuce).&lt;/li&gt;
+&lt;li&gt;Il reste medoosa, sans doute le plus élaboré des trois, mais
+    non véritablement mieux maintenu que cpp2dia (août 2003 pour la
+    dernière release). Ce programme a été écrit par un thésard, et sait
+    lui aussi produire des
+    &lt;a href="http://medoosa.sourceforge.net/medoosa-model.ps"&gt;sorties&lt;/a&gt; assez
+    sexy. L'idée originale est que celui-ci se sert de ccdoc, un
+    utilitaire de documentation à la doxygen, pour générer le graphe.
+    Malheureusement, il faut une vieille version de ccdoc (la 0.7a)
+    pour le faire marcher, et j'ai été incapable de trouver celle-ci en
+    téléchargement (encore une fois, j'ai contacté l'auteur pour lui
+    signaler ce problème, lui conseillant de s'arranger avec les
+    auteurs de ccdoc pour qu'ils remettent une vieille version en
+    ligne, car cela nuit à son programme).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Conclusion: rien de bien convaincant pour l'instant. Cependant, je n'avais
+pas encore regardé bouml et je viens de voir qu'ils mentionnaient le genre
+de fonctionnalités que je recherche.  Quelqu'un a testé? Ou bien dans le
+cas général, connaissez-vous un quelque chose capable de faire mon
+bonheur?&lt;/p&gt;</summary><category term="uml"></category><category term="libre"></category></entry></feed>

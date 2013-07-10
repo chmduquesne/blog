@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://blog.chmd.fr/theme/css/style.less">
+  <script src="http://blog.chmd.fr/theme/js/less-1.3.3.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <meta name="author" content="Tof">
+  <meta name="description" content="Posts and writings by Tof">
+
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    
+  <meta name="keywords" content="gdb">
+
+  <title>
+    gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.  </title>
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17659080-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://blog.chmd.fr">
+                <img src="http://blog.chmd.fr/theme/images/logo.png" alt="logo">
+              </a>
+      <h2><a href="http://blog.chmd.fr">Tof</a></h2>
+      <p></p>
+      <ul>
+                                        <li><a href="https://twitter.com/#!chmduquesne" target="_blank">twitter</a></li>
+                <li><a href="http://resume.chmd.fr" target="_blank">resume</a></li>
+              </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>Posted on Tue 06 October 2009</p>
+    </header>
+
+    <article>
+  <div id="article_title">
+    <h3><a href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html">gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</a></h3>
+  </div>
+  <div id="article_text">
+    <p>L'annonce vient de tomber sur la mailing liste : gdb vient de
+sortir dans sa version 7.0! Vous vous dîtes: "Bof, gdb je connais,
+une nouvelle version d'un débogueur qui sort, il n'y a pas de quoi
+fouetter un chat." Détrompez-vous!  Les progrès apportés sont tels
+que je n'allais pas vous laisser les ignorer. Je veux bien entendu
+parler du "reverse debugging". Hein? C'est quoi? Bon, j'explique :
+normalement, dans un debugger (ou un "débogueur", en bon français),
+on déroule le programme toujours dans le même sens. Et ben
+maintenant, on a la possibilité de revenir en arrière! Dans le
+concept, c'est un peu comme rembobiner un film, mais pour un
+programme. Donc voilà, par exemple, on avait "c" pour "continue",
+on a maintenant "rc" pour "reverse continue". Bon, ça paye pas de
+mine, comme ça, mais à faire c'est probablement assez compliqué. Ça
+fait tellement longtemps qu'on parle d'ajouter cela dans gdb que ça
+justifie amplement le passage direct de 6.8 à 7.0 dans les numéros
+de versions. Ça explique aussi pourquoi les développeurs la
+qualifiaient d'avance de "major release". Là, on marque une pause
+et on s'incline. Ceux qui savent comment fonctionne un ordinateur
+se demandent comment ça peut bien marcher (allez regarder le code
+source, les gars). On se rend compte de l'exploit technique que ça
+doit représenter, on y ajoute une petite réflexion sur le nombre
+d'architectures que le machin supporte, et on se dit que
+décidemment il y a des gens très forts. Je ne m'arrête pas en si
+bon chemin. Ceux qui ont tenté d'utiliser gdb ont probablement
+aussi un assez mauvais souvenir de la maniabilité du programme.
+C'est pas très, comment dire...  "user friendly". Bon, pour
+répondre à ces gens là je ne vous promets pas de miracle, mais
+sachez que gdb est devenu scriptable en python. Ça promet
+d'améliorer sérieusement sa souplesse, mais aussi, mon petit doigt
+me dit qu'on devrait probablement voir de nouveaux front-end ultra
+souples voir le jour. Voilà pour mes features préférées, mais il y
+en a d'autres. Je vous lie la fameuse annonce, qui vaut son pesant
+de cacahuètes. Vivement que ma distribution le package.
+<a href="http://www.gnu.org/software/gdb/download/ANNOUNCEMENT">L'annonce</a>
+<a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51">La nouvelle doc sur le reverse debugging</a></p>
+  </div>
+  <div id="article_meta">
+    <p>Category: <a href="http://blog.chmd.fr/category/misc.html">misc</a></p>
+        <p>Tags:
+            <a href="http://blog.chmd.fr/tag/gdb.html">gdb</a>          </p>
+      </div>
+</article>
+
+    <footer>
+      <p><a href="http://blog.chmd.fr/" class="button_accent">&larr; Back to Index</a></p>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy Giulio Fidente. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. You can fork the theme on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>.</p>
+    </div>
+  </main>
+</body>
+</html>

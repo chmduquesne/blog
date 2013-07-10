@@ -2,7 +2,7 @@
 
 AUTHOR = "Tof"
 SITENAME = "Ch-M.D"
-SITEURL = 'http://chmd.fr/blog'
+SITEURL = 'http://blog.chmd.fr'
 TIMEZONE = "Europe/Paris"
 STATIC_PATHS = ['images', 'documents']
 THEME = "../pelican-themes/svbhack/"
