@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://chmd.fr/blog/theme/css/style.less">
+  <script src="http://chmd.fr/blog/theme/js/less-1.3.3.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://chmd.fr/blog/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://chmd.fr/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <meta name="author" content="Tof">
+  <meta name="description" content="Posts and writings by Tof">
+
+    <link href="http://chmd.fr/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    
+  <meta name="keywords" content="tmux, irssi, dtach">
+
+  <title>
+    De l'intérêt de détacher des programmes de la console (sans screen)  </title>
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17659080-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://chmd.fr/blog">
+                <img src="http://chmd.fr/blog/theme/images/logo.png" alt="logo">
+              </a>
+      <h2><a href="http://chmd.fr/blog">Tof</a></h2>
+      <p></p>
+      <ul>
+                                        <li><a href="https://twitter.com/#!chmduquesne" target="_blank">twitter</a></li>
+                <li><a href="http://resume.chmd.fr" target="_blank">resume</a></li>
+              </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>Posted on Fri 09 April 2010</p>
+    </header>
+
+    <article>
+  <div id="article_title">
+    <h3><a href="http://chmd.fr/blog/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html">De l'intérêt de détacher des programmes de la console (sans screen)</a></h3>
+  </div>
+  <div id="article_text">
+    <p>Qui n'a jamais perdu par erreur une compilation, une session ssh ou
+une fenêtre irssi en fermant une console par inadvertance, à cause
+d'un lag réseau, ou bien à cause d'un redémarrage brutal de X11?</p>
+<p>Les outils présentés ici permettent de vous affranchir de ce genre
+de problème. dtach est un petit programme bien pratique qui sert à
+détacher un programme de la console où celui-ci tourne. De manière
+simple, ça veut dire que si on quitte le terminal dans lequel on a
+lancé le programme détaché, on pourra par une courte commande
+récupérer ce programme.</p>
+<p>Exemple, la commande suivante permet de
+lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
+(qui sera créé par le programme), où, s'il est déjà lancé, de
+récupérer ce programme.</p>
+<div class="highlight"><pre><span class="n">dtach</span> <span class="o">-</span><span class="n">A</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">irssi</span><span class="p">.</span><span class="n">sock</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irssi</span>
+</pre></div>
+
+
+<p>J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
+bon, si on peut se contenter d'un simple alias?</p>
+<div class="highlight"><pre><span class="n">alias</span> <span class="n">irssi</span><span class="o">=</span><span class="err">&#39;</span><span class="n">dtach</span> <span class="o">-</span><span class="n">A</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">irssi</span><span class="p">.</span><span class="n">sock</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irssi</span><span class="err">&#39;`</span>
+</pre></div>
+
+
+<p>Jusque là, je me contentais de deux ou trois alias du genre, et j'avais
+une petite fonction au début de mon .zshrc qui me permettait de toujours
+lancer mon shell en détaché. Cependant, tout ceci manquant de souplesse,
+je me suis intéressé à screen et à ses alternatives, et je dois dire que
+je trouve tmux vraiment propre. Je mets de côté tous les aspects de
+coupage d'écran en deux, onglets et tutti quanti, qui  sont plus ou moins
+inutiles quand on utilise <a href="http://awesome.naquadah.org/">un vrai window manager</a>.</p>
+<p>Si screen et tmux peuvent tous deux ouvrir un nombre illimité de sessions
+(screen pouvant, si j'ai bien compris, ouvrir jusqu'à 10 fenêtres au sein
+de la même session), tmux offre un mécanisme pour alterner entre
+différentes sessions que j'ai cherché en vain dans screen (je vois d'ici
+les ardents défenseurs de leur programme favori venir me crucifier dans
+les commentaires: tant pis, si ça existe, j'assume ma mauvaise lecture des
+pages de manuel).</p>
+<p>Dans tmux, avec la configuration par défaut, un simple CTRL-b suivi de s
+montre une liste à choix des sessions ouvertes (attachées ou détachées) et
+il suffit alors de selectionner une entrée pour que tmux se connecte à
+ladite session (et si vous aimez couper l'écran en deux et mettre
+plusieurs fenêtres dans la même session, vous pouvez, sans limitation de
+nombre).</p>
+<p>Voici quelques lignes que j'ai rajoutées au début de mon .zshrc: elles
+garantissent qu'une nouvelle session tmux est toujours lancée avec le
+shell. La fermeture de la session en cours entraine l'essai de connection
+à une autre session, sauf s'il n'y a plus aucune session de lancée.</p>
+<div class="highlight"><pre># TMUX
+# if no session is started, start a new session
+if test -z <span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>; then
+    tmux
+fi
+# when quitting tmux, try to attach
+while test -z <span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>; do
+    tmux attach || break
+done
+</pre></div>
+
+
+<p>Et désormais je lance irssi de la manière suivante:</p>
+<div class="highlight"><pre><span class="cp"># IRSSI IN TMUX</span>
+<span class="cp"># switch to irssi session (and if necessary starts this session before)</span>
+<span class="n">irssi</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="n">tmux</span> <span class="n">has</span> <span class="o">-</span><span class="n">t</span> <span class="n">irssi</span> <span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span><span class="p">;</span> <span class="n">then</span>
+         <span class="n">tmux</span> <span class="k">switch</span> <span class="o">-</span><span class="n">t</span> <span class="n">irssi</span>
+    <span class="k">else</span>
+        <span class="n">TMUX</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="n">tmux</span> <span class="n">new</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">s</span> <span class="n">irssi</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irssi</span>
+        <span class="n">tmux</span> <span class="k">switch</span> <span class="o">-</span><span class="n">t</span> <span class="n">irssi</span>
+    <span class="n">fi</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Si vous utilisez zsh et/ou urxvt, et que vous souhaitez tenter l'essai, je
+vous suggère de jeter un coup d'oeil à <a href="https://github.com/chmduquesne/dotfiles/">ma configuration</a> (les
+problèmes de couleurs et de scrolling y sont réglés). À noter qu'il existe
+d'autres alternatives à gnu screen, dont le très prometteur <a href="http://caca.zoy.org/wiki/neercs">neercs</a>,
+qui permet entre autre de détacher des programmes qu'on avait oublié de
+lancer dans neercs.</p>
+  </div>
+  <div id="article_meta">
+    <p>Category: <a href="http://chmd.fr/blog/category/howto.html">howto</a></p>
+        <p>Tags:
+            <a href="http://chmd.fr/blog/tag/tmux.html">tmux</a>,            <a href="http://chmd.fr/blog/tag/irssi.html">irssi</a>,            <a href="http://chmd.fr/blog/tag/dtach.html">dtach</a>          </p>
+      </div>
+</article>
+
+    <footer>
+      <p><a href="http://chmd.fr/blog/" class="button_accent">&larr; Back to Index</a></p>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy Giulio Fidente. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. You can fork the theme on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>.</p>
+    </div>
+  </main>
+</body>
+</html>

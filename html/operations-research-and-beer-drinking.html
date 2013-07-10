@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://chmd.fr/blog/theme/css/style.less">
+  <script src="http://chmd.fr/blog/theme/js/less-1.3.3.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://chmd.fr/blog/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://chmd.fr/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <meta name="author" content="Tof">
+  <meta name="description" content="Posts and writings by Tof">
+
+    <link href="http://chmd.fr/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    
+  <meta name="keywords" content="">
+
+  <title>
+    Operations Research and Beer drinking  </title>
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17659080-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://chmd.fr/blog">
+                <img src="http://chmd.fr/blog/theme/images/logo.png" alt="logo">
+              </a>
+      <h2><a href="http://chmd.fr/blog">Tof</a></h2>
+      <p></p>
+      <ul>
+                                        <li><a href="https://twitter.com/#!chmduquesne" target="_blank">twitter</a></li>
+                <li><a href="http://resume.chmd.fr" target="_blank">resume</a></li>
+              </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>Posted on Sat 19 November 2011</p>
+    </header>
+
+    <article>
+  <div id="article_title">
+    <h3><a href="http://chmd.fr/blog/operations-research-and-beer-drinking.html">Operations Research and Beer drinking</a></h3>
+  </div>
+  <div id="article_text">
+    <p>I am just returning from Charlotte NC, where I had an amazing time at the
+INFORMS 2011 conference. Being in the airport waiting for my flight, I
+figured out I could use this spare time to share a cool story about
+Operations Research.</p>
+<p>I happen to be a beer lover. If you're anything like me, you probably know
+Belgium produces among the best beers in the world. You also probably know
+about the <a href="http://en.wikipedia.org/wiki/Trappist_beer">trappist beers</a>, which are some of the most famous and
+tastiest beers brewed in the area.</p>
+<p>Two years ago, <a href="http://mickaelistria.wordpress.com/">one of my friends</a> had a crazy idea: He looked at a
+map, locating the trappist abbeys producing those excellent beers, and
+noticed they all were not very far from each other. He thus proposed a
+tour of Belgium that would visit all of them, by bicycle. I was
+immediately very enthusiastic about the idea and started to think about
+how to make it become true.</p>
+<h2>Planning the trip</h2>
+<p>So, given 7 cities and a tour to plan (The french abbey of <a href="http://fr.wikipedia.org/wiki/Abbaye_du_Mont_des_Cats">Mont des
+Cats</a> and the german abbey of <a href="http://trappist-beers.com/8th-trappist-beer-not-from-mont-des-cats-france-but-from-abbey-zundert-netherlands/">Maria Toevlucht</a> had not announced
+their plans of brewing their own beers at the time), can you guess what am
+I immediately thought about? That's right, the <a href="http://en.wikipedia.org/wiki/Travelling_salesman_problem">Travelling Salesman
+Problem</a>! Of course, the problem itself is NP-hard, but in practice,
+with an instance of this size, it is doable manually.</p>
+<p>I could have done it by myself, but this was a unique opportunity to use
+<a href="http://www.tsp.gatech.edu/maps/index.html">the online solver</a> from the <a href="http://www.tsp.gatech.edu/index.html">TSP website</a> of the university of
+Georgia Tech! Since we did not actually needed to go back to the first
+abbey, I removed the longest edge.</p>
+<p>I know what you are thinking: "Are you kidding me? A TSP Problem? If you
+remove an edge, this is not a tour, this is an Hamiltonian Path!". You are
+completely right, I did not solve the right problem. The thing is, I did
+not know any Online Hamiltonian Path Solver at the time, and this was
+probably the coolest use I could ever make of Concorde. Still a good
+story, isn't it?</p>
+<h2>Doing it!</h2>
+<p>Here is the trip as we planned it:</p>
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=d&amp;source=s_d&amp;saddr=Chimay+%4050.048397,4.311786&amp;daddr=Orval,+Florenville,+Belgique+to:Rochefort,+Belgique+to:Achel,+Hamont,+Belgique+to:Koningshoeven,+5018+Tilburg,+Pays-Bas+to:Westmalle,+Royaume+de+Belgique+to:Westvleteren,+Vleteren,+Belgique&amp;hl=fr&amp;geocode=FY2t-wId6spBAA%3BFdpj9QIde5ZRACkjJ_77zo3qRzFW8laZ9FhaqQ%3BFRNr_QIdk6hPACljFprIRsnBRzEgb00vq5kABA%3BFREaDgMd-JhTACEenFGS3R3vUg%3BFWedEgMda_5NACkzdA2EwL_GRzFeLGHzqkBolg%3BFRq7DgMdVpRHACnVxaCIOgDERzECXL1iQqISzg%3BFdwXCQMdSHUpACmNKhq7IsHcRzGWOA_eggi1yQ&amp;sll=50.513427,4.65271&amp;sspn=2.109882,4.916382&amp;vpsrc=0&amp;dirflg=w&amp;mra=ltm&amp;ie=UTF8&amp;ll=50.513427,4.65271&amp;spn=1.93717,2.76712&amp;t=h&amp;output=embed"></iframe>
+
+<p><br /><small><a href="http://maps.google.com/maps?f=d&amp;source=embed&amp;saddr=Chimay+%4050.048397,4.311786&amp;daddr=Orval,+Florenville,+Belgique+to:Rochefort,+Belgique+to:Achel,+Hamont,+Belgique+to:Koningshoeven,+5018+Tilburg,+Pays-Bas+to:Westmalle,+Royaume+de+Belgique+to:Westvleteren,+Vleteren,+Belgique&amp;hl=fr&amp;geocode=FY2t-wId6spBAA%3BFdpj9QIde5ZRACkjJ_77zo3qRzFW8laZ9FhaqQ%3BFRNr_QIdk6hPACljFprIRsnBRzEgb00vq5kABA%3BFREaDgMd-JhTACEenFGS3R3vUg%3BFWedEgMda_5NACkzdA2EwL_GRzFeLGHzqkBolg%3BFRq7DgMdVpRHACnVxaCIOgDERzECXL1iQqISzg%3BFdwXCQMdSHUpACmNKhq7IsHcRzGWOA_eggi1yQ&amp;sll=50.513427,4.65271&amp;sspn=2.109882,4.916382&amp;vpsrc=0&amp;dirflg=w&amp;mra=ltm&amp;ie=UTF8&amp;ll=50.513427,4.65271&amp;spn=1.93717,2.76712&amp;t=h" style="color:#0000FF;text-align:left">Show a bigger version</a></small></p>
+<p>We ended up being two (me and my flatmate of the time - Mickael could not
+make it) with train tickets to Belgium. Cool facts about this trip:</p>
+<ul>
+<li>We discussed with "le grand maître de <a href="http://www.confreries.be/conf/grusalle/index.htm">la confrérie de la grusalle et de
+  la trappiste de Rochefort</a>".</li>
+</ul>
+<p><img alt="grand_maitre_rochefort.jpg" src="images/grand_maitre_rochefort.jpg" /></p>
+<ul>
+<li>We drank some "petit orval", a beer that you can find only at the abbey
+  and at the bar (<a href="http://www.orval.be/fr/accueil/auberge.html">l'auberge de l'Ange Gardien</a>) and we learned about
+  the <a href="http://en.wikipedia.org/wiki/Orval_Abbey#The_legend_of_Orval">legend of Orval</a>.</li>
+<li>The lady at the little shop in front of the abbey of Koningshoven (the
+  one that brews <a href="http://fr.wikipedia.org/wiki/La_Trappe">la Trappe</a>) was so amazed of what we were doing that
+  she gave us a pack of 4 different flavors of Trappes which we brought
+  back to France.</li>
+<li>In Gent, there is a barber which is called <a href="https://maps.google.com/maps?q=9+Sint-Margrietstraat,+Ghent,+Flemish+Region,+Belgium&amp;hl=en&amp;ll=51.058242,3.722069&amp;spn=0.01114,0.027788&amp;sll=51.059112,3.720769&amp;layer=c&amp;cbp=13,181.07,,0,2.78&amp;cbll=51.059172,3.720786&amp;hnear=Sint-Margrietstraat+9,+Gent+9000+Gent,+Oost-Vlaanderen,+Vlaams+Gewest,+Belgium&amp;t=h&amp;panoid=OQiamsdyDTuNWW2nnREx6g&amp;z=16&amp;iwloc=A">bar-bier</a>, who (I
+  believe) serves bier while shaving the clients.</li>
+</ul>
+<p><img alt="gent_barbier.jpg" src="images/gent_barbier.jpg" /></p>
+<ul>
+<li>Gent and Antwerpen are two of the most beautiful cities I have ever
+  seen.</li>
+</ul>
+<p>The only sad thing about this trip is that we could not get to drink any
+Westvleteren : it is actually <a href="http://en.wikipedia.org/wiki/Westvleteren_Brewery#Availability">quite hard to get some</a>, given the fact
+the monks over there have chosen to only produce as much beer as needed to
+finance the community: when we arrived, they did not have any beer left.</p>
+<h2>Conclusion</h2>
+<p>Three months ago, one of my best friends had the opportunity to get some
+Westvleteren and he invited me to taste them, offering me the opportunity
+to "finish my trip". For the record, the Westvleteren 12 is ranked the
+best beer in the world by <a href="http://www.ratebeer.com/">ratebeer.com</a>. Needless to say, I enjoyed
+it very much. He let me keep the capsules as a souvenir:</p>
+<p><img alt="westvleteren.jpg" src="images/westvleteren.jpg" /></p>
+<p><a href="images/belgium_trip.jpg"><img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip" /></a></p>
+  </div>
+  <div id="article_meta">
+    <p>Category: <a href="http://chmd.fr/blog/category/misc.html">misc</a></p>
+      </div>
+</article>
+
+    <footer>
+      <p><a href="http://chmd.fr/blog/" class="button_accent">&larr; Back to Index</a></p>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy Giulio Fidente. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. You can fork the theme on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>.</p>
+    </div>
+  </main>
+</body>
+</html>

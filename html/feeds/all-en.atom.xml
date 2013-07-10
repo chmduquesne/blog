@@ -1,0 +1,1815 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://chmd.fr/blog/" rel="alternate"></link><link href="http://chmd.fr/blog/feeds/all-en.atom.xml" rel="self"></link><id>http://chmd.fr/blog/</id><updated>2012-09-19T15:33:00+02:00</updated><entry><title>Jabber notifications on ssh login</title><link href="http://chmd.fr/blog/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
+wanted, for fun, to be notified on gtalk everytime someone logs in my
+server. You never know, maybe I could discover unexpected connections. It
+turned out to be possible, and the whole thing costed me reading a couple
+of manpages and typing 5 lines of code.&lt;/p&gt;
+&lt;p&gt;Before you do the same thing with you own server, let me claim here that I
+am absolutely not a security expert. It is more an experiment than
+anything else, so I suggest being really careful and read all the manpages
+involved if you want to do the same thing. Also, I'd be happy to be
+notified of any potential threat in the comments.&lt;/p&gt;
+&lt;p&gt;Basically, you can have PAM (Pluggable Authentication Modules, the thing
+that handles authentication on Linux) execute external commands. The
+module in question is called &lt;code&gt;pam_exec&lt;/code&gt;, and it is often used to rebuild
+databases e.g. when passwords are changed. It can also be activated when
+someone logs in. The manpage explains that the following PAM items are
+exported as environment variables to the program executed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;PAM_RHOST&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_RUSER&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_SERVICE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_TTY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_USER&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_TYPE&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I decided to use it to my advantage. I created on jabber.org an account
+for my server. I added it in my gmail friends, and I wrote this little
+script, using sendxmpp (saved as &lt;code&gt;/usr/local/bin/login_notify&lt;/code&gt;):&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1
+2
+3
+4
+5&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$PAM_USER@`hostname` logged from $PAM_RHOST&amp;quot;&lt;/span&gt; | &lt;span class="se"&gt;\&lt;/span&gt;
+    sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &amp;gt;/dev/null 2&amp;gt;&amp;amp;1 &amp;amp;
+&lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Note that the sendxmpp command runs in background and that its exit status
+is ignored. Otherwise PAM would wait for the command to return before
+letting me in, and it would deny me the access if the notification failed
+to be delivered. Two things I clearly want to avoid.&lt;/p&gt;
+&lt;p&gt;Then, the following line goes at the end of &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;session&lt;/span&gt;         &lt;span class="n"&gt;optional&lt;/span&gt;        &lt;span class="n"&gt;pam_exec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;             &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;login_notify&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There you go, notifications each time someone logs in.&lt;/p&gt;
+&lt;h1&gt;Are you doing this for real? Read on...&lt;/h1&gt;
+&lt;p&gt;Ok, just a couple of extra instructions for you:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Be really really careful before modifying &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;. If you
+  put a bogus command in there, you might screw up your remote access.
+  Please double check that the command &lt;code&gt;/usr/local/bin/login_notify&lt;/code&gt; is
+  running with no error. Only when you are sure of that, you can add the
+  line to &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Don't forget to &lt;code&gt;chmod +x /usr/local/bin/login_notify&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When you run &lt;code&gt;/usr/local/bin/login_notify&lt;/code&gt;, you should receive a
+  jabber message. If you don't, then you have to verify that you can
+  actually send messages to your gmail account. Use a jabber client
+  and try to have a conversation with your gmail account. Then, try to
+  use &lt;code&gt;sendxmpp&lt;/code&gt;, then try again with the &lt;code&gt;login_notify&lt;/code&gt; script.&lt;/li&gt;
+&lt;li&gt;My instructions are probably incomplete. Use your brain to fill in the
+  blanks.&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="security"></category><category term="ssh"></category></entry><entry><title>Choose your passphrase with a die</title><link href="http://chmd.fr/blog/choose-your-passphrase-with-a-die.html" rel="alternate"></link><updated>2012-08-01T17:25:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2012-08-01:choose-your-passphrase-with-a-die.html</id><summary type="html">&lt;p&gt;Lurking on the archlinux &lt;a href="https://wiki.archlinux.org/index.php/Disk_Encryption#Choosing_a_strong_passphrase"&gt;wiki&lt;/a&gt;, I found a very interesting resource
+for choosing a strong, easy to remember passphrase. It's called the
+&lt;a href="http://world.std.com/~reinhold/diceware.html"&gt;diceware method&lt;/a&gt;. You basically pick a die and throw it repeatedly
+to determine the words of your passphrase.&lt;/p&gt;
+&lt;p&gt;To associate a word with the results of the die, you are given a list of
+words that looks like what follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="mi"&gt;46154&lt;/span&gt; &lt;span class="n"&gt;ox&lt;/span&gt;
+&lt;span class="mi"&gt;46155&lt;/span&gt; &lt;span class="n"&gt;oxyda&lt;/span&gt;
+&lt;span class="mi"&gt;46156&lt;/span&gt; &lt;span class="n"&gt;oxyde&lt;/span&gt;
+&lt;span class="mi"&gt;46161&lt;/span&gt; &lt;span class="n"&gt;oxyder&lt;/span&gt;
+&lt;span class="mi"&gt;46162&lt;/span&gt; &lt;span class="n"&gt;oy&lt;/span&gt;
+&lt;span class="mi"&gt;46163&lt;/span&gt; &lt;span class="n"&gt;oz&lt;/span&gt;
+&lt;span class="mi"&gt;46164&lt;/span&gt; &lt;span class="n"&gt;ozone&lt;/span&gt;
+&lt;span class="mi"&gt;46165&lt;/span&gt; &lt;span class="n"&gt;ozones&lt;/span&gt;
+&lt;span class="mi"&gt;46166&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;
+&lt;span class="mi"&gt;46211&lt;/span&gt; &lt;span class="n"&gt;pa&lt;/span&gt;
+&lt;span class="mi"&gt;46212&lt;/span&gt; &lt;span class="n"&gt;pacha&lt;/span&gt;
+&lt;span class="mi"&gt;46213&lt;/span&gt; &lt;span class="n"&gt;pack&lt;/span&gt;
+&lt;span class="mi"&gt;46214&lt;/span&gt; &lt;span class="n"&gt;packs&lt;/span&gt;
+&lt;span class="mi"&gt;46215&lt;/span&gt; &lt;span class="n"&gt;pacte&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The numbers indicate what word you should pick on the base of 5 throws.
+For example if you throw 4, 6, 1, 5, 5, you should pick the word 46155,
+which is "oxyda". You then repeat this process until you have 6 or 7
+words. Pick the words in the order you got them, and you now have a new
+secure passphrase.&lt;/p&gt;
+&lt;p&gt;What I like about this method is that it is &lt;strong&gt;fully automated&lt;/strong&gt;, yet
+perfectly secure. You don't have to worry about making a choice: the die
+makes it for you, and you still end up with something that is easy to
+remember.&lt;/p&gt;
+&lt;p&gt;Sure, I read &lt;a href="http://xkcd.com/936/"&gt;xkcd&lt;/a&gt; and I was already using long sentences that made
+sense only if you are me, but this method beats mine, since there is no
+way I was picking these words randomly.&lt;/p&gt;
+&lt;p&gt;Since I could not find a list of french words, I quickly made &lt;a href="https://github.com/chmduquesne/diceware-fr"&gt;my own&lt;/a&gt;.&lt;/p&gt;</summary><category term="security"></category><category term="passphrase"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="http://chmd.fr/blog/operations-research-and-beer-drinking.html" rel="alternate"></link><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2011-11-19:operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
+INFORMS 2011 conference. Being in the airport waiting for my flight, I
+figured out I could use this spare time to share a cool story about
+Operations Research.&lt;/p&gt;
+&lt;p&gt;I happen to be a beer lover. If you're anything like me, you probably know
+Belgium produces among the best beers in the world. You also probably know
+about the &lt;a href="http://en.wikipedia.org/wiki/Trappist_beer"&gt;trappist beers&lt;/a&gt;, which are some of the most famous and
+tastiest beers brewed in the area.&lt;/p&gt;
+&lt;p&gt;Two years ago, &lt;a href="http://mickaelistria.wordpress.com/"&gt;one of my friends&lt;/a&gt; had a crazy idea: He looked at a
+map, locating the trappist abbeys producing those excellent beers, and
+noticed they all were not very far from each other. He thus proposed a
+tour of Belgium that would visit all of them, by bicycle. I was
+immediately very enthusiastic about the idea and started to think about
+how to make it become true.&lt;/p&gt;
+&lt;h2&gt;Planning the trip&lt;/h2&gt;
+&lt;p&gt;So, given 7 cities and a tour to plan (The french abbey of &lt;a href="http://fr.wikipedia.org/wiki/Abbaye_du_Mont_des_Cats"&gt;Mont des
+Cats&lt;/a&gt; and the german abbey of &lt;a href="http://trappist-beers.com/8th-trappist-beer-not-from-mont-des-cats-france-but-from-abbey-zundert-netherlands/"&gt;Maria Toevlucht&lt;/a&gt; had not announced
+their plans of brewing their own beers at the time), can you guess what am
+I immediately thought about? That's right, the &lt;a href="http://en.wikipedia.org/wiki/Travelling_salesman_problem"&gt;Travelling Salesman
+Problem&lt;/a&gt;! Of course, the problem itself is NP-hard, but in practice,
+with an instance of this size, it is doable manually.&lt;/p&gt;
+&lt;p&gt;I could have done it by myself, but this was a unique opportunity to use
+&lt;a href="http://www.tsp.gatech.edu/maps/index.html"&gt;the online solver&lt;/a&gt; from the &lt;a href="http://www.tsp.gatech.edu/index.html"&gt;TSP website&lt;/a&gt; of the university of
+Georgia Tech! Since we did not actually needed to go back to the first
+abbey, I removed the longest edge.&lt;/p&gt;
+&lt;p&gt;I know what you are thinking: "Are you kidding me? A TSP Problem? If you
+remove an edge, this is not a tour, this is an Hamiltonian Path!". You are
+completely right, I did not solve the right problem. The thing is, I did
+not know any Online Hamiltonian Path Solver at the time, and this was
+probably the coolest use I could ever make of Concorde. Still a good
+story, isn't it?&lt;/p&gt;
+&lt;h2&gt;Doing it!&lt;/h2&gt;
+&lt;p&gt;Here is the trip as we planned it:&lt;/p&gt;
+&lt;iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=d&amp;amp;source=s_d&amp;amp;saddr=Chimay+%4050.048397,4.311786&amp;amp;daddr=Orval,+Florenville,+Belgique+to:Rochefort,+Belgique+to:Achel,+Hamont,+Belgique+to:Koningshoeven,+5018+Tilburg,+Pays-Bas+to:Westmalle,+Royaume+de+Belgique+to:Westvleteren,+Vleteren,+Belgique&amp;amp;hl=fr&amp;amp;geocode=FY2t-wId6spBAA%3BFdpj9QIde5ZRACkjJ_77zo3qRzFW8laZ9FhaqQ%3BFRNr_QIdk6hPACljFprIRsnBRzEgb00vq5kABA%3BFREaDgMd-JhTACEenFGS3R3vUg%3BFWedEgMda_5NACkzdA2EwL_GRzFeLGHzqkBolg%3BFRq7DgMdVpRHACnVxaCIOgDERzECXL1iQqISzg%3BFdwXCQMdSHUpACmNKhq7IsHcRzGWOA_eggi1yQ&amp;amp;sll=50.513427,4.65271&amp;amp;sspn=2.109882,4.916382&amp;amp;vpsrc=0&amp;amp;dirflg=w&amp;amp;mra=ltm&amp;amp;ie=UTF8&amp;amp;ll=50.513427,4.65271&amp;amp;spn=1.93717,2.76712&amp;amp;t=h&amp;amp;output=embed"&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;small&gt;&lt;a href="http://maps.google.com/maps?f=d&amp;amp;source=embed&amp;amp;saddr=Chimay+%4050.048397,4.311786&amp;amp;daddr=Orval,+Florenville,+Belgique+to:Rochefort,+Belgique+to:Achel,+Hamont,+Belgique+to:Koningshoeven,+5018+Tilburg,+Pays-Bas+to:Westmalle,+Royaume+de+Belgique+to:Westvleteren,+Vleteren,+Belgique&amp;amp;hl=fr&amp;amp;geocode=FY2t-wId6spBAA%3BFdpj9QIde5ZRACkjJ_77zo3qRzFW8laZ9FhaqQ%3BFRNr_QIdk6hPACljFprIRsnBRzEgb00vq5kABA%3BFREaDgMd-JhTACEenFGS3R3vUg%3BFWedEgMda_5NACkzdA2EwL_GRzFeLGHzqkBolg%3BFRq7DgMdVpRHACnVxaCIOgDERzECXL1iQqISzg%3BFdwXCQMdSHUpACmNKhq7IsHcRzGWOA_eggi1yQ&amp;amp;sll=50.513427,4.65271&amp;amp;sspn=2.109882,4.916382&amp;amp;vpsrc=0&amp;amp;dirflg=w&amp;amp;mra=ltm&amp;amp;ie=UTF8&amp;amp;ll=50.513427,4.65271&amp;amp;spn=1.93717,2.76712&amp;amp;t=h" style="color:#0000FF;text-align:left"&gt;Show a bigger version&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;We ended up being two (me and my flatmate of the time - Mickael could not
+make it) with train tickets to Belgium. Cool facts about this trip:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We discussed with "le grand maître de &lt;a href="http://www.confreries.be/conf/grusalle/index.htm"&gt;la confrérie de la grusalle et de
+  la trappiste de Rochefort&lt;/a&gt;".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="grand_maitre_rochefort.jpg" src="images/grand_maitre_rochefort.jpg" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We drank some "petit orval", a beer that you can find only at the abbey
+  and at the bar (&lt;a href="http://www.orval.be/fr/accueil/auberge.html"&gt;l'auberge de l'Ange Gardien&lt;/a&gt;) and we learned about
+  the &lt;a href="http://en.wikipedia.org/wiki/Orval_Abbey#The_legend_of_Orval"&gt;legend of Orval&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The lady at the little shop in front of the abbey of Koningshoven (the
+  one that brews &lt;a href="http://fr.wikipedia.org/wiki/La_Trappe"&gt;la Trappe&lt;/a&gt;) was so amazed of what we were doing that
+  she gave us a pack of 4 different flavors of Trappes which we brought
+  back to France.&lt;/li&gt;
+&lt;li&gt;In Gent, there is a barber which is called &lt;a href="https://maps.google.com/maps?q=9+Sint-Margrietstraat,+Ghent,+Flemish+Region,+Belgium&amp;amp;hl=en&amp;amp;ll=51.058242,3.722069&amp;amp;spn=0.01114,0.027788&amp;amp;sll=51.059112,3.720769&amp;amp;layer=c&amp;amp;cbp=13,181.07,,0,2.78&amp;amp;cbll=51.059172,3.720786&amp;amp;hnear=Sint-Margrietstraat+9,+Gent+9000+Gent,+Oost-Vlaanderen,+Vlaams+Gewest,+Belgium&amp;amp;t=h&amp;amp;panoid=OQiamsdyDTuNWW2nnREx6g&amp;amp;z=16&amp;amp;iwloc=A"&gt;bar-bier&lt;/a&gt;, who (I
+  believe) serves bier while shaving the clients.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="gent_barbier.jpg" src="images/gent_barbier.jpg" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Gent and Antwerpen are two of the most beautiful cities I have ever
+  seen.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The only sad thing about this trip is that we could not get to drink any
+Westvleteren : it is actually &lt;a href="http://en.wikipedia.org/wiki/Westvleteren_Brewery#Availability"&gt;quite hard to get some&lt;/a&gt;, given the fact
+the monks over there have chosen to only produce as much beer as needed to
+finance the community: when we arrived, they did not have any beer left.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Three months ago, one of my best friends had the opportunity to get some
+Westvleteren and he invited me to taste them, offering me the opportunity
+to "finish my trip". For the record, the Westvleteren 12 is ranked the
+best beer in the world by &lt;a href="http://www.ratebeer.com/"&gt;ratebeer.com&lt;/a&gt;. Needless to say, I enjoyed
+it very much. He let me keep the capsules as a souvenir:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="westvleteren.jpg" src="images/westvleteren.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip" /&gt;&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://chmd.fr/blog/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
+The main reason why I prefer them over anything else is that I find it
+far easier to display it with notification popups this way.&lt;/p&gt;
+&lt;p&gt;I also heavily rely on gmail to organise myself. When I am reading emails
+and organizing my life, it feels natural to use gtasks to take notes for
+later.&lt;/p&gt;
+&lt;p&gt;Since I both use text files and gtasks, I was missing was a way to sync
+them together. Unfortunately, for a long time, google &lt;a href="http://code.google.com/p/gdata-issues/issues/detail?id=987"&gt;made us wait&lt;/a&gt;
+for a gtask API. But no more! I discovered at the beginning of the week
+that they had &lt;a href="http://googleappsdeveloper.blogspot.com/2011/05/getting-organized-with-tasks-api.html"&gt;announced&lt;/a&gt; a brand new RESTful interface.&lt;/p&gt;
+&lt;p&gt;I decided to give it a go and I have written a small program that suit my
+needs to help me handle my todo list text file. So here comes &lt;a href="https://github.com/chmduquesne/michel"&gt;Michel&lt;/a&gt;,
+your friendly mate that helps you managing your todo list. It features two
+commands&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;michel&lt;/span&gt; &lt;span class="nx"&gt;pull&lt;/span&gt;
+&lt;span class="nx"&gt;michel&lt;/span&gt; &lt;span class="nb"&gt;push&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which respectively push and pull taks in a text fashion.&lt;/p&gt;
+&lt;p&gt;The code is on &lt;a href="https://github.com/chmduquesne/michel"&gt;github&lt;/a&gt;. Just like any python package, you should be
+able to install it using easy_install (provided you install pyxdg with
+your standard package manager, since it does not seem to be installable
+from easy_install).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;michel&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="gtasks"></category></entry><entry><title>Going static</title><link href="http://chmd.fr/blog/going-static.html" rel="alternate"></link><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2011-09-15:going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
+Wordpress is probably awesome if you are a team of 15 authors who want to
+handle mass production of articles with a nice web interface. On the other
+hand, it needs constant updates, and the last ones where requiring a
+version of php that my hoster did not provide.&lt;/p&gt;
+&lt;p&gt;Looking for an alternative, I found the &lt;a href="http://nicdumz.fr/blog/2010/12/why-blogofile/"&gt;argument of nicdumz about
+blogofile&lt;/a&gt; pretty much convincing: why use php and databases where flat
+html files could be just enough? I have thus decided to go for a static
+website generator, and while I am at it, to host my blog on amazon s3.
+This brings me the confort of writing my articles on vim, to version them
+on git and to manage the whole process from a makefile.&lt;/p&gt;
+&lt;h1&gt;Moving&lt;/h1&gt;
+&lt;p&gt;If anyone who reads me plans to make such a move (wordpress to pelican),
+I'll summarize the steps I went through.&lt;/p&gt;
+&lt;h2&gt;Extracting your articles&lt;/h2&gt;
+&lt;p&gt;Being open and in the spirit of every good free software, wordpress lets
+you export your blog using an xml format. Pelican can &lt;a href="https://github.com/ametaireau/pelican/blob/master/tools/pelican-import"&gt;take advantage&lt;/a&gt;
+of this xml file to generate rst files using pandoc. Or if you are lazy,
+you can just provide an rss feed to the pelican importer, but you'll still
+miss a way to get the comments.&lt;/p&gt;
+&lt;h2&gt;Extracting your comments&lt;/h2&gt;
+&lt;p&gt;Pelican does not provide a comment system by itself, but integrates nicely
+with &lt;a href="http://disqus.com/"&gt;disqus&lt;/a&gt;. Just make an account and upload the Wordpress xml export
+file I mentioned. Disqus provides a way to import comments from such a
+file. You will later be able to reattach threads to their articles by
+providing a csv map file following the syntax:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;old_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;new_url&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Setting up an amazon account&lt;/h2&gt;
+&lt;p&gt;The next step is to set up an amazon account for use with s3, and to buy a
+domain name if you don't already own one. I bought the latter using
+&lt;a href="http://www.gandi.net/"&gt;gandi.net&lt;/a&gt;, and I used &lt;a href="https://github.com/enigmacurry/vaporfile"&gt;vaporfile&lt;/a&gt; to set up an amazon bucket. I
+don't see much to add here, given the fact vaporfile provides a friendly
+wizard that tells you what to do quite accurately.&lt;/p&gt;
+&lt;h1&gt;What I could not fix&lt;/h1&gt;
+&lt;p&gt;The blog entries on my previous blog were obtained through links looking
+like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="s"&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Whereas on the new version, they look like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="s"&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It would have been cool to be able to put 301 redirect entries in a
+.htaccess, for the sake of SEO-friendliness. However, this would require
+some url rewriting, which &lt;a href="http://free.fr"&gt;free&lt;/a&gt; does not support. I decided to skip
+this step. I am keeping &lt;a href="https://github.com/chmduquesne/blog/blob/master/legacy/urlmap.csv"&gt;a map&lt;/a&gt; between the former and the new urls,
+just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</summary></entry><entry><title>plowbot, a jabber bot that downloads links from 1-click hosters</title><link href="http://chmd.fr/blog/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="alternate"></link><updated>2011-07-26T13:46:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2011-07-26:plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html</id><summary type="html">&lt;p&gt;I wrote a jabber bot that does just one thing: it uses &lt;a href="https://code.google.com/p/plowshare/"&gt;plowshare&lt;/a&gt; to
+download what you paste. It is quite minimalist and thus does not offer
+queue management features nor advanced captcha solving possibilities, so
+you should not try to use it on links plowshare can't break automatically
+(basically &lt;a href="https://code.google.com/p/plowshare/wiki/Readme"&gt;those that use recaptcha&lt;/a&gt;), otherwise it will eventually
+freeze. I used python-jabberbot, and to maximize the simplicity I store
+the user configuration in json in an xdg fashion (which happened to be
+both user-friendly -probably - and easy to write - certainly). If you want
+to fork it and add whatever you find useful, it's on github:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/chmduquesne/plowbot"&gt;https://github.com/chmduquesne/plowbot&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I am personally quite satisfied with it (it fits my limited usage
+for this kind of service), but I am open to pull requests. Of
+course, I also made an AUR package for arch users, which adds an rc
+script for starting it at boot as your prefered user.&lt;/p&gt;</summary><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="http://chmd.fr/blog/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2011-07-11:ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;Another episode of my adventures of firewall bypassing...&lt;/p&gt;
+&lt;p&gt;In order to use the http CONNECT method to tunnel ssh, you have to
+configure apache as I previously showed in &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;a previous post&lt;/a&gt;.  Sadly,
+the current version of apache does not allow to do it over https. There
+has been a &lt;a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=29744"&gt;bug report&lt;/a&gt; for years and various patches have been
+proposed, but as far as I know, still not any of these patches made it to
+the official release.&lt;/p&gt;
+&lt;p&gt;My solution so far was to apply the patch manually and recompile the
+relevant module. Doing this for every release can be annoying, so I've
+been looking for a different solution that would not involve recompiling
+apache.&lt;/p&gt;
+&lt;p&gt;The workaround I now use is fun enough for me to talk about it here. Since
+apache has no problem with the CONNECT method when SSL is not involved, I
+have decided to do the SSL part by myself. Thus, I configure apache to
+serve normally on the port 80, and I use stunnel to secure apache on the
+port 443. Here is how I do it: I remove the SSL part of my apache config
+and I add in my (normal, unencrypted) apache configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ProxyRequests&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
+&lt;span class="nx"&gt;AllowConnect&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="o"&gt;*&amp;gt;&lt;/span&gt;
+    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
+    &lt;span class="nx"&gt;Deny&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
+    &lt;span class="nx"&gt;Allow&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then, I install stunnel, and I set it up to listen on the port 443
+(https) and to forward it to the port 80 (http).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cert&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;accept&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;443&lt;/span&gt;
+&lt;span class="n"&gt;connect&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;
+&lt;span class="n"&gt;TIMEOUTclose&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;stunnel requires a bit of configuration. From the &lt;a href="http://www.stunnel.org/?page=docs"&gt;documentation&lt;/a&gt;, here
+is how to generate a certificate:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;
+&lt;span class="n"&gt;openssl&lt;/span&gt; &lt;span class="n"&gt;req&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x509&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt; &lt;span class="mi"&gt;365&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;nodes&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cnf&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;keyout&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
+&lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
+&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="mi"&gt;600&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I also nedded to add in /etc/hosts.allow&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sshd&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;
+&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;
+&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And that is all. I restart stunnel and httpd and I can enjoy SSH
+over SSL. (actually since I did not want double encryption, I have
+started to do telnet over SSL, but that is more or less the same
+story).&lt;/p&gt;
+&lt;p&gt;Other alternatives I have considered:
+- Switching from apache to another http server: it turns out I was unable
+  to find any other http server supporting the http CONNECT method (at
+  least thttpd, lighttpd and nginx don't support it)
+- Using a perl script that serves on the port 443, waiting for the CONNECT
+  method and forwarding every other message to apache (see
+  &lt;a href="http://www.karlrunge.com/x11vnc/connect_switch"&gt;connect_switch&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;I did not try this second method, but it seems rather cool. If
+anyone does and has any success with it, please leave a comment
+here, I am interested. I would also be interested if someone knows
+any http server lighter than apache and guaranteed to support the
+CONNECT method...&lt;/p&gt;</summary><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>[Je préfère ton clone] padopi</title><link href="http://chmd.fr/blog/je-prefere-ton-clone-padopi.html" rel="alternate"></link><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2011-06-19:je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
+libre qui m'a fait bien rigoler: padopi. C'est une application web
+qui permet d'envoyer des faux mails à vos amis pour leur faire
+croire qu'ils se sont fait coincer à télécharger. Bon, les mails en
+question se terminent par une petite phrase qui explique que c'est
+une blague, mais sinon c'est criant de vérité (il parait qu'ils
+sont inspirés du véritable mail hadopi). Je vous préviens:
+l'utilisation de ce genre de service est probablement
+répréhensible, mais ça ne vous empêche pas de récupérer le code du
+projet sur github:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/padopi/padopi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ou bien, si vous préférez mon clone (Ho ho ho):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/chmduquesne/padopi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aller, en bonus, la pub de référence :)&lt;/p&gt;
+&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="libre"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="http://chmd.fr/blog/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-12-20:using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a
+&lt;a href="http://supergenpass.com/"&gt;supergenpass&lt;/a&gt; user:
+&lt;a href="http://www.businessinsider.com/gawker-hacked-2010-12"&gt;gawker.com was hacked&lt;/a&gt;
+and a huge number of their username/password hashes was exposed.
+While I am not happy with the fact my email was part of the leak
+and I've stopped reading anything from them, I know there are very
+little chances for me to get problems with that, because the
+password I used on their site was not reused elsewhere. But
+&lt;a href="http://akibjorklund.com/2009/supergenpass-is-not-that-secure"&gt;supergenpass is not that secure&lt;/a&gt;.
+Any script executed in the same page as supergenpass is able to see
+your master password. If the webmaster of the site you are visiting
+is evil, he could grab your master password and hack all your
+accounts. If you are a vimperator/pentadactyl user, it is easy to
+fix that, by executing supergenpass as a shell command (What
+follows is from my pentadactylrc):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;map&lt;/span&gt; &lt;span class="na"&gt;-modes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="err"&gt;~&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;.scripts&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;supergenpass&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Space&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;S-Insert&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Esc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="nx"&gt;gi&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;S&lt;/span&gt;&lt;span class="na"&gt;-Insert&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kt"&gt;map&lt;/span&gt; &lt;span class="na"&gt;-modes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Esc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Where \~/.scripts/supergenpass is a python supergenpass script I
+customized for my needs (it uses the gtk-based ssh-askpass program
+to get the password, instead of using the python getpass library,
+which is command line based). You'll find it in
+&lt;a href="https://bitbucket.org/chmduquesne/dotfiles/src/624d4f104f7d/scripts/supergenpass"&gt;my dotfiles&lt;/a&gt;.
+Original version from
+&lt;a href="http://michael.gorven.za.net/blog/2009/06/18/supergenpass-cellphones-command-line"&gt;Michael Gorven&lt;/a&gt;.
+A little explanation: CTRL-F6 is the shortcut to trigger the script
+(I've been using it for ages, it is originally the default shortcut
+used in the
+&lt;a href="https://addons.mozilla.org/fr/firefox/addon/3282/"&gt;password hasher firefox extension&lt;/a&gt;).
+"y" yanks the url,
+":!\~/.scripts/supergenpass&amp;lt;Space&gt;'&amp;lt;S-Insert&gt;'&amp;lt;Return&gt;" will
+call the program \~/.scripts/supergenpass with the content of the
+clipboard (using Shift+Insert), &amp;lt;Esc&gt;2gi will then focus the
+second field (I usually call it once I've filled my login) and
+&amp;lt;S-Insert&gt; will paste the clipboard (now filled with the generated
+password) in this focused field.&lt;/p&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://chmd.fr/blog/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of
+people, I synchronize my dotfile using a DCVS on
+&lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public repository&lt;/a&gt;. I
+save as much stuff as I can, provided it does not contains
+sensitive stuff like passwords. Problem: How do you save your
+crontab? I finally had a look at the crontab manual to realize that
+crontab could be called on a file. The following line goes into my
+\~/.zshrc:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;vi&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Edit: I find even better to use a shell function rather than an
+alias:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# CRONTAB&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;allows&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="n"&gt;zshrc&lt;/span&gt; &lt;span class="n"&gt;twice&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt; &lt;span class="err"&gt;$@&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-e&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;]];&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
+            &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;
+            &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="err"&gt;$@&lt;/span&gt;
+        &lt;span class="n"&gt;fi&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;
+&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="crontab"></category></entry><entry><title>Notifications from google calendar on my desktop</title><link href="http://chmd.fr/blog/notifications-from-google-calendar-on-my-desktop.html" rel="alternate"></link><updated>2010-11-23T15:11:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-11-23:notifications-from-google-calendar-on-my-desktop.html</id><summary type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=:&lt;/span&gt;&lt;span class="mf"&gt;0.0&lt;/span&gt; &lt;span class="n"&gt;gcalcli&lt;/span&gt; &lt;span class="n"&gt;remind&lt;/span&gt; &lt;span class="mi"&gt;240&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="mi"&gt;300000&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;myniceicon&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;svg&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Calendar&amp;quot;&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
+for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="http://chmd.fr/blog/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article about how to quickly set up a server and a
+client for doing ssh over ssl&lt;/a&gt;.  In this article, I was using
+proxytunnel, but I realized today that it could probably be replaced with
+socat (socat can do almost anything)...&lt;/p&gt;
+&lt;p&gt;The principle is simple: Following the first part of
+the tutorial, you make your server accept proxy_connect requests
+to its private port localhost:22 through its public port 443,
+encapsulating the whole thing in SSL (as a reminder, 22 and 443 are
+respectively the standard ports for ssh and ssl).&lt;/p&gt;
+&lt;p&gt;We now want to configure the ssh clients in order to connect through this
+ssl tunnel. I said I was configuring the clients with proxytunnel. The
+exact command (in .ssh/config) was:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I'll explain it:
+- &lt;code&gt;-q&lt;/code&gt; is for quiet
+- &lt;code&gt;-E&lt;/code&gt; is for encrypting between the proxy and us
+- &lt;code&gt;-p&lt;/code&gt; is for choosing the proxy
+- &lt;code&gt;-d&lt;/code&gt; is for requesting a destination (from the proxy point of view)&lt;/p&gt;
+&lt;p&gt;So basically, this means: "connect stdio to server.com on port 443 (-p
+server.com:443) , in an encrypted way (-E), then from this server, require
+to be connected to 127.0.0.1:22 (-d 127.0.0.1:22)".&lt;/p&gt;
+&lt;p&gt;For those who like to play with all sorts of streams, socat is really the
+best tool ever invented. I was wondering if I could reproduce
+proxytunnel's behavior with socat, and it turns out you can. Here is how
+to proceed: First, create an ssl tunnel between your client's
+localhost:1080 and server.com:443:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This way, the port 443 of server.com is now available unencrypted
+on localhost:1080 Then, use socat and its proxy mode to ask for
+localhost:1080 (which is actually server.com:443 unencrypted) to
+connect to localhost:22 (which is then server.com:22).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PROXY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bingo! You should see the ssh prompt. For the fun, I replaced in my
+.ssh/config the former&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;with&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PROXY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It works just fine. There is however a flaw in what I did: I use a
+hardcoded port, thus I can't establish two ssh connections at the
+same time. Forwarding the server.com:443 on localhost:1080 fails
+the second time, since this port is already occupied by the first
+connection. The best way to fix that would be to use stdio for the
+proxy_connect requests, instead of a port of localhost (since the
+number of these port is limited). However, with my version of socat
+(1.7.1.3), I don't see how to proceed differently: the PROXY method
+requires three arguments and one of them is a port. If one of my
+readers has a suggestion, he/she's welcome. This remains a cool hack!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: The great &lt;a href="https://darkpan.com/"&gt;Marco Fontani&lt;/a&gt; gave a cool solution (see the
+comments). Here is how my .ssh/config looks like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PROXY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt;
+    &lt;span class="n"&gt;DynamicForward&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;
+    &lt;span class="n"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
+    &lt;span class="n"&gt;ControlMaster&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt;
+    &lt;span class="n"&gt;ControlPath&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="n"&gt;h_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;p_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://chmd.fr/blog/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-11-12:ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;So you are behind a vicious firewall that filters outgoing ssh and
+vpn, and the only safe way out is SSL. In this article, I'll
+describe how to SSH over SSL to a machine that runs an ssh server
+and apache2. This machine will still be able to run an SSL website.
+Clients will connect using a standard ssh client and proxytunnel.&lt;/p&gt;
+&lt;h1&gt;Server configuration&lt;/h1&gt;
+&lt;p&gt;I assume that:
+- The server is accessible on the port 443 through the "server.com" domain
+  name (otherwise using the raw ip will do the trick).
+- It also runs an ssh server (but no need for the port 22 to be
+  reachable).
+- You already have set up certificates for SSL
+- You've enabled the modules for ssl (a2enmod ssl)
+- You're running the default ssl website in
+  /etc/apache2/sites-available/default-ssl and it is enabled (a2ensite
+  default-ssl)
+- You've enabled necessary modules for proxying and using proxy connect
+  methods (a2enmod proxy proxy_connect proxy_http)&lt;/p&gt;
+&lt;h1&gt;File /etc/apache2/sites-available/default-ssl&lt;/h1&gt;
+&lt;p&gt;It's minimalistic on purpose, so you can see what is really needed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;IfModule&lt;/span&gt; &lt;span class="err"&gt;mod_ssl.c&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;VirtualHost&lt;/span&gt; &lt;span class="err"&gt;_default_:443&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    # enable ssl
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+    # proxytunnel
+    Include /etc/apache2/proxytunnel/main.conf
+&lt;span class="nt"&gt;&amp;lt;/VirtualHost&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/IfModule&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;File /etc/apache2/proxytunnel/main.conf&lt;/h1&gt;
+&lt;p&gt;It enables forward proxying for anyone, but only if the client asks for
+127.0.0.1:22 (other requests will be denied). This results in exposing the
+port 22 (ssh) of your server through a proxy, in an encrypted way.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ProxyRequests&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
+&lt;span class="nx"&gt;AllowConnect&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="o"&gt;*&amp;gt;&lt;/span&gt;
+    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
+    &lt;span class="nx"&gt;Deny&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
+    &lt;span class="nx"&gt;Allow&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Client configuration&lt;/h1&gt;
+&lt;p&gt;I assume that:
+- An ssh client is installed
+- proxytunnel is installed&lt;/p&gt;
+&lt;p&gt;First, you'll need to test your server setting using proxytunnel alone.
+Since debugging encryption problems can be tedious, at first, I suggest
+you set up your server to provide the proxy in a non encrypted way,
+commenting the three SSL related lines (you can switch to encrypted when
+it works). Proxytunnel can "chain" two proxies (a local one, and a remote
+one), but if the place you connect from does not use such a setting, here
+is how you can proceed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;-v is for verbose. Replace it with -q (quiet) if it works. You can say it
+works when you are prompted an ssh login. Apache2 used to have &lt;a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=29744"&gt;a bug&lt;/a&gt;
+with proxy_connect and SSL, so using encryption may require some extra
+work (like patching and recompiling the mod_proxy shared libraries or
+using the latest alpha).&lt;/p&gt;
+&lt;h1&gt;File .ssh/config&lt;/h1&gt;
+&lt;p&gt;Once you're done, just drop the working command line in the .ssh/config of
+your clients:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
+    &lt;span class="n"&gt;DynamicForward&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;
+    &lt;span class="n"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you are stuck, I recommend you read &lt;a href="http://www.saulchristie.co.uk/how-to/bypass-firewalls"&gt;this excellent article&lt;/a&gt;. One
+problem remains with this config: If the traffic is correctly monitored,
+the ip of you server could be logged (even though it will be impossible to
+prove you have been doing something not allowed). First, you should run an
+https website on this ip (like a blog, or a code repository), in order to
+make this traffic more realistic. What could also be cool would be to
+chain proxies, &lt;a href="http://lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine"&gt;using for example the appengine&lt;/a&gt;. This way your traffic
+will look like it's going to google.&lt;/p&gt;</summary><category term="apache"></category><category term="ssh"></category><category term="ssl"></category><category term="tunnel"></category></entry><entry><title>Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</title><link href="http://chmd.fr/blog/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="alternate"></link><updated>2010-10-27T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-10-27:vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html</id><summary type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
+C++ code within vim. Sure, there was omnicppcomplete, which was able to
+complete more or less accurately from ctags databases, but the quality of
+the completion was greatly dependent on your coding style (I never could
+get myself used to put all my methods declarations on the same line).
+What we missed was a clever completion plugin, something that would be
+able to look deep inside the code, to resolve the types of the object you
+are refering to and to provide the set of accurate methods. Actually, we
+needed a plugin that would have the same knowledge the compiler has. That
+is a huge task, which is probably the reason why it has been let aside for
+so long.  But recently, almost at the same time, two plugins have
+appeared, based on this idea.&lt;/p&gt;
+&lt;p&gt;The first plugin, clang_complete, uses a feature from the compiler
+clang++, from the llvm project. This new C++ compiler aims at being as
+reliable as g++. Though as far as I know, it is still not ready for
+production, it recently compiled boost, so expect to hear about it again.
+clang++ features the ability to complete a given line of code from the
+command line, and our first plugin is based on this feature: see
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3302"&gt;http://www.vim.org/scripts/script.php?script&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;p&gt;The second plugin is based on a crazy gcc modification called
+gcc-code-assist. The author has hacked in gcc's code and provides a
+replacement for gcc that also builds a sqlite database at the same time
+you build your code with it. Then a command line tool called gccsense
+allows to query this database.  Basically, you just replace gcc with
+gcc-code-assist in your makefile, and you install the plugin provided on
+the author's website: &lt;a href="http://cx4a.org/software/gccsense/"&gt;http://cx4a.org/software/gccsense/&lt;/a&gt;.  The
+modified gcc is really easy to compile, I even made a package for
+archlinux that you can find on AUR. Obviously, this stuff is very unlikely
+to make it to gcc's upstream...&lt;/p&gt;
+&lt;p&gt;So, what to use?  Well, if clang++ builds your project without errors, I'd
+go for it, because this is for sure a feature that will continue to be
+maintained by the llvm crew. Otherwise, gccsense should work exactly like
+gcc-4.4. Honestly, I did not have the chance to really test any of them,
+so it will be difficult to provide good feedback for me. If someone has
+the opportunity to test it, please leave a comment!&lt;/p&gt;</summary><category term="vim"></category><category term="gccsense"></category><category term="clang_complete"></category></entry><entry><title>Google releasing a constraint programming library</title><link href="http://chmd.fr/blog/google-releasing-a-constraint-programming-library.html" rel="alternate"></link><updated>2010-09-25T00:31:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-09-25:google-releasing-a-constraint-programming-library.html</id><summary type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
+discover that Google just released a project in my field. It is simply
+called "or-tools" and contains a constraint programming solver.&lt;/p&gt;
+&lt;p&gt;While CP is not my primary field of study, I know the basics and I gave a
+quick look, just in order to know how big it was and what I would fine
+inside. Technically, I liked what I saw: What is actually inside is C++,
+wrapped in a swig interface. There are 58 C++ files (24 of them are
+headers) and a total number of 35998 lines of code, which is reasonable (=
+rather big, but still readable by 1/2 persons) for a project in this
+language. Embedding C++ in script languages is probably the best way I
+know to get the best of the two worlds since you get the power of scripts,
+and the speed of C++. While this technique is very efficient and more and
+more projects are using it, Operations Research is a field where things
+are usually moving slowly in terms of technology, so I was glad to see
+that google engineers are doing it, it might show the way for the rest of
+the community.&lt;/p&gt;
+&lt;p&gt;The project is supposed to build on the 3 major platforms. For linux, it
+just uses a simple Makefile, which I liked even more: Having used
+autotools a lot, I think I can now say I only have pure hate for them
+(they never made things simpler) and I just want to hug every programmers
+that are handling things with simple Makefiles.&lt;/p&gt;
+&lt;p&gt;There are examples in python and in C++ that are classic CP
+exercises for students (at least I already knew most of them). The
+only thing I did not like was the fact they are using subversion. I
+find it easier to hack in projects when they are distributed with
+DCVS. But I guess the guys who did this don't need my opinion,
+since it is not the first time they are writing code. I was curious
+and googled the name of the commiter: apparently he's a former
+engineer from ilog (now part of IBM), which is famous in the OR
+field for cplex, the famous MIP solver.&lt;/p&gt;
+&lt;p&gt;There are a mailing list:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://groups.google.com/group/or-tools-discuss"&gt;http://groups.google.com/group/or-tools-discuss&lt;/a&gt;
+and a website:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://sites.google.com/site/ortoolssite/"&gt;https://sites.google.com/site/ortoolssite/&lt;/a&gt;,&lt;/p&gt;
+&lt;p&gt;so I guess google also plans to maintain this library. Conclusion:
+Good news for OR!&lt;/p&gt;</summary><category term="or"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://chmd.fr/blog/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-09-07:mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
+android. Pour ceux qui n'auraient pas suivi le lancement de
+l'application la semaine dernière, TalkMyPhone est une application
+permettant de contrôler son mobile à distance via xmpp, le
+protocole utilisé par jabber/gtalk. La version beta supporte
+désormais: - la réponse aux sms - faire sonner le téléphone à
+distance (pour le retrouver) - demander la géolocalisation du
+téléphone Ça se passe ici:
+&lt;a href="https://code.google.com/p/talkmyphone/"&gt;[https://code.google.com/p/talkmyphone/](https://code.google.com/p/talkmyphone/)&lt;/a&gt;
+Update: On en parle sur
+&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</summary><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</title><link href="http://chmd.fr/blog/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="alternate"></link><updated>2010-09-01T16:29:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-09-01:talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html</id><summary type="html">&lt;p&gt;Hello planet libre, J'ai codé une application android pour recevoir
+des notifications de son téléphone. Le principe est simple: vous
+créez un compte jabber pour votre appareil et vous l'inscrivez dans
+vos amis gtalk (vérifiez que ça marche avec pidgin/empathy en vous
+envoyant un message). Puis vous installez l'application sur votre
+appareil et vous la configurez comme il faut en réglant les champs
+"login compte jabber téléphone"/"mot de passe compte jabber
+téléphone"/"adresse gmail à notifier". Vous démarrez alors le
+service et votre téléphone vous transmet les sms qu'il reçoit et
+vous notifie des appels de vos correspondants. J'avoue que ça n'est
+pas d'une utilité fantastique, mais j'aime bien être notifié de
+tout et n'importe quoi sur mon ordinateur, et ce genre de
+notifications me manquait. Je prévois de rajouter de petites
+fonctionnalités comme la possibilité de répondre aux sms quand
+j'aurai un peu de temps. Évidemment le code est libre (LGPL, même,
+puisque google code ne connait pas la WTFPL ;) ). N'hésitez pas à
+me laisser des commentaires gentils. L'url du projet:
+&lt;a href="https://code.google.com/p/talkmyphone/"&gt;[https://code.google.com/p/talkmyphone/](https://code.google.com/p/talkmyphone/)&lt;/a&gt;
+PS: Je ne garantis pas que ça marche sur votre téléphone. J'ai fait
+ça sur mon temps libre, pour le fun, et je ne compte pas y passer
+des nuits blanches. Mais je regarderai les rapports de bug s'il y
+en a...&lt;/p&gt;</summary><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>De l'intérêt de détacher des programmes de la console (sans screen)</title><link href="http://chmd.fr/blog/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="alternate"></link><updated>2010-04-09T09:57:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-04-09:de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html</id><summary type="html">&lt;p&gt;Qui n'a jamais perdu par erreur une compilation, une session ssh ou
+une fenêtre irssi en fermant une console par inadvertance, à cause
+d'un lag réseau, ou bien à cause d'un redémarrage brutal de X11?&lt;/p&gt;
+&lt;p&gt;Les outils présentés ici permettent de vous affranchir de ce genre
+de problème. dtach est un petit programme bien pratique qui sert à
+détacher un programme de la console où celui-ci tourne. De manière
+simple, ça veut dire que si on quitte le terminal dans lequel on a
+lancé le programme détaché, on pourra par une courte commande
+récupérer ce programme.&lt;/p&gt;
+&lt;p&gt;Exemple, la commande suivante permet de
+lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
+(qui sera créé par le programme), où, s'il est déjà lancé, de
+récupérer ce programme.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;dtach&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
+bon, si on peut se contenter d'un simple alias?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;dtach&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;`&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Jusque là, je me contentais de deux ou trois alias du genre, et j'avais
+une petite fonction au début de mon .zshrc qui me permettait de toujours
+lancer mon shell en détaché. Cependant, tout ceci manquant de souplesse,
+je me suis intéressé à screen et à ses alternatives, et je dois dire que
+je trouve tmux vraiment propre. Je mets de côté tous les aspects de
+coupage d'écran en deux, onglets et tutti quanti, qui  sont plus ou moins
+inutiles quand on utilise &lt;a href="http://awesome.naquadah.org/"&gt;un vrai window manager&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Si screen et tmux peuvent tous deux ouvrir un nombre illimité de sessions
+(screen pouvant, si j'ai bien compris, ouvrir jusqu'à 10 fenêtres au sein
+de la même session), tmux offre un mécanisme pour alterner entre
+différentes sessions que j'ai cherché en vain dans screen (je vois d'ici
+les ardents défenseurs de leur programme favori venir me crucifier dans
+les commentaires: tant pis, si ça existe, j'assume ma mauvaise lecture des
+pages de manuel).&lt;/p&gt;
+&lt;p&gt;Dans tmux, avec la configuration par défaut, un simple CTRL-b suivi de s
+montre une liste à choix des sessions ouvertes (attachées ou détachées) et
+il suffit alors de selectionner une entrée pour que tmux se connecte à
+ladite session (et si vous aimez couper l'écran en deux et mettre
+plusieurs fenêtres dans la même session, vous pouvez, sans limitation de
+nombre).&lt;/p&gt;
+&lt;p&gt;Voici quelques lignes que j'ai rajoutées au début de mon .zshrc: elles
+garantissent qu'une nouvelle session tmux est toujours lancée avec le
+shell. La fermeture de la session en cours entraine l'essai de connection
+à une autre session, sauf s'il n'y a plus aucune session de lancée.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# TMUX
+# if no session is started, start a new session
+if test -z &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TMUX&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;; then
+    tmux
+fi
+# when quitting tmux, try to attach
+while test -z &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TMUX&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;; do
+    tmux attach || break
+done
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Et désormais je lance irssi de la manière suivante:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# IRSSI IN TMUX&lt;/span&gt;
+&lt;span class="cp"&gt;# switch to irssi session (and if necessary starts this session before)&lt;/span&gt;
+&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
+         &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+        &lt;span class="n"&gt;TMUX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;
+        &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt;
+    &lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si vous utilisez zsh et/ou urxvt, et que vous souhaitez tenter l'essai, je
+vous suggère de jeter un coup d'oeil à &lt;a href="https://github.com/chmduquesne/dotfiles/"&gt;ma configuration&lt;/a&gt; (les
+problèmes de couleurs et de scrolling y sont réglés). À noter qu'il existe
+d'autres alternatives à gnu screen, dont le très prometteur &lt;a href="http://caca.zoy.org/wiki/neercs"&gt;neercs&lt;/a&gt;,
+qui permet entre autre de détacher des programmes qu'on avait oublié de
+lancer dans neercs.&lt;/p&gt;</summary><category term="tmux"></category><category term="irssi"></category><category term="dtach"></category></entry><entry><title>renaming files and variables from vim</title><link href="http://chmd.fr/blog/renaming-files-and-variables-from-vim.html" rel="alternate"></link><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-03-26:renaming-files-and-variables-from-vim.html</id><summary type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://chmd.fr/blog/continuous-background-compilation-within-vim.html" rel="alternate"></link><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-03-14:continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The
+following code snippet will compile your project with 'make' each
+time you save the current buffer:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;
+    &lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufWritePost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.{&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;silent&lt;/span&gt; &lt;span class="n"&gt;execute&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;cgetfile&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cpperrors&lt;/span&gt;
+&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;END&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Of course you could replace the make command with something more
+complicated (for example calling some script that would run the
+compilation on another machine, and getting the error file back in
+your \~/.vim directory).&lt;/p&gt;</summary><category term="vim"></category><category term="makefile"></category></entry><entry><title>Utilisons incron pour être notifiés des événements du système de fichiers</title><link href="http://chmd.fr/blog/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="alternate"></link><updated>2010-02-18T00:26:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2010-02-18:utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html</id><summary type="html">&lt;p&gt;&lt;a href="http://incron.aiken.cz/"&gt;incron&lt;/a&gt; est un programme fonctionnant sur
+le même principe que cron, mais basé sur des événements dans le
+système de fichiers plutôt que sur des moments de la journée. C'est
+très propre: pour l'utiliser, on spécifie un ou des fichiers à
+surveiller, un type d'action à détecter sur le(s) fichier(s) en
+question, et une commande à déclencher lorsque l'événement
+survient. Je me suis dit que c'était l'occasion où jamais de mettre
+à jour un vieux script que j'avais, qui me met au courant des
+modifications sur mes logs (je tire l'idée de ce script
+&lt;a href="http://www.daemontux.org/?q=node/31"&gt;d'un ancien post sur le planet libre&lt;/a&gt;).
+Après avoir installé incron, j'édite ma table de configuration
+incron:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;incrontab&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Avec mon éditeur favori, je lui mets la ligne suivante:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="n"&gt;IN_MODIFY&lt;/span&gt; &lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;me&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;documents&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;scripts&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;popLog&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;popLog.sh est un script qui prend en argument un log, en extrait la
+dernière ligne modifiée, la colorise avec `source-highlight`_ et
+l'envoie en notification par le biais de `notify-send`_. Le but
+de ce script est donc d'afficher le dernier log dans une bulle,
+avec coloration syntaxique. Je fournis le script en question, et
+j'ajoute quelques explications:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;source-highlight a besoin de parler un code couleurs compris
+    par les bulles de notifications. notification-daemon comprend des
+    couleurs de type &amp;lt;span color="couleur"&gt;mots à colorier&amp;lt;/span&gt;,
+    d'où le fichier supplémentaire awesome.outlang (que j'avais écrit à
+    l'origine pour naughty et donc compatible avec celui-ci, pour les
+    utilisateurs d'&lt;a href="http://awesome.naquadah.org/"&gt;awesome wm&lt;/a&gt; - à ce
+    propos il y a plusieurs entrées dans le wiki pour faire des choses
+    semblables).&lt;/li&gt;
+&lt;li&gt;incron ne comprend pas bien les variables d'environnement, il
+    vaut mieux les redéfinir dans le script, comme je l'ai fait.&lt;/li&gt;
+&lt;li&gt;faites attention à ne pas faire n'importe quoi avec incron, il
+    est facile de créer une boucle infinie en surveillant par exemple
+    /var/log/everything.log (vous notifiant du lancement de ce script,
+    et donc générant une nouvelle notification): IN_NO_LOOP est votre
+    ami.&lt;/li&gt;
+&lt;li&gt;incron prend des chemins absolus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Après tous ces avertissements, voici
+/home/me/documents/scripts/popLog.sh:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class="c"&gt;# Usage: popLog /var/log/yourlog&lt;/span&gt;
+&lt;span class="c"&gt;# pops a colored log with the last line of the log&lt;/span&gt;
+
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;:0.0&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/home/me&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;#Urgency&lt;/span&gt;
+&lt;span class="nv"&gt;infoUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;low&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;warningUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;normal&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;errorUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;critical&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;securityUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;critical&amp;#39;&lt;/span&gt;
+
+&lt;span class="c"&gt;#Popup time&lt;/span&gt;
+&lt;span class="nv"&gt;infoPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5000
+&lt;span class="nv"&gt;warningPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;8000
+&lt;span class="nv"&gt;errorPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;11000
+&lt;span class="nv"&gt;securityPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;11000
+
+&lt;span class="c"&gt;#Icons&lt;/span&gt;
+&lt;span class="nv"&gt;infoIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;warningIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-warning.png&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;errorIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-error.png&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;securityIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/security-medium.png&amp;#39;&lt;/span&gt;
+
+&lt;span class="nv"&gt;coloredLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;tail -n 1 &lt;span class="nv"&gt;$1&lt;/span&gt; |                   &lt;span class="se"&gt;\&lt;/span&gt;
+  &lt;span class="nb"&gt;source&lt;/span&gt;-highlight --failsafe                 &lt;span class="se"&gt;\&lt;/span&gt;
+                   --src-lang&lt;span class="o"&gt;=&lt;/span&gt;log             &lt;span class="se"&gt;\&lt;/span&gt;
+                   --style-file&lt;span class="o"&gt;=&lt;/span&gt;default.style &lt;span class="se"&gt;\&lt;/span&gt;
+                   --outlang-def&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;/documents/scripts/awesome.outlang&lt;span class="k"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$coloredLog&lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep info&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep warn&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;warning&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep err&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep auth&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep access&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;;&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$notification&lt;/span&gt;|grep &lt;span class="s1"&gt;&amp;#39;UFW BLOCK INPUT&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;    case&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; in
+    info&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoUrgency&lt;/span&gt;
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoIcon&lt;/span&gt;
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoPopupTime&lt;/span&gt;
+    ;;
+    warning&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningUrgency&lt;/span&gt;
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningIcon&lt;/span&gt;
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningPopupTime&lt;/span&gt;
+    ;;
+    error&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorUrgency&lt;/span&gt;
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorIcon&lt;/span&gt;
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorPopupTime&lt;/span&gt;
+    ;;
+    security&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityUrgency&lt;/span&gt;
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityIcon&lt;/span&gt;
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityPopupTime&lt;/span&gt;
+    ;;
+    &lt;span class="k"&gt;esac&lt;/span&gt;
+
+&lt;span class="k"&gt;    &lt;/span&gt;notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;$icon&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$coloredLog&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Et voici /home/me/documents/scripts/awesome.outlang:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;extension&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;awesome&amp;quot;&lt;/span&gt;
+
+&lt;span class="nx"&gt;color&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;span color=&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s2"&gt;$style&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s2"&gt;&amp;gt;$text&amp;lt;/span&amp;gt;&amp;quot;&lt;/span&gt;
+
+&lt;span class="nx"&gt;colormap&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;green&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#33CC00&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;red&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FF0000&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;darkred&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#990000&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;blue&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#0000FF&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;brown&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#9A1900&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;pink&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#CC33CC&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FFCC00&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;cyan&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#66FFFF&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;purple&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#993399&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FF6600&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;brightorange&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FF9900&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;brightgreen&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#33FF33&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;darkgreen&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#009900&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;black&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#000000&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;teal&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#008080&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;gray&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#808080&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;darkblue&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#000080&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;default&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#66FFFF&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Je vous laisse faire joujou, je suis sûr que vous allez trouver
+plein d'idées.&lt;/p&gt;</summary><category term="incron"></category><category term="inotify"></category><category term="notify-send"></category></entry><entry><title>La TODO liste du pauvre</title><link href="http://chmd.fr/blog/la-todo-liste-du-pauvre.html" rel="alternate"></link><updated>2009-12-20T22:08:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2009-12-20:la-todo-liste-du-pauvre.html</id><summary type="html">&lt;p&gt;Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
+Paradoxalement, si on cherche quelque chose de simple, on ne trouve
+pas. Ce que je cherchais à faire est on ne peut plus simple à
+décrire: quelque chose qui apparaisse une fois par heure. En effet,
+le problème des notes persistantes est que l'on finit par ne plus
+les voir. Pour cela, j'ai opté pour les notifications. Le principe
+est simple: on met sa TODO liste dans le fichier \~/TODO. Une fois
+par heure, le contenu de ce fichier est affiché dans une bulle de
+notification qui dure 10 secondes. Une façon gentille de rappeler
+les choses à faire, intrusive, certe, mais à la durée assez courte
+pour ne pas être ennuyeuse. Ça se fait très facilement avec le
+script suivant:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class="c"&gt;# pour que cron sache sur quel moniteur jouer la notification&lt;/span&gt;
+&lt;span class="nv"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;:0.0
+
+&lt;span class="c"&gt;#params&lt;/span&gt;
+&lt;span class="nv"&gt;todofile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/TODO
+&lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&amp;#39;&lt;/span&gt;
+&lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;10000
+&lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;low&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt; -f &lt;span class="nv"&gt;$todofile&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;notification&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;cat &lt;span class="nv"&gt;$todofile&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+    notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;$icon&amp;quot;&lt;/span&gt; TODO &lt;span class="s2"&gt;&amp;quot;$notification&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Le script, que j'ai nommé todo.sh est à faire invoquer toutes les
+heures par une tache cron:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;0 * * * *  sh &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;HOME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;/documents/scripts/todo.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Simple comme bonjour, et efficace. Ça fait un moment que je
+l'utilise, et j'en suis satisfait.&lt;/p&gt;</summary><category term="libre"></category><category term="notify-send"></category></entry><entry><title>Gérer ses plugins vim avec :GetLatestVimScripts</title><link href="http://chmd.fr/blog/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="alternate"></link><updated>2009-11-05T18:52:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2009-11-05:gerer-ses-plugins-vim-avec-getlatestvimscripts.html</id><summary type="html">&lt;p&gt;J'ai envie d'attirer l'attention sur une fonctionnalité sympa de
+vim, qui pourtant semble méconnue de pas mal de monde, même des
+utilisateurs avancés: la commande &lt;code&gt;:GetLatestVimScripts&lt;/code&gt;, ou son
+alias &lt;code&gt;:GLVS&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Le principe est simple: vous installez un script pour vim, et vous voulez
+que ce script se maintienne à jour (c'est à dire que vous voulez profiter
+des versions successives du script par l'auteur).  Au lieu de vous embêter
+à vérifier si il y a des nouvelles versions périodiquement et d'avoir à
+suivre un procédé d'installation qui differera selon que vous ayez affaire
+à un vimscript, un vimball, ou une quelconque archive, vous pouvez tout
+simplement dire à vim de gérer tous vos scripts d'un coup. Pour cela, il
+vous suffit de maintenir à jour la liste des scripts qui vous intéressent
+dans le fichier &lt;code&gt;~/.vim/GetLatest/GetLatestVimScripts.dat&lt;/code&gt;. Le format de
+ce fichier est simple:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="err"&gt;é&lt;/span&gt;&lt;span class="n"&gt;ro&lt;/span&gt; &lt;span class="n"&gt;du&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="err"&gt;é&lt;/span&gt;&lt;span class="n"&gt;ro&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="err"&gt;é&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="n"&gt;du&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;AutoInstall&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;nom&lt;/span&gt; &lt;span class="n"&gt;du&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Le numéro du script est dans l'url sur sourceforge, donné par &lt;code&gt;scriptid&lt;/code&gt;.
+La version installée du script est maintenue directement par la commande
+&lt;code&gt;:GLVS&lt;/code&gt;. Si vous voulez être sûr que la mise à jour soit faite, mettez 1.&lt;/p&gt;
+&lt;p&gt;Maintenant, votre répertoire &lt;code&gt;~/.vim&lt;/code&gt; est assez facile à transporter. J'ai
+pour habitude d'en garder une copie "vide", avec une arborescence sous la
+forme:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+    &lt;span class="o"&gt;|-&lt;/span&gt;&lt;span class="n"&gt;GetLatest&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+               &lt;span class="o"&gt;|-&lt;/span&gt;&lt;span class="n"&gt;GetLatestVimScripts&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dat&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;Un test?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Vous pouvez tester l'astuce assez simplement: Sauvez votre répertoire
+&lt;code&gt;~/.vim&lt;/code&gt; (si vous en avez un) en le bougeant sous un autre nom, et faites
+en un nouveau ou vous recréerez l'arborescence décrite précedemment.
+Insérez dans GetLatestVimScripts.dat les lignes suivantes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gh"&gt;ScriptID SourceID Filename&lt;/span&gt;
+&lt;span class="gh"&gt;--------------------------&lt;/span&gt;
+# Les lignes commençant par &amp;#39;#&amp;#39; sont des commentaires
+# Les deux premières lignes sont nécessaires
+#
+# Script permettant d&amp;#39;avoir une complétion grâce à la touche &amp;lt;tab&amp;gt;
+# le premier numéro a été obtenu dans l&amp;#39;url du script:
+# http://www.vim.org/scripts/script.php?script_id=1643
+1643 1 :AutoInstall: supertab.vim
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Ouvrez vim, tapez :GLVS. Le script va se mettre à jour de
+  lui-même.&lt;/li&gt;
+&lt;li&gt;Vous pouvez tester le script, assez sympa, qui permet de
+  compléter les mots que vous tapez avec la touche de tabulation
+  (pour savoir comment ça se paramètre, lisez le script, pour
+  l'instant sa doc est incluse en commentaire dans le code - j'ai
+  proposé au mainteneur un patch avec une vraie doc vim, accessible
+  par :help et j'ai bon espoir qu'il l'inclue dans une future
+  version)&lt;/li&gt;
+&lt;li&gt;Fin de la démo. Vous pouvez supprimer votre répertoire .vim et
+  remettre votre ancienne configuration (si vous en aviez une).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Une petite explication supplémentaire s'impose. Le mot clé :AutoInstall:
+dans la ligne que j'ai préconisée n'est pas obligatoire. Cela vient du
+fait que tous les scripts ne sont pas installables automatiquement (mais
+tous sont téléchargeables automatiquement). Cela dit, les scripts
+sourceforge sont assez standards et la plupart seront autoinstallables
+même si l'auteur du script ne connaissait pas la fonctionnalité. Si jamais
+votre script ne s'installe pas correctement, vous pouvez écrire à son
+auteur afin qu'il le modifie (ça marche, je l'ai fait &lt;a href="http://slinky.imukuppi.org/2009/10/24/zenburn-v2-13/"&gt;récemment&lt;/a&gt; avec
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=415"&gt;zenburn&lt;/a&gt; en aidant son auteur à le mettre sous forme de vimball) et en
+attendant, retirer ce mot clé.&lt;/p&gt;
+&lt;p&gt;En espérant que ça serve... En bonus, voici la liste des plugins
+que j'utilise. C'est très orienté C++. Mon conseil, c'est de vous
+abonner au flux rss de vim.org, comme ça vous serez au courant des
+plugins sympa qui sortent.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gh"&gt;ScriptID SourceID Filename&lt;/span&gt;
+&lt;span class="gh"&gt;--------------------------&lt;/span&gt;
+39   1 :AutoInstall: matchit.zip
+40   1 :AutoInstall: Drawit.vim
+273  1 :AutoInstall: taglist.zip
+294  1 :AutoInstall: Align.vim
+302  1 :AutoInstall: AnsiEsc.vim
+415  1 :AutoInstall: zenburn.vim
+489  1 :AutoInstall: Manpageview.vim
+610  1 :AutoInstall: ctags.vim
+642  1 :AutoInstall: getscript.vim
+1066 1 :AutoInstall: cecutil.vim
+1075 1 :AutoInstall: netrw.vim
+1116 1 :AutoInstall: maplesyrup.tar.gz
+1195 1 :AutoInstall: vis.vba.gz
+1502 1 :AutoInstall: vimball.vim
+1506 1 :AutoInstall: LargeFile.vim
+1520 1 :AutoInstall: omnicppcomplete.zip
+1643 1 :AutoInstall: supertab.vim
+1658 1 :AutoInstall: NERD_tree.zip
+1697 1 :AutoInstall: surround.vim
+2136 1 :AutoInstall: repeat.vim
+2164 1 :AutoInstall: renamec.vim
+2527 1 :AutoInstall: jpythonfold.vim
+2540 1 :AutoInstall: snipMate.zip
+2645 1 :AutoInstall: colourscheme_bandit.vim
+2646 1 :AutoInstall: ctags_highlighting.vba
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="vim"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://chmd.fr/blog/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2009-10-06:gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de
+sortir dans sa version 7.0! Vous vous dîtes: "Bof, gdb je connais,
+une nouvelle version d'un débogueur qui sort, il n'y a pas de quoi
+fouetter un chat." Détrompez-vous!  Les progrès apportés sont tels
+que je n'allais pas vous laisser les ignorer. Je veux bien entendu
+parler du "reverse debugging". Hein? C'est quoi? Bon, j'explique :
+normalement, dans un debugger (ou un "débogueur", en bon français),
+on déroule le programme toujours dans le même sens. Et ben
+maintenant, on a la possibilité de revenir en arrière! Dans le
+concept, c'est un peu comme rembobiner un film, mais pour un
+programme. Donc voilà, par exemple, on avait "c" pour "continue",
+on a maintenant "rc" pour "reverse continue". Bon, ça paye pas de
+mine, comme ça, mais à faire c'est probablement assez compliqué. Ça
+fait tellement longtemps qu'on parle d'ajouter cela dans gdb que ça
+justifie amplement le passage direct de 6.8 à 7.0 dans les numéros
+de versions. Ça explique aussi pourquoi les développeurs la
+qualifiaient d'avance de "major release". Là, on marque une pause
+et on s'incline. Ceux qui savent comment fonctionne un ordinateur
+se demandent comment ça peut bien marcher (allez regarder le code
+source, les gars). On se rend compte de l'exploit technique que ça
+doit représenter, on y ajoute une petite réflexion sur le nombre
+d'architectures que le machin supporte, et on se dit que
+décidemment il y a des gens très forts. Je ne m'arrête pas en si
+bon chemin. Ceux qui ont tenté d'utiliser gdb ont probablement
+aussi un assez mauvais souvenir de la maniabilité du programme.
+C'est pas très, comment dire...  "user friendly". Bon, pour
+répondre à ces gens là je ne vous promets pas de miracle, mais
+sachez que gdb est devenu scriptable en python. Ça promet
+d'améliorer sérieusement sa souplesse, mais aussi, mon petit doigt
+me dit qu'on devrait probablement voir de nouveaux front-end ultra
+souples voir le jour. Voilà pour mes features préférées, mais il y
+en a d'autres. Je vous lie la fameuse annonce, qui vaut son pesant
+de cacahuètes. Vivement que ma distribution le package.
+&lt;a href="http://www.gnu.org/software/gdb/download/ANNOUNCEMENT"&gt;L'annonce&lt;/a&gt;
+&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</summary><category term="gdb"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://chmd.fr/blog/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2009-07-10:autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
+de manière conditionnelle avec doxygen. J'utilise ça dans le projet
+que je code au boulot, et je pense que ça vaut le coup de partager.
+L'idée est de générer la  documentation automatiquement à chaque
+compilation de mon projet, en faisant appel aux features avancées
+de doxygen en fonction des outils dont dispose l'utilisateur : dot,
+htags, perl, etc... On va donc vérifier quels programmes sont
+présents grâce au configure.ac, et on va générer le doxyfile en
+fonction desquels sont présents. L'exemple que je donne n'est pas
+complet, mais vous pouvez vous en inspirer: Fichier configure.ac&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;AC_CHECK_PROG&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;AC_CHECK_PROG&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;HTAGS&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;htags&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;AC_PATH_PROG&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;PERL&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;perl&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[])&lt;/span&gt;
+&lt;span class="n"&gt;AM_CONDITIONAL&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;DOXYGEN&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;x$doxygen_ok&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xyes&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;AM_CONDITIONAL&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;x$dot_ok&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xyes&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="n"&gt;AC_CONFIG_FILES&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;doxygen_html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ensuite, il suffit de glisser les bonnes références dans le fichier
+doc/doxygen_html.cfg.in :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;USE_HTAGS&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;HTAGS&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;
+&lt;span class="n"&gt;PERL_PATH&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;PERL&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;
+&lt;span class="n"&gt;HAVE_DOT&lt;/span&gt;               &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
+va être généré, et les expressions entre @ vont y être remplacées
+par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
+fichier pour véritablement générer la doc...&lt;/p&gt;</summary><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>Mettre des couleurs un peu partout (gcc, diff, grep...)</title><link href="http://chmd.fr/blog/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="alternate"></link><updated>2009-06-19T21:31:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2009-06-19:mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html</id><summary type="html">&lt;p&gt;Aujourd'hui, après avoir passé un bout de temps à déchiffrer la
+sortie d'une compilation, je me suis mis en quête d'améliorer mon
+quotidien et d'y mettre... des couleurs! Pour ce faire, on cherche
+un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
+disponible sur pas mal de distributions, c'est juste un script perl
+à appeler à la place de gcc, et ça rajoute des couleurs. Pour en
+profiter, il suffit de glisser dans vos Makefile&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;CXX&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;colorgcc&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Avec les autotools, on peut régler ça à l'invocation du script
+configure :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="n"&gt;CXX&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;colorgcc&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bon. Pas mal. Maintenant, les diff. Au boulot, je n'ai pas mieux
+sous la main qu'un svn comme gestionnaire de version. Quand je me
+tape des svn diff, j'aime bien que ça soit un peu lisible. Et si on
+se mettait ça en couleurs? En lisant un peu la doc, on voit qu'il
+suffit de se faire un script. Mettons diffwrap.sh.&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="c"&gt;# Configure your favorite diff program here.&lt;/span&gt;
+&lt;span class="nv"&gt;DIFF&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/colordiff&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;# Subversion provides the paths we need as the sixth and seventh&lt;/span&gt;
+&lt;span class="c"&gt;# parameters.&lt;/span&gt;
+&lt;span class="nv"&gt;LEFT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;6&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;RIGHT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;7&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+&lt;span class="c"&gt;# Call the diff command&lt;/span&gt;
+&lt;span class="nv"&gt;$DIFF&lt;/span&gt; &lt;span class="nv"&gt;$LEFT&lt;/span&gt; &lt;span class="nv"&gt;$RIGHT&lt;/span&gt;
+&lt;span class="c"&gt;# Return an errorcode of 0 if no differences were detected, 1 if some were.&lt;/span&gt;
+&lt;span class="c"&gt;# Any other errorcode will be treated as fatal.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;J'ai installé colordiff pour faire le boulot. Il suffit après
+d'éditer \~/.subversion/config, et d'ajouter, section [helpers]&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cmd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;diffwrap&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bon ok, mais quand je fais make, j'ai toujours beaucoup de sortie
+Il n'y aurait pas moyen de se cantonner aux erreurs gcc lorsqu'il y
+en a? Aller, on va baisser un peu ça avec un petit peu (le -j3 est
+pour multithreader le make : j'ai un dual core, autant en
+profiter).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;j3&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bien entendu, en tant qu'adepte de vim, j'utilise aussi beaucoup
+:make. Dans le .vimrc, il peut s'avérer utile de glisser alors:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufNewFile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufRead&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufEnter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;makeprg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;make&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;j3&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Au passage, j'espère que vous connaissiez
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=1520"&gt;omnicppcomplete&lt;/a&gt;,
+qui va chez moi dans la même section du .vimrc:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufNewFile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufRead&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufEnter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;omnifunc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;omni&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;complete&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;Main&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;On combine tout ça à quelques alias assez connus, et on vit un peu
+mieux dans sa console...&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# SOME COLORS&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dircolors&lt;/span&gt; &lt;span class="p"&gt;];&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
+    &lt;span class="n"&gt;eval&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;`dircolors -b`&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ls&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;vdir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;vdir&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;grep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;grep&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;fgrep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;fgrep&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;egrep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;egrep&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;colordiff&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;less&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;less&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si vous avez des trucs utiles, n'hésitez pas! Je suis en
+particulier à la recherche d'un script vim qui exploiterait un rien
+les options 'errorformat' et 'QuickFixCmdPost' afin d'améliorer
+encore la lisibilité des compilations dans la fenêtre quickfix.&lt;/p&gt;</summary><category term="colors"></category><category term="console"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://chmd.fr/blog/vimgdbvimgdb.html" rel="alternate"></link><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2009-02-25:vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en
+profite donc pour rendre hommage au méconnu
+&lt;a href="http://clewn.sourceforge.net/"&gt;vimgdb&lt;/a&gt;. vimgdb est un patch pour
+vim qui permet de débogguer dans vim. On ne vantera jamais assez
+les mérites d'un déboggeur (franchement, il y a un stade où il faut
+arrêter les fprintf(stdout, "kikoo") et les cout &amp;lt;&amp;lt;"lol"), que ce
+soit parce que c'est franchement plus élégant, que c'est plus le
+pratique quand on maitrise, ou parce que c'est mille fois plus
+puissant. Alors, me direz-vous, chers adeptes de gvim, qu'il existe
+déjà un plugin pour vim nommé
+&lt;a href="http://clewn.sourceforge.net/"&gt;clewn&lt;/a&gt; (ou voir mieux,
+&lt;a href="http://pyclewn.wiki.sourceforge.net/"&gt;pyclewn&lt;/a&gt;) qui fait la même
+chose sans se taper de recompilation intempestive de son éditeur
+favori. Eh bien moi je vous répond: oui mais dans gvim on ne peut
+pas retrouver le shell en tapant Ctrl-Z (ce qui met vim en
+arrière-plan) et c'est un sérieux handicap pour les gens comme moi
+qui apprécient énormément cette feature (au fait, fg est votre ami
+si vous découvrez en lisant l'article et que vous ne savez pas
+comment revenir à vim). Malheureusement, le paquet fait défaut sur
+la plupart des distrib (sauf archlinux, où je me suis permis de
+l'ajouter dans
+&lt;a href="http://aur.archlinux.org/packages.php?O=0&amp;amp;K=vimgdb&amp;amp;do_Search=Go"&gt;AUR&lt;/a&gt;
+-- si vous avez des suggestions pour améliorer le pkgbuild,
+n'hésitez pas). Vous pouvez donc vous inspirer dudit pkgbuild pour
+&lt;a href="http://clewn.sourceforge.net/install.html"&gt;compiler votre version&lt;/a&gt;,
+ou suivre les indications du site (je vais pas vous dire comment
+compiler un programme, quand même!). Après, en installant le plugin
+vim pour gdb (comme indiqué dans la procédure du lien précédent),
+vous avez accès à tout un cas de commandes sympa (:help gdb pour
+l'aide), qui permettent de voir vos variables et de suivre le
+déroulement des opérations dans l'éditeur. Cool, non? Preuve que
+c'est bien pensé, je n'ai eu à changer aucun des raccourcis par
+défaut (J'ai juste changé un "where" en "where all" dans
+.vim/macros/gdb_mappings.vim). Evidemment, il est aussi possible
+d'ajouter ses propres mappings ou de modifier ceux qui sont
+fournis. N'oubliez pas de rajouter run macros/gdb_mappings.vim
+dans votre .vimrc! Je vous suggère aussi de vous renseigner sur gdb
+et de suivre le tuto de
+&lt;a href="http://dirac.org/linux/gdb/"&gt;Peter Jay Salzman&lt;/a&gt;, qui m'a bien
+initié. Pour ma part, je conserve aussi dans un coin
+&lt;a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html"&gt;un excellent lien&lt;/a&gt;
+qui me sert de référence en cas de trou de mémoire... Bon
+déboggage! Si vous souhaitez des screenshots, regardez
+&lt;a href="http://sourceforge.net/project/screenshots.php?group_id=111038"&gt;par là&lt;/a&gt;...
+PS: apparemment mon pkgbuild a été marqué "out of date", je vais
+corriger ça dès que possible...&lt;/p&gt;</summary><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="http://chmd.fr/blog/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2008-06-08:luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
+d'importer/exporter de l'&lt;a href="http://fr.wikipedia.org/wiki/Unified_Modeling_Language"&gt;uml&lt;/a&gt; pour un projet C++ que je vais faire cet
+été. L'idée est la suivante : je souhaiterais que les modifications de mon
+code soient répercutées sur un fichier contenant de l'uml sous un format
+quelconque, et je souhaiterais par ailleurs pouvoir générer du code à
+partir de ce format. Idéalement, une règle dans le Makefile, appelée à
+chaque génération du projet serait idéale pour ce genre de truc. À moins
+que j'ai mal compris, Umbrello est bien capable de générer du code, mais
+malheureusement l'import est une autre histoire : si celui-ci est bien
+capable d'importer une classe à partir du C++, en revanche il ne génère
+aucun diagramme (voir &lt;a href="http://docs.kde.org/stable/en_GB/kdesdk/umbrello/code-import.html"&gt;la page consacrée de l'aide&lt;/a&gt;):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note that Umbrello UML Modeller will not create any kind of Diagram
+for showing your classes, they will only be imported into your
+Model so that you can use them later in any diagram you want.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;J'ai aussi jeté un coup d'oeil du côté d'ArgoUml. Malheureusement,
+de ce côté non plus c'est pas la panacée puisqu'ici on ne parle que
+de java : moi, je veux du C++.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;What is ArgoUML?
+  ~ [...] ArgoUML also has the ability to reverse engineer
+    compiling Java code and generate UML diagrams for it.
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;En allant inspecter les moteurs de recherche, j'ai fini par tomber
+sur un outil intéressant:&lt;a href="http://dia2code.sourceforge.net/index.html"&gt;dia2code&lt;/a&gt;. Celui-ci
+prend en entrée un schéma uml en dia, et génère du code dans le
+langage choisi. J'ai regardé la section
+&lt;a href="http://dia2code.sourceforge.net/examples.html"&gt;examples&lt;/a&gt; du site,
+c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="uml_dia.png" src="images/uml_dia.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Les fichiers suivants seront générés :&lt;/p&gt;
+&lt;p&gt;foowindow.cpp 1/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;foowindow.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;FooWindow&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;foowindow.h 2/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOW_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define FOOWINDOW_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;FooWindow&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;foowindowmanager.cpp 3/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;foowindowmanager.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;foowindowmanager.h 4/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOWMANAGER_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define FOOWINDOWMANAGER_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;FooWindowManager&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;point.cpp 5/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;point.h 6/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef POINT_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define POINT_H&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="nl"&gt;private:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;rectangle.cpp 7/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;rectangle.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;rectangle.h 8/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef RECTANGLE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define RECTANGLE_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+   &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;shape.cpp 9/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;shape.h 10/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef SHAPE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define SHAPE_H&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;window.cpp 11/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;window.h 12/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOW_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define WINDOW_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="nl"&gt;private:&lt;/span&gt;
+    &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="n"&gt;visualrep&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;windowmanager.cpp 13/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;windowmanager.h 14/14&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOWMANAGER_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define WINDOWMANAGER_H&lt;/span&gt;
+
+&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+   &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pas mal. Il y a de l'idée. Maintenant, cherchons s'il existe le procédé
+inverse. J'ai trouvé trois outils capables de générer de l'uml dia à
+partir du C++ : &lt;a href="http://cpp2dia.sourceforge.net/"&gt;cpp2dia&lt;/a&gt;, &lt;a href="http://www.aarontrevena.co.uk/opensource/autodia/index.html"&gt;autodia&lt;/a&gt;, et &lt;a href="http://medoosa.sourceforge.net/"&gt;medoosa&lt;/a&gt;. Autant vous
+dire tout de suite que rien de spécialement convaincant ne sort de ces
+programmes.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Le dernier de ces 3 à avoir été mis à jour semble être autodia
+    (2007). Autodia est un script perl qui peut parser plusieurs
+    langage, mais il semblerait que le module C++ soit buggué. D'abord,
+    la sortie est immonde et complètement enchevêtrée. Mais ça, ça
+    s'édite avec dia (du moment que les associations sont bonnes, moi
+    je suis content). Ensuite il prend mal les noms des classes
+    puisqu'il m'a embarqué l'accolade ouvrante à chaque génération de
+    classe (Je le soupçonne en fait d'avoir oublié de gérer les
+    namespaces). J'ai tout de même écrit à l'auteur pour lui signaler
+    le problème.&lt;/li&gt;
+&lt;li&gt;cpp2dia est celui qui n'a pas été mis à jour depuis le plus de
+    temps (mai 2003). Cependant, les
+    &lt;a href="http://cpp2dia.sourceforge.net/screenshots.html"&gt;screenshots&lt;/a&gt; ont
+    l'air sympa. C'est un script tcl que j'ai réussi à faire marcher,
+    mais qui ne m'a pas du tout donné le même genre de résultat que ce
+    qu'on peut voir sur le site. Pourtant, l'idée est intéressante : au
+    lieu de parser le programme lui-même, il se sert des ctags pour
+    récupérer ce qui l'intéresse, comptant ainsi sur un programme qui
+    marche assez bien et auquel on peut résolument faire confiance. Par
+    ailleurs, il utilise neato (qui fait partie de
+    &lt;a href="http://www.graphviz.org/"&gt;graphviz&lt;/a&gt;) pour organiser le tout, donc
+    la sortie est nettement plus lisible. Malheurleusement, j'ai eu
+    beau traffiquer mon \~/.cpp2diarc, dans tous les sens, pas de bol
+    pour moi, les attributs ne sont pas pris en compte (J'ai aussi
+    contacté l'auteur pour lui demander s'il avait une astuce).&lt;/li&gt;
+&lt;li&gt;Il reste medoosa, sans doute le plus élaboré des trois, mais
+    non véritablement mieux maintenu que cpp2dia (août 2003 pour la
+    dernière release). Ce programme a été écrit par un thésard, et sait
+    lui aussi produire des
+    &lt;a href="http://medoosa.sourceforge.net/medoosa-model.ps"&gt;sorties&lt;/a&gt; assez
+    sexy. L'idée originale est que celui-ci se sert de ccdoc, un
+    utilitaire de documentation à la doxygen, pour générer le graphe.
+    Malheureusement, il faut une vieille version de ccdoc (la 0.7a)
+    pour le faire marcher, et j'ai été incapable de trouver celle-ci en
+    téléchargement (encore une fois, j'ai contacté l'auteur pour lui
+    signaler ce problème, lui conseillant de s'arranger avec les
+    auteurs de ccdoc pour qu'ils remettent une vieille version en
+    ligne, car cela nuit à son programme).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Conclusion: rien de bien convaincant pour l'instant. Cependant, je n'avais
+pas encore regardé bouml et je viens de voir qu'ils mentionnaient le genre
+de fonctionnalités que je recherche.  Quelqu'un a testé? Ou bien dans le
+cas général, connaissez-vous un quelque chose capable de faire mon
+bonheur?&lt;/p&gt;</summary><category term="uml"></category><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="http://chmd.fr/blog/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2008-05-02:les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
+lecteur de flux rss en ligne et je donnais un petit panorama des
+web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
+étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
+comme rien ne vaut un petit essai pour se faire une idée, voici des
+liens vers les versions de démo que j'ai pu trouver :&lt;/p&gt;
+&lt;p&gt;Tiny tiny rss -&gt; [&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
+[&lt;a href="http://tt-rss.org/demo/tt-rss.php"&gt;démo&lt;/a&gt;] :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sait aggréger plusieurs flux pour en former un seul dont vous
+    pourrez donner l'adresse à vos amis&lt;/li&gt;
+&lt;li&gt;Peut marcher sous PostgreSQL comme sur MySQL&lt;/li&gt;
+&lt;li&gt;Gestion des tags par des règles de filtrage très facile à
+    utiliser&lt;/li&gt;
+&lt;li&gt;Sait s'autentifier pour lire des flux protégés (autentification
+    simple, le https n'est pas encore supporté)&lt;/li&gt;
+&lt;li&gt;navigation clavier intuitive (vim-like, comme gmail)&lt;/li&gt;
+&lt;li&gt;bénéficie d'une
+    &lt;a href="https://addons.mozilla.org/firefox/3342/"&gt;extension firefox pour les notifications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;développement très actif&lt;/li&gt;
+&lt;li&gt;installation difficile chez free (bug dans l'importation
+    d'opml, voir les commentaires du billet précédent pour corriger ça,
+    et les tags ne marchent pas du tout)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;gregarius -&gt; [&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
+[&lt;a href="http://tt-rss.org/demo/tt-rss.php"&gt;démo&lt;/a&gt;] :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ne marche qu'avec mysql, mais par contre buggue moins&lt;/li&gt;
+&lt;li&gt;un énorme avantage : supporte des thèmes et des plugins divers
+    et variés&lt;/li&gt;
+&lt;li&gt;La navigation clavier est moins intuitive et moins complète&lt;/li&gt;
+&lt;li&gt;installation super facile&lt;/li&gt;
+&lt;li&gt;a aussi une bonne intégration avec firefox, mais pas de système
+    de notification.&lt;/li&gt;
+&lt;li&gt;développement moins actif&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Je n'ai pas trouvé de version de test disponible pour feed on feeds
+-&gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]. Sachez que Feed on feeds est
+assez vieux et que son développement est apparemment arrêté. Il a
+donné lieu à deux projets : FoFredux
+-&gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
+[&lt;a href="http://tt-rss.org/demo/tt-rss.php"&gt;démo&lt;/a&gt;] et à MonkeyChow
+-&gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;], pour lequel je dispose
+simplement d'un &lt;a href="http://www.shokk.com/mc.html"&gt;screencast&lt;/a&gt; (en
+flash, beurk). Je n'ai pas poussé beaucoup mes tests, car aucun
+d'eux n'a vu de nouvelle version sortir depuis 2006, ce qui est
+selon moi trop vieux pour espérer voir maintenus ces projets qui
+semblent par ailleurs assez prometteurs. En résumé, je ne retiens
+que deux projets : Tiny tiny rss et gregarius. Même si gregarius et
+beaucoup plus facile à installer, plus stable et bénéficie d'un
+très bon système de plugins, ma préférence se porte sur Tiny tiny
+rss, qui a un développement plus dynamique, et surtout dont
+l'interface se révèle bien plus agréable et rapide à utiliser : si
+j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://chmd.fr/blog/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2008-05-01:les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait [un billet][1] que j'ai trouvé assez
+intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
+arguments, notamment le contrôle sur les données personnelles qu'on a avec
+un tel lecteur et qu'on n'a pas chez les fournisseurs de services en
+ligne.&lt;/p&gt;
+&lt;p&gt;Cela ne me fera pas pour autant passer à liferea, car le problème
+majeur qu'il me pose est celui de son accessibilité dès qu'on utilise un
+autre ordinateur. En effet, je consulte mes flux rss de beaucoup
+d'endroits différents, comme par exemple les ordis de mon école. Or,
+comme je n'ai pas les droits pour y installer exactement tout ce que je
+veux. C'est dans ce genre de cas que j'apprécie de n'avoir besoin que d'un
+navigateur web pour m'en tirer.&lt;/p&gt;
+&lt;p&gt;Cependant, sensible aux arguments sur la protection des données
+personnelles, je me suis demandé s'il n'y avait pas un moyen de me
+récupérer un autre lecteur de flux rss en ligne, qui n'utiliserait pas mes
+informations personelles pour le profit d'une quelconque société (me
+débarassant par la même occasion du cookie google qui traine dans le cache
+de mon navigateur). J'ai donc fait des petites recherches sur les
+solutions libres à héberger sur son propre serveur.  J'en ai trouvé
+plusieurs, que je partage avec vous. Il faut que je regarde si c'est
+possible d'en utiliser une sur mon compte free.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://tt-rss.org/trac/"&gt;tiny tiny rss&lt;/a&gt;
+&lt;a href="http://gregarius.net/"&gt;gregarius&lt;/a&gt;
+&lt;a href="http://feedonfeeds.com/"&gt;feed on feeds&lt;/a&gt; et ses petit frères
+&lt;a href="http://fofredux.sourceforge.net/"&gt;FoFredux&lt;/a&gt; et
+&lt;a href="http://sourceforge.net/projects/monkeychow/"&gt;Monckeyshow&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;
+&lt;p&gt;[1] http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://chmd.fr/blog/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+extraire une scène d'un film, par exemple pour en faire un fichier
+.gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;mencoder&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;mencoder&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ss&lt;/span&gt;     &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;mm&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ss&lt;/span&gt;    \
+         &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;endpos&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;mm&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ss&lt;/span&gt;    \
+         &lt;span class="n"&gt;film_origine&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;avi&lt;/span&gt;   \
+         &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;extrait&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;avi&lt;/span&gt;     \
+         &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;oac&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ovc&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;L'argument de -ss est le temps à partir duquel commence la
+  scène à extraire.&lt;/li&gt;
+&lt;li&gt;celui de -endpos est la durée de la scène à extraire (oui, je
+  sais, c'est bizarre, j'aurais plutôt mis le temps où finit la
+  scène)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;En espérant que ça vous serve! PS : Ce billet est assez court, je
+compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</summary><category term="mencoder"></category><category term="gif"></category></entry><entry><title>Faire un gif animé à partir d'un film</title><link href="http://chmd.fr/blog/faire-un-gif-anime-a-partir-dun-film.html" rel="alternate"></link><updated>2008-04-06T21:29:00+02:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2008-04-06:faire-un-gif-anime-a-partir-dun-film.html</id><summary type="html">&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
+gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
+aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
+de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
+Commencez-donc par installer ffmpeg et nautilus-actions.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;ffmpeg&lt;/span&gt; &lt;span class="n"&gt;nautilus&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;actions&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;La syntaxe pour réaliser un gif animé à partir d'un film est&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ffmpeg&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;fichier_entree&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;avi&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pix_fmt&lt;/span&gt; &lt;span class="n"&gt;rgb24&lt;/span&gt; \
+ &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="n"&gt;x120&lt;/span&gt;\
+ &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;\
+ &lt;span class="n"&gt;fichier_sortie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Vous pouvez régler la hauteur et la largeur du fichier de
+    sortie en touchant au paramètre '-s 120x120' (cependant 120x120 est
+    une taille raisonnable pour les forums).&lt;/li&gt;
+&lt;li&gt;Vous pouvez régler le nombre d'image par seconde prises dans le
+    film d'origine en touchant au paramètre '-r 5'.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bon, maintenant, offrons-nous la possibilité de gérer tout ça à
+coup de clic droit. Sous Ubuntu, si vous avez bien installé
+nautilus-actions, ça se passe dans
+système&gt;préférences&gt;configuration des actions de nautilus. Faites
+'Ajouter'. Configurez la nouvelle action comme suit :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png" /&gt;
+&lt;img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Ce qui est important, c'est le champ 'paramètres' :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pix_fmt&lt;/span&gt; &lt;span class="n"&gt;rgb24&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="n"&gt;x120&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Vous pouvez désormais vous amuser à faire toute sorte de gif
+animés. Le seul défaut : les fichiers produits ont le désavantage
+de ne pas boucler. Heureusement, il est très facile d'y remédier
+avec the gimp. Il suffit d'ouvrir le .gif, et de le ré-enregistrer
+en laissant cochée l'option 'boucle infinie'... Dans un prochain
+billet, je vous expliquerais comment couper votre vidéo pour
+extraire une scène qui vous intéresse. Ainsi, il vous sera possible
+de chainer les deux méthodes pour faire exactement le gif que vous
+voulez.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Damn Small Linux (Not) : l'installation hyper simple</title><link href="http://chmd.fr/blog/damn-small-linux-not-linstallation-hyper-simple.html" rel="alternate"></link><updated>2008-03-19T01:52:00+01:00</updated><author><name>Tof</name></author><id>tag:chmd.fr/blog,2008-03-19:damn-small-linux-not-linstallation-hyper-simple.html</id><summary type="html">&lt;p&gt;Malgré le fait que je pense qu'avoir un linux sur une clé usb est
+en fait assez inutile, il fut une époque où je m'amusais à suivre
+mille tutoriels pour arriver à - miracle - booter sur un système
+tenant sur 50Mo. Après avoir constaté les limites d'untel système,
+j'étais tranquillement retourné à la normale, sous mon ubuntu, et
+j'avais oublié mes aventures rocambolesques avec un des systèmes
+les plus compact au monde. En fait il se trouve que c'est pas si
+inutile que ça, puisque mon pote Max, qui avait planté son mac dont
+le lecteur cd est cassé, et a qui j'avais parlé de mes
+expérimentations, voulait m'emprunter la fameuse clef pour
+investiguer sur son ordi. Le problème, c'est que j'avais fini par
+formater cette clef. J'ai donc dû me taper à nouveau tous les bons
+vieux tutos. Or, comme c'est long et chiant de creuser partout pour
+avoir ce qu'on cherche (et encore plus la deuxième fois). Je vous
+donne donc la méthode la plus courte que j'ai trouvé (si vous êtes
+sous ubuntu ou debian, bien sûr). J'ai choisi d'installer DSL-N (is
+not &lt;a href="http://fr.wikipedia.org/wiki/Damn_Small_Linux"&gt;DSL&lt;/a&gt;!). En
+gros, c'est comme DSL, mais c'est un peu plus gros : au lieu de
+tenir sur 50Mo, ça doit tenir sur 100, et ça permet une meilleure
+reconnaissance du matériel, des programmes plus jolis, du gtk,
+etc... En plus DSL est basée sur knoppix, lui-même basé sur debian,
+et moyennant quelques manip que vous trouverez sur le
+&lt;a href="http://damnsmalllinux.org/wiki/"&gt;wiki officiel&lt;/a&gt;, vous pouvez la
+rendre complètement debian-compatible (en faire un OS qui supporte
+les installations type apt-get). Les infos que je donne sont
+valables qu'on installe DSL ou DSL-N. Commencez par télécharger la
+bête. Ça se passe
+&lt;a href="http://damnsmalllinux.org/download.html"&gt;ici pour DSL&lt;/a&gt; et
+&lt;a href="http://damnsmalllinux.org/dsl-n/download.html"&gt;ici pour DSL-N&lt;/a&gt;.
+Prenez le miroir qui vous plait et téléchargez-y le .iso le plus
+récent. Mettez le dans /tmp, comme ça vous pourrez l'oublier après
+avoir fait vos manips... Ensuite, il faut installer gparted et
+syslinux. (Oui, je sais, pour gparted, on pourrait se débrouiller
+avec fdisk, mais je trouve gparted bien fait et facile
+d'utilisation)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;gparted&lt;/span&gt; &lt;span class="n"&gt;syslinux&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Puis utilisez gparted : formatez votre clef en FAT16 (mieux
+supporté) et mettez lui un drapeau de boot, le tout à coups de
+clics droit. Ensuite, montez temporairement l'iso téléchargé
+quelque part avec l'option '-o loop' (/mnt est fait pour ça, mais
+vous faites comme vous le voulez). Ça donne un truc du style :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mount&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dsl&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iso&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mnt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Puis copiez le contenu de /mnt (ou du 'quelque part' où vous avez
+monté) dans votre clef. Après cela, dans votre clef, cherchez le
+répertoire isolinux (il se trouve probablement dans le répertoire
+boot) et mettez tous les fichiers qu'il contient sur la racine de
+la clef. Renommez 'isolinux.cfg' en 'syslinux.cfg'. Une fois tout
+cela accompli, démontez la clef. Faites un petit&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;syslinux&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;sdX1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;en adaptant le X à votre cas. C'est fini! Rebootez, pour faire un
+test... Petit conseil en passant : allez sur le wiki, il est
+bien...&lt;/p&gt;</summary><category term="libre"></category><category term="damn small linux"></category></entry></feed>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://chmd.fr/blog/theme/css/style.less">
+  <script src="http://chmd.fr/blog/theme/js/less-1.3.3.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://chmd.fr/blog/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://chmd.fr/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <meta name="author" content="Tof">
+  <meta name="description" content="Posts and writings by Tof">
+
+    <link href="http://chmd.fr/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    
+  <meta name="keywords" content="security, ssh">
+
+  <title>
+    Jabber notifications on ssh login  </title>
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17659080-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://chmd.fr/blog">
+                <img src="http://chmd.fr/blog/theme/images/logo.png" alt="logo">
+              </a>
+      <h2><a href="http://chmd.fr/blog">Tof</a></h2>
+      <p></p>
+      <ul>
+                                        <li><a href="https://twitter.com/#!chmduquesne" target="_blank">twitter</a></li>
+                <li><a href="http://resume.chmd.fr" target="_blank">resume</a></li>
+              </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>Posted on Wed 19 September 2012</p>
+    </header>
+
+    <article>
+  <div id="article_title">
+    <h3><a href="http://chmd.fr/blog/jabber-notifications-on-ssh-login.html">Jabber notifications on ssh login</a></h3>
+  </div>
+  <div id="article_text">
+    <p>I coined this little trick the other day, I thought I might share it. I
+wanted, for fun, to be notified on gtalk everytime someone logs in my
+server. You never know, maybe I could discover unexpected connections. It
+turned out to be possible, and the whole thing costed me reading a couple
+of manpages and typing 5 lines of code.</p>
+<p>Before you do the same thing with you own server, let me claim here that I
+am absolutely not a security expert. It is more an experiment than
+anything else, so I suggest being really careful and read all the manpages
+involved if you want to do the same thing. Also, I'd be happy to be
+notified of any potential threat in the comments.</p>
+<p>Basically, you can have PAM (Pluggable Authentication Modules, the thing
+that handles authentication on Linux) execute external commands. The
+module in question is called <code>pam_exec</code>, and it is often used to rebuild
+databases e.g. when passwords are changed. It can also be activated when
+someone logs in. The manpage explains that the following PAM items are
+exported as environment variables to the program executed:</p>
+<div class="highlight"><pre> <span class="n">PAM_RHOST</span><span class="p">,</span> <span class="n">PAM_RUSER</span><span class="p">,</span> <span class="n">PAM_SERVICE</span><span class="p">,</span> <span class="n">PAM_TTY</span><span class="p">,</span> <span class="n">PAM_USER</span><span class="p">,</span> <span class="n">PAM_TYPE</span>
+</pre></div>
+
+
+<p>I decided to use it to my advantage. I created on jabber.org an account
+for my server. I added it in my gmail friends, and I wrote this little
+script, using sendxmpp (saved as <code>/usr/local/bin/login_notify</code>):</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;$PAM_USER@`hostname` logged from $PAM_RHOST&quot;</span> | <span class="se">\</span>
+    sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &gt;/dev/null 2&gt;&amp;1 &amp;
+<span class="nb">exit </span>0
+</pre></div>
+</td></tr></table>
+
+<p>Note that the sendxmpp command runs in background and that its exit status
+is ignored. Otherwise PAM would wait for the command to return before
+letting me in, and it would deny me the access if the notification failed
+to be delivered. Two things I clearly want to avoid.</p>
+<p>Then, the following line goes at the end of <code>/etc/pam.d/sshd</code>:</p>
+<div class="highlight"><pre><span class="n">session</span>         <span class="n">optional</span>        <span class="n">pam_exec</span><span class="p">.</span><span class="n">so</span>             <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">login_notify</span>
+</pre></div>
+
+
+<p>There you go, notifications each time someone logs in.</p>
+<h1>Are you doing this for real? Read on...</h1>
+<p>Ok, just a couple of extra instructions for you:</p>
+<ul>
+<li>Be really really careful before modifying <code>/etc/pam.d/sshd</code>. If you
+  put a bogus command in there, you might screw up your remote access.
+  Please double check that the command <code>/usr/local/bin/login_notify</code> is
+  running with no error. Only when you are sure of that, you can add the
+  line to <code>/etc/pam.d/sshd</code>.</li>
+<li>Don't forget to <code>chmod +x /usr/local/bin/login_notify</code></li>
+<li>When you run <code>/usr/local/bin/login_notify</code>, you should receive a
+  jabber message. If you don't, then you have to verify that you can
+  actually send messages to your gmail account. Use a jabber client
+  and try to have a conversation with your gmail account. Then, try to
+  use <code>sendxmpp</code>, then try again with the <code>login_notify</code> script.</li>
+<li>My instructions are probably incomplete. Use your brain to fill in the
+  blanks.</li>
+</ul>
+  </div>
+  <div id="article_meta">
+    <p>Category: <a href="http://chmd.fr/blog/category/howto.html">howto</a></p>
+        <p>Tags:
+            <a href="http://chmd.fr/blog/tag/security.html">security</a>,            <a href="http://chmd.fr/blog/tag/ssh.html">ssh</a>          </p>
+      </div>
+</article>
+
+    <footer>
+      <p><a href="http://chmd.fr/blog/" class="button_accent">&larr; Back to Index</a></p>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy Giulio Fidente. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. You can fork the theme on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>.</p>
+    </div>
+  </main>
+</body>
+</html>

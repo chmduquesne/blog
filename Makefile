@@ -1,15 +1,12 @@
 CONFFILE=pelican.conf.py
-INPUTDIR=content
-OUTPUTDIR=blog
+INPUTDIR=source
+OUTPUTDIR=html
 
 all: clean $(OUTPUTDIR)/index.html
 	@echo done
 
 $(OUTPUTDIR)/%.html:
-	pelican $(INPUTDIR) -v -o $(OUTPUTDIR) -s $(CONFFILE)
-
-upload:
-	vaporfile -v upload blog.chmd.fr
+	pelican -v -o $(OUTPUTDIR) -s $(CONFFILE) $(INPUTDIR)
 
 clean:
 	rm -rf $(OUTPUTDIR)
