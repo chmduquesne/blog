@@ -27,8 +27,8 @@ there is a python package, that you can install very simply: just run&lt;/p&gt;
 &lt;p&gt;The only thing that I was missing was video support. I sometimes film
 short movies with my cameras, and I want to include them in the pictures
 that I am sharing. I thus decided to give a go to the code, in order to
-see if it easy to patch. It turned out to be rather easy. There's a pull
-request pending...&lt;/p&gt;
+see if it easy to patch. It turned out to be rather easy. There's a &lt;a href="https://github.com/saimn/sigal/pull/18"&gt;pull
+request&lt;/a&gt; pending...&lt;/p&gt;
 &lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
 wanted, for fun, to be notified on gtalk everytime someone logs in my
 server. You never know, maybe I could discover unexpected connections. It

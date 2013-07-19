@@ -32,7 +32,7 @@ there is a python package, that you can install very simply: just run
 The only thing that I was missing was video support. I sometimes film
 short movies with my cameras, and I want to include them in the pictures
 that I am sharing. I thus decided to give a go to the code, in order to
-see if it easy to patch. It turned out to be rather easy. There's a pull
-request pending...
+see if it easy to patch. It turned out to be rather easy. There's a [pull
+request](https://github.com/saimn/sigal/pull/18) pending...
 
 TL;DR you should try sigal!
