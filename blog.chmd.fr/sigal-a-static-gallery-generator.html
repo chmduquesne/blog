@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://blog.chmd.fr/theme/css/style.less">
+  <script src="http://blog.chmd.fr/theme/js/less-1.3.3.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <meta name="author" content="Tof">
+  <meta name="description" content="Posts and writings by Tof">
+
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    
+  <meta name="keywords" content="sigal gallery static">
+
+  <title>
+    Sigal, a static gallery generator  </title>
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17659080-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <h2><a href="http://blog.chmd.fr">Tof</a></h2>
+      <p></p>
+      <ul>
+                                        <li><a href="https://twitter.com/#!chmduquesne" target="_blank">twitter</a></li>
+                <li><a href="http://resume.chmd.fr" target="_blank">resume</a></li>
+              </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>Posted on Sat 20 July 2013</p>
+    </header>
+
+    <article>
+  <div id="article_title">
+    <h3><a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html">Sigal, a static gallery generator</a></h3>
+  </div>
+  <div id="article_text">
+    <p>I wanted to self-host my pictures. Nothing crazy, just a way to share them
+with my friends without using a third party service. At first, I thought
+about writing a lighttpd module that would generate thumbnails. Then I
+thought about a using a php script, but all of them have too many options,
+and are too complicated for what I intended to do. I wanted something
+simple and secure (e.g. no upload interface)! Then I thought about how
+this blog is built: using a static blog generator! Did it exist for
+galleries?</p>
+<p>It turns out that yes, there are <a href="http://www.nico.schottelius.org/docs/static-image-gallery-generator-comparison/">plenty of
+solutions</a>
+available. I tested some of them, and I found that
+<a href="http://sigal.saimon.org">sigal</a> was my prefered one.</p>
+<p>Sigal is beautiful, and minimalistic. It lets you theme your gallery with
+jinja templates, exactly like pelican. Furthermore, it is mature and very
+well maintained (my main concern when I install something): there is a
+testsuite, a good online documentation (not that it needs it, it is dead
+simple to use) and continuous integration. There is even
+<a href="http://saimon.org/sigal-demo/colorbox/">two</a>
+<a href="http://saimon.org/sigal-demo/galleria/">demo</a> galleries, for you to test
+it live before installing it. And of course, for maximal conveniency,
+there is a python package, that you can install very simply: just run</p>
+<div class="highlight"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">sigal</span>
+</pre></div>
+
+
+<p>The only thing that I was missing was video support. I sometimes film
+short movies with my cameras, and I want to include them in the pictures
+that I am sharing. I thus decided to give a go to the code, in order to
+see if it easy to patch. It turned out to be rather easy. There's a pull
+request pending...</p>
+<p>TL;DR you should try sigal!</p>
+  </div>
+  <div id="article_meta">
+    <p>Category: <a href="http://blog.chmd.fr/category/misc.html">misc</a></p>
+        <p>Tags:
+            <a href="http://blog.chmd.fr/tag/sigal-gallery-static.html">sigal gallery static</a>          </p>
+      </div>
+</article>
+
+    <footer>
+      <p><a href="http://blog.chmd.fr/" class="button_accent">&larr; Back to Index</a></p>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy Giulio Fidente. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. You can fork the theme on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>.</p>
+    </div>
+  </main>
+</body>
+</html>

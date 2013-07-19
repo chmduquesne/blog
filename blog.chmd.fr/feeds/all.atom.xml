@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2012-09-19T15:33:00+02:00</updated><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-07-20T15:11:00+02:00</updated><entry><title>Sigal, a static gallery generator</title><link href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="alternate"></link><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
+with my friends without using a third party service. At first, I thought
+about writing a lighttpd module that would generate thumbnails. Then I
+thought about a using a php script, but all of them have too many options,
+and are too complicated for what I intended to do. I wanted something
+simple and secure (e.g. no upload interface)! Then I thought about how
+this blog is built: using a static blog generator! Did it exist for
+galleries?&lt;/p&gt;
+&lt;p&gt;It turns out that yes, there are &lt;a href="http://www.nico.schottelius.org/docs/static-image-gallery-generator-comparison/"&gt;plenty of
+solutions&lt;/a&gt;
+available. I tested some of them, and I found that
+&lt;a href="http://sigal.saimon.org"&gt;sigal&lt;/a&gt; was my prefered one.&lt;/p&gt;
+&lt;p&gt;Sigal is beautiful, and minimalistic. It lets you theme your gallery with
+jinja templates, exactly like pelican. Furthermore, it is mature and very
+well maintained (my main concern when I install something): there is a
+testsuite, a good online documentation (not that it needs it, it is dead
+simple to use) and continuous integration. There is even
+&lt;a href="http://saimon.org/sigal-demo/colorbox/"&gt;two&lt;/a&gt;
+&lt;a href="http://saimon.org/sigal-demo/galleria/"&gt;demo&lt;/a&gt; galleries, for you to test
+it live before installing it. And of course, for maximal conveniency,
+there is a python package, that you can install very simply: just run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sigal&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The only thing that I was missing was video support. I sometimes film
+short movies with my cameras, and I want to include them in the pictures
+that I am sharing. I thus decided to give a go to the code, in order to
+see if it easy to patch. It turned out to be rather easy. There's a pull
+request pending...&lt;/p&gt;
+&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
 wanted, for fun, to be notified on gtalk everytime someone logs in my
 server. You never know, maybe I could discover unexpected connections. It
 turned out to be possible, and the whole thing costed me reading a couple
