@@ -29,7 +29,76 @@ short movies with my cameras, and I want to include them in the pictures
 that I am sharing. I thus decided to give a go to the code, in order to
 see if it easy to patch. It turned out to be rather easy. There's a &lt;a href="https://github.com/saimn/sigal/pull/18"&gt;pull
 request&lt;/a&gt; pending...&lt;/p&gt;
-&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
+&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Git on lighttpd</title><link href="http://blog.chmd.fr/git-on-lighttpd.html" rel="alternate"></link><updated>2013-07-20T11:55:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:git-on-lighttpd.html</id><summary type="html">&lt;h1&gt;Intro&lt;/h1&gt;
+&lt;p&gt;I switched to lighttpd. The main reason for this change was the ease of
+configuration: for example, with apache, when you want to serve the same
+website with and without ssl, you end up doing something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;sites&lt;/span&gt;&lt;span class="na"&gt;-available&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.conf&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nb"&gt;Include&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.inc.conf&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nb"&gt;Include&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.inc.conf&lt;/span&gt;
+    &lt;span class="nx"&gt;SSLEngine&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
+    &lt;span class="nx"&gt;SSLCertificateFile&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="k"&gt;private&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.pem&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;sites&lt;/span&gt;&lt;span class="na"&gt;-available&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.inc.conf&lt;/span&gt;
+&lt;span class="nb"&gt;ServerName&lt;/span&gt; &lt;span class="nx"&gt;domain.com&lt;/span&gt;
+&lt;span class="nb"&gt;DocumentRoot&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;var&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;www&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Including the website config as a separate file is pretty much the only
+way to accomplish this without duplicating this config in both
+virtualhosts. That is two files to maintain, for one domain.  If you want
+to do this for every domain you control, you have to multiply the files
+and includes.&lt;/p&gt;
+&lt;p&gt;Doing this with lighttpd is really easier:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# file /etc/lighttpd/lighttpd.conf&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;SERVER&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;socket&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:443&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;enable&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pemfile&lt;/span&gt;             &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/etc/ssl/private/domain.com.pem&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;host&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;domain.com&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/var/www/domain.com&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;git and lighttpd&lt;/h1&gt;
+&lt;p&gt;Now, let's do cool things. One of the subdomains I own is dedicated to
+hosting my public git repositories. I (quite obviously) named it
+&lt;a href="http://git.chmd.fr"&gt;http://git.chmd.fr&lt;/a&gt;. I want to use it for:
+- Serving a gitweb instance to browse all repositories, such that
+  &lt;a href="https://git.chmd.fr/?p=netmon.git"&gt;https://git.chmd.fr/?p=netmon.git&lt;/a&gt;
+  takes you to browsing the repository of netmon.
+- Serving the git protocol, such that
+  &lt;code&gt;git clone https://git.chmd.fr/netmon.git&lt;/code&gt; clones this repository.&lt;/p&gt;
+&lt;p&gt;Combining the two was tricky, but I ended up finding how to proceed. Here
+is the relevant part of my config:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;host&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;git.chmd.fr&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;takes&lt;/span&gt; &lt;span class="n"&gt;care&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;serving&lt;/span&gt; &lt;span class="n"&gt;gitweb&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/usr/share/gitweb&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;cgi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;.cgi&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;indexfiles&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gitweb.cgi&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;And&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;objects&lt;/span&gt;
+    &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;alias&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;  &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/usr/lib/git-core/git-http-backend&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;cgi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;setenv&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;environment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;quot;GIT_PROJECT_ROOT&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/home/www/git-public-repos/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;quot;GIT_HTTP_EXPORT_ALL&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+            &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Combined with the trick from above, you can get this to work on both http
+and https. I hope this will help others!&lt;/p&gt;</summary><category term="git gitweb server"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
 wanted, for fun, to be notified on gtalk everytime someone logs in my
 server. You never know, maybe I could discover unexpected connections. It
 turned out to be possible, and the whole thing costed me reading a couple
