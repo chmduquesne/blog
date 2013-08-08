@@ -1,5 +1,5 @@
 Title: Git on lighttpd
-Date: 2013-07-20 11:55
+Date: 2013-08-08 16:09
 Category: howto
 Tags: git gitweb server
 
