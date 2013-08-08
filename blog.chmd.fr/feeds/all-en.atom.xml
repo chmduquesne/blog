@@ -39,12 +39,14 @@ and includes.&lt;/p&gt;
 &lt;h1&gt;git and lighttpd&lt;/h1&gt;
 &lt;p&gt;Now, let's do cool things. One of the subdomains I own is dedicated to
 hosting my public git repositories. I (quite obviously) named it
-&lt;a href="http://git.chmd.fr"&gt;http://git.chmd.fr&lt;/a&gt;. I want to use it for:
-- Serving a gitweb instance to browse all repositories, such that
+&lt;a href="http://git.chmd.fr"&gt;http://git.chmd.fr&lt;/a&gt;. I want to use it for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Serving a gitweb instance to browse all repositories, such that
   &lt;a href="https://git.chmd.fr/?p=netmon.git"&gt;https://git.chmd.fr/?p=netmon.git&lt;/a&gt;
-  takes you to browsing the repository of netmon.
-- Serving the git protocol, such that
-  &lt;code&gt;git clone https://git.chmd.fr/netmon.git&lt;/code&gt; clones this repository.&lt;/p&gt;
+  takes you to browsing the repository of netmon.&lt;/li&gt;
+&lt;li&gt;Serving the git protocol, such that
+  &lt;code&gt;git clone https://git.chmd.fr/netmon.git&lt;/code&gt; clones this repository.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;host&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;git.chmd.fr&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;

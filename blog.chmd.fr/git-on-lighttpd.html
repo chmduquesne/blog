@@ -96,12 +96,14 @@ and includes.</p>
 <h1>git and lighttpd</h1>
 <p>Now, let's do cool things. One of the subdomains I own is dedicated to
 hosting my public git repositories. I (quite obviously) named it
-<a href="http://git.chmd.fr">http://git.chmd.fr</a>. I want to use it for:
-- Serving a gitweb instance to browse all repositories, such that
+<a href="http://git.chmd.fr">http://git.chmd.fr</a>. I want to use it for:</p>
+<ul>
+<li>Serving a gitweb instance to browse all repositories, such that
   <a href="https://git.chmd.fr/?p=netmon.git">https://git.chmd.fr/?p=netmon.git</a>
-  takes you to browsing the repository of netmon.
-- Serving the git protocol, such that
-  <code>git clone https://git.chmd.fr/netmon.git</code> clones this repository.</p>
+  takes you to browsing the repository of netmon.</li>
+<li>Serving the git protocol, such that
+  <code>git clone https://git.chmd.fr/netmon.git</code> clones this repository.</li>
+</ul>
 <p>Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:</p>
 <div class="highlight"><pre><span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;git.chmd.fr&quot;</span> <span class="p">{</span>

@@ -47,6 +47,7 @@ git and lighttpd
 Now, let's do cool things. One of the subdomains I own is dedicated to
 hosting my public git repositories. I (quite obviously) named it
 [http://git.chmd.fr](http://git.chmd.fr). I want to use it for:
+
 - Serving a gitweb instance to browse all repositories, such that
   [https://git.chmd.fr/?p=netmon.git](https://git.chmd.fr/?p=netmon.git)
   takes you to browsing the repository of netmon.
