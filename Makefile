@@ -10,3 +10,6 @@ $(OUTPUTDIR)/%.html:
 
 clean:
 	rm -rf $(OUTPUTDIR)
+
+upload:
+	rsync -avz --delete --progress --bwlimit=56 ./blog.chmd.fr/ www@chmd.fr:sites/chmd.fr/blog

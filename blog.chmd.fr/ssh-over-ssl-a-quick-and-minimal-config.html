@@ -1,62 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <link rel="stylesheet/less" type="text/css" href="http://blog.chmd.fr/theme/css/style.less">
-  <script src="http://blog.chmd.fr/theme/js/less-1.3.3.min.js" type="text/javascript"></script>
-  <!-- <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/style.css"> -->
+	<link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/style.css">
+	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
+	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
+	<link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/pygments.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/pygments.css">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width; initial-scale=1.0">
-  <meta name="author" content="Tof">
-  <meta name="description" content="Posts and writings by Tof">
-
-    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    
-  <meta name="keywords" content="apache, ssh, ssl, tunnel">
-
-  <title>
-    SSH over SSL, a quick and minimal config.  </title>
-
-  <script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-17659080-3']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-</head>
-
+	<link href="http://blog.chmd.fr/" type="application/atom+xml" rel="alternate" title="Ch-M.D ATOM Feed" />
+	
+	
+			<title>Ch-M.D</title>
+		<meta charset="utf-8" />
+	</head>
 <body>
-  <aside>
-    <div id="user_meta">
-      <h2><a href="http://blog.chmd.fr">Tof</a></h2>
-      <p></p>
-      <ul>
-                                        <li><a href="https://twitter.com/#!chmduquesne" target="_blank">twitter</a></li>
-                <li><a href="http://resume.chmd.fr" target="_blank">resume</a></li>
-              </ul>
-    </div>
-  </aside>
+	<section id="sidebar">
+		<figure id="user_logo">
+            <a href="http://blog.chmd.fr"><div class="logo">&nbsp;</div></a>
+		</figure>
 
-  <main>
-    <header>
-      <p>Posted on Fri 12 November 2010</p>
-    </header>
+		<div class="user_meta">
+            <h1 id="user"><a href="http://blog.chmd.fr" class="">Tof</a></h1>
+			<h2></h2>
+						<ul>
+																								</ul>
+		</div>
+		<footer>
+			<address>
+				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
+		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
+			</address>
+		</footer>
+	</section>
 
-    <article>
-  <div id="article_title">
-    <h3><a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html">SSH over SSL, a quick and minimal config.</a></h3>
-  </div>
-  <div id="article_text">
-    <p>So you are behind a vicious firewall that filters outgoing ssh and
+	<section id="posts">
+			<header>
+		<h1>Tof's blog</h1>
+		<h3>Posted Fri 12 November 2010</h3>
+	</header>
+	<article>
+		<h1 id="title">
+			<a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="bookmark"
+				title="Permalink to SSH over SSL, a quick and minimal config.">SSH over SSL, a quick and minimal config.</a>
+		</h1>
+		<p>So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
 describe how to SSH over SSL to a machine that runs an ssh server
 and apache2. This machine will still be able to run an SSL website.
@@ -144,21 +131,46 @@ https website on this ip (like a blog, or a code repository), in order to
 make this traffic more realistic. What could also be cool would be to
 chain proxies, <a href="http://lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine">using for example the appengine</a>. This way your traffic
 will look like it's going to google.</p>
-  </div>
-  <div id="article_meta">
-    <p>Category: <a href="http://blog.chmd.fr/category/howto.html">howto</a></p>
-        <p>Tags:
-            <a href="http://blog.chmd.fr/tag/apache.html">apache</a>,            <a href="http://blog.chmd.fr/tag/ssh.html">ssh</a>,            <a href="http://blog.chmd.fr/tag/ssl.html">ssl</a>,            <a href="http://blog.chmd.fr/tag/tunnel.html">tunnel</a>          </p>
-      </div>
-</article>
 
-    <footer>
-      <p><a href="http://blog.chmd.fr/" class="button_accent">&larr; Back to Index</a></p>
-    </footer>
+		<div id="article_meta">
+							Category:
+					<a href="http://blog.chmd.fr/category/howto.html">howto</a>
+										<br />Tags:
+									<a href="http://blog.chmd.fr/tag/apache.html">apache</a>
+									<a href="http://blog.chmd.fr/tag/ssh.html">ssh</a>
+									<a href="http://blog.chmd.fr/tag/ssl.html">ssl</a>
+									<a href="http://blog.chmd.fr/tag/tunnel.html">tunnel</a>
+									</div>
+	</article>
 
-    <div id="ending_message">
-      <p>&copy Giulio Fidente. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. You can fork the theme on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>.</p>
-    </div>
-  </main>
+	<footer>
+		<a href="http://blog.chmd.fr/" class="button_accent">&larr;&nbsp;&nbsp;&nbsp;Back to blog</a>
+	</footer>
+
+		<div id="comments">
+		<h2>Comments</h2>
+		<div id="disqus_thread"></div>
+		<script type="text/javascript">
+			var disqus_identifier = "ssh-over-ssl-a-quick-and-minimal-config.html";
+			(function() {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = 'http://chmd.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view <a href="http://disqus.com/?ref_noscript">comments</a>.</noscript>
+	</div>
+	
+	</section>
+
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-17659080-3");
+			pageTracker._trackPageview();
+		} catch(err) {}</script>
 </body>
 </html>
