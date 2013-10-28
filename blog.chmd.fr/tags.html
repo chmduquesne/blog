@@ -1,107 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/style.css">
-	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
-	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
-	<link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/pygments.css">
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
+    <title>Ch-M.D</title>
+    <meta name="description" content="">
+    <meta name="author" content="Tof">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://blog.chmd.fr/theme/html5.js"></script>
+    <![endif]-->
 
-	<link href="http://blog.chmd.fr/" type="application/atom+xml" rel="alternate" title="Ch-M.D ATOM Feed" />
-	
-	
-			<title>Ch-M.D</title>
-		<meta charset="utf-8" />
-	</head>
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="http://blog.chmd.fr/theme/local.css" rel="stylesheet">
+    <link href="http://blog.chmd.fr/theme/pygments.css" rel="stylesheet">
+    <link href="http://blog.chmd.fr/theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+</head>
+
 <body>
-	<section id="sidebar">
-		<figure id="user_logo">
-            <a href="http://blog.chmd.fr"><div class="logo">&nbsp;</div></a>
-		</figure>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="http://blog.chmd.fr" class="brand">Ch-M.D</a>
+      </div>
 
-		<div class="user_meta">
-            <h1 id="user"><a href="http://blog.chmd.fr" class="">Tof</a></h1>
-			<h2></h2>
-						<ul>
-																								</ul>
-		</div>
-		<footer>
-			<address>
-				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
-		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
-			</address>
-		</footer>
-	</section>
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	                        	   	    <li >
+	      <a href="http://blog.chmd.fr/category/code.html ">code</a>
+	   	    <li >
+	      <a href="http://blog.chmd.fr/category/howto.html ">howto</a>
+	   	    <li >
+	      <a href="http://blog.chmd.fr/category/misc.html ">misc</a>
+	   	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
 
-	<section id="posts">
-			<header>
-		<h1>Tof's blog</h1>
-		<h3>
-			<script type="text/javascript">
-				var currentDate = new Date();
-				var day = currentDate.getDate();
-				var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-				var month = monthNames[currentDate.getMonth()].toUpperCase();
-				var year = currentDate.getFullYear();
-				document.write(month + " " + day + ", " + year);
-			</script>
-		</h3>
-	</header>
+        <div class="span10">
+        <ul>
+    <li><a href="http://blog.chmd.fr/tag/pentadactyl.html">pentadactyl</li>
+    <li><a href="http://blog.chmd.fr/tag/tt-rss.html">tt-rss</li>
+    <li><a href="http://blog.chmd.fr/tag/irssi.html">irssi</li>
+    <li><a href="http://blog.chmd.fr/tag/tmux.html">tmux</li>
+    <li><a href="http://blog.chmd.fr/tag/vim.html">vim</li>
+    <li><a href="http://blog.chmd.fr/tag/colors.html">colors</li>
+    <li><a href="http://blog.chmd.fr/tag/passphrase.html">passphrase</li>
+    <li><a href="http://blog.chmd.fr/tag/socat.html">socat</li>
+    <li><a href="http://blog.chmd.fr/tag/gccsense.html">gccsense</li>
+    <li><a href="http://blog.chmd.fr/tag/supergenpass.html">supergenpass</li>
+    <li><a href="http://blog.chmd.fr/tag/console.html">console</li>
+    <li><a href="http://blog.chmd.fr/tag/dtach.html">dtach</li>
+    <li><a href="http://blog.chmd.fr/tag/mencoder.html">mencoder</li>
+    <li><a href="http://blog.chmd.fr/tag/makefile.html">makefile</li>
+    <li><a href="http://blog.chmd.fr/tag/plowbot.html">plowbot</li>
+    <li><a href="http://blog.chmd.fr/tag/gif.html">gif</li>
+    <li><a href="http://blog.chmd.fr/tag/git-gitweb-server.html">git gitweb server</li>
+    <li><a href="http://blog.chmd.fr/tag/libre.html">libre</li>
+    <li><a href="http://blog.chmd.fr/tag/uml.html">uml</li>
+    <li><a href="http://blog.chmd.fr/tag/android.html">android</li>
+    <li><a href="http://blog.chmd.fr/tag/crontab.html">crontab</li>
+    <li><a href="http://blog.chmd.fr/tag/gtasks.html">gtasks</li>
+    <li><a href="http://blog.chmd.fr/tag/stunnel.html">stunnel</li>
+    <li><a href="http://blog.chmd.fr/tag/sigal-gallery-static.html">sigal gallery static</li>
+    <li><a href="http://blog.chmd.fr/tag/notify-send.html">notify-send</li>
+    <li><a href="http://blog.chmd.fr/tag/ssl.html">ssl</li>
+    <li><a href="http://blog.chmd.fr/tag/ssh.html">ssh</li>
+    <li><a href="http://blog.chmd.fr/tag/apache.html">apache</li>
+    <li><a href="http://blog.chmd.fr/tag/plowshare.html">plowshare</li>
+    <li><a href="http://blog.chmd.fr/tag/talkmyphone.html">talkmyphone</li>
+    <li><a href="http://blog.chmd.fr/tag/clang_complete.html">clang_complete</li>
+    <li><a href="http://blog.chmd.fr/tag/doxygen.html">doxygen</li>
+    <li><a href="http://blog.chmd.fr/tag/inotify.html">inotify</li>
+    <li><a href="http://blog.chmd.fr/tag/tunnel.html">tunnel</li>
+    <li><a href="http://blog.chmd.fr/tag/gdb.html">gdb</li>
+    <li><a href="http://blog.chmd.fr/tag/damn-small-linux.html">damn small linux</li>
+    <li><a href="http://blog.chmd.fr/tag/security.html">security</li>
+    <li><a href="http://blog.chmd.fr/tag/autotools.html">autotools</li>
+    <li><a href="http://blog.chmd.fr/tag/or.html">or</li>
+    <li><a href="http://blog.chmd.fr/tag/incron.html">incron</li>
+</ul>
+        </div>
+        
+        
+    </div>     </div> </div>
 
-	<dl id="tag_list">
-		<ul>
-							<li class="tag-4"><a href="/tag/colors.html">colors</a></li>
-							<li class="tag-4"><a href="/tag/stunnel.html">stunnel</a></li>
-							<li class="tag-4"><a href="/tag/autotools.html">autotools</a></li>
-							<li class="tag-4"><a href="/tag/uml.html">uml</a></li>
-							<li class="tag-4"><a href="/tag/passphrase.html">passphrase</a></li>
-							<li class="tag-4"><a href="/tag/dtach.html">dtach</a></li>
-							<li class="tag-4"><a href="/tag/tt-rss.html">tt-rss</a></li>
-							<li class="tag-4"><a href="/tag/plowshare.html">plowshare</a></li>
-							<li class="tag-4"><a href="/tag/crontab.html">crontab</a></li>
-							<li class="tag-4"><a href="/tag/clang_complete.html">clang_complete</a></li>
-							<li class="tag-4"><a href="/tag/sigal gallery static.html">sigal gallery static</a></li>
-							<li class="tag-4"><a href="/tag/mencoder.html">mencoder</a></li>
-							<li class="tag-2"><a href="/tag/notify-send.html">notify-send</a></li>
-							<li class="tag-4"><a href="/tag/or.html">or</a></li>
-							<li class="tag-4"><a href="/tag/android.html">android</a></li>
-							<li class="tag-3"><a href="/tag/apache.html">apache</a></li>
-							<li class="tag-4"><a href="/tag/doxygen.html">doxygen</a></li>
-							<li class="tag-4"><a href="/tag/tunnel.html">tunnel</a></li>
-							<li class="tag-4"><a href="/tag/irssi.html">irssi</a></li>
-							<li class="tag-1"><a href="/tag/libre.html">libre</a></li>
-							<li class="tag-1"><a href="/tag/vim.html">vim</a></li>
-							<li class="tag-4"><a href="/tag/incron.html">incron</a></li>
-							<li class="tag-3"><a href="/tag/security.html">security</a></li>
-							<li class="tag-4"><a href="/tag/git gitweb server.html">git gitweb server</a></li>
-							<li class="tag-4"><a href="/tag/damn small linux.html">damn small linux</a></li>
-							<li class="tag-4"><a href="/tag/gif.html">gif</a></li>
-							<li class="tag-4"><a href="/tag/supergenpass.html">supergenpass</a></li>
-							<li class="tag-3"><a href="/tag/gdb.html">gdb</a></li>
-							<li class="tag-2"><a href="/tag/ssl.html">ssl</a></li>
-							<li class="tag-3"><a href="/tag/talkmyphone.html">talkmyphone</a></li>
-							<li class="tag-4"><a href="/tag/inotify.html">inotify</a></li>
-							<li class="tag-4"><a href="/tag/console.html">console</a></li>
-							<li class="tag-4"><a href="/tag/tmux.html">tmux</a></li>
-							<li class="tag-4"><a href="/tag/gccsense.html">gccsense</a></li>
-							<li class="tag-4"><a href="/tag/makefile.html">makefile</a></li>
-							<li class="tag-4"><a href="/tag/gtasks.html">gtasks</a></li>
-							<li class="tag-4"><a href="/tag/pentadactyl.html">pentadactyl</a></li>
-							<li class="tag-2"><a href="/tag/ssh.html">ssh</a></li>
-							<li class="tag-4"><a href="/tag/socat.html">socat</a></li>
-							<li class="tag-4"><a href="/tag/plowbot.html">plowbot</a></li>
-					</ul>
-	</dl>
-	</section>
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+		<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    	    <li><a href="https://twitter.com/#!chmduquesne"><i class="icon-twitter" style="color: #1f334b"></i>twitter</a></li>
+	    	    <li><a href="http://resume.chmd.fr"><i class="icon-resume" style="color: #1f334b"></i>resume</a></li>
+	                
+	  </ul>
+	</div>
+		        	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="http://blog.chmd.fr"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="http://blog.chmd.fr/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="http://blog.chmd.fr/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	                <li><a href="http://blog.chmd.fr/" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
 
-	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-		try {
-			var pageTracker = _gat._getTracker("UA-17659080-3");
-			pageTracker._trackPageview();
-		} catch(err) {}</script>
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="http://blog.chmd.fr">Ch-M.D</a>
+      &copy; Tof
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-17659080-3'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
 </body>
 </html>

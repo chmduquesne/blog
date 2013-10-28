@@ -1,79 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/style.css">
-	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
-	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
-	<link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/pygments.css">
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
+    <title>Ch-M.D</title>
+    <meta name="description" content="">
+    <meta name="author" content="Tof">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://blog.chmd.fr/theme/html5.js"></script>
+    <![endif]-->
 
-	<link href="http://blog.chmd.fr/" type="application/atom+xml" rel="alternate" title="Ch-M.D ATOM Feed" />
-	
-	
-			<title>Ch-M.D - inotify</title>
-		<meta charset="utf-8" />
-	</head>
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="http://blog.chmd.fr/theme/local.css" rel="stylesheet">
+    <link href="http://blog.chmd.fr/theme/pygments.css" rel="stylesheet">
+    <link href="http://blog.chmd.fr/theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+</head>
+
 <body>
-	<section id="sidebar">
-		<figure id="user_logo">
-            <a href="http://blog.chmd.fr"><div class="logo">&nbsp;</div></a>
-		</figure>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="http://blog.chmd.fr" class="brand">Ch-M.D</a>
+      </div>
 
-		<div class="user_meta">
-            <h1 id="user"><a href="http://blog.chmd.fr" class="">Tof</a></h1>
-			<h2></h2>
-						<ul>
-																								</ul>
-		</div>
-		<footer>
-			<address>
-				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
-		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
-			</address>
-		</footer>
-	</section>
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+	                        	   	    <li >
+	      <a href="http://blog.chmd.fr/category/code.html ">code</a>
+	   	    <li >
+	      <a href="http://blog.chmd.fr/category/howto.html ">howto</a>
+	   	    <li >
+	      <a href="http://blog.chmd.fr/category/misc.html ">misc</a>
+	   	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
 
-	<section id="posts">
-			<header>
-		<h1>Tof's blog</h1>
-		<h3>
-			<script type="text/javascript">
-				var currentDate = new Date();
-				var day = currentDate.getDate();
-				var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-				var month = monthNames[currentDate.getMonth()].toUpperCase();
-				var year = currentDate.getFullYear();
-				document.write(month + " " + day + ", " + year);
-			</script>
-		</h3>
-	</header>
+        <div class="span10">
+                
 
-	<dl>
-		<ol>
-							<li>
-					<h1 class="title">
-						<a href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="bookmark" title="Permalink to Utilisons incron pour être notifiés des événements du système de fichiers">Utilisons incron pour être notifiés des événements du système de fichiers</a>
-					</h1>
-					<abbr class="published" title="2010-02-18T00:26:00">Thu 18 February 2010</abbr>
-				<div class="entry-content"> <p><a href="http://incron.aiken.cz/">incron</a> est un programme fonctionnant sur
+        
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html"><h1>Utilisons incron pour être notifiés des événements du système de fichiers</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+	<p>Thu 18 February 2010 </p>
+
+<p style="text-align: left;">
+Filed under <a href="http://blog.chmd.fr/category/howto.html">howto</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="http://blog.chmd.fr/tag/incron.html">incron</a> <a href="http://blog.chmd.fr/tag/inotify.html">inotify</a> <a href="http://blog.chmd.fr/tag/notify-send.html">notify-send</a> </p>
+<p>
+<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="chmduquesne">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p><a href="http://incron.aiken.cz/">incron</a> est un programme fonctionnant sur
 le même principe que cron, mais basé sur des événements dans le
 système de fichiers plutôt que sur des moments de la journée. C'est
 très propre: pour l'utiliser, on spécifie un ou des fichiers à
-surveiller, un type d'action à détecter ...</p> </div>
-				</li>
-					</ol>
-	</dl>
+surveiller, un type d'action à détecter sur le(s) fichier(s) en
+question, et une commande à déclencher lorsque l'événement
+survient. Je me suis dit que c'était l'occasion où jamais de mettre
+à jour un vieux script que j'avais, qui me met au courant des
+modifications sur mes logs (je tire l'idée de ce script
+<a href="http://www.daemontux.org/?q=node/31">d'un ancien post sur le planet libre</a>).
+Après avoir installé incron, j'édite ma table de configuration
+incron:</p>
+<div class="highlight"><pre><span class="n">incrontab</span> <span class="o">-</span><span class="n">e</span>
+</pre></div>
 
-		</section>
 
-	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-		try {
-			var pageTracker = _gat._getTracker("UA-17659080-3");
-			pageTracker._trackPageview();
-		} catch(err) {}</script>
+<p>Avec mon éditeur favori, je lui mets la ligne suivante:</p>
+<div class="highlight"><pre><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">kernel</span><span class="p">.</span><span class="n">log</span> <span class="n">IN_MODIFY</span> <span class="n">sh</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">documents</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">popLog</span><span class="p">.</span><span class="n">sh</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">kernel</span><span class="p">.</span><span class="n">log</span>
+</pre></div>
+
+
+<p>popLog.sh est un script qui prend en argument un log, en extrait la
+dernière ligne modifiée, la colorise avec `source-highlight`_ et
+l'envoie en notification par le biais de `notify-send`_. Le but
+de ce script est donc d'afficher le dernier log dans une bulle,
+avec coloration syntaxique. Je fournis le script en question, et
+j'ajoute quelques explications:</p>
+<ul>
+<li>source-highlight a besoin de parler un code couleurs compris
+    par les bulles de notifications. notification-daemon comprend des
+    couleurs de type &lt;span color="couleur">mots à colorier&lt;/span>,
+    d'où le fichier supplémentaire awesome.outlang (que j'avais écrit à
+    l'origine pour naughty et donc compatible avec celui-ci, pour les
+    utilisateurs d'<a href="http://awesome.naquadah.org/">awesome wm</a> - à ce
+    propos il y a plusieurs entrées dans le wiki pour faire des choses
+    semblables).</li>
+<li>incron ne comprend pas bien les variables d'environnement, il
+    vaut mieux les redéfinir dans le script, comme je l'ai fait.</li>
+<li>faites attention à ne pas faire n'importe quoi avec incron, il
+    est facile de créer une boucle infinie en surveillant par exemple
+    /var/log/everything.log (vous notifiant du lancement de ce script,
+    et donc générant une nouvelle notification): IN_NO_LOOP est votre
+    ami.</li>
+<li>incron prend des chemins absolus.</li>
+</ul>
+<p>Après tous ces avertissements, voici
+/home/me/documents/scripts/popLog.sh:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/usr/bin/env bash</span>
+
+<span class="c"># Usage: popLog /var/log/yourlog</span>
+<span class="c"># pops a colored log with the last line of the log</span>
+
+<span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span><span class="s2">&quot;:0.0&quot;</span>
+<span class="nb">export </span><span class="nv">HOME</span><span class="o">=</span><span class="s2">&quot;/home/me&quot;</span>
+
+<span class="c">#Urgency</span>
+<span class="nv">infoUrgency</span><span class="o">=</span><span class="s1">&#39;low&#39;</span>
+<span class="nv">warningUrgency</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span>
+<span class="nv">errorUrgency</span><span class="o">=</span><span class="s1">&#39;critical&#39;</span>
+<span class="nv">securityUrgency</span><span class="o">=</span><span class="s1">&#39;critical&#39;</span>
+
+<span class="c">#Popup time</span>
+<span class="nv">infoPopupTime</span><span class="o">=</span>5000
+<span class="nv">warningPopupTime</span><span class="o">=</span>8000
+<span class="nv">errorPopupTime</span><span class="o">=</span>11000
+<span class="nv">securityPopupTime</span><span class="o">=</span>11000
+
+<span class="c">#Icons</span>
+<span class="nv">infoIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&#39;</span>
+<span class="nv">warningIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-warning.png&#39;</span>
+<span class="nv">errorIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-error.png&#39;</span>
+<span class="nv">securityIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/security-medium.png&#39;</span>
+
+<span class="nv">coloredLog</span><span class="o">=</span><span class="k">$(</span>tail -n 1 <span class="nv">$1</span> |                   <span class="se">\</span>
+  <span class="nb">source</span>-highlight --failsafe                 <span class="se">\</span>
+                   --src-lang<span class="o">=</span>log             <span class="se">\</span>
+                   --style-file<span class="o">=</span>default.style <span class="se">\</span>
+                   --outlang-def<span class="o">=</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/documents/scripts/awesome.outlang<span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$coloredLog</span>!<span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="o">]]</span>; <span class="k">then</span>
+
+<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep info<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span>; <span class="k">fi</span>
+<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep warn<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;warning&#39;</span>; <span class="k">fi</span>
+<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep err<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;error&#39;</span>; <span class="k">fi</span>
+<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep auth<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span>; <span class="k">fi</span>
+<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep access<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span>;<span class="k">fi</span>
+<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$notification</span>|grep <span class="s1">&#39;UFW BLOCK INPUT&#39;</span><span class="k">)</span> <span class="o">]]</span>; <span class="k">then</span>
+<span class="k">        </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span>; <span class="k">fi</span>
+<span class="k">    if</span> <span class="o">[[</span> <span class="nv">$messageType</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span>; <span class="k">fi</span>
+
+<span class="k">    case</span> <span class="nv">$messageType</span> in
+    info<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$infoUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$infoIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$infoPopupTime</span>
+    ;;
+    warning<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$warningUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$warningIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$warningPopupTime</span>
+    ;;
+    error<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$errorUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$errorIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$errorPopupTime</span>
+    ;;
+    security<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$securityUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$securityIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$securityPopupTime</span>
+    ;;
+    <span class="k">esac</span>
+
+<span class="k">    </span>notify-send -u <span class="nv">$urgency</span> -t <span class="nv">$popupTime</span> -i <span class="s2">&quot;$icon&quot;</span> <span class="s2">&quot;$1&quot;</span> <span class="s2">&quot;$coloredLog&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</td></tr></table>
+
+<p>Et voici /home/me/documents/scripts/awesome.outlang:</p>
+<div class="highlight"><pre><span class="nx">extension</span> <span class="s2">&quot;awesome&quot;</span>
+
+<span class="nx">color</span> <span class="s2">&quot;&lt;span color=</span><span class="se">\&quot;</span><span class="s2">$style</span><span class="se">\&quot;</span><span class="s2">&gt;$text&lt;/span&gt;&quot;</span>
+
+<span class="nx">colormap</span>
+<span class="s2">&quot;green&quot;</span> <span class="s2">&quot;#33CC00&quot;</span>
+<span class="s2">&quot;red&quot;</span> <span class="s2">&quot;#FF0000&quot;</span>
+<span class="s2">&quot;darkred&quot;</span> <span class="s2">&quot;#990000&quot;</span>
+<span class="s2">&quot;blue&quot;</span> <span class="s2">&quot;#0000FF&quot;</span>
+<span class="s2">&quot;brown&quot;</span> <span class="s2">&quot;#9A1900&quot;</span>
+<span class="s2">&quot;pink&quot;</span> <span class="s2">&quot;#CC33CC&quot;</span>
+<span class="s2">&quot;yellow&quot;</span> <span class="s2">&quot;#FFCC00&quot;</span>
+<span class="s2">&quot;cyan&quot;</span> <span class="s2">&quot;#66FFFF&quot;</span>
+<span class="s2">&quot;purple&quot;</span> <span class="s2">&quot;#993399&quot;</span>
+<span class="s2">&quot;orange&quot;</span> <span class="s2">&quot;#FF6600&quot;</span>
+<span class="s2">&quot;brightorange&quot;</span> <span class="s2">&quot;#FF9900&quot;</span>
+<span class="s2">&quot;brightgreen&quot;</span> <span class="s2">&quot;#33FF33&quot;</span>
+<span class="s2">&quot;darkgreen&quot;</span> <span class="s2">&quot;#009900&quot;</span>
+<span class="s2">&quot;black&quot;</span> <span class="s2">&quot;#000000&quot;</span>
+<span class="s2">&quot;teal&quot;</span> <span class="s2">&quot;#008080&quot;</span>
+<span class="s2">&quot;gray&quot;</span> <span class="s2">&quot;#808080&quot;</span>
+<span class="s2">&quot;darkblue&quot;</span> <span class="s2">&quot;#000080&quot;</span>
+<span class="nb">default</span> <span class="s2">&quot;#66FFFF&quot;</span>
+<span class="nb">end</span>
+</pre></div>
+
+
+<p>Je vous laisse faire joujou, je suis sûr que vous allez trouver
+plein d'idées.</p> 
+	<a class="btn btn-mini xsmall" href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html">
+          <i class="icon-comment"></i> Comment </a>
+	<hr />
+      </div>
+      
+    </div>
+    
+            <div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="http://blog.chmd.fr/tag/inotify.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>    
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+		<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    	    <li><a href="https://twitter.com/#!chmduquesne"><i class="icon-twitter" style="color: #1f334b"></i>twitter</a></li>
+	    	    <li><a href="http://resume.chmd.fr"><i class="icon-resume" style="color: #1f334b"></i>resume</a></li>
+	                
+	  </ul>
+	</div>
+		        	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="http://blog.chmd.fr"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="http://blog.chmd.fr/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="http://blog.chmd.fr/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	                <li><a href="http://blog.chmd.fr/" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="http://blog.chmd.fr">Ch-M.D</a>
+      &copy; Tof
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-17659080-3'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
 </body>
 </html>

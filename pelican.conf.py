@@ -6,7 +6,7 @@ SITEURL = 'http://blog.chmd.fr'
 #SITEURL = 'http://chmd.fr/blog'
 TIMEZONE = "Europe/Paris"
 STATIC_PATHS = ['images', 'documents']
-#THEME = "../pelican-themes/built-texts/"
+THEME = "../pelican-themes/built-texts/"
 #THEME = "../pelican-themes/chunk/"
 #THEME = "../pelican-themes/fresh/"
 #THEME = "../pelican-themes/notmyidea-cms/"
@@ -14,7 +14,7 @@ STATIC_PATHS = ['images', 'documents']
 #THEME = "../pelican-themes/pelican-cait/"
 #THEME = "../pelican-themes/simple-bootstrap/"
 #THEME = "../pelican-themes/subtle/"
-THEME = "../pelican-themes/svbtle/"
+#THEME = "../pelican-themes/svbtle/"
 #THEME = "../pelican-themes/basic/"
 #THEME = "../pelican-themes/waterspill/"
 
