@@ -21,88 +21,65 @@
 <h2>Articles in the howto category</h2>
 
                                                     <header>
-                    <h1><a href="/git-on-lighttpd.html"
-                            id="page-title">Git on lighttpd</a></h1>
-                                            <time datetime="2013-08-08T16:09:00">Thu 08 August 2013</time>
+                    <h1><a href="/using-openid-and-the-likes-to-protect-static-content.html"
+                            id="page-title">Using openid and the likes to protect static content</a></h1>
+                                            <time datetime="2013-10-29T14:22:00">Tue 29 October 2013</time>
                                     </header>
                 <article>
-                    <h1>Intro</h1>
-<p>I switched to lighttpd. The main reason for this change was the ease of
-configuration: for example, with apache, when you want to serve the same
-website with and without ssl, you end up doing something like this:</p>
-<div class="highlight"><pre><span class="err">#</span> <span class="nb">file</span><span class="p">:</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">sites</span><span class="na">-available</span><span class="p">/</span><span class="nx">domain.com.conf</span>
-<span class="o">&lt;</span><span class="nx">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">80</span><span class="o">&gt;</span>
-    <span class="nb">Include</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">domain.com.inc.conf</span>
-<span class="o">&lt;/</span><span class="nx">VirtualHost</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">443</span><span class="o">&gt;</span>
-    <span class="nb">Include</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">domain.com.inc.conf</span>
-    <span class="nx">SSLEngine</span> <span class="k">On</span>
-    <span class="nx">SSLCertificateFile</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">ssl</span><span class="p">/</span><span class="k">private</span><span class="p">/</span><span class="nx">domain.com.pem</span>
-<span class="o">&lt;/</span><span class="nx">VirtualHost</span><span class="o">&gt;</span>
-
-<span class="err">#</span> <span class="nb">file</span><span class="p">:</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">sites</span><span class="na">-available</span><span class="p">/</span><span class="nx">domain.com.inc.conf</span>
-<span class="nb">ServerName</span> <span class="nx">domain.com</span>
-<span class="nb">DocumentRoot</span> <span class="p">/</span><span class="nb">var</span><span class="p">/</span><span class="nx">www</span><span class="p">/</span><span class="nx">domain.com</span>
-</pre></div>
-
-
-<p>Including the website config as a separate file is pretty much the only
-way to accomplish this without duplicating this config in both
-virtualhosts. That is two files to maintain, for one domain.  If you want
-to do this for every domain you control, you have to multiply the files
-and includes.</p>
-<p>Doing this with lighttpd is really easier:</p>
-<div class="highlight"><pre><span class="cp"># file /etc/lighttpd/lighttpd.conf</span>
-<span class="err">$</span><span class="n">SERVER</span><span class="p">[</span><span class="s">&quot;socket&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;:443&quot;</span> <span class="p">{</span>
-    <span class="n">ssl</span><span class="p">.</span><span class="n">engine</span>              <span class="o">=</span> <span class="s">&quot;enable&quot;</span>
-    <span class="n">ssl</span><span class="p">.</span><span class="n">pemfile</span>             <span class="o">=</span> <span class="s">&quot;/etc/ssl/private/domain.com.pem&quot;</span>
-<span class="p">}</span>
-<span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;domain.com&quot;</span> <span class="p">{</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span>    <span class="o">=</span> <span class="s">&quot;/var/www/domain.com&quot;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h1>git and lighttpd</h1>
-<p>Now, let's do cool things. One of the subdomains I own is dedicated to
-hosting my public git repositories. I (quite obviously) named it
-<a href="http://git.chmd.fr">http://git.chmd.fr</a>. I want to use it for:</p>
+                    <p>I <a href="/sigal-a-static-gallery-generator.html">recently</a> set up a self-hosted
+gallery for my pictures. Obviously, I did this because I wanted to stop
+giving my content to external platforms, but also to gain some level of
+privacy: I want to limit the number of people who are able to look at
+these pictures.</p>
+<p>While setting up the gallery was relatively easy, restricting the access
+was an interesting problem. I did not want to use a global
+<code>username:password</code> combination, because this kind of credentials
+inevitably become public at some point. A different combination for each
+user would have been better, but some people are not as careful as I am
+with their own credentials, and they may just give away their own access
+to others. It is also a lot of maintenance, and I don't want to deal with
+the risks involved with securely processing my friends' passwords.</p>
+<p>I then had a look at single sign on solutions such as openid. This kind of
+technology was appealing, for several reasons:</p>
 <ul>
-<li>Serving a gitweb instance to browse all repositories, such that
-  <a href="https://git.chmd.fr/?p=netmon.git">https://git.chmd.fr/?p=netmon.git</a>
-  takes you to browsing the repository of netmon.</li>
-<li>Serving the git protocol, such that
-  <code>git clone https://git.chmd.fr/netmon.git</code> clones this repository.</li>
+<li>No password to process on my side</li>
+<li>People would identify with a very personal account (gmail, facebook),
+  that they are unlikely to be willing to share with anyone else.</li>
+<li>It is very easy to use for the end user.</li>
 </ul>
-<p>Combining the two was tricky, but I ended up finding how to proceed. Here
-is the relevant part of my config:</p>
-<div class="highlight"><pre><span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;git.chmd.fr&quot;</span> <span class="p">{</span>
-
-    <span class="err">#</span> <span class="n">This</span> <span class="n">takes</span> <span class="n">care</span> <span class="n">of</span> <span class="n">serving</span> <span class="n">gitweb</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span>    <span class="o">=</span> <span class="s">&quot;/usr/share/gitweb&quot;</span>
-    <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span> <span class="s">&quot;.cgi&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&quot;</span> <span class="p">)</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">indexfiles</span> <span class="o">=</span> <span class="p">(</span> <span class="s">&quot;gitweb.cgi&quot;</span> <span class="p">)</span>
-
-    <span class="err">#</span> <span class="n">And</span> <span class="n">this</span> <span class="n">condition</span> <span class="n">matches</span> <span class="n">git</span> <span class="n">objects</span>
-    <span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">]</span> <span class="o">=~</span> <span class="s">&quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot;</span> <span class="p">{</span>
-        <span class="n">alias</span><span class="p">.</span><span class="n">url</span>  <span class="o">+=</span> <span class="p">(</span> <span class="s">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;/usr/lib/git-core/git-http-backend&quot;</span><span class="p">)</span>
-        <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">setenv</span><span class="p">.</span><span class="n">add</span><span class="o">-</span><span class="n">environment</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s">&quot;GIT_PROJECT_ROOT&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;/home/www/git-public-repos/&quot;</span><span class="p">,</span>
-            <span class="s">&quot;GIT_HTTP_EXPORT_ALL&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&quot;</span>
-            <span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>Combined with the trick from above, you can get this to work on both http
-and https. I hope this will help others!</p>
+<p>I have thus been looking for a solution to get openid/oauth authentication
+to cooperate with lighttpd in order to protect my new gallery. After some
+work, I came up with <a href="https://git.chmd.fr/?p=lighttpd-external-auth;a=blob_plain;f=external-auth.lua">a lua magnet
+script</a>
+that does the job. It is inspired by <a href="https://github.com/tai/mod-auth-ticket-for-lighttpd">this
+module</a>, but it does
+not require to be compiled and works out of the box on recent versions of
+lighttpd (e.g.  debian stable). I also believe that it offers <a href="https://github.com/tai/mod-auth-ticket-for-lighttpd/issues/4">a better
+security</a>.</p>
+<p>It works pretty well! You can try to visit
+<a href="https://gallery.chmd.fr">gallery.chmd.fr</a>  and you should be presented
+with my very own login page. Should you try to login, the script will
+gently tell you that though your openid/oauth login was successful, you
+cannot access the gallery because it is a privilege reserved to the people
+I explicitly authorized. Beware that if you are not using linux, you might
+experiment a warning from your browser: that is because I use a
+certificate signed by <a href="http://www.cacert.org/">cacert</a>, a community-driven
+certificate authority whose root certificate is not included in commercial
+OS (yet).</p>
+<p>If you want to use this script on your own lighttpd server, I have set up
+a <a href="http://lighttpd-external-auth.chmd.fr/">dedicated website</a> to explain
+how to proceed. Check it out!</p>
+<p>One last thing: I am not a security expert, and I did this for fun. I
+believe it is pretty secure (provided you trust the third parties
+involved, of course), but I still have to warn you: don't use this to
+protect important documents. If you have knowledge about security and want
+to comment - or even better: to contribute - be my guest!</p>
                 </article>
                             <section id="article-list">
                     <h2>All posts</h2>
                     <ol>
-                                                                                        <li><a href="/jabber-notifications-on-ssh-login.html" rel="bookmark" title="Permalink to Jabber notifications on ssh login">Jabber notifications on ssh login</a></li>
+                                                                                        <li><a href="/git-on-lighttpd.html" rel="bookmark" title="Permalink to Git on lighttpd">Git on lighttpd</a></li>
+                                                            <li><a href="/jabber-notifications-on-ssh-login.html" rel="bookmark" title="Permalink to Jabber notifications on ssh login">Jabber notifications on ssh login</a></li>
                                                             <li><a href="/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
                                                             <li><a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="bookmark" title="Permalink to SSH over SSL, episode 3: Avoiding using a patched apache.">SSH over SSL, episode 3: Avoiding using a patched apache.</a></li>
                                                             <li><a href="/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="bookmark" title="Permalink to Using a shell version of supergenpass from vimperator/pentadactyl">Using a shell version of supergenpass from vimperator/pentadactyl</a></li>
