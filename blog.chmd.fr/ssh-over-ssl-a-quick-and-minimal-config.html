@@ -29,18 +29,20 @@ describe how to SSH over SSL to a machine that runs an ssh server
 and apache2. This machine will still be able to run an SSL website.
 Clients will connect using a standard ssh client and proxytunnel.</p>
 <h1>Server configuration</h1>
-<p>I assume that:
-- The server is accessible on the port 443 through the "server.com" domain
-  name (otherwise using the raw ip will do the trick).
-- It also runs an ssh server (but no need for the port 22 to be
-  reachable).
-- You already have set up certificates for SSL
-- You've enabled the modules for ssl (a2enmod ssl)
-- You're running the default ssl website in
+<p>I assume that:</p>
+<ul>
+<li>The server is accessible on the port 443 through the "server.com" domain
+  name (otherwise using the raw ip will do the trick).</li>
+<li>It also runs an ssh server (but no need for the port 22 to be
+  reachable).</li>
+<li>You already have set up certificates for SSL</li>
+<li>You've enabled the modules for ssl (a2enmod ssl)</li>
+<li>You're running the default ssl website in
   /etc/apache2/sites-available/default-ssl and it is enabled (a2ensite
-  default-ssl)
-- You've enabled necessary modules for proxying and using proxy connect
-  methods (a2enmod proxy proxy_connect proxy_http)</p>
+  default-ssl)</li>
+<li>You've enabled necessary modules for proxying and using proxy connect
+  methods (a2enmod proxy proxy_connect proxy_http)</li>
+</ul>
 <h1>File /etc/apache2/sites-available/default-ssl</h1>
 <p>It's minimalistic on purpose, so you can see what is really needed.</p>
 <div class="highlight"><pre><span class="nt">&lt;IfModule</span> <span class="err">mod_ssl.c</span><span class="nt">&gt;</span>
@@ -74,9 +76,11 @@ port 22 (ssh) of your server through a proxy, in an encrypted way.</p>
 
 
 <h1>Client configuration</h1>
-<p>I assume that:
-- An ssh client is installed
-- proxytunnel is installed</p>
+<p>I assume that:</p>
+<ul>
+<li>An ssh client is installed</li>
+<li>proxytunnel is installed</li>
+</ul>
 <p>First, you'll need to test your server setting using proxytunnel alone.
 Since debugging encryption problems can be tedious, at first, I suggest
 you set up your server to provide the proxy in a non encrypted way,

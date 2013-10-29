@@ -12,6 +12,7 @@ Clients will connect using a standard ssh client and proxytunnel.
 Server configuration
 ====================
 I assume that:
+
 - The server is accessible on the port 443 through the "server.com" domain
   name (otherwise using the raw ip will do the trick).
 - It also runs an ssh server (but no need for the port 22 to be
@@ -59,6 +60,7 @@ port 22 (ssh) of your server through a proxy, in an encrypted way.
 Client configuration
 ====================
 I assume that:
+
 - An ssh client is installed
 - proxytunnel is installed
 

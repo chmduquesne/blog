@@ -23,8 +23,8 @@
         rel="bookmark" title="Permalink to SSH over SSL, episode 2: replacing proxytunnel with socat">SSH over SSL, episode 2: replacing proxytunnel with socat</a></h1></header>
         <div class="entry-content">
         <!-- /.post-info -->
-        <p>Last week, I wrote <a href="../ssh-over-ssl-a-quick-and-minimal-config.html">an article about how to quickly set up a server and a
-client for doing ssh over ssl</a>.  In this article, I was using
+        <p>Last week, I wrote <a href="../ssh-over-ssl-a-quick-and-minimal-config.html">an article</a> about how to quickly set up a server
+and a client for doing ssh over ssl.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
 socat (socat can do almost anything)...</p>
 <p>The principle is simple: Following the first part of
@@ -39,11 +39,13 @@ exact command (in .ssh/config) was:</p>
 </pre></div>
 
 
-<p>I'll explain it:
-- <code>-q</code> is for quiet
-- <code>-E</code> is for encrypting between the proxy and us
-- <code>-p</code> is for choosing the proxy
-- <code>-d</code> is for requesting a destination (from the proxy point of view)</p>
+<p>I'll explain it:</p>
+<ul>
+<li><code>-q</code> is for quiet</li>
+<li><code>-E</code> is for encrypting between the proxy and us</li>
+<li><code>-p</code> is for choosing the proxy</li>
+<li><code>-d</code> is for requesting a destination (from the proxy point of view)</li>
+</ul>
 <p>So basically, this means: "connect stdio to server.com on port 443 (-p
 server.com:443) , in an encrypted way (-E), then from this server, require
 to be connected to 127.0.0.1:22 (-d 127.0.0.1:22)".</p>

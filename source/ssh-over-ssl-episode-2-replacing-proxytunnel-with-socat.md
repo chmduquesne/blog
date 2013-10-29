@@ -3,8 +3,8 @@ Date: 2010-11-15 23:53
 Category: howto
 Tags: socat, ssh, ssl
 
-Last week, I wrote [an article about how to quickly set up a server and a
-client for doing ssh over ssl][1].  In this article, I was using
+Last week, I wrote [an article][1] about how to quickly set up a server
+and a client for doing ssh over ssl.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
 socat (socat can do almost anything)...
 
@@ -21,6 +21,7 @@ exact command (in .ssh/config) was:
     proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
 
 I'll explain it:
+
 - `-q` is for quiet
 - `-E` is for encrypting between the proxy and us
 - `-p` is for choosing the proxy

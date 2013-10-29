@@ -521,8 +521,8 @@ alias:&lt;/p&gt;
 
 
 &lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
-for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article about how to quickly set up a server and a
-client for doing ssh over ssl&lt;/a&gt;.  In this article, I was using
+for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article&lt;/a&gt; about how to quickly set up a server
+and a client for doing ssh over ssl.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
 socat (socat can do almost anything)...&lt;/p&gt;
 &lt;p&gt;The principle is simple: Following the first part of
@@ -537,11 +537,13 @@ exact command (in .ssh/config) was:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;I'll explain it:
-- &lt;code&gt;-q&lt;/code&gt; is for quiet
-- &lt;code&gt;-E&lt;/code&gt; is for encrypting between the proxy and us
-- &lt;code&gt;-p&lt;/code&gt; is for choosing the proxy
-- &lt;code&gt;-d&lt;/code&gt; is for requesting a destination (from the proxy point of view)&lt;/p&gt;
+&lt;p&gt;I'll explain it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-q&lt;/code&gt; is for quiet&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-E&lt;/code&gt; is for encrypting between the proxy and us&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-p&lt;/code&gt; is for choosing the proxy&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-d&lt;/code&gt; is for requesting a destination (from the proxy point of view)&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;So basically, this means: "connect stdio to server.com on port 443 (-p
 server.com:443) , in an encrypted way (-E), then from this server, require
 to be connected to 127.0.0.1:22 (-d 127.0.0.1:22)".&lt;/p&gt;
@@ -597,18 +599,20 @@ describe how to SSH over SSL to a machine that runs an ssh server
 and apache2. This machine will still be able to run an SSL website.
 Clients will connect using a standard ssh client and proxytunnel.&lt;/p&gt;
 &lt;h1&gt;Server configuration&lt;/h1&gt;
-&lt;p&gt;I assume that:
-- The server is accessible on the port 443 through the "server.com" domain
-  name (otherwise using the raw ip will do the trick).
-- It also runs an ssh server (but no need for the port 22 to be
-  reachable).
-- You already have set up certificates for SSL
-- You've enabled the modules for ssl (a2enmod ssl)
-- You're running the default ssl website in
+&lt;p&gt;I assume that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The server is accessible on the port 443 through the "server.com" domain
+  name (otherwise using the raw ip will do the trick).&lt;/li&gt;
+&lt;li&gt;It also runs an ssh server (but no need for the port 22 to be
+  reachable).&lt;/li&gt;
+&lt;li&gt;You already have set up certificates for SSL&lt;/li&gt;
+&lt;li&gt;You've enabled the modules for ssl (a2enmod ssl)&lt;/li&gt;
+&lt;li&gt;You're running the default ssl website in
   /etc/apache2/sites-available/default-ssl and it is enabled (a2ensite
-  default-ssl)
-- You've enabled necessary modules for proxying and using proxy connect
-  methods (a2enmod proxy proxy_connect proxy_http)&lt;/p&gt;
+  default-ssl)&lt;/li&gt;
+&lt;li&gt;You've enabled necessary modules for proxying and using proxy connect
+  methods (a2enmod proxy proxy_connect proxy_http)&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h1&gt;File /etc/apache2/sites-available/default-ssl&lt;/h1&gt;
 &lt;p&gt;It's minimalistic on purpose, so you can see what is really needed.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;IfModule&lt;/span&gt; &lt;span class="err"&gt;mod_ssl.c&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
@@ -642,9 +646,11 @@ port 22 (ssh) of your server through a proxy, in an encrypted way.&lt;/p&gt;
 
 
 &lt;h1&gt;Client configuration&lt;/h1&gt;
-&lt;p&gt;I assume that:
-- An ssh client is installed
-- proxytunnel is installed&lt;/p&gt;
+&lt;p&gt;I assume that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;An ssh client is installed&lt;/li&gt;
+&lt;li&gt;proxytunnel is installed&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;First, you'll need to test your server setting using proxytunnel alone.
 Since debugging encryption problems can be tedious, at first, I suggest
 you set up your server to provide the proxy in a non encrypted way,
@@ -1853,64 +1859,4 @@ en laissant cochée l'option 'boucle infinie'... Dans un prochain
 billet, je vous expliquerais comment couper votre vidéo pour
 extraire une scène qui vous intéresse. Ainsi, il vous sera possible
 de chainer les deux méthodes pour faire exactement le gif que vous
-voulez.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Damn Small Linux (Not) : l'installation hyper simple</title><link href="/damn-small-linux-not-linstallation-hyper-simple.html" rel="alternate"></link><updated>2008-03-19T01:52:00+01:00</updated><author><name>Tof</name></author><id>tag:,2008-03-19:damn-small-linux-not-linstallation-hyper-simple.html</id><summary type="html">&lt;p&gt;Malgré le fait que je pense qu'avoir un linux sur une clé usb est
-en fait assez inutile, il fut une époque où je m'amusais à suivre
-mille tutoriels pour arriver à - miracle - booter sur un système
-tenant sur 50Mo. Après avoir constaté les limites d'untel système,
-j'étais tranquillement retourné à la normale, sous mon ubuntu, et
-j'avais oublié mes aventures rocambolesques avec un des systèmes
-les plus compact au monde. En fait il se trouve que c'est pas si
-inutile que ça, puisque mon pote Max, qui avait planté son mac dont
-le lecteur cd est cassé, et a qui j'avais parlé de mes
-expérimentations, voulait m'emprunter la fameuse clef pour
-investiguer sur son ordi. Le problème, c'est que j'avais fini par
-formater cette clef. J'ai donc dû me taper à nouveau tous les bons
-vieux tutos. Or, comme c'est long et chiant de creuser partout pour
-avoir ce qu'on cherche (et encore plus la deuxième fois). Je vous
-donne donc la méthode la plus courte que j'ai trouvé (si vous êtes
-sous ubuntu ou debian, bien sûr). J'ai choisi d'installer DSL-N (is
-not &lt;a href="http://fr.wikipedia.org/wiki/Damn_Small_Linux"&gt;DSL&lt;/a&gt;!). En
-gros, c'est comme DSL, mais c'est un peu plus gros : au lieu de
-tenir sur 50Mo, ça doit tenir sur 100, et ça permet une meilleure
-reconnaissance du matériel, des programmes plus jolis, du gtk,
-etc... En plus DSL est basée sur knoppix, lui-même basé sur debian,
-et moyennant quelques manip que vous trouverez sur le
-&lt;a href="http://damnsmalllinux.org/wiki/"&gt;wiki officiel&lt;/a&gt;, vous pouvez la
-rendre complètement debian-compatible (en faire un OS qui supporte
-les installations type apt-get). Les infos que je donne sont
-valables qu'on installe DSL ou DSL-N. Commencez par télécharger la
-bête. Ça se passe
-&lt;a href="http://damnsmalllinux.org/download.html"&gt;ici pour DSL&lt;/a&gt; et
-&lt;a href="http://damnsmalllinux.org/dsl-n/download.html"&gt;ici pour DSL-N&lt;/a&gt;.
-Prenez le miroir qui vous plait et téléchargez-y le .iso le plus
-récent. Mettez le dans /tmp, comme ça vous pourrez l'oublier après
-avoir fait vos manips... Ensuite, il faut installer gparted et
-syslinux. (Oui, je sais, pour gparted, on pourrait se débrouiller
-avec fdisk, mais je trouve gparted bien fait et facile
-d'utilisation)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;gparted&lt;/span&gt; &lt;span class="n"&gt;syslinux&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Puis utilisez gparted : formatez votre clef en FAT16 (mieux
-supporté) et mettez lui un drapeau de boot, le tout à coups de
-clics droit. Ensuite, montez temporairement l'iso téléchargé
-quelque part avec l'option '-o loop' (/mnt est fait pour ça, mais
-vous faites comme vous le voulez). Ça donne un truc du style :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mount&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dsl&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iso&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mnt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Puis copiez le contenu de /mnt (ou du 'quelque part' où vous avez
-monté) dans votre clef. Après cela, dans votre clef, cherchez le
-répertoire isolinux (il se trouve probablement dans le répertoire
-boot) et mettez tous les fichiers qu'il contient sur la racine de
-la clef. Renommez 'isolinux.cfg' en 'syslinux.cfg'. Une fois tout
-cela accompli, démontez la clef. Faites un petit&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;syslinux&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;sdX1&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;en adaptant le X à votre cas. C'est fini! Rebootez, pour faire un
-test... Petit conseil en passant : allez sur le wiki, il est
-bien...&lt;/p&gt;</summary><category term="libre"></category><category term="damn small linux"></category></entry></feed>
+voulez.&lt;/p&gt;</summary><category term="libre"></category></entry></feed>
