@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-                <title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title>
-        <meta charset="utf-8" />
-                <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-                                                <link href="http://blog.chmd.fr/feeds/code.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
-                                        <link rel="stylesheet" href="/theme/css/rdark.css" />
-        <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
-        </head>
+        <title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title>
+    <meta charset="utf-8" />
+        <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+                        <link href="http://blog.chmd.fr/feeds/code.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+                    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+    </head>
 
 <body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Ch-M.D <strong></strong></a></h1>
-        </header><!-- /#banner -->
-        <nav id="menu"><ul>
-                                          </ul></nav><!-- /#menu -->
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
         <section id="content" class="body">
+<header>
+    <h1 class="entry-title">
+        <a href="releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="bookmark" title="Permalink to Releasing Michel, a flat-text-file-to-google-tasks uploader">
+                Releasing Michel, a flat-text-file-to-google-tasks uploader
+        </a>
+    </h1>
+</header>
 <article>
-        <header> <h1 class="entry-title"><a href="releasing-michel-a-flat-text-file-to-google-tasks-uploader.html"
-        rel="bookmark" title="Permalink to Releasing Michel, a flat-text-file-to-google-tasks uploader">Releasing Michel, a flat-text-file-to-google-tasks uploader</a></h1></header>
-        <div class="entry-content">
-        <!-- /.post-info -->
-        <p>When it comes to handling my todo list, I'm a huge fan of flat text files.
+    <div class="entry-content">
+    <p>When it comes to handling my todo list, I'm a huge fan of flat text files.
 The main reason why I prefer them over anything else is that I find it
 far easier to display it with notification popups this way.</p>
 <p>I also heavily rely on gmail to organise myself. When I am reading emails
@@ -47,27 +54,28 @@ your standard package manager, since it does not seem to be installable
 from easy_install).</p>
 <div class="highlight"><pre><span class="n">easy_install</span> <span class="n">michel</span>
 </pre></div>
-        </div><!-- /.entry-content -->
-                <div class="comments">
+    </div>
+        <div class="comments">
         <h2>Comments !</h2>
-            <div id="disqus_thread"></div>
-            <script type="text/javascript">
-               var disqus_identifier = "releasing-michel-a-flat-text-file-to-google-tasks-uploader.html";
-               (function() {
-               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-               dsq.src = '//chmd.disqus.com/embed.js';
-               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-              })();
-            </script>
+        <!-- hack to add flattr -->
+        <script id='fbnrl3e'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=chmd&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbnrl3e');</script>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_identifier = "releasing-michel-a-flat-text-file-to-google-tasks-uploader.html";
+            (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//chmd.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
         </div>
-        
-</article>
+    </article>
 </section>
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Generated by <a href="http://getpelican.com/">pelican</a>,
-                theme <a href="https://github.com/chmduquesne/small">small</a>
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
 </body>
 </html>

@@ -3,11 +3,11 @@ Date: 2013-10-29 14:22
 Category: howto
 Tags: openid lighttpd
 
-I [recently](/sigal-a-static-gallery-generator.html) set up a self-hosted
-gallery for my pictures. Obviously, I did this because I wanted to stop
-giving my content to external platforms, but also to gain some level of
-privacy: I want to limit the number of people who are able to look at
-these pictures.
+I [recently](http://blog.chmd.fr/sigal-a-static-gallery-generator.html)
+set up a self-hosted gallery for my pictures. Obviously, I did this
+because I wanted to stop giving my content to external platforms, but also
+to gain some level of privacy: I want to limit the number of people who
+are able to look at these pictures.
 
 While setting up the gallery was relatively easy, restricting the access
 was an interesting problem. I did not want to use a global

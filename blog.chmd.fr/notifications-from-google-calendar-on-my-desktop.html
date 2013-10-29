@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-                <title>Notifications from google calendar on my desktop</title>
-        <meta charset="utf-8" />
-                <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-                                                <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
-                                        <link rel="stylesheet" href="/theme/css/rdark.css" />
-        <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
-        </head>
+        <title>Notifications from google calendar on my desktop</title>
+    <meta charset="utf-8" />
+        <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+                        <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+                    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+    </head>
 
 <body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Ch-M.D <strong></strong></a></h1>
-        </header><!-- /#banner -->
-        <nav id="menu"><ul>
-                                          </ul></nav><!-- /#menu -->
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
         <section id="content" class="body">
+<header>
+    <h1 class="entry-title">
+        <a href="notifications-from-google-calendar-on-my-desktop.html" rel="bookmark" title="Permalink to Notifications from google calendar on my desktop">
+                Notifications from google calendar on my desktop
+        </a>
+    </h1>
+</header>
 <article>
-        <header> <h1 class="entry-title"><a href="notifications-from-google-calendar-on-my-desktop.html"
-        rel="bookmark" title="Permalink to Notifications from google calendar on my desktop">Notifications from google calendar on my desktop</a></h1></header>
-        <div class="entry-content">
-        <!-- /.post-info -->
-        <p>I just added this in a crontab:</p>
+    <div class="entry-content">
+    <p>I just added this in a crontab:</p>
 <div class="highlight"><pre><span class="err">*/</span><span class="mi">30</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">DISPLAY</span><span class="o">=:</span><span class="mf">0.0</span> <span class="n">gcalcli</span> <span class="n">remind</span> <span class="mi">240</span> <span class="err">&#39;</span><span class="n">notify</span><span class="o">-</span><span class="n">send</span> <span class="o">-</span><span class="n">t</span> <span class="mi">300000</span> <span class="o">-</span><span class="n">i</span> <span class="n">myniceicon</span><span class="p">.</span><span class="n">svg</span> <span class="s">&quot;Calendar&quot;</span> <span class="err">\</span><span class="o">%</span><span class="n">s</span><span class="err">&#39;</span>
 </pre></div>
 
 
 <p>So every 30 minutes, I get a notification with a 5 minutes timeout
 for upcoming events in the next 4 hours. I really don't need more.</p>
-        </div><!-- /.entry-content -->
-                <div class="comments">
+    </div>
+        <div class="comments">
         <h2>Comments !</h2>
-            <div id="disqus_thread"></div>
-            <script type="text/javascript">
-               var disqus_identifier = "notifications-from-google-calendar-on-my-desktop.html";
-               (function() {
-               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-               dsq.src = '//chmd.disqus.com/embed.js';
-               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-              })();
-            </script>
+        <!-- hack to add flattr -->
+        <script id='fbnrl3e'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=chmd&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbnrl3e');</script>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_identifier = "notifications-from-google-calendar-on-my-desktop.html";
+            (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//chmd.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
         </div>
-        
-</article>
+    </article>
 </section>
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Generated by <a href="http://getpelican.com/">pelican</a>,
-                theme <a href="https://github.com/chmduquesne/small">small</a>
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
 </body>
 </html>

@@ -2,8 +2,8 @@
 
 AUTHOR = "Tof"
 SITENAME = "Ch-M.D"
-#SITEURL = 'http://blog.chmd.fr'
-SITEURL = '/'
+#SITEURL = ''
+SITEURL = 'http://blog.chmd.fr'
 TIMEZONE = "Europe/Paris"
 STATIC_PATHS = ['images', 'documents']
 THEME = "../small"
