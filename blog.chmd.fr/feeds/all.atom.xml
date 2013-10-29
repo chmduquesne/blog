@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-08-08T16:09:00+02:00</updated><entry><title>Git on lighttpd</title><link href="http://blog.chmd.fr/git-on-lighttpd.html" rel="alternate"></link><updated>2013-08-08T16:09:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-08-08:git-on-lighttpd.html</id><summary type="html">&lt;h1&gt;Intro&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2013-08-08T16:09:00+02:00</updated><entry><title>Git on lighttpd</title><link href="/git-on-lighttpd.html" rel="alternate"></link><updated>2013-08-08T16:09:00+02:00</updated><author><name>Tof</name></author><id>tag:,2013-08-08:git-on-lighttpd.html</id><summary type="html">&lt;h1&gt;Intro&lt;/h1&gt;
 &lt;p&gt;I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:&lt;/p&gt;
@@ -70,7 +70,7 @@ is the relevant part of my config:&lt;/p&gt;
 
 
 &lt;p&gt;Combined with the trick from above, you can get this to work on both http
-and https. I hope this will help others!&lt;/p&gt;</summary><category term="git gitweb server"></category></entry><entry><title>Sigal, a static gallery generator</title><link href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="alternate"></link><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
+and https. I hope this will help others!&lt;/p&gt;</summary><category term="git gitweb server"></category></entry><entry><title>Sigal, a static gallery generator</title><link href="/sigal-a-static-gallery-generator.html" rel="alternate"></link><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:,2013-07-20:sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
 with my friends without using a third party service. At first, I thought
 about writing a lighttpd module that would generate thumbnails. Then I
 thought about a using a php script, but all of them have too many options,
@@ -100,7 +100,7 @@ short movies with my cameras, and I want to include them in the pictures
 that I am sharing. I thus decided to give a go to the code, in order to
 see if it easy to patch. It turned out to be rather easy. There's a &lt;a href="https://github.com/saimn/sigal/pull/18"&gt;pull
 request&lt;/a&gt; pending...&lt;/p&gt;
-&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
+&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="/jabber-notifications-on-ssh-login.html" rel="alternate"></link><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:,2012-09-19:jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
 wanted, for fun, to be notified on gtalk everytime someone logs in my
 server. You never know, maybe I could discover unexpected connections. It
 turned out to be possible, and the whole thing costed me reading a couple
@@ -161,7 +161,7 @@ to be delivered. Two things I clearly want to avoid.&lt;/p&gt;
   use &lt;code&gt;sendxmpp&lt;/code&gt;, then try again with the &lt;code&gt;login_notify&lt;/code&gt; script.&lt;/li&gt;
 &lt;li&gt;My instructions are probably incomplete. Use your brain to fill in the
   blanks.&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="security"></category><category term="ssh"></category></entry><entry><title>Choose your passphrase with a die</title><link href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="alternate"></link><updated>2012-08-01T17:25:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-08-01:choose-your-passphrase-with-a-die.html</id><summary type="html">&lt;p&gt;Lurking on the archlinux &lt;a href="https://wiki.archlinux.org/index.php/Disk_Encryption#Choosing_a_strong_passphrase"&gt;wiki&lt;/a&gt;, I found a very interesting resource
+&lt;/ul&gt;</summary><category term="security"></category><category term="ssh"></category></entry><entry><title>Choose your passphrase with a die</title><link href="/choose-your-passphrase-with-a-die.html" rel="alternate"></link><updated>2012-08-01T17:25:00+02:00</updated><author><name>Tof</name></author><id>tag:,2012-08-01:choose-your-passphrase-with-a-die.html</id><summary type="html">&lt;p&gt;Lurking on the archlinux &lt;a href="https://wiki.archlinux.org/index.php/Disk_Encryption#Choosing_a_strong_passphrase"&gt;wiki&lt;/a&gt;, I found a very interesting resource
 for choosing a strong, easy to remember passphrase. It's called the
 &lt;a href="http://world.std.com/~reinhold/diceware.html"&gt;diceware method&lt;/a&gt;. You basically pick a die and throw it repeatedly
 to determine the words of your passphrase.&lt;/p&gt;
@@ -198,7 +198,7 @@ remember.&lt;/p&gt;
 &lt;p&gt;Sure, I read &lt;a href="http://xkcd.com/936/"&gt;xkcd&lt;/a&gt; and I was already using long sentences that made
 sense only if you are me, but this method beats mine, since there is no
 way I was picking these words randomly.&lt;/p&gt;
-&lt;p&gt;Since I could not find a list of french words, I quickly made &lt;a href="https://github.com/chmduquesne/diceware-fr"&gt;my own&lt;/a&gt;.&lt;/p&gt;</summary><category term="security"></category><category term="passphrase"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="http://blog.chmd.fr/operations-research-and-beer-drinking.html" rel="alternate"></link><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-11-19:operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
+&lt;p&gt;Since I could not find a list of french words, I quickly made &lt;a href="https://github.com/chmduquesne/diceware-fr"&gt;my own&lt;/a&gt;.&lt;/p&gt;</summary><category term="security"></category><category term="passphrase"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="/operations-research-and-beer-drinking.html" rel="alternate"></link><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:,2011-11-19:operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
 INFORMS 2011 conference. Being in the airport waiting for my flight, I
 figured out I could use this spare time to share a cool story about
 Operations Research.&lt;/p&gt;
@@ -268,7 +268,7 @@ to "finish my trip". For the record, the Westvleteren 12 is ranked the
 best beer in the world by &lt;a href="http://www.ratebeer.com/"&gt;ratebeer.com&lt;/a&gt;. Needless to say, I enjoyed
 it very much. He let me keep the capsules as a souvenir:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="westvleteren.jpg" src="images/westvleteren.jpg" /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip" /&gt;&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
+&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip" /&gt;&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
 The main reason why I prefer them over anything else is that I find it
 far easier to display it with notification popups this way.&lt;/p&gt;
 &lt;p&gt;I also heavily rely on gmail to organise myself. When I am reading emails
@@ -293,7 +293,7 @@ able to install it using easy_install (provided you install pyxdg with
 your standard package manager, since it does not seem to be installable
 from easy_install).&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;michel&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="gtasks"></category></entry><entry><title>Going static</title><link href="http://blog.chmd.fr/going-static.html" rel="alternate"></link><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-15:going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="gtasks"></category></entry><entry><title>Going static</title><link href="/going-static.html" rel="alternate"></link><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:,2011-09-15:going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
 Wordpress is probably awesome if you are a team of 15 authors who want to
 handle mass production of articles with a nice web interface. On the other
 hand, it needs constant updates, and the last ones where requiring a
@@ -345,7 +345,7 @@ like&lt;/p&gt;
 .htaccess, for the sake of SEO-friendliness. However, this would require
 some url rewriting, which &lt;a href="http://free.fr"&gt;free&lt;/a&gt; does not support. I decided to skip
 this step. I am keeping &lt;a href="https://github.com/chmduquesne/blog/blob/master/legacy/urlmap.csv"&gt;a map&lt;/a&gt; between the former and the new urls,
-just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</summary></entry><entry><title>plowbot, a jabber bot that downloads links from 1-click hosters</title><link href="http://blog.chmd.fr/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="alternate"></link><updated>2011-07-26T13:46:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-26:plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html</id><summary type="html">&lt;p&gt;I wrote a jabber bot that does just one thing: it uses &lt;a href="https://code.google.com/p/plowshare/"&gt;plowshare&lt;/a&gt; to
+just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</summary></entry><entry><title>plowbot, a jabber bot that downloads links from 1-click hosters</title><link href="/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="alternate"></link><updated>2011-07-26T13:46:00+02:00</updated><author><name>Tof</name></author><id>tag:,2011-07-26:plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html</id><summary type="html">&lt;p&gt;I wrote a jabber bot that does just one thing: it uses &lt;a href="https://code.google.com/p/plowshare/"&gt;plowshare&lt;/a&gt; to
 download what you paste. It is quite minimalist and thus does not offer
 queue management features nor advanced captcha solving possibilities, so
 you should not try to use it on links plowshare can't break automatically
@@ -358,7 +358,7 @@ to fork it and add whatever you find useful, it's on github:&lt;/p&gt;
 &lt;p&gt;I am personally quite satisfied with it (it fits my limited usage
 for this kind of service), but I am open to pull requests. Of
 course, I also made an AUR package for arch users, which adds an rc
-script for starting it at boot as your prefered user.&lt;/p&gt;</summary><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-11:ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;Another episode of my adventures of firewall bypassing...&lt;/p&gt;
+script for starting it at boot as your prefered user.&lt;/p&gt;</summary><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:,2011-07-11:ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;Another episode of my adventures of firewall bypassing...&lt;/p&gt;
 &lt;p&gt;In order to use the http CONNECT method to tunnel ssh, you have to
 configure apache as I previously showed in &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;a previous post&lt;/a&gt;.  Sadly,
 the current version of apache does not allow to do it over https. There
@@ -430,7 +430,7 @@ story).&lt;/p&gt;
 anyone does and has any success with it, please leave a comment
 here, I am interested. I would also be interested if someone knows
 any http server lighter than apache and guaranteed to support the
-CONNECT method...&lt;/p&gt;</summary><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>[Je préfère ton clone] padopi</title><link href="http://blog.chmd.fr/je-prefere-ton-clone-padopi.html" rel="alternate"></link><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-06-19:je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
+CONNECT method...&lt;/p&gt;</summary><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>[Je préfère ton clone] padopi</title><link href="/je-prefere-ton-clone-padopi.html" rel="alternate"></link><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:,2011-06-19:je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
 libre qui m'a fait bien rigoler: padopi. C'est une application web
 qui permet d'envoyer des faux mails à vos amis pour leur faire
 croire qu'ils se sont fait coincer à télécharger. Bon, les mails en
@@ -450,7 +450,7 @@ projet sur github:&lt;/p&gt;
 
 
 &lt;p&gt;Aller, en bonus, la pub de référence :)&lt;/p&gt;
-&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="libre"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-20:using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a
+&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="libre"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-12-20:using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a
 &lt;a href="http://supergenpass.com/"&gt;supergenpass&lt;/a&gt; user:
 &lt;a href="http://www.businessinsider.com/gawker-hacked-2010-12"&gt;gawker.com was hacked&lt;/a&gt;
 and a huge number of their username/password hashes was exposed.
@@ -487,7 +487,7 @@ call the program \~/.scripts/supergenpass with the content of the
 clipboard (using Shift+Insert), &amp;lt;Esc&gt;2gi will then focus the
 second field (I usually call it once I've filled my login) and
 &amp;lt;S-Insert&gt; will paste the clipboard (now filled with the generated
-password) in this focused field.&lt;/p&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of
+password) in this focused field.&lt;/p&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of
 people, I synchronize my dotfile using a DCVS on
 &lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public repository&lt;/a&gt;. I
 save as much stuff as I can, provided it does not contains
@@ -515,13 +515,13 @@ alias:&lt;/p&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
     &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;
 &lt;span class="n"&gt;fi&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="crontab"></category></entry><entry><title>Notifications from google calendar on my desktop</title><link href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="alternate"></link><updated>2010-11-23T15:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-23:notifications-from-google-calendar-on-my-desktop.html</id><summary type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="crontab"></category></entry><entry><title>Notifications from google calendar on my desktop</title><link href="/notifications-from-google-calendar-on-my-desktop.html" rel="alternate"></link><updated>2010-11-23T15:11:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-11-23:notifications-from-google-calendar-on-my-desktop.html</id><summary type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=:&lt;/span&gt;&lt;span class="mf"&gt;0.0&lt;/span&gt; &lt;span class="n"&gt;gcalcli&lt;/span&gt; &lt;span class="n"&gt;remind&lt;/span&gt; &lt;span class="mi"&gt;240&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="mi"&gt;300000&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;myniceicon&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;svg&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Calendar&amp;quot;&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
-for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article about how to quickly set up a server and a
+for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article about how to quickly set up a server and a
 client for doing ssh over ssl&lt;/a&gt;.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
 socat (socat can do almost anything)...&lt;/p&gt;
@@ -591,7 +591,7 @@ comments). Here is how my .ssh/config looks like:&lt;/p&gt;
     &lt;span class="n"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
     &lt;span class="n"&gt;ControlMaster&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt;
     &lt;span class="n"&gt;ControlPath&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="n"&gt;h_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;p_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-12:ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;So you are behind a vicious firewall that filters outgoing ssh and
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-11-12:ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
 describe how to SSH over SSL to a machine that runs an ssh server
 and apache2. This machine will still be able to run an SSL website.
@@ -678,7 +678,7 @@ prove you have been doing something not allowed). First, you should run an
 https website on this ip (like a blog, or a code repository), in order to
 make this traffic more realistic. What could also be cool would be to
 chain proxies, &lt;a href="http://lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine"&gt;using for example the appengine&lt;/a&gt;. This way your traffic
-will look like it's going to google.&lt;/p&gt;</summary><category term="apache"></category><category term="ssh"></category><category term="ssl"></category><category term="tunnel"></category></entry><entry><title>Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</title><link href="http://blog.chmd.fr/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="alternate"></link><updated>2010-10-27T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-10-27:vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html</id><summary type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
+will look like it's going to google.&lt;/p&gt;</summary><category term="apache"></category><category term="ssh"></category><category term="ssl"></category><category term="tunnel"></category></entry><entry><title>Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</title><link href="/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="alternate"></link><updated>2010-10-27T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:,2010-10-27:vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html</id><summary type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
 C++ code within vim. Sure, there was omnicppcomplete, which was able to
 complete more or less accurately from ctags databases, but the quality of
 the completion was greatly dependent on your coding style (I never could
@@ -712,7 +712,7 @@ go for it, because this is for sure a feature that will continue to be
 maintained by the llvm crew. Otherwise, gccsense should work exactly like
 gcc-4.4. Honestly, I did not have the chance to really test any of them,
 so it will be difficult to provide good feedback for me. If someone has
-the opportunity to test it, please leave a comment!&lt;/p&gt;</summary><category term="vim"></category><category term="gccsense"></category><category term="clang_complete"></category></entry><entry><title>Google releasing a constraint programming library</title><link href="http://blog.chmd.fr/google-releasing-a-constraint-programming-library.html" rel="alternate"></link><updated>2010-09-25T00:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-25:google-releasing-a-constraint-programming-library.html</id><summary type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
+the opportunity to test it, please leave a comment!&lt;/p&gt;</summary><category term="vim"></category><category term="gccsense"></category><category term="clang_complete"></category></entry><entry><title>Google releasing a constraint programming library</title><link href="/google-releasing-a-constraint-programming-library.html" rel="alternate"></link><updated>2010-09-25T00:31:00+02:00</updated><author><name>Tof</name></author><id>tag:,2010-09-25:google-releasing-a-constraint-programming-library.html</id><summary type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
 discover that Google just released a project in my field. It is simply
 called "or-tools" and contains a constraint programming solver.&lt;/p&gt;
 &lt;p&gt;While CP is not my primary field of study, I know the basics and I gave a
@@ -747,7 +747,7 @@ field for cplex, the famous MIP solver.&lt;/p&gt;
 and a website:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://sites.google.com/site/ortoolssite/"&gt;https://sites.google.com/site/ortoolssite/&lt;/a&gt;,&lt;/p&gt;
 &lt;p&gt;so I guess google also plans to maintain this library. Conclusion:
-Good news for OR!&lt;/p&gt;</summary><category term="or"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
+Good news for OR!&lt;/p&gt;</summary><category term="or"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:,2010-09-07:mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
 android. Pour ceux qui n'auraient pas suivi le lancement de
 l'application la semaine dernière, TalkMyPhone est une application
 permettant de contrôler son mobile à distance via xmpp, le
@@ -757,7 +757,7 @@ distance (pour le retrouver) - demander la géolocalisation du
 téléphone Ça se passe ici:
 &lt;a href="https://code.google.com/p/talkmyphone/"&gt;[https://code.google.com/p/talkmyphone/](https://code.google.com/p/talkmyphone/)&lt;/a&gt;
 Update: On en parle sur
-&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</summary><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</title><link href="http://blog.chmd.fr/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="alternate"></link><updated>2010-09-01T16:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-01:talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html</id><summary type="html">&lt;p&gt;Hello planet libre, J'ai codé une application android pour recevoir
+&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</summary><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</title><link href="/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="alternate"></link><updated>2010-09-01T16:29:00+02:00</updated><author><name>Tof</name></author><id>tag:,2010-09-01:talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html</id><summary type="html">&lt;p&gt;Hello planet libre, J'ai codé une application android pour recevoir
 des notifications de son téléphone. Le principe est simple: vous
 créez un compte jabber pour votre appareil et vous l'inscrivez dans
 vos amis gtalk (vérifiez que ça marche avec pidgin/empathy en vous
@@ -778,7 +778,7 @@ me laisser des commentaires gentils. L'url du projet:
 PS: Je ne garantis pas que ça marche sur votre téléphone. J'ai fait
 ça sur mon temps libre, pour le fun, et je ne compte pas y passer
 des nuits blanches. Mais je regarderai les rapports de bug s'il y
-en a...&lt;/p&gt;</summary><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>De l'intérêt de détacher des programmes de la console (sans screen)</title><link href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="alternate"></link><updated>2010-04-09T09:57:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-04-09:de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html</id><summary type="html">&lt;p&gt;Qui n'a jamais perdu par erreur une compilation, une session ssh ou
+en a...&lt;/p&gt;</summary><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>De l'intérêt de détacher des programmes de la console (sans screen)</title><link href="/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="alternate"></link><updated>2010-04-09T09:57:00+02:00</updated><author><name>Tof</name></author><id>tag:,2010-04-09:de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html</id><summary type="html">&lt;p&gt;Qui n'a jamais perdu par erreur une compilation, une session ssh ou
 une fenêtre irssi en fermant une console par inadvertance, à cause
 d'un lag réseau, ou bien à cause d'un redémarrage brutal de X11?&lt;/p&gt;
 &lt;p&gt;Les outils présentés ici permettent de vous affranchir de ce genre
@@ -857,8 +857,8 @@ vous suggère de jeter un coup d'oeil à &lt;a href="https://github.com/chmduque
 problèmes de couleurs et de scrolling y sont réglés). À noter qu'il existe
 d'autres alternatives à gnu screen, dont le très prometteur &lt;a href="http://caca.zoy.org/wiki/neercs"&gt;neercs&lt;/a&gt;,
 qui permet entre autre de détacher des programmes qu'on avait oublié de
-lancer dans neercs.&lt;/p&gt;</summary><category term="tmux"></category><category term="irssi"></category><category term="dtach"></category></entry><entry><title>renaming files and variables from vim</title><link href="http://blog.chmd.fr/renaming-files-and-variables-from-vim.html" rel="alternate"></link><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-26:renaming-files-and-variables-from-vim.html</id><summary type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
-&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="alternate"></link><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-14:continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The
+lancer dans neercs.&lt;/p&gt;</summary><category term="tmux"></category><category term="irssi"></category><category term="dtach"></category></entry><entry><title>renaming files and variables from vim</title><link href="/renaming-files-and-variables-from-vim.html" rel="alternate"></link><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-03-26:renaming-files-and-variables-from-vim.html</id><summary type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="/continuous-background-compilation-within-vim.html" rel="alternate"></link><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-03-14:continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The
 following code snippet will compile your project with 'make' each
 time you save the current buffer:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;
@@ -873,7 +873,7 @@ time you save the current buffer:&lt;/p&gt;
 &lt;p&gt;Of course you could replace the make command with something more
 complicated (for example calling some script that would run the
 compilation on another machine, and getting the error file back in
-your \~/.vim directory).&lt;/p&gt;</summary><category term="vim"></category><category term="makefile"></category></entry><entry><title>Utilisons incron pour être notifiés des événements du système de fichiers</title><link href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="alternate"></link><updated>2010-02-18T00:26:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-02-18:utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html</id><summary type="html">&lt;p&gt;&lt;a href="http://incron.aiken.cz/"&gt;incron&lt;/a&gt; est un programme fonctionnant sur
+your \~/.vim directory).&lt;/p&gt;</summary><category term="vim"></category><category term="makefile"></category></entry><entry><title>Utilisons incron pour être notifiés des événements du système de fichiers</title><link href="/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="alternate"></link><updated>2010-02-18T00:26:00+01:00</updated><author><name>Tof</name></author><id>tag:,2010-02-18:utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html</id><summary type="html">&lt;p&gt;&lt;a href="http://incron.aiken.cz/"&gt;incron&lt;/a&gt; est un programme fonctionnant sur
 le même principe que cron, mais basé sur des événements dans le
 système de fichiers plutôt que sur des moments de la journée. C'est
 très propre: pour l'utiliser, on spécifie un ou des fichiers à
@@ -1087,7 +1087,7 @@ j'ajoute quelques explications:&lt;/p&gt;
 
 
 &lt;p&gt;Je vous laisse faire joujou, je suis sûr que vous allez trouver
-plein d'idées.&lt;/p&gt;</summary><category term="incron"></category><category term="inotify"></category><category term="notify-send"></category></entry><entry><title>La TODO liste du pauvre</title><link href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="alternate"></link><updated>2009-12-20T22:08:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-12-20:la-todo-liste-du-pauvre.html</id><summary type="html">&lt;p&gt;Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
+plein d'idées.&lt;/p&gt;</summary><category term="incron"></category><category term="inotify"></category><category term="notify-send"></category></entry><entry><title>La TODO liste du pauvre</title><link href="/la-todo-liste-du-pauvre.html" rel="alternate"></link><updated>2009-12-20T22:08:00+01:00</updated><author><name>Tof</name></author><id>tag:,2009-12-20:la-todo-liste-du-pauvre.html</id><summary type="html">&lt;p&gt;Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
 Paradoxalement, si on cherche quelque chose de simple, on ne trouve
 pas. Ce que je cherchais à faire est on ne peut plus simple à
 décrire: quelque chose qui apparaisse une fois par heure. En effet,
@@ -1138,7 +1138,7 @@ heures par une tache cron:&lt;/p&gt;
 
 
 &lt;p&gt;Simple comme bonjour, et efficace. Ça fait un moment que je
-l'utilise, et j'en suis satisfait.&lt;/p&gt;</summary><category term="libre"></category><category term="notify-send"></category></entry><entry><title>Gérer ses plugins vim avec :GetLatestVimScripts</title><link href="http://blog.chmd.fr/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="alternate"></link><updated>2009-11-05T18:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-11-05:gerer-ses-plugins-vim-avec-getlatestvimscripts.html</id><summary type="html">&lt;p&gt;J'ai envie d'attirer l'attention sur une fonctionnalité sympa de
+l'utilise, et j'en suis satisfait.&lt;/p&gt;</summary><category term="libre"></category><category term="notify-send"></category></entry><entry><title>Gérer ses plugins vim avec :GetLatestVimScripts</title><link href="/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="alternate"></link><updated>2009-11-05T18:52:00+01:00</updated><author><name>Tof</name></author><id>tag:,2009-11-05:gerer-ses-plugins-vim-avec-getlatestvimscripts.html</id><summary type="html">&lt;p&gt;J'ai envie d'attirer l'attention sur une fonctionnalité sympa de
 vim, qui pourtant semble méconnue de pas mal de monde, même des
 utilisateurs avancés: la commande &lt;code&gt;:GetLatestVimScripts&lt;/code&gt;, ou son
 alias &lt;code&gt;:GLVS&lt;/code&gt;.&lt;/p&gt;
@@ -1239,7 +1239,7 @@ plugins sympa qui sortent.&lt;/p&gt;
 2540 1 :AutoInstall: snipMate.zip
 2645 1 :AutoInstall: colourscheme_bandit.vim
 2646 1 :AutoInstall: ctags_highlighting.vba
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="vim"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-10-06:gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="vim"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:,2009-10-06:gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de
 sortir dans sa version 7.0! Vous vous dîtes: "Bof, gdb je connais,
 une nouvelle version d'un débogueur qui sort, il n'y a pas de quoi
 fouetter un chat." Détrompez-vous!  Les progrès apportés sont tels
@@ -1273,7 +1273,7 @@ souples voir le jour. Voilà pour mes features préférées, mais il y
 en a d'autres. Je vous lie la fameuse annonce, qui vaut son pesant
 de cacahuètes. Vivement que ma distribution le package.
 &lt;a href="http://www.gnu.org/software/gdb/download/ANNOUNCEMENT"&gt;L'annonce&lt;/a&gt;
-&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</summary><category term="gdb"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-07-10:autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
+&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</summary><category term="gdb"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:,2009-07-10:autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
 de manière conditionnelle avec doxygen. J'utilise ça dans le projet
 que je code au boulot, et je pense que ça vaut le coup de partager.
 L'idée est de générer la  documentation automatiquement à chaque
@@ -1306,7 +1306,7 @@ doc/doxygen_html.cfg.in :&lt;/p&gt;
 &lt;p&gt;Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
 va être généré, et les expressions entre @ vont y être remplacées
 par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
-fichier pour véritablement générer la doc...&lt;/p&gt;</summary><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>Mettre des couleurs un peu partout (gcc, diff, grep...)</title><link href="http://blog.chmd.fr/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="alternate"></link><updated>2009-06-19T21:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-06-19:mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html</id><summary type="html">&lt;p&gt;Aujourd'hui, après avoir passé un bout de temps à déchiffrer la
+fichier pour véritablement générer la doc...&lt;/p&gt;</summary><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>Mettre des couleurs un peu partout (gcc, diff, grep...)</title><link href="/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="alternate"></link><updated>2009-06-19T21:31:00+02:00</updated><author><name>Tof</name></author><id>tag:,2009-06-19:mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html</id><summary type="html">&lt;p&gt;Aujourd'hui, après avoir passé un bout de temps à déchiffrer la
 sortie d'une compilation, je me suis mis en quête d'améliorer mon
 quotidien et d'y mettre... des couleurs! Pour ce faire, on cherche
 un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
@@ -1400,7 +1400,7 @@ mieux dans sa console...&lt;/p&gt;
 &lt;p&gt;Si vous avez des trucs utiles, n'hésitez pas! Je suis en
 particulier à la recherche d'un script vim qui exploiterait un rien
 les options 'errorformat' et 'QuickFixCmdPost' afin d'améliorer
-encore la lisibilité des compilations dans la fenêtre quickfix.&lt;/p&gt;</summary><category term="colors"></category><category term="console"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="alternate"></link><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-02-25:vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en
+encore la lisibilité des compilations dans la fenêtre quickfix.&lt;/p&gt;</summary><category term="colors"></category><category term="console"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="/vimgdbvimgdb.html" rel="alternate"></link><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:,2009-02-25:vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en
 profite donc pour rendre hommage au méconnu
 &lt;a href="http://clewn.sourceforge.net/"&gt;vimgdb&lt;/a&gt;. vimgdb est un patch pour
 vim qui permet de débogguer dans vim. On ne vantera jamais assez
@@ -1445,7 +1445,7 @@ qui me sert de référence en cas de trou de mémoire... Bon
 déboggage! Si vous souhaitez des screenshots, regardez
 &lt;a href="http://sourceforge.net/project/screenshots.php?group_id=111038"&gt;par là&lt;/a&gt;...
 PS: apparemment mon pkgbuild a été marqué "out of date", je vais
-corriger ça dès que possible...&lt;/p&gt;</summary><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-06-08:luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
+corriger ça dès que possible...&lt;/p&gt;</summary><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:,2008-06-08:luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
 d'importer/exporter de l'&lt;a href="http://fr.wikipedia.org/wiki/Unified_Modeling_Language"&gt;uml&lt;/a&gt; pour un projet C++ que je vais faire cet
 été. L'idée est la suivante : je souhaiterais que les modifications de mon
 code soient répercutées sur un fichier contenant de l'uml sous un format
@@ -1705,7 +1705,7 @@ programmes.&lt;/p&gt;
 pas encore regardé bouml et je viens de voir qu'ils mentionnaient le genre
 de fonctionnalités que je recherche.  Quelqu'un a testé? Ou bien dans le
 cas général, connaissez-vous un quelque chose capable de faire mon
-bonheur?&lt;/p&gt;</summary><category term="uml"></category><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-02:les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
+bonheur?&lt;/p&gt;</summary><category term="uml"></category><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:,2008-05-02:les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
 lecteur de flux rss en ligne et je donnais un petit panorama des
 web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
 étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
@@ -1758,7 +1758,7 @@ beaucoup plus facile à installer, plus stable et bénéficie d'un
 très bon système de plugins, ma préférence se porte sur Tiny tiny
 rss, qui a un développement plus dynamique, et surtout dont
 l'interface se révèle bien plus agréable et rapide à utiliser : si
-j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait [un billet][1] que j'ai trouvé assez
+j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:,2008-05-01:les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait [un billet][1] que j'ai trouvé assez
 intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
 arguments, notamment le contrôle sur les données personnelles qu'on a avec
 un tel lecteur et qu'on n'a pas chez les fournisseurs de services en
@@ -1785,7 +1785,7 @@ possible d'en utiliser une sur mon compte free.&lt;/p&gt;
 &lt;a href="http://fofredux.sourceforge.net/"&gt;FoFredux&lt;/a&gt; et
 &lt;a href="http://sourceforge.net/projects/monkeychow/"&gt;Monckeyshow&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;
-&lt;p&gt;[1] http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+&lt;p&gt;[1] http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;mencoder&lt;/span&gt;
@@ -1809,7 +1809,7 @@ extraire une scène d'un film, par exemple pour en faire un fichier
   scène)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;En espérant que ça vous serve! PS : Ce billet est assez court, je
-compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</summary><category term="mencoder"></category><category term="gif"></category></entry><entry><title>Faire un gif animé à partir d'un film</title><link href="http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html" rel="alternate"></link><updated>2008-04-06T21:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-06:faire-un-gif-anime-a-partir-dun-film.html</id><summary type="html">&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
+compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</summary><category term="mencoder"></category><category term="gif"></category></entry><entry><title>Faire un gif animé à partir d'un film</title><link href="/faire-un-gif-anime-a-partir-dun-film.html" rel="alternate"></link><updated>2008-04-06T21:29:00+02:00</updated><author><name>Tof</name></author><id>tag:,2008-04-06:faire-un-gif-anime-a-partir-dun-film.html</id><summary type="html">&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
 gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
 de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
@@ -1853,7 +1853,7 @@ en laissant cochée l'option 'boucle infinie'... Dans un prochain
 billet, je vous expliquerais comment couper votre vidéo pour
 extraire une scène qui vous intéresse. Ainsi, il vous sera possible
 de chainer les deux méthodes pour faire exactement le gif que vous
-voulez.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Damn Small Linux (Not) : l'installation hyper simple</title><link href="http://blog.chmd.fr/damn-small-linux-not-linstallation-hyper-simple.html" rel="alternate"></link><updated>2008-03-19T01:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-03-19:damn-small-linux-not-linstallation-hyper-simple.html</id><summary type="html">&lt;p&gt;Malgré le fait que je pense qu'avoir un linux sur une clé usb est
+voulez.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Damn Small Linux (Not) : l'installation hyper simple</title><link href="/damn-small-linux-not-linstallation-hyper-simple.html" rel="alternate"></link><updated>2008-03-19T01:52:00+01:00</updated><author><name>Tof</name></author><id>tag:,2008-03-19:damn-small-linux-not-linstallation-hyper-simple.html</id><summary type="html">&lt;p&gt;Malgré le fait que je pense qu'avoir un linux sur une clé usb est
 en fait assez inutile, il fut une époque où je m'amusais à suivre
 mille tutoriels pour arriver à - miracle - booter sur un système
 tenant sur 50Mo. Après avoir constaté les limites d'untel système,
