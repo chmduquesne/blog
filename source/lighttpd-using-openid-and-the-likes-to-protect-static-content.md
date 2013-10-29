@@ -1,4 +1,4 @@
-Title: Using openid and the likes to protect static content
+Title: Using openid and the likes to protect static content (lighttpd)
 Date: 2013-10-29 14:22
 Category: howto
 Tags: openid lighttpd
