@@ -58,7 +58,9 @@ plain text file. No need to build a new one in a hurry!&lt;/p&gt;
 
 
 &lt;p&gt;You can get a look at what it looks like on &lt;a href="//resume.chmd.fr"&gt;my own
-résumé&lt;/a&gt;.&lt;/p&gt;</summary><category term="pandoc markdown"></category></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
+résumé&lt;/a&gt;. The full code can be found on
+&lt;a href="https://git.chmd.fr/?p=resume.git"&gt;git.chmd.fr&lt;/a&gt; (&lt;a href="https://github.com/chmduquesne/resume"&gt;github
+mirror&lt;/a&gt;)&lt;/p&gt;</summary><category term="pandoc markdown"></category></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
 The main reason why I prefer them over anything else is that I find it
 far easier to display it with notification popups this way.&lt;/p&gt;
 &lt;p&gt;I also heavily rely on gmail to organise myself. When I am reading emails
