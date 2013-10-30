@@ -28,9 +28,9 @@
 </header>
 <article>
     <div class="entry-content">
-    <p>You <em>can</em> do continuous background compilation within vim. The
-following code snippet will compile your project with 'make' each
-time you save the current buffer:</p>
+    <p>You <em>can</em> do continuous background compilation within vim. The following
+code snippet will compile your project with <code>make</code> each time you save the
+current buffer:</p>
 <div class="highlight"><pre><span class="n">augroup</span> <span class="n">c</span><span class="o">++</span>
     <span class="n">autocmd</span> <span class="n">BufWritePost</span> <span class="o">*</span><span class="p">.{</span><span class="n">hpp</span><span class="p">,</span><span class="n">cpp</span><span class="p">}</span>
                 <span class="err">\</span> <span class="n">silent</span> <span class="n">execute</span> <span class="s">&quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot;</span> <span class="o">|</span>
@@ -42,8 +42,8 @@ time you save the current buffer:</p>
 
 <p>Of course you could replace the make command with something more
 complicated (for example calling some script that would run the
-compilation on another machine, and getting the error file back in
-your \~/.vim directory).</p>
+compilation on another machine, and getting the error file back in your
+<code>~/.vim</code> directory).</p>
     </div>
         <div class="comments">
         <h2>Comments !</h2>

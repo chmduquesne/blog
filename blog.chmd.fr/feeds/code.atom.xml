@@ -138,9 +138,9 @@ PS: Je ne garantis pas que ça marche sur votre téléphone. J'ai fait
 ça sur mon temps libre, pour le fun, et je ne compte pas y passer
 des nuits blanches. Mais je regarderai les rapports de bug s'il y
 en a...&lt;/p&gt;</summary><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>renaming files and variables from vim</title><link href="http://blog.chmd.fr/renaming-files-and-variables-from-vim.html" rel="alternate"></link><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-26:renaming-files-and-variables-from-vim.html</id><summary type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
-&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="alternate"></link><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-14:continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The
-following code snippet will compile your project with 'make' each
-time you save the current buffer:&lt;/p&gt;
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="alternate"></link><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-14:continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The following
+code snippet will compile your project with &lt;code&gt;make&lt;/code&gt; each time you save the
+current buffer:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;
     &lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufWritePost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.{&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
                 &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;silent&lt;/span&gt; &lt;span class="n"&gt;execute&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
@@ -152,8 +152,8 @@ time you save the current buffer:&lt;/p&gt;
 
 &lt;p&gt;Of course you could replace the make command with something more
 complicated (for example calling some script that would run the
-compilation on another machine, and getting the error file back in
-your \~/.vim directory).&lt;/p&gt;</summary><category term="vim"></category><category term="makefile"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-07-10:autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
+compilation on another machine, and getting the error file back in your
+&lt;code&gt;~/.vim&lt;/code&gt; directory).&lt;/p&gt;</summary><category term="vim"></category><category term="makefile"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-07-10:autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
 de manière conditionnelle avec doxygen. J'utilise ça dans le projet
 que je code au boulot, et je pense que ça vaut le coup de partager.
 L'idée est de générer la  documentation automatiquement à chaque
