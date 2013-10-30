@@ -35,4 +35,4 @@ possible d'en utiliser une sur mon compte free.
 
 Si vous en connaissez d'autres, je suis preneur...
 
-[1] http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom
+[1]: http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom

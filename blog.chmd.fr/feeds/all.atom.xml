@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-10-29T14:22:00+01:00</updated><entry><title>Using openid and the likes to protect static content (lighttpd)</title><link href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="alternate"></link><updated>2013-10-29T14:22:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:using-openid-and-the-likes-to-protect-static-content-lighttpd.html</id><summary type="html">&lt;p&gt;I &lt;a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html"&gt;recently&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-10-29T21:11:00+01:00</updated><entry><title>A linux desktop version of Google Authenticator in your tray</title><link href="http://blog.chmd.fr/a-linux-desktop-version-of-google-authenticator-in-your-tray.html" rel="alternate"></link><updated>2013-10-29T21:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:a-linux-desktop-version-of-google-authenticator-in-your-tray.html</id><summary type="html">&lt;p&gt;A while ago, I activated the 2-step verification with my google account.
+It sure enhances the security, but I was always scared of what would
+happen if I loose my phone and my backup codes at the same time. Not any
+more!&lt;/p&gt;
+&lt;p&gt;I discovered that you could actually generate the same codes with
+oathtool, from the &lt;a href="http://www.nongnu.org/oath-toolkit/"&gt;oath-toolkit&lt;/a&gt;
+project.&lt;/p&gt;
+&lt;p&gt;You need the base32-encoded string that you obtained from google when you
+initialized the app. Basically, it is encoded raw in the qr-code they give
+you to flash, so you just need to copy what barcode-scanner is printing.
+Save &lt;/p&gt;</summary><category term="shell"></category></entry><entry><title>Using openid and the likes to protect static content (lighttpd)</title><link href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="alternate"></link><updated>2013-10-29T14:22:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:using-openid-and-the-likes-to-protect-static-content-lighttpd.html</id><summary type="html">&lt;p&gt;I &lt;a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html"&gt;recently&lt;/a&gt;
 set up a self-hosted gallery for my pictures. Obviously, I did this
 because I wanted to stop giving my content to external platforms, but also
 to gain some level of privacy: I want to limit the number of people who
@@ -1811,7 +1821,7 @@ beaucoup plus facile à installer, plus stable et bénéficie d'un
 très bon système de plugins, ma préférence se porte sur Tiny tiny
 rss, qui a un développement plus dynamique, et surtout dont
 l'interface se révèle bien plus agréable et rapide à utiliser : si
-j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait [un billet][1] que j'ai trouvé assez
+j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait &lt;a href="http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom"&gt;un billet&lt;/a&gt; que j'ai trouvé assez
 intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
 arguments, notamment le contrôle sur les données personnelles qu'on a avec
 un tel lecteur et qu'on n'a pas chez les fournisseurs de services en
@@ -1837,8 +1847,7 @@ possible d'en utiliser une sur mon compte free.&lt;/p&gt;
 &lt;a href="http://feedonfeeds.com/"&gt;feed on feeds&lt;/a&gt; et ses petit frères
 &lt;a href="http://fofredux.sourceforge.net/"&gt;FoFredux&lt;/a&gt; et
 &lt;a href="http://sourceforge.net/projects/monkeychow/"&gt;Monckeyshow&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;
-&lt;p&gt;[1] http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;mencoder&lt;/span&gt;
