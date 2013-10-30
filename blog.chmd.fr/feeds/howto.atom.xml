@@ -817,15 +817,14 @@ j'ajoute quelques explications:&lt;/p&gt;
 plein d'idées.&lt;/p&gt;</summary><category term="incron"></category><category term="inotify"></category><category term="notify-send"></category></entry><entry><title>La TODO liste du pauvre</title><link href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="alternate"></link><updated>2009-12-20T22:08:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-12-20:la-todo-liste-du-pauvre.html</id><summary type="html">&lt;p&gt;Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
 Paradoxalement, si on cherche quelque chose de simple, on ne trouve
 pas. Ce que je cherchais à faire est on ne peut plus simple à
-décrire: quelque chose qui apparaisse une fois par heure. En effet,
-le problème des notes persistantes est que l'on finit par ne plus
-les voir. Pour cela, j'ai opté pour les notifications. Le principe
-est simple: on met sa TODO liste dans le fichier \~/TODO. Une fois
-par heure, le contenu de ce fichier est affiché dans une bulle de
-notification qui dure 10 secondes. Une façon gentille de rappeler
-les choses à faire, intrusive, certe, mais à la durée assez courte
-pour ne pas être ennuyeuse. Ça se fait très facilement avec le
-script suivant:&lt;/p&gt;
+décrire: quelque chose qui apparaisse une fois par heure.&lt;/p&gt;
+&lt;p&gt;En effet, le problème des notes persistantes est que l'on finit par ne
+plus les voir. Pour cela, j'ai opté pour les notifications. Le principe
+est simple: on met sa TODO liste dans le fichier &lt;code&gt;~/TODO&lt;/code&gt;. Une fois par
+heure, le contenu de ce fichier est affiché dans une bulle de notification
+qui dure 10 secondes. Une façon gentille de rappeler les choses à faire,
+intrusive, certe, mais à la durée assez courte pour ne pas être ennuyeuse.
+Ça se fait très facilement avec le script suivant:&lt;/p&gt;
 &lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
  2
  3
