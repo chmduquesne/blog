@@ -59,5 +59,5 @@ plain text file. No need to build a new one in a hurry!
 
 You can get a look at what it looks like on [my own
 résumé](//resume.chmd.fr). The full code can be found on
-[git.chmd.fr](https://git.chmd.fr/?p=resume.git) ([github
-mirror](https://github.com/chmduquesne/resume))
+[git.chmd.fr](https://git.chmd.fr/?p=resume.git) (and
+[github](https://github.com/chmduquesne/resume))
