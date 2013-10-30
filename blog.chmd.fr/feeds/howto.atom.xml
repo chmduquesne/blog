@@ -316,16 +316,16 @@ Original version from &lt;a href="http://michael.gorven.za.net/blog/2009/06/18/s
 Gorven&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;A little explanation:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;CTRL-F6 is the shortcut to trigger the script (I've been using it for
+&lt;li&gt;&lt;code&gt;CTRL-F6&lt;/code&gt; is the shortcut to trigger the script (I've been using it for
   ages, it is originally the default shortcut used in the &lt;a href="https://addons.mozilla.org/fr/firefox/addon/3282/"&gt;password hasher
   firefox extension&lt;/a&gt;).&lt;/li&gt;
-&lt;li&gt;"y" yanks the url,&lt;/li&gt;
-&lt;li&gt;":!\~/.scripts/supergenpass&amp;lt;Space&gt;'&amp;lt;S-Insert&gt;'&amp;lt;Return&gt;" will call the
-  program \~/.scripts/supergenpass with the content of the clipboard
-  (using Shift+Insert)&lt;/li&gt;
-&lt;li&gt;&amp;lt;Esc&gt;2gi will then focus the second field (I usually call it once I've
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; yanks the url,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;:!~/.scripts/supergenpass&amp;lt;Space&amp;gt;'&amp;lt;S-Insert&amp;gt;'&amp;lt;Return&amp;gt;&lt;/code&gt; will call the
+  program &lt;code&gt;~/.scripts/supergenpass&lt;/code&gt; with the content of the clipboard
+  (using &lt;code&gt;Shift+Insert&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Esc&amp;gt;2gi&lt;/code&gt; will then focus the second field (I usually call it once I've
   filled my login)&lt;/li&gt;
-&lt;li&gt;and &amp;lt;S-Insert&gt; will paste the clipboard (now filled with the generated
+&lt;li&gt;and &lt;code&gt;&amp;lt;S-Insert&amp;gt;&lt;/code&gt; will paste the clipboard (now filled with the generated
   password) in this focused field.&lt;/li&gt;
 &lt;/ul&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of people, I
 synchronize my dotfile using a DVCS on &lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public

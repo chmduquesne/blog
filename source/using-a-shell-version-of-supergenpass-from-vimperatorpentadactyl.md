@@ -33,14 +33,14 @@ Gorven](http://michael.gorven.za.net/blog/2009/06/18/supergenpass-cellphones-com
 
 A little explanation:
 
-- CTRL-F6 is the shortcut to trigger the script (I've been using it for
+- `CTRL-F6` is the shortcut to trigger the script (I've been using it for
   ages, it is originally the default shortcut used in the [password hasher
   firefox extension](https://addons.mozilla.org/fr/firefox/addon/3282/)).
-- "y" yanks the url,
-- ":!\~/.scripts/supergenpass<Space\>'<S-Insert\>'<Return\>" will call the
-  program \~/.scripts/supergenpass with the content of the clipboard
-  (using Shift+Insert)
-- <Esc\>2gi will then focus the second field (I usually call it once I've
+- `y` yanks the url,
+- `:!~/.scripts/supergenpass<Space>'<S-Insert>'<Return>` will call the
+  program `~/.scripts/supergenpass` with the content of the clipboard
+  (using `Shift+Insert`)
+- `<Esc>2gi` will then focus the second field (I usually call it once I've
   filled my login)
-- and <S-Insert\> will paste the clipboard (now filled with the generated
+- and `<S-Insert>` will paste the clipboard (now filled with the generated
   password) in this focused field.
