@@ -287,44 +287,47 @@ story).&lt;/p&gt;
 anyone does and has any success with it, please leave a comment
 here, I am interested. I would also be interested if someone knows
 any http server lighter than apache and guaranteed to support the
-CONNECT method...&lt;/p&gt;</summary><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-20:using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a
-&lt;a href="http://supergenpass.com/"&gt;supergenpass&lt;/a&gt; user:
-&lt;a href="http://www.businessinsider.com/gawker-hacked-2010-12"&gt;gawker.com was hacked&lt;/a&gt;
-and a huge number of their username/password hashes was exposed.
-While I am not happy with the fact my email was part of the leak
-and I've stopped reading anything from them, I know there are very
-little chances for me to get problems with that, because the
-password I used on their site was not reused elsewhere. But
-&lt;a href="http://akibjorklund.com/2009/supergenpass-is-not-that-secure"&gt;supergenpass is not that secure&lt;/a&gt;.
-Any script executed in the same page as supergenpass is able to see
-your master password. If the webmaster of the site you are visiting
-is evil, he could grab your master password and hack all your
-accounts. If you are a vimperator/pentadactyl user, it is easy to
-fix that, by executing supergenpass as a shell command (What
-follows is from my pentadactylrc):&lt;/p&gt;
+CONNECT method...&lt;/p&gt;</summary><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-20:using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a &lt;a href="http://supergenpass.com/"&gt;supergenpass&lt;/a&gt;
+user: &lt;a href="http://www.businessinsider.com/gawker-hacked-2010-12"&gt;gawker.com was
+hacked&lt;/a&gt; and a huge
+number of their username/password hashes was exposed.  While I am not
+happy with the fact my email was part of the leak and I've stopped reading
+anything from them, I know there are very little chances for me to get
+problems with that, because the password I used on their site was not
+reused elsewhere.&lt;/p&gt;
+&lt;p&gt;But &lt;a href="http://akibjorklund.com/2009/supergenpass-is-not-that-secure"&gt;supergenpass is not that
+secure&lt;/a&gt;.
+Any script executed in the same page as supergenpass is able to see your
+master password. If the webmaster of the site you are visiting is evil, he
+could grab your master password and hack all your accounts. If you are a
+vimperator/pentadactyl user, it is easy to fix that, by executing
+supergenpass as a shell command (What follows is from my pentadactylrc):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;map&lt;/span&gt; &lt;span class="na"&gt;-modes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="err"&gt;~&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;.scripts&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;supergenpass&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Space&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;S-Insert&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Esc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="nx"&gt;gi&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;S&lt;/span&gt;&lt;span class="na"&gt;-Insert&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="kt"&gt;map&lt;/span&gt; &lt;span class="na"&gt;-modes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Esc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Where \~/.scripts/supergenpass is a python supergenpass script I
-customized for my needs (it uses the gtk-based ssh-askpass program
-to get the password, instead of using the python getpass library,
-which is command line based). You'll find it in
-&lt;a href="https://bitbucket.org/chmduquesne/dotfiles/src/624d4f104f7d/scripts/supergenpass"&gt;my dotfiles&lt;/a&gt;.
-Original version from
-&lt;a href="http://michael.gorven.za.net/blog/2009/06/18/supergenpass-cellphones-command-line"&gt;Michael Gorven&lt;/a&gt;.
-A little explanation: CTRL-F6 is the shortcut to trigger the script
-(I've been using it for ages, it is originally the default shortcut
-used in the
-&lt;a href="https://addons.mozilla.org/fr/firefox/addon/3282/"&gt;password hasher firefox extension&lt;/a&gt;).
-"y" yanks the url,
-":!\~/.scripts/supergenpass&amp;lt;Space&gt;'&amp;lt;S-Insert&gt;'&amp;lt;Return&gt;" will
-call the program \~/.scripts/supergenpass with the content of the
-clipboard (using Shift+Insert), &amp;lt;Esc&gt;2gi will then focus the
-second field (I usually call it once I've filled my login) and
-&amp;lt;S-Insert&gt; will paste the clipboard (now filled with the generated
-password) in this focused field.&lt;/p&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of people, I
+&lt;p&gt;Where &lt;code&gt;~/.scripts/supergenpass&lt;/code&gt; is a python supergenpass script I
+customized for my needs (it uses the gtk-based ssh-askpass program to get
+the password, instead of using the python getpass library, which is
+command line based). You'll find it in &lt;a href="https://bitbucket.org/chmduquesne/dotfiles/src/624d4f104f7d/scripts/supergenpass"&gt;my
+dotfiles&lt;/a&gt;.
+Original version from &lt;a href="http://michael.gorven.za.net/blog/2009/06/18/supergenpass-cellphones-command-line"&gt;Michael
+Gorven&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A little explanation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CTRL-F6 is the shortcut to trigger the script (I've been using it for
+  ages, it is originally the default shortcut used in the &lt;a href="https://addons.mozilla.org/fr/firefox/addon/3282/"&gt;password hasher
+  firefox extension&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;"y" yanks the url,&lt;/li&gt;
+&lt;li&gt;":!\~/.scripts/supergenpass&amp;lt;Space&gt;'&amp;lt;S-Insert&gt;'&amp;lt;Return&gt;" will call the
+  program \~/.scripts/supergenpass with the content of the clipboard
+  (using Shift+Insert)&lt;/li&gt;
+&lt;li&gt;&amp;lt;Esc&gt;2gi will then focus the second field (I usually call it once I've
+  filled my login)&lt;/li&gt;
+&lt;li&gt;and &amp;lt;S-Insert&gt; will paste the clipboard (now filled with the generated
+  password) in this focused field.&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of people, I
 synchronize my dotfile using a DVCS on &lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public
 repository&lt;/a&gt;. I save as much
 stuff as I can, provided it does not contains sensitive stuff like
