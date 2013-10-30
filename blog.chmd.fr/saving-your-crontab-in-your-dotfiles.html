@@ -28,19 +28,18 @@
 </header>
 <article>
     <div class="entry-content">
-    <p>In order to share them across several machine, like a lot of
-people, I synchronize my dotfile using a DCVS on
-<a href="http://bitbucket.org/chmduquesne/dotfiles">a public repository</a>. I
-save as much stuff as I can, provided it does not contains
-sensitive stuff like passwords. Problem: How do you save your
-crontab? I finally had a look at the crontab manual to realize that
-crontab could be called on a file. The following line goes into my
-\~/.zshrc:</p>
+    <p>In order to share them across several machine, like a lot of people, I
+synchronize my dotfile using a DVCS on <a href="http://bitbucket.org/chmduquesne/dotfiles">a public
+repository</a>. I save as much
+stuff as I can, provided it does not contains sensitive stuff like
+passwords. Problem: How do you save your crontab? I finally had a look at
+the crontab manual to realize that crontab could be called on a file. The
+following line goes into my <code>~/.zshrc</code>:</p>
 <div class="highlight"><pre><span class="n">alias</span> <span class="n">crontab</span><span class="o">-</span><span class="n">e</span><span class="o">=</span><span class="err">&#39;</span><span class="n">vi</span> <span class="o">~/</span><span class="p">.</span><span class="n">crontab</span> <span class="o">&amp;&amp;</span> <span class="n">crontab</span> <span class="o">~/</span><span class="p">.</span><span class="n">crontab</span><span class="err">&#39;</span>
 </pre></div>
 
 
-<p>Edit: I find even better to use a shell function rather than an
+<p>Edit: I now find even better to use a shell function rather than an
 alias:</p>
 <div class="highlight"><pre><span class="cp"># CRONTAB</span>
 <span class="k">if</span> <span class="n">test</span> <span class="o">-</span><span class="n">z</span> <span class="err">$</span><span class="n">CRONTABCMD</span><span class="p">;</span> <span class="n">then</span>

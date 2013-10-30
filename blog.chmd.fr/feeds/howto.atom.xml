@@ -324,19 +324,18 @@ call the program \~/.scripts/supergenpass with the content of the
 clipboard (using Shift+Insert), &amp;lt;Esc&gt;2gi will then focus the
 second field (I usually call it once I've filled my login) and
 &amp;lt;S-Insert&gt; will paste the clipboard (now filled with the generated
-password) in this focused field.&lt;/p&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of
-people, I synchronize my dotfile using a DCVS on
-&lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public repository&lt;/a&gt;. I
-save as much stuff as I can, provided it does not contains
-sensitive stuff like passwords. Problem: How do you save your
-crontab? I finally had a look at the crontab manual to realize that
-crontab could be called on a file. The following line goes into my
-\~/.zshrc:&lt;/p&gt;
+password) in this focused field.&lt;/p&gt;</summary><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of people, I
+synchronize my dotfile using a DVCS on &lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public
+repository&lt;/a&gt;. I save as much
+stuff as I can, provided it does not contains sensitive stuff like
+passwords. Problem: How do you save your crontab? I finally had a look at
+the crontab manual to realize that crontab could be called on a file. The
+following line goes into my &lt;code&gt;~/.zshrc&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;vi&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Edit: I find even better to use a shell function rather than an
+&lt;p&gt;Edit: I now find even better to use a shell function rather than an
 alias:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# CRONTAB&lt;/span&gt;
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
