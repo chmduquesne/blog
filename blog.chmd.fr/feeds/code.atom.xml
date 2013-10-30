@@ -186,51 +186,47 @@ doc/doxygen_html.cfg.in :&lt;/p&gt;
 &lt;p&gt;Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
 va être généré, et les expressions entre @ vont y être remplacées
 par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
-fichier pour véritablement générer la doc...&lt;/p&gt;</summary><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="alternate"></link><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-02-25:vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en
-profite donc pour rendre hommage au méconnu
-&lt;a href="http://clewn.sourceforge.net/"&gt;vimgdb&lt;/a&gt;. vimgdb est un patch pour
-vim qui permet de débogguer dans vim. On ne vantera jamais assez
-les mérites d'un déboggeur (franchement, il y a un stade où il faut
-arrêter les fprintf(stdout, "kikoo") et les cout &amp;lt;&amp;lt;"lol"), que ce
-soit parce que c'est franchement plus élégant, que c'est plus le
-pratique quand on maitrise, ou parce que c'est mille fois plus
-puissant. Alors, me direz-vous, chers adeptes de gvim, qu'il existe
-déjà un plugin pour vim nommé
-&lt;a href="http://clewn.sourceforge.net/"&gt;clewn&lt;/a&gt; (ou voir mieux,
-&lt;a href="http://pyclewn.wiki.sourceforge.net/"&gt;pyclewn&lt;/a&gt;) qui fait la même
-chose sans se taper de recompilation intempestive de son éditeur
-favori. Eh bien moi je vous répond: oui mais dans gvim on ne peut
-pas retrouver le shell en tapant Ctrl-Z (ce qui met vim en
-arrière-plan) et c'est un sérieux handicap pour les gens comme moi
-qui apprécient énormément cette feature (au fait, fg est votre ami
-si vous découvrez en lisant l'article et que vous ne savez pas
-comment revenir à vim). Malheureusement, le paquet fait défaut sur
-la plupart des distrib (sauf archlinux, où je me suis permis de
-l'ajouter dans
-&lt;a href="http://aur.archlinux.org/packages.php?O=0&amp;amp;K=vimgdb&amp;amp;do_Search=Go"&gt;AUR&lt;/a&gt;
--- si vous avez des suggestions pour améliorer le pkgbuild,
-n'hésitez pas). Vous pouvez donc vous inspirer dudit pkgbuild pour
-&lt;a href="http://clewn.sourceforge.net/install.html"&gt;compiler votre version&lt;/a&gt;,
-ou suivre les indications du site (je vais pas vous dire comment
-compiler un programme, quand même!). Après, en installant le plugin
-vim pour gdb (comme indiqué dans la procédure du lien précédent),
-vous avez accès à tout un cas de commandes sympa (:help gdb pour
-l'aide), qui permettent de voir vos variables et de suivre le
-déroulement des opérations dans l'éditeur. Cool, non? Preuve que
-c'est bien pensé, je n'ai eu à changer aucun des raccourcis par
-défaut (J'ai juste changé un "where" en "where all" dans
+fichier pour véritablement générer la doc...&lt;/p&gt;</summary><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="alternate"></link><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-02-25:vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en profite donc
+pour rendre hommage au méconnu &lt;a href="http://clewn.sourceforge.net/"&gt;vimgdb&lt;/a&gt;.
+vimgdb est un patch pour vim qui permet de débogguer dans vim. On ne
+vantera jamais assez les mérites d'un déboggeur (franchement, il y a un
+stade où il faut arrêter les &lt;code&gt;fprintf(stdout, "kikoo")&lt;/code&gt; et les &lt;code&gt;cout
+&amp;lt;&amp;lt;"lol"&lt;/code&gt;), que ce soit parce que c'est franchement plus élégant, que c'est
+plus le pratique quand on maitrise, ou parce que c'est mille fois plus
+puissant.&lt;/p&gt;
+&lt;p&gt;Alors, me direz-vous, chers adeptes de gvim, qu'il existe déjà un plugin
+pour vim nommé &lt;a href="http://clewn.sourceforge.net/"&gt;clewn&lt;/a&gt; (ou voir mieux,
+&lt;a href="http://pyclewn.wiki.sourceforge.net/"&gt;pyclewn&lt;/a&gt;) qui fait la même chose
+sans se taper de recompilation intempestive de son éditeur favori. Eh bien
+moi je vous répond: oui mais dans gvim on ne peut pas retrouver le shell
+en tapant Ctrl-Z (ce qui met vim en arrière-plan) et c'est un sérieux
+handicap pour les gens comme moi qui apprécient énormément cette feature
+(au fait, fg est votre ami si vous découvrez en lisant l'article et que
+vous ne savez pas comment revenir à vim).&lt;/p&gt;
+&lt;p&gt;Malheureusement, le paquet fait défaut sur la plupart des distrib (sauf
+archlinux, où je me suis permis de l'ajouter dans
+&lt;a href="http://aur.archlinux.org/packages.php?O=0&amp;amp;K=vimgdb&amp;amp;do_Search=Go"&gt;AUR&lt;/a&gt; --
+si vous avez des suggestions pour améliorer le PKGBUILD, n'hésitez pas).
+Vous pouvez donc vous inspirer dudit PKGBUILD pour &lt;a href="http://clewn.sourceforge.net/install.html"&gt;compiler votre
+version&lt;/a&gt;, ou suivre les
+indications du site (je vais pas vous dire comment compiler un programme,
+quand même!). Après, en installant le plugin vim pour gdb (comme indiqué
+dans la procédure du lien précédent), vous avez accès à tout un cas de
+commandes sympa (&lt;code&gt;:help gdb&lt;/code&gt; pour l'aide), qui permettent de voir vos
+variables et de suivre le déroulement des opérations dans l'éditeur. Cool,
+non? Preuve que c'est bien pensé, je n'ai eu à changer aucun des
+raccourcis par défaut (J'ai juste changé un &lt;code&gt;where&lt;/code&gt; en &lt;code&gt;where all&lt;/code&gt; dans
 .vim/macros/gdb_mappings.vim). Evidemment, il est aussi possible
-d'ajouter ses propres mappings ou de modifier ceux qui sont
-fournis. N'oubliez pas de rajouter run macros/gdb_mappings.vim
-dans votre .vimrc! Je vous suggère aussi de vous renseigner sur gdb
-et de suivre le tuto de
-&lt;a href="http://dirac.org/linux/gdb/"&gt;Peter Jay Salzman&lt;/a&gt;, qui m'a bien
-initié. Pour ma part, je conserve aussi dans un coin
-&lt;a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html"&gt;un excellent lien&lt;/a&gt;
-qui me sert de référence en cas de trou de mémoire... Bon
-déboggage! Si vous souhaitez des screenshots, regardez
-&lt;a href="http://sourceforge.net/project/screenshots.php?group_id=111038"&gt;par là&lt;/a&gt;...
-PS: apparemment mon pkgbuild a été marqué "out of date", je vais
+d'ajouter ses propres mappings ou de modifier ceux qui sont fournis.&lt;/p&gt;
+&lt;p&gt;N'oubliez pas de rajouter run macros/gdb_mappings.vim dans votre .vimrc!
+Je vous suggère aussi de vous renseigner sur gdb et de suivre le tuto de
+&lt;a href="http://dirac.org/linux/gdb/"&gt;Peter Jay Salzman&lt;/a&gt;, qui m'a bien initié.
+Pour ma part, je conserve aussi dans un coin &lt;a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html"&gt;un excellent
+lien&lt;/a&gt; qui me sert de
+référence en cas de trou de mémoire... Bon déboggage! Si vous souhaitez
+des screenshots, regardez &lt;a href="http://sourceforge.net/project/screenshots.php?group_id=111038"&gt;par
+là&lt;/a&gt;...&lt;/p&gt;
+&lt;p&gt;PS: apparemment mon PKGBUILD a été marqué "out of date", je vais
 corriger ça dès que possible...&lt;/p&gt;</summary><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-06-08:luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
 d'importer/exporter de l'&lt;a href="http://fr.wikipedia.org/wiki/Unified_Modeling_Language"&gt;uml&lt;/a&gt; pour un projet C++ que je vais faire cet
 été. L'idée est la suivante : je souhaiterais que les modifications de mon
