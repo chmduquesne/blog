@@ -172,15 +172,19 @@ projet sur github:&lt;/p&gt;
 
 &lt;p&gt;Aller, en bonus, la pub de référence :)&lt;/p&gt;
 &lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="libre"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
-android. Pour ceux qui n'auraient pas suivi le lancement de
-l'application la semaine dernière, TalkMyPhone est une application
-permettant de contrôler son mobile à distance via xmpp, le
-protocole utilisé par jabber/gtalk. La version beta supporte
-désormais: - la réponse aux sms - faire sonner le téléphone à
-distance (pour le retrouver) - demander la géolocalisation du
-téléphone Ça se passe ici:
-&lt;a href="https://code.google.com/p/talkmyphone/"&gt;[https://code.google.com/p/talkmyphone/](https://code.google.com/p/talkmyphone/)&lt;/a&gt;
-Update: On en parle sur
+android.&lt;/p&gt;
+&lt;p&gt;Pour ceux qui n'auraient pas suivi le lancement de l'application la
+semaine dernière, TalkMyPhone est une application permettant de contrôler
+son mobile à distance via xmpp, le protocole utilisé par jabber/gtalk. La
+version beta supporte désormais:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;la réponse aux sms&lt;/li&gt;
+&lt;li&gt;faire sonner le téléphone à distance (pour le retrouver)&lt;/li&gt;
+&lt;li&gt;demander la géolocalisation du téléphone&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ça se passe ici:
+&lt;a href="https://code.google.com/p/talkmyphone/"&gt;https://code.google.com/p/talkmyphone/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Update: On en parle sur
 &lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</summary><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-10-06:gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
 sa version 7.0! Vous vous dîtes: "Bof, gdb je connais, une nouvelle
 version d'un débogueur qui sort, il n'y a pas de quoi fouetter un chat."
