@@ -21,31 +21,53 @@
 <h2>Articles by Tof</h2>
 
                                                     <header>
-                    <h1><a href="http://blog.chmd.fr/a-linux-desktop-version-of-google-authenticator-in-your-tray.html"
-                            id="page-title">A linux desktop version of Google Authenticator in your tray</a></h1>
-                                            <time datetime="2013-10-29T21:11:00">Tue 29 October 2013</time>
+                    <h1><a href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html"
+                            id="page-title">autotools, doxygen, et génération conditionnelle</a></h1>
+                                            <time datetime="2009-07-10T12:54:00">Fri 10 July 2009</time>
                                     </header>
                 <article>
-                    <p>A while ago, I activated the 2-step verification with my google account.
-It sure enhances the security, but I was always scared of what would
-happen if I loose my phone and my backup codes at the same time. Not any
-more!</p>
-<p>I discovered that you could actually generate the same codes with
-oathtool, from the <a href="http://www.nongnu.org/oath-toolkit/">oath-toolkit</a>
-project.</p>
-<p>You need the base32-encoded string that you obtained from google when you
-initialized the app. Basically, it is encoded raw in the qr-code they give
-you to flash, so you just need to copy what barcode-scanner is printing.
-Save </p>
+                    <p>On m'a donné une astuce bien sympa pour générer de la documentation
+de manière conditionnelle avec doxygen. J'utilise ça dans le projet
+que je code au boulot, et je pense que ça vaut le coup de partager.
+L'idée est de générer la  documentation automatiquement à chaque
+compilation de mon projet, en faisant appel aux features avancées
+de doxygen en fonction des outils dont dispose l'utilisateur : dot,
+htags, perl, etc... On va donc vérifier quels programmes sont
+présents grâce au configure.ac, et on va générer le doxyfile en
+fonction desquels sont présents. L'exemple que je donne n'est pas
+complet, mais vous pouvez vous en inspirer: Fichier configure.ac</p>
+<div class="highlight"><pre><span class="n">AC_CHECK_PROG</span><span class="p">([</span><span class="n">DOT</span><span class="p">],</span> <span class="p">[</span><span class="n">dot</span><span class="p">],</span> <span class="p">[</span><span class="n">yes</span><span class="p">],</span> <span class="p">[</span><span class="n">no</span><span class="p">])</span>
+<span class="n">AC_CHECK_PROG</span><span class="p">([</span><span class="n">HTAGS</span><span class="p">],</span> <span class="p">[</span><span class="n">htags</span><span class="p">],</span> <span class="p">[</span><span class="n">yes</span><span class="p">],</span> <span class="p">[</span><span class="n">no</span><span class="p">])</span>
+<span class="n">AC_PATH_PROG</span><span class="p">([</span><span class="n">PERL</span><span class="p">],</span> <span class="p">[</span><span class="n">perl</span><span class="p">],</span> <span class="p">[])</span>
+<span class="n">AM_CONDITIONAL</span><span class="p">([</span><span class="n">DOXYGEN</span><span class="p">],</span> <span class="p">[</span><span class="n">test</span> <span class="s">&quot;x$doxygen_ok&quot;</span> <span class="o">=</span> <span class="n">xyes</span><span class="p">])</span>
+<span class="n">AM_CONDITIONAL</span><span class="p">([</span><span class="n">DOT</span><span class="p">],</span> <span class="p">[</span><span class="n">test</span> <span class="s">&quot;x$dot_ok&quot;</span> <span class="o">=</span> <span class="n">xyes</span><span class="p">])</span>
+
+<span class="n">AC_CONFIG_FILES</span><span class="p">(</span>
+    <span class="n">doc</span><span class="o">/</span><span class="n">doxygen_html</span><span class="p">.</span><span class="n">cfg</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>Ensuite, il suffit de glisser les bonnes références dans le fichier
+doc/doxygen_html.cfg.in :</p>
+<div class="highlight"><pre><span class="n">USE_HTAGS</span>              <span class="o">=</span> <span class="err">@</span><span class="n">HTAGS</span><span class="err">@</span>
+<span class="n">PERL_PATH</span>              <span class="o">=</span> <span class="err">@</span><span class="n">PERL</span><span class="err">@</span>
+<span class="n">HAVE_DOT</span>               <span class="o">=</span> <span class="err">@</span><span class="n">DOT</span><span class="err">@</span>
+</pre></div>
+
+
+<p>Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
+va être généré, et les expressions entre @ vont y être remplacées
+par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
+fichier pour véritablement générer la doc...</p>
                 </article>
-                                <a href="a-linux-desktop-version-of-google-authenticator-in-your-tray.html#disqus_thread">
+                                <a href="autotools-doxygen-et-generation-conditionnelle.html#disqus_thread">
                     To the comments
                 </a>
                                             <section id="article-list">
                     <h2>All posts</h2>
                     <ol>
-                                                                                        <li><a href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="bookmark" title="Permalink to autotools, doxygen, et génération conditionnelle">autotools, doxygen, et génération conditionnelle</a></li>
-                                                            <li><a href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
+                                                                                        <li><a href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
                                                             <li><a href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="bookmark" title="Permalink to Continuous background compilation within vim">Continuous background compilation within vim</a></li>
                                                             <li><a href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="bookmark" title="Permalink to Couper une vidéo et extraire une scène d'un film">Couper une vidéo et extraire une scène d'un film</a></li>
                                                             <li><a href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="bookmark" title="Permalink to De l'intérêt de détacher des programmes de la console (sans screen)">De l'intérêt de détacher des programmes de la console (sans screen)</a></li>

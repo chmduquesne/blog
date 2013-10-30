@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/code.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-10-29T21:11:00+01:00</updated><entry><title>A linux desktop version of Google Authenticator in your tray</title><link href="http://blog.chmd.fr/a-linux-desktop-version-of-google-authenticator-in-your-tray.html" rel="alternate"></link><updated>2013-10-29T21:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:a-linux-desktop-version-of-google-authenticator-in-your-tray.html</id><summary type="html">&lt;p&gt;A while ago, I activated the 2-step verification with my google account.
-It sure enhances the security, but I was always scared of what would
-happen if I loose my phone and my backup codes at the same time. Not any
-more!&lt;/p&gt;
-&lt;p&gt;I discovered that you could actually generate the same codes with
-oathtool, from the &lt;a href="http://www.nongnu.org/oath-toolkit/"&gt;oath-toolkit&lt;/a&gt;
-project.&lt;/p&gt;
-&lt;p&gt;You need the base32-encoded string that you obtained from google when you
-initialized the app. Basically, it is encoded raw in the qr-code they give
-you to flash, so you just need to copy what barcode-scanner is printing.
-Save &lt;/p&gt;</summary><category term="shell"></category></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/code.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2011-09-22T00:00:00+02:00</updated><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
 The main reason why I prefer them over anything else is that I find it
 far easier to display it with notification popups this way.&lt;/p&gt;
 &lt;p&gt;I also heavily rely on gmail to organise myself. When I am reading emails

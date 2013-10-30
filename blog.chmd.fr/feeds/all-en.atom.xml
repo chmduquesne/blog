@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all-en.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-10-29T21:11:00+01:00</updated><entry><title>A linux desktop version of Google Authenticator in your tray</title><link href="http://blog.chmd.fr/a-linux-desktop-version-of-google-authenticator-in-your-tray.html" rel="alternate"></link><updated>2013-10-29T21:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:a-linux-desktop-version-of-google-authenticator-in-your-tray.html</id><summary type="html">&lt;p&gt;A while ago, I activated the 2-step verification with my google account.
-It sure enhances the security, but I was always scared of what would
-happen if I loose my phone and my backup codes at the same time. Not any
-more!&lt;/p&gt;
-&lt;p&gt;I discovered that you could actually generate the same codes with
-oathtool, from the &lt;a href="http://www.nongnu.org/oath-toolkit/"&gt;oath-toolkit&lt;/a&gt;
-project.&lt;/p&gt;
-&lt;p&gt;You need the base32-encoded string that you obtained from google when you
-initialized the app. Basically, it is encoded raw in the qr-code they give
-you to flash, so you just need to copy what barcode-scanner is printing.
-Save &lt;/p&gt;</summary><category term="shell"></category></entry><entry><title>Using openid and the likes to protect static content (lighttpd)</title><link href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="alternate"></link><updated>2013-10-29T14:22:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:using-openid-and-the-likes-to-protect-static-content-lighttpd.html</id><summary type="html">&lt;p&gt;I &lt;a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html"&gt;recently&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all-en.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-10-29T14:22:00+01:00</updated><entry><title>Using openid and the likes to protect static content (lighttpd)</title><link href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="alternate"></link><updated>2013-10-29T14:22:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:using-openid-and-the-likes-to-protect-static-content-lighttpd.html</id><summary type="html">&lt;p&gt;I &lt;a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html"&gt;recently&lt;/a&gt;
 set up a self-hosted gallery for my pictures. Obviously, I did this
 because I wanted to stop giving my content to external platforms, but also
 to gain some level of privacy: I want to limit the number of people who
