@@ -10,6 +10,3 @@ $(OUTPUTDIR)/%.html:
 
 clean:
 	rm -rf $(OUTPUTDIR)
-
-noop:
-	@echo nothing happened
