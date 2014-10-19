@@ -1,105 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Ch-M.D</title>
+    <title>Ch-M.D</title>
     <meta charset="utf-8" />
-        <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-                        <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
-                    <!-- hack to have the css in a relative path -->
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
     <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
     -->
     <link rel="stylesheet" href="/theme/css/rdark.css" />
     <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
-    </head>
+</head>
 
 <body id="index" class="home">
     <header id="banner" class="body">
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
-        <section id="content">
+<section id="content">
 <h2>Articles in the howto category</h2>
 
-                                                    <header>
-                    <h1><a href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html"
-                            id="page-title">Using openid and the likes to protect static content (lighttpd)</a></h1>
-                                            <time datetime="2013-10-29T14:22:00">Tue 29 October 2013</time>
-                                    </header>
+                <header>
+                    <h1><a href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"
+                            id="page-title">SSH over SSL, episode 4: a HAproxy based configuration</a></h1>
+                        <time datetime="2014-10-19T17:40:00">Sun 19 October 2014</time>
+                </header>
                 <article>
-                    <p>I <a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html">recently</a>
-set up a self-hosted gallery for my pictures. Obviously, I did this
-because I wanted to stop giving my content to external platforms, but also
-to gain some level of privacy: I want to limit the number of people who
-are able to look at these pictures.</p>
-<p>While setting up the gallery was relatively easy, restricting the access
-was an interesting problem. I did not want to use a global
-<code>username:password</code> combination, because this kind of credentials
-inevitably become public at some point. A different combination for each
-user would have been better, but some people are not as careful as I am
-with their own credentials, and they may just give away their own access
-to others. It is also a lot of maintenance, and I don't want to deal with
-the risks involved with securely processing my friends' passwords.</p>
-<p>I then had a look at single sign on solutions such as openid. This kind of
-technology was appealing, for several reasons:</p>
+                    <h2>Purpose of this article</h2>
+<p>In this article, I am describing how to SSH to a remote server as
+discreetly as possible, by concealing the SSH packets into SSL. The
+server will still be able to run an SSL website.</p>
+<h2>Rationale</h2>
+<p>In most cases, when your outgoing firewall blocks ssh, you can work around
+with <a href="http://www.rutschle.net/tech/sslh.shtml">sslh</a>, a tool that listens
+on the port 443 server-side, and selectively forwards, depending on the
+packet type, the incoming TCP connections to a local SSH or SSL service.
+You can then happily ssh to your server on the port 443 (normally
+dedicated to HTTPS), and also run a website on the same server so your
+connections look you are just harmlessly visiting this website. However,
+if your firewall is really sneaky, it will detect that you are sending the
+wrong packet type to the SSL port, and block your connection. In this
+case, there is not much choice: we must hide the SSH connection into a
+real SSL tunnel.</p>
+<h2>Comment for the long time readers</h2>
+<p>I know, I know: I covered this topic a few times already (here are the
+first, second, and third episodes). All of these setups were relying on a
+feature of HTTP 1.1 called CONNECT. However, it turns out that most
+webserver do not implement this CONNECT feature. As a consequence, if you
+wanted to do this, you were more or less stuck with Apache. This time, we
+are breaking free from Apache, with a HAproxy-based configuration. We will
+use HAproxy advanced packet inspection capabilities to implement a switch
+of protocol, the same way sslh works.</p>
+<h2>Server configuration</h2>
+<p>Some assumptions:</p>
 <ul>
-<li>No password to process on my side</li>
-<li>People would identify with a very personal account (gmail, facebook),
-  that they are unlikely to be willing to share with anyone else.</li>
-<li>It is very easy to use for the end user.</li>
+<li>The port 443 of your server is publicly reachable</li>
+<li>It runs ssh (but no need for the port 22 to be reachable)</li>
+<li>Some web server is running on the port 80 and it supports the
+  'X-Forwarded-Proto' header (see the documentation of your webserver to
+  enable that).</li>
+<li>You have generated ssl certificates (you copied the public key and the
+  private key in the same file /etc/ssl/private/certs.pem)</li>
 </ul>
-<p>I have thus been looking for a solution to get openid/oauth authentication
-to cooperate with lighttpd in order to protect my new gallery. After some
-work, I came up with <a href="https://git.chmd.fr/?p=lighttpd-external-auth;a=blob_plain;f=external-auth.lua">a lua magnet
-script</a>
-that does the job. It is inspired by <a href="https://github.com/tai/mod-auth-ticket-for-lighttpd">this
-module</a>, but it does
-not require to be compiled and works out of the box on recent versions of
-lighttpd (e.g.  debian stable). I also believe that it offers <a href="https://github.com/tai/mod-auth-ticket-for-lighttpd/issues/4">a better
-security</a>.</p>
-<p>It works pretty well! You can try to visit
-<a href="https://gallery.chmd.fr">gallery.chmd.fr</a>  and you should be presented
-with my very own login page. Should you try to login, the script will
-gently tell you that though your openid/oauth login was successful, you
-cannot access the gallery because it is a privilege reserved to the people
-I explicitly authorized. Beware that if you are not using linux, you might
-experiment a warning from your browser: that is because I use a
-certificate signed by <a href="http://www.cacert.org/">cacert</a>, a community-driven
-certificate authority whose root certificate is not included in commercial
-OS (yet).</p>
-<p>If you want to use this script on your own lighttpd server, I have set up
-a <a href="http://lighttpd-external-auth.chmd.fr/">dedicated website</a> to explain
-how to proceed. Check it out!</p>
-<p>One last thing: I am not a security expert, and I did this for fun. I
-believe it is pretty secure (provided you trust the third parties
-involved, of course), but I still have to warn you: don't use this to
-protect important documents. If you have knowledge about security and want
-to comment - or even better: to contribute - be my guest!</p>
+<p>Now, you need to setup HAproxy. HAproxy defines backends and frontends, and it
+can communicate with these backends both at the HTTP and at the TCP level. Let
+us start with the backends:</p>
+<p>The web server backend: we tell HAproxy that a server is running on the
+port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
+header, such that the web server knows that the clients are connecting
+securely. If you expose the same backend with HAproxy on the port 80,
+don't forget to filter the X-Forwarded-Proto header!</p>
+<div class="highlight"><pre><span class="n">backend</span> <span class="n">secure_http</span>
+    <span class="n">reqadd</span> <span class="n">X</span><span class="o">-</span><span class="n">Forwarded</span><span class="o">-</span><span class="n">Proto</span><span class="o">:</span><span class="err">\</span> <span class="n">https</span>
+    <span class="n">rspadd</span> <span class="n">Strict</span><span class="o">-</span><span class="n">Transport</span><span class="o">-</span><span class="n">Security</span><span class="o">:</span><span class="err">\</span> <span class="n">max</span><span class="o">-</span><span class="n">age</span><span class="o">=</span><span class="mi">31536000</span>
+    <span class="n">mode</span> <span class="n">http</span>
+    <span class="n">option</span> <span class="n">httplog</span>
+    <span class="n">option</span> <span class="n">forwardfor</span>
+    <span class="n">server</span> <span class="n">local_http_server</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">80</span>
+</pre></div>
+
+
+<p>The ssh server:</p>
+<div class="highlight"><pre><span class="n">backend</span> <span class="n">ssh</span>
+    <span class="n">mode</span> <span class="n">tcp</span>
+    <span class="n">option</span> <span class="n">tcplog</span>
+    <span class="n">server</span> <span class="n">ssh</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">22</span>
+    <span class="n">timeout</span> <span class="n">server</span> <span class="mi">2</span><span class="n">h</span>
+</pre></div>
+
+
+<p>And now, the magic. This happens in the frontend section. We listen in TCP mode
+and inspect the connections. Depending on whether we see ssh or not, we hook it
+to one of the backends.</p>
+<div class="highlight"><pre><span class="n">frontend</span> <span class="n">ssl</span>
+    <span class="n">bind</span> <span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="o">:</span><span class="mi">443</span> <span class="n">ssl</span> <span class="n">crt</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">certs</span><span class="p">.</span><span class="n">pem</span> <span class="n">no</span><span class="o">-</span><span class="n">sslv3</span>
+    <span class="n">mode</span> <span class="n">tcp</span>
+    <span class="n">option</span> <span class="n">tcplog</span>
+    <span class="n">tcp</span><span class="o">-</span><span class="n">request</span> <span class="n">inspect</span><span class="o">-</span><span class="n">delay</span> <span class="mi">5</span><span class="n">s</span>
+    <span class="n">tcp</span><span class="o">-</span><span class="n">request</span> <span class="n">content</span> <span class="n">accept</span> <span class="k">if</span> <span class="n">HTTP</span>
+
+    <span class="n">acl</span> <span class="n">client_attempts_ssh</span> <span class="n">payload</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span> <span class="o">-</span><span class="n">m</span> <span class="n">bin</span> <span class="mi">5353482</span><span class="n">d322e30</span>
+
+    <span class="n">use_backend</span> <span class="n">ssh</span> <span class="k">if</span> <span class="o">!</span><span class="n">HTTP</span>
+    <span class="n">use_backend</span> <span class="n">ssh</span> <span class="k">if</span> <span class="n">client_attempts_ssh</span>
+    <span class="n">use_backend</span> <span class="n">secure_http</span> <span class="k">if</span> <span class="n">HTTP</span>
+</pre></div>
+
+
+<p>Once you are done, you can test if this works by connecting on the server
+with openssl.</p>
+<div class="highlight"><pre><span class="n">openssl</span> <span class="n">s_client</span> <span class="o">-</span><span class="n">connect</span> <span class="n">server</span><span class="p">.</span><span class="n">com</span><span class="o">:</span><span class="mi">443</span> <span class="o">-</span><span class="n">quiet</span>
+</pre></div>
+
+
+<p>If you see a string that looks like</p>
+<div class="highlight"><pre><span class="n">SSH</span><span class="o">-</span><span class="mf">2.0</span><span class="o">-</span><span class="n">OpenSSH_6</span><span class="mf">.6.1</span><span class="n">p1</span> <span class="n">Debian</span><span class="o">-</span><span class="mi">7</span>
+</pre></div>
+
+
+<p>then everything went fine!</p>
+<h2>Connecting from an SSH client</h2>
+<p>To connect to your server from linux, just drop this in your ~/.ssh/config:</p>
+<div class="highlight"><pre><span class="n">Host</span> <span class="n">server</span><span class="p">.</span><span class="n">com</span>
+    <span class="n">ProxyCommand</span> <span class="n">openssl</span> <span class="n">s_client</span> <span class="o">-</span><span class="n">connect</span> <span class="n">server</span><span class="p">.</span><span class="n">com</span><span class="o">:</span><span class="mi">443</span> <span class="o">-</span><span class="n">quiet</span>
+</pre></div>
+
+
+<p>If you are on windows and you cannot install anything client side, there
+is also a solution for you. Download socat and putty (none of them
+requires admin rights). Then, with socat, run:</p>
+<div class="highlight"><pre><span class="n">socat</span> <span class="n">TCP</span><span class="o">-</span><span class="n">LISTEN</span><span class="o">:</span><span class="mi">8888</span> <span class="n">OPENSSL</span><span class="o">:</span><span class="n">server</span><span class="p">.</span><span class="n">com</span><span class="o">:</span><span class="mi">443</span><span class="p">,</span><span class="n">verify</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+
+
+<p>And with putty, direct your client to 127.0.0.1 on the port 8888.</p>
+<h2>For the technically aware readers</h2>
+<p>So how does this work exactly? Basically, the <a href="https://tools.ietf.org/html/rfc4253#section-4.2">RFC 4253, section
+4.2</a> states that clients
+must send a string that starts with 'SSH-2.0' (this is also how sslh does
+it). Moreover, 5353482d322e30 is the binary representation of the string
+'SSH-2.0'. So everything boils down to this line:</p>
+<div class="highlight"><pre><span class="n">acl</span> <span class="n">client_attempts_ssh</span> <span class="n">payload</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span> <span class="o">-</span><span class="n">m</span> <span class="n">bin</span> <span class="mi">5353482</span><span class="n">d322e30</span>
+</pre></div>
+
+
+<p>When a new connection is made on the port 443, HAproxy decrypts the SSL
+layer, and checks whether the stream of data sent by the client starts
+with this string. We use the result of this condition to choose the
+backend. This handles the case of 'active' SSH clients (like
+openssh-client on linux), who send a packet as soon as they connect.
+There are also 'passive' SSH clients (like putty), who wait for the server
+to send a string. These clients will get that string after 5 seconds (the
+inspect-delay).</p>
+<h2>Conclusion</h2>
+<p>Happy SSH!</p>
                 </article>
-                                <a href="using-openid-and-the-likes-to-protect-static-content-lighttpd.html#disqus_thread">
+                <a href="ssh-over-ssl-episode-4-a-haproxy-based-configuration.html#disqus_thread">
                     To the comments
                 </a>
-                                            <section id="article-list">
+                <section id="article-list">
                     <h2>All posts</h2>
                     <ol>
-                                                                                        <li><a href="http://blog.chmd.fr/git-on-lighttpd.html" rel="bookmark" title="Permalink to Git on lighttpd">Git on lighttpd</a></li>
-                                                            <li><a href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="bookmark" title="Permalink to Jabber notifications on ssh login">Jabber notifications on ssh login</a></li>
-                                                            <li><a href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
-                                                            <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="bookmark" title="Permalink to SSH over SSL, episode 3: Avoiding using a patched apache.">SSH over SSL, episode 3: Avoiding using a patched apache.</a></li>
-                                                            <li><a href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="bookmark" title="Permalink to Using a shell version of supergenpass from vimperator/pentadactyl">Using a shell version of supergenpass from vimperator/pentadactyl</a></li>
-                                                            <li><a href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="bookmark" title="Permalink to Saving your crontab in your dotfiles">Saving your crontab in your dotfiles</a></li>
-                                                            <li><a href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="bookmark" title="Permalink to Notifications from google calendar on my desktop">Notifications from google calendar on my desktop</a></li>
-                                                            <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="bookmark" title="Permalink to SSH over SSL, episode 2: replacing proxytunnel with socat">SSH over SSL, episode 2: replacing proxytunnel with socat</a></li>
-                                                            <li><a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="bookmark" title="Permalink to SSH over SSL, a quick and minimal config.">SSH over SSL, a quick and minimal config.</a></li>
-                                                            <li><a href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="bookmark" title="Permalink to De l'intérêt de détacher des programmes de la console (sans screen)">De l'intérêt de détacher des programmes de la console (sans screen)</a></li>
-                                                            <li><a href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="bookmark" title="Permalink to Utilisons incron pour être notifiés des événements du système de fichiers">Utilisons incron pour être notifiés des événements du système de fichiers</a></li>
-                                                            <li><a href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="bookmark" title="Permalink to La TODO liste du pauvre">La TODO liste du pauvre</a></li>
-                                                            <li><a href="http://blog.chmd.fr/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="bookmark" title="Permalink to Gérer ses plugins vim avec :GetLatestVimScripts">Gérer ses plugins vim avec :GetLatestVimScripts</a></li>
-                                                            <li><a href="http://blog.chmd.fr/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="bookmark" title="Permalink to Mettre des couleurs un peu partout (gcc, diff, grep...)">Mettre des couleurs un peu partout (gcc, diff, grep...)</a></li>
-                                                            <li><a href="http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html" rel="bookmark" title="Permalink to Faire un gif animé à partir d'un film">Faire un gif animé à partir d'un film</a></li>
-                                        </ol>
+                <li><a href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="bookmark" title="Permalink to Using openid and the likes to protect static content (lighttpd)">Using openid and the likes to protect static content (lighttpd)</a></li>
+                <li><a href="http://blog.chmd.fr/git-on-lighttpd.html" rel="bookmark" title="Permalink to Git on lighttpd">Git on lighttpd</a></li>
+                <li><a href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="bookmark" title="Permalink to Jabber notifications on ssh login">Jabber notifications on ssh login</a></li>
+                <li><a href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="bookmark" title="Permalink to SSH over SSL, episode 3: Avoiding using a patched apache.">SSH over SSL, episode 3: Avoiding using a patched apache.</a></li>
+                <li><a href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="bookmark" title="Permalink to Using a shell version of supergenpass from vimperator/pentadactyl">Using a shell version of supergenpass from vimperator/pentadactyl</a></li>
+                <li><a href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="bookmark" title="Permalink to Saving your crontab in your dotfiles">Saving your crontab in your dotfiles</a></li>
+                <li><a href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="bookmark" title="Permalink to Notifications from google calendar on my desktop">Notifications from google calendar on my desktop</a></li>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="bookmark" title="Permalink to SSH over SSL, episode 2: replacing proxytunnel with socat">SSH over SSL, episode 2: replacing proxytunnel with socat</a></li>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="bookmark" title="Permalink to SSH over SSL, a quick and minimal config.">SSH over SSL, a quick and minimal config.</a></li>
+                <li><a href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="bookmark" title="Permalink to De l'intérêt de détacher des programmes de la console (sans screen)">De l'intérêt de détacher des programmes de la console (sans screen)</a></li>
+                <li><a href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="bookmark" title="Permalink to Utilisons incron pour être notifiés des événements du système de fichiers">Utilisons incron pour être notifiés des événements du système de fichiers</a></li>
+                <li><a href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="bookmark" title="Permalink to La TODO liste du pauvre">La TODO liste du pauvre</a></li>
+                <li><a href="http://blog.chmd.fr/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="bookmark" title="Permalink to Gérer ses plugins vim avec :GetLatestVimScripts">Gérer ses plugins vim avec :GetLatestVimScripts</a></li>
+                <li><a href="http://blog.chmd.fr/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="bookmark" title="Permalink to Mettre des couleurs un peu partout (gcc, diff, grep...)">Mettre des couleurs un peu partout (gcc, diff, grep...)</a></li>
+                <li><a href="http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html" rel="bookmark" title="Permalink to Faire un gif animé à partir d'un film">Faire un gif animé à partir d'un film</a></li>
+            </ol>
             </section><!-- #article-list -->
-            
+
     <hr />
     <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
 

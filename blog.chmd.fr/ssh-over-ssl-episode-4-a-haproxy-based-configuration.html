@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Ch-M.D - Articles by Tof</title>
+    <title>SSH over SSL, episode 4: a HAproxy based configuration</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -17,16 +18,17 @@
     <header id="banner" class="body">
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
-<section id="content">
-<h2>Articles by Tof</h2>
-
-                <header>
-                    <h1><a href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"
-                            id="page-title">SSH over SSL, episode 4: a HAproxy based configuration</a></h1>
-                        <time datetime="2014-10-19T17:40:00">Sun 19 October 2014</time>
-                </header>
-                <article>
-                    <h2>Purpose of this article</h2>
+<section id="content" class="body">
+<header>
+    <h1 class="entry-title">
+        <a href="ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="bookmark" title="Permalink to SSH over SSL, episode 4: a HAproxy based configuration">
+                SSH over SSL, episode 4: a HAproxy based configuration
+        </a>
+    </h1>
+</header>
+<article>
+    <div class="entry-content">
+    <h2>Purpose of this article</h2>
 <p>In this article, I am describing how to SSH to a remote server as
 discreetly as possible, by concealing the SSH packets into SSL. The
 server will still be able to run an SSL website.</p>
@@ -154,55 +156,23 @@ to send a string. These clients will get that string after 5 seconds (the
 inspect-delay).</p>
 <h2>Conclusion</h2>
 <p>Happy SSH!</p>
-                </article>
-                <a href="ssh-over-ssl-episode-4-a-haproxy-based-configuration.html#disqus_thread">
-                    To the comments
-                </a>
-                <section id="article-list">
-                    <h2>All posts</h2>
-                    <ol>
-                <li><a href="http://blog.chmd.fr/editing-a-cv-in-markdown-with-pandoc.html" rel="bookmark" title="Permalink to Editing a CV in markdown with pandoc">Editing a CV in markdown with pandoc</a></li>
-                <li><a href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="bookmark" title="Permalink to Using openid and the likes to protect static content (lighttpd)">Using openid and the likes to protect static content (lighttpd)</a></li>
-                <li><a href="http://blog.chmd.fr/git-on-lighttpd.html" rel="bookmark" title="Permalink to Git on lighttpd">Git on lighttpd</a></li>
-                <li><a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="bookmark" title="Permalink to Sigal, a static gallery generator">Sigal, a static gallery generator</a></li>
-                <li><a href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="bookmark" title="Permalink to Jabber notifications on ssh login">Jabber notifications on ssh login</a></li>
-                <li><a href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
-                <li><a href="http://blog.chmd.fr/operations-research-and-beer-drinking.html" rel="bookmark" title="Permalink to Operations Research and Beer drinking">Operations Research and Beer drinking</a></li>
-                <li><a href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="bookmark" title="Permalink to Releasing Michel, a flat-text-file-to-google-tasks uploader">Releasing Michel, a flat-text-file-to-google-tasks uploader</a></li>
-                <li><a href="http://blog.chmd.fr/going-static.html" rel="bookmark" title="Permalink to Going static">Going static</a></li>
-                <li><a href="http://blog.chmd.fr/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="bookmark" title="Permalink to plowbot, a jabber bot that downloads links from 1-click hosters">plowbot, a jabber bot that downloads links from 1-click hosters</a></li>
-                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="bookmark" title="Permalink to SSH over SSL, episode 3: Avoiding using a patched apache.">SSH over SSL, episode 3: Avoiding using a patched apache.</a></li>
-                <li><a href="http://blog.chmd.fr/je-prefere-ton-clone-padopi.html" rel="bookmark" title="Permalink to [Je préfère ton clone] padopi">[Je préfère ton clone] padopi</a></li>
-                <li><a href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="bookmark" title="Permalink to Using a shell version of supergenpass from vimperator/pentadactyl">Using a shell version of supergenpass from vimperator/pentadactyl</a></li>
-                <li><a href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="bookmark" title="Permalink to Saving your crontab in your dotfiles">Saving your crontab in your dotfiles</a></li>
-                <li><a href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="bookmark" title="Permalink to Notifications from google calendar on my desktop">Notifications from google calendar on my desktop</a></li>
-                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="bookmark" title="Permalink to SSH over SSL, episode 2: replacing proxytunnel with socat">SSH over SSL, episode 2: replacing proxytunnel with socat</a></li>
-                <li><a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="bookmark" title="Permalink to SSH over SSL, a quick and minimal config.">SSH over SSL, a quick and minimal config.</a></li>
-                <li><a href="http://blog.chmd.fr/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="bookmark" title="Permalink to Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete">Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</a></li>
-                <li><a href="http://blog.chmd.fr/google-releasing-a-constraint-programming-library.html" rel="bookmark" title="Permalink to Google releasing a constraint programming library">Google releasing a constraint programming library</a></li>
-                <li><a href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="bookmark" title="Permalink to Mise à jour de TalkMyPhone">Mise à jour de TalkMyPhone</a></li>
-                <li><a href="http://blog.chmd.fr/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="bookmark" title="Permalink to TalkMyPhone, une appli android pour recevoir des notifications de son téléphone">TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</a></li>
-                <li><a href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="bookmark" title="Permalink to De l'intérêt de détacher des programmes de la console (sans screen)">De l'intérêt de détacher des programmes de la console (sans screen)</a></li>
-                <li><a href="http://blog.chmd.fr/renaming-files-and-variables-from-vim.html" rel="bookmark" title="Permalink to renaming files and variables from vim">renaming files and variables from vim</a></li>
-                <li><a href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="bookmark" title="Permalink to Continuous background compilation within vim">Continuous background compilation within vim</a></li>
-                <li><a href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="bookmark" title="Permalink to Utilisons incron pour être notifiés des événements du système de fichiers">Utilisons incron pour être notifiés des événements du système de fichiers</a></li>
-                <li><a href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="bookmark" title="Permalink to La TODO liste du pauvre">La TODO liste du pauvre</a></li>
-                <li><a href="http://blog.chmd.fr/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="bookmark" title="Permalink to Gérer ses plugins vim avec :GetLatestVimScripts">Gérer ses plugins vim avec :GetLatestVimScripts</a></li>
-                <li><a href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="bookmark" title="Permalink to gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.">gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</a></li>
-                <li><a href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="bookmark" title="Permalink to autotools, doxygen, et génération conditionnelle">autotools, doxygen, et génération conditionnelle</a></li>
-                <li><a href="http://blog.chmd.fr/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="bookmark" title="Permalink to Mettre des couleurs un peu partout (gcc, diff, grep...)">Mettre des couleurs un peu partout (gcc, diff, grep...)</a></li>
-                <li><a href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="bookmark" title="Permalink to vim+gdb=vimgdb">vim+gdb=vimgdb</a></li>
-                <li><a href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="bookmark" title="Permalink to l'UML automatisé et le libre : c'est pas gagné!">l'UML automatisé et le libre : c'est pas gagné!</a></li>
-                <li><a href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="bookmark" title="Permalink to Les lecteurs de flux rss, en ligne, indépendants, libres (suite).">Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</a></li>
-                <li><a href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="bookmark" title="Permalink to Les lecteurs de flux rss en ligne libres">Les lecteurs de flux rss en ligne libres</a></li>
-                <li><a href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="bookmark" title="Permalink to Couper une vidéo et extraire une scène d'un film">Couper une vidéo et extraire une scène d'un film</a></li>
-                <li><a href="http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html" rel="bookmark" title="Permalink to Faire un gif animé à partir d'un film">Faire un gif animé à partir d'un film</a></li>
-            </ol>
-            </section><!-- #article-list -->
-
-    <hr />
-    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
-
+    </div>
+    <div class="comments">
+        <h2>Comments !</h2>
+        <!-- hack to add flattr -->
+        <script id='fbnrl3e'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=chmd&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbnrl3e');</script>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_identifier = "ssh-over-ssl-episode-4-a-haproxy-based-configuration.html";
+            (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//chmd.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        </div>
+</article>
+</section>
     <footer id="contentinfo" class="body">
         <address id="about" class="vcard body">
         Generated by <a href="http://getpelican.com/">pelican</a>,

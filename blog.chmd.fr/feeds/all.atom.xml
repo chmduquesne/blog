@@ -1,5 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-10-30T15:53:00+01:00</updated><entry><title>Editing a CV in markdown with pandoc</title><link href="http://blog.chmd.fr/editing-a-cv-in-markdown-with-pandoc.html" rel="alternate"></link><updated>2013-10-30T15:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-30:editing-a-cv-in-markdown-with-pandoc.html</id><summary type="html">&lt;p&gt;CV maintainance is one of these painful and repetitive tasks that you
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/all.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2014-10-19T17:40:00+02:00</updated><entry><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="alternate"></link><updated>2014-10-19T17:40:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2014-10-19:ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</id><summary type="html">&lt;h2&gt;Purpose of this article&lt;/h2&gt;
+&lt;p&gt;In this article, I am describing how to SSH to a remote server as
+discreetly as possible, by concealing the SSH packets into SSL. The
+server will still be able to run an SSL website.&lt;/p&gt;
+&lt;h2&gt;Rationale&lt;/h2&gt;
+&lt;p&gt;In most cases, when your outgoing firewall blocks ssh, you can work around
+with &lt;a href="http://www.rutschle.net/tech/sslh.shtml"&gt;sslh&lt;/a&gt;, a tool that listens
+on the port 443 server-side, and selectively forwards, depending on the
+packet type, the incoming TCP connections to a local SSH or SSL service.
+You can then happily ssh to your server on the port 443 (normally
+dedicated to HTTPS), and also run a website on the same server so your
+connections look you are just harmlessly visiting this website. However,
+if your firewall is really sneaky, it will detect that you are sending the
+wrong packet type to the SSL port, and block your connection. In this
+case, there is not much choice: we must hide the SSH connection into a
+real SSL tunnel.&lt;/p&gt;
+&lt;h2&gt;Comment for the long time readers&lt;/h2&gt;
+&lt;p&gt;I know, I know: I covered this topic a few times already (here are the
+first, second, and third episodes). All of these setups were relying on a
+feature of HTTP 1.1 called CONNECT. However, it turns out that most
+webserver do not implement this CONNECT feature. As a consequence, if you
+wanted to do this, you were more or less stuck with Apache. This time, we
+are breaking free from Apache, with a HAproxy-based configuration. We will
+use HAproxy advanced packet inspection capabilities to implement a switch
+of protocol, the same way sslh works.&lt;/p&gt;
+&lt;h2&gt;Server configuration&lt;/h2&gt;
+&lt;p&gt;Some assumptions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The port 443 of your server is publicly reachable&lt;/li&gt;
+&lt;li&gt;It runs ssh (but no need for the port 22 to be reachable)&lt;/li&gt;
+&lt;li&gt;Some web server is running on the port 80 and it supports the
+  'X-Forwarded-Proto' header (see the documentation of your webserver to
+  enable that).&lt;/li&gt;
+&lt;li&gt;You have generated ssl certificates (you copied the public key and the
+  private key in the same file /etc/ssl/private/certs.pem)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now, you need to setup HAproxy. HAproxy defines backends and frontends, and it
+can communicate with these backends both at the HTTP and at the TCP level. Let
+us start with the backends:&lt;/p&gt;
+&lt;p&gt;The web server backend: we tell HAproxy that a server is running on the
+port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
+header, such that the web server knows that the clients are connecting
+securely. If you expose the same backend with HAproxy on the port 80,
+don't forget to filter the X-Forwarded-Proto header!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;backend&lt;/span&gt; &lt;span class="n"&gt;secure_http&lt;/span&gt;
+    &lt;span class="n"&gt;reqadd&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Forwarded&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Proto&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;
+    &lt;span class="n"&gt;rspadd&lt;/span&gt; &lt;span class="n"&gt;Strict&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Transport&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Security&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;31536000&lt;/span&gt;
+    &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;
+    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;httplog&lt;/span&gt;
+    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;forwardfor&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="n"&gt;local_http_server&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The ssh server:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt;
+    &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;tcp&lt;/span&gt;
+    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;tcplog&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
+    &lt;span class="n"&gt;timeout&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And now, the magic. This happens in the frontend section. We listen in TCP mode
+and inspect the connections. Depending on whether we see ssh or not, we hook it
+to one of the backends.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frontend&lt;/span&gt; &lt;span class="n"&gt;ssl&lt;/span&gt;
+    &lt;span class="n"&gt;bind&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="n"&gt;ssl&lt;/span&gt; &lt;span class="n"&gt;crt&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;private&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;certs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sslv3&lt;/span&gt;
+    &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;tcp&lt;/span&gt;
+    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;tcplog&lt;/span&gt;
+    &lt;span class="n"&gt;tcp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;inspect&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;delay&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+    &lt;span class="n"&gt;tcp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="n"&gt;accept&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;HTTP&lt;/span&gt;
+
+    &lt;span class="n"&gt;acl&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="mi"&gt;5353482&lt;/span&gt;&lt;span class="n"&gt;d322e30&lt;/span&gt;
+
+    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;
+    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt;
+    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;secure_http&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;HTTP&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once you are done, you can test if this works by connecting on the server
+with openssl.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;openssl&lt;/span&gt; &lt;span class="n"&gt;s_client&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;quiet&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you see a string that looks like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;SSH&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;OpenSSH_6&lt;/span&gt;&lt;span class="mf"&gt;.6.1&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt; &lt;span class="n"&gt;Debian&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;then everything went fine!&lt;/p&gt;
+&lt;h2&gt;Connecting from an SSH client&lt;/h2&gt;
+&lt;p&gt;To connect to your server from linux, just drop this in your ~/.ssh/config:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;openssl&lt;/span&gt; &lt;span class="n"&gt;s_client&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;quiet&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you are on windows and you cannot install anything client side, there
+is also a solution for you. Download socat and putty (none of them
+requires admin rights). Then, with socat, run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8888&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And with putty, direct your client to 127.0.0.1 on the port 8888.&lt;/p&gt;
+&lt;h2&gt;For the technically aware readers&lt;/h2&gt;
+&lt;p&gt;So how does this work exactly? Basically, the &lt;a href="https://tools.ietf.org/html/rfc4253#section-4.2"&gt;RFC 4253, section
+4.2&lt;/a&gt; states that clients
+must send a string that starts with 'SSH-2.0' (this is also how sslh does
+it). Moreover, 5353482d322e30 is the binary representation of the string
+'SSH-2.0'. So everything boils down to this line:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;acl&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="mi"&gt;5353482&lt;/span&gt;&lt;span class="n"&gt;d322e30&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When a new connection is made on the port 443, HAproxy decrypts the SSL
+layer, and checks whether the stream of data sent by the client starts
+with this string. We use the result of this condition to choose the
+backend. This handles the case of 'active' SSH clients (like
+openssh-client on linux), who send a packet as soon as they connect.
+There are also 'passive' SSH clients (like putty), who wait for the server
+to send a string. These clients will get that string after 5 seconds (the
+inspect-delay).&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Happy SSH!&lt;/p&gt;</summary><category term="ssh"></category><category term="ssl"></category><category term="HAproxy"></category></entry><entry><title>Editing a CV in markdown with pandoc</title><link href="http://blog.chmd.fr/editing-a-cv-in-markdown-with-pandoc.html" rel="alternate"></link><updated>2013-10-30T15:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-30:editing-a-cv-in-markdown-with-pandoc.html</id><summary type="html">&lt;p&gt;CV maintainance is one of these painful and repetitive tasks that you
 don't want to burn too much time on.  For a while, I have been using latex
 with the excellent &lt;a href="http://www.ctan.org/pkg/moderncv"&gt;moderncv class&lt;/a&gt;, but
 the pdf format has annoying limitations:&lt;/p&gt;
