@@ -780,6 +780,7 @@ over the years, so the more recent, the better:&lt;/p&gt;
 &lt;li&gt;2011-07-11: &lt;a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html"&gt;Avoiding using a patched Apache&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;2014-10-19: &lt;a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"&gt;HAproxy based configuration&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr /&gt;
 &lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article&lt;/a&gt; about how to quickly set up a server
 and a client for doing ssh over ssl.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
@@ -861,6 +862,7 @@ over the years, so the more recent, the better:&lt;/p&gt;
 &lt;li&gt;2011-07-11: &lt;a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html"&gt;Avoiding using a patched Apache&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;2014-10-19: &lt;a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"&gt;HAproxy based configuration&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr /&gt;
 &lt;p&gt;So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
 describe how to SSH over SSL to a machine that runs an ssh server

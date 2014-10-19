@@ -12,6 +12,8 @@ over the years, so the more recent, the better:
 * 2011-07-11: [Avoiding using a patched Apache](/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html)
 * 2014-10-19: [HAproxy based configuration](/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html)
 
+---
+
 So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
 describe how to SSH over SSL to a machine that runs an ssh server

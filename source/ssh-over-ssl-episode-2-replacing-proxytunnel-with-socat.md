@@ -12,6 +12,8 @@ over the years, so the more recent, the better:
 * 2011-07-11: [Avoiding using a patched Apache](/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html)
 * 2014-10-19: [HAproxy based configuration](/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html)
 
+---
+
 Last week, I wrote [an article][1] about how to quickly set up a server
 and a client for doing ssh over ssl.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
