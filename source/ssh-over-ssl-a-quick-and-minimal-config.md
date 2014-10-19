@@ -3,6 +3,10 @@ Date: 2010-11-12 11:52
 Category: howto
 Tags: apache, ssh, ssl, tunnel
 
+Update 2014-10-19: The content of this article is still valid, but I found
+[a nicer way](/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html)
+to do it.
+
 So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
 describe how to SSH over SSL to a machine that runs an ssh server
