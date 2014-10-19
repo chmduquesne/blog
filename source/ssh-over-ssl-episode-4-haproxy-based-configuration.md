@@ -26,13 +26,16 @@ real SSL tunnel.
 Comment for the long time readers
 ---------------------------------
 I know, I know: I covered this topic a few times already (here are the
-first, second, and third episodes). All of these setups were relying on a
-feature of HTTP 1.1 called CONNECT. However, it turns out that most
-webserver do not implement this CONNECT feature. As a consequence, if you
-wanted to do this, you were more or less stuck with Apache. This time, we
-are breaking free from Apache, with a HAproxy-based configuration. We will
-use HAproxy advanced packet inspection capabilities to implement a switch
-of protocol, the same way sslh works.
+[first](/ssh-over-ssl-a-quick-and-minimal-config.html),
+[second](/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html),
+and [third](/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html)
+episodes). All of these setups were relying on a feature of HTTP 1.1
+called CONNECT. However, it turns out that most webserver do not implement
+this CONNECT feature. As a consequence, if you wanted to do this, you were
+more or less stuck with Apache. This time, we are breaking free from
+Apache, with a HAproxy-based configuration. We will use HAproxy advanced
+packet inspection capabilities to implement a switch of protocol, the same
+way sslh works.
 
 Server configuration
 --------------------

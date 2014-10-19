@@ -43,13 +43,16 @@ case, there is not much choice: we must hide the SSH connection into a
 real SSL tunnel.</p>
 <h2>Comment for the long time readers</h2>
 <p>I know, I know: I covered this topic a few times already (here are the
-first, second, and third episodes). All of these setups were relying on a
-feature of HTTP 1.1 called CONNECT. However, it turns out that most
-webserver do not implement this CONNECT feature. As a consequence, if you
-wanted to do this, you were more or less stuck with Apache. This time, we
-are breaking free from Apache, with a HAproxy-based configuration. We will
-use HAproxy advanced packet inspection capabilities to implement a switch
-of protocol, the same way sslh works.</p>
+<a href="/ssh-over-ssl-a-quick-and-minimal-config.html">first</a>,
+<a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html">second</a>,
+and <a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html">third</a>
+episodes). All of these setups were relying on a feature of HTTP 1.1
+called CONNECT. However, it turns out that most webserver do not implement
+this CONNECT feature. As a consequence, if you wanted to do this, you were
+more or less stuck with Apache. This time, we are breaking free from
+Apache, with a HAproxy-based configuration. We will use HAproxy advanced
+packet inspection capabilities to implement a switch of protocol, the same
+way sslh works.</p>
 <h2>Server configuration</h2>
 <p>Some assumptions:</p>
 <ul>
