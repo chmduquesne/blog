@@ -3,6 +3,7 @@ INPUTDIR=source
 OUTPUTDIR=blog.chmd.fr
 
 all: clean $(OUTPUTDIR)/index.html
+	cp update.php $(OUTPUTDIR)
 	@echo done
 
 $(OUTPUTDIR)/%.html:
@@ -10,6 +11,3 @@ $(OUTPUTDIR)/%.html:
 
 clean:
 	rm -rf $(OUTPUTDIR)
-
-upload:
-	rsync -avz --delete --progress --bwlimit=56 ./blog.chmd.fr/ www@chmd.fr:sites/chmd.fr/blog
