@@ -596,7 +596,17 @@ to fork it and add whatever you find useful, it's on github:&lt;/p&gt;
 &lt;p&gt;I am personally quite satisfied with it (it fits my limited usage
 for this kind of service), but I am open to pull requests. Of
 course, I also made an AUR package for arch users, which adds an rc
-script for starting it at boot as your prefered user.&lt;/p&gt;</summary><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-11:ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;Another episode of my adventures of firewall bypassing...&lt;/p&gt;
+script for starting it at boot as your prefered user.&lt;/p&gt;</summary><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-11:ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
+articles about doing SSH over SSL. I have been improving my configuration
+over the years, so the more recent, the better:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2010-11-12: &lt;a href="/ssh-over-ssl-a-quick-and-minimal-config.html"&gt;Quick and minimal config&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2010-11-15: &lt;a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html"&gt;Replacing proxytunnel with socat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2011-07-11: &lt;a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html"&gt;Avoiding using a patched Apache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2014-10-19: &lt;a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"&gt;HAproxy based configuration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;p&gt;Another episode of my adventures of firewall bypassing...&lt;/p&gt;
 &lt;p&gt;In order to use the http CONNECT method to tunnel ssh, you have to
 configure apache as I previously showed in &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;a previous post&lt;/a&gt;.  Sadly,
 the current version of apache does not allow to do it over https. There

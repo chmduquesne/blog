@@ -3,6 +3,17 @@ Date: 2011-07-11 13:12
 Category: howto
 Tags: ssh, ssl, stunnel, apache
 
+If you are reading this, you might be interested in the full list of my
+articles about doing SSH over SSL. I have been improving my configuration
+over the years, so the more recent, the better:
+
+* 2010-11-12: [Quick and minimal config](/ssh-over-ssl-a-quick-and-minimal-config.html)
+* 2010-11-15: [Replacing proxytunnel with socat](/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html)
+* 2011-07-11: [Avoiding using a patched Apache](/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html)
+* 2014-10-19: [HAproxy based configuration](/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html)
+
+---
+
 Another episode of my adventures of firewall bypassing...
 
 In order to use the http CONNECT method to tunnel ssh, you have to
