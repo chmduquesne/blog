@@ -490,7 +490,16 @@ alias:&lt;/p&gt;
 
 
 &lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
-for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article&lt;/a&gt; about how to quickly set up a server
+for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
+articles about doing SSH over SSL. I have been improving my configuration
+over the years, so the more recent, the better:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2010-11-12: &lt;a href="/ssh-over-ssl-a-quick-and-minimal-config.html"&gt;Quick and minimal config&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2010-11-15: &lt;a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html"&gt;Replacing proxytunnel with socat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2011-07-11: &lt;a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html"&gt;Avoiding using a patched Apache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2014-10-19: &lt;a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"&gt;HAproxy based configuration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Last week, I wrote &lt;a href="../ssh-over-ssl-a-quick-and-minimal-config.html"&gt;an article&lt;/a&gt; about how to quickly set up a server
 and a client for doing ssh over ssl.  In this article, I was using
 proxytunnel, but I realized today that it could probably be replaced with
 socat (socat can do almost anything)...&lt;/p&gt;
