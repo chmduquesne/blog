@@ -833,7 +833,16 @@ comments). Here is how my .ssh/config looks like:&lt;/p&gt;
     &lt;span class="n"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
     &lt;span class="n"&gt;ControlMaster&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt;
     &lt;span class="n"&gt;ControlPath&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="n"&gt;h_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;p_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-12:ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;So you are behind a vicious firewall that filters outgoing ssh and
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-12:ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
+articles about doing SSH over SSL. I have been improving my configuration
+over the years, so the more recent, the better:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2010-11-12: &lt;a href="/ssh-over-ssl-a-quick-and-minimal-config.html"&gt;Quick and minimal config&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2010-11-15: &lt;a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html"&gt;Replacing proxytunnel with socat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2011-07-11: &lt;a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html"&gt;Avoiding using a patched Apache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;2014-10-19: &lt;a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"&gt;HAproxy based configuration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
 describe how to SSH over SSL to a machine that runs an ssh server
 and apache2. This machine will still be able to run an SSL website.

@@ -3,9 +3,14 @@ Date: 2010-11-12 11:52
 Category: howto
 Tags: apache, ssh, ssl, tunnel
 
-Update 2014-10-19: The content of this article is still valid, but I found
-[a nicer way](/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html)
-to do it.
+If you are reading this, you might be interested in the full list of my
+articles about doing SSH over SSL. I have been improving my configuration
+over the years, so the more recent, the better:
+
+* 2010-11-12: [Quick and minimal config](/ssh-over-ssl-a-quick-and-minimal-config.html)
+* 2010-11-15: [Replacing proxytunnel with socat](/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html)
+* 2011-07-11: [Avoiding using a patched Apache](/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html)
+* 2014-10-19: [HAproxy based configuration](/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html)
 
 So you are behind a vicious firewall that filters outgoing ssh and
 vpn, and the only safe way out is SSL. In this article, I'll
