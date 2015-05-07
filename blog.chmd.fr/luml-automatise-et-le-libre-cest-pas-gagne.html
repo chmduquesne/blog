@@ -75,11 +75,11 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 <span class="cp">#include &quot;window.h&quot;</span>
 
-<span class="n">class</span> <span class="n">FooWindow</span><span class="o">:</span> <span class="n">public</span> <span class="n">Window</span> <span class="p">{</span>
+<span class="n">class</span> <span class="nl">FooWindow</span><span class="p">:</span> <span class="n">public</span> <span class="n">Window</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public:</span>
+  <span class="nl">public</span><span class="p">:</span>
     <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
@@ -88,7 +88,7 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>foowindowmanager.cpp 3/14</p>
-<div class="highlight"><pre><span class="c">#include &quot;foowindowmanager.h&quot;</span>
+<div class="highlight"><pre><span class="cp">#include &quot;foowindowmanager.h&quot;</span>
 </pre></div>
 
 
@@ -98,7 +98,7 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 <span class="cp">#include &quot;windowmanager.h&quot;</span>
 
-<span class="n">class</span> <span class="n">FooWindowManager</span><span class="o">:</span> <span class="n">public</span> <span class="n">WindowManager</span> <span class="p">{</span>
+<span class="n">class</span> <span class="nl">FooWindowManager</span><span class="p">:</span> <span class="n">public</span> <span class="n">WindowManager</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
@@ -123,23 +123,23 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>point.h 6/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef POINT_H</span>
-<span class="cp">#define POINT_H</span>
+<div class="highlight"><pre><span class="c-Singleline">#ifndef POINT_H</span>
+<span class="c-Singleline">#define POINT_H</span>
 
-<span class="n">class</span> <span class="n">Point</span> <span class="p">{</span>
-  <span class="c1">// Associations</span>
-  <span class="c1">// Attributes</span>
-  <span class="nl">private:</span>
-    <span class="kt">float</span> <span class="n">x</span><span class="p">;</span>
-    <span class="kt">float</span> <span class="n">y</span><span class="p">;</span>
-  <span class="c1">// Operations</span>
-  <span class="nl">public:</span>
-    <span class="n">Point</span> <span class="p">(</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span> <span class="p">);</span>
-    <span class="kt">float</span> <span class="nf">getX</span> <span class="p">(</span>  <span class="p">);</span>
-    <span class="kt">float</span> <span class="nf">getY</span> <span class="p">(</span>  <span class="p">);</span>
-<span class="p">};</span>
+<span class="k">class</span> <span class="n">Point</span> {
+  // <span class="n">Associations</span>
+  // <span class="n">Attributes</span>
+  <span class="n">private:</span>
+    <span class="n">float</span> <span class="o">x</span>;
+    <span class="n">float</span> <span class="n">y</span>;
+  // <span class="n">Operations</span>
+  <span class="n">public:</span>
+    <span class="n">Point</span> ( <span class="n">float</span> <span class="o">x</span>, <span class="n">float</span> <span class="n">y</span> );
+    <span class="n">float</span> <span class="n">getX</span> (  );
+    <span class="n">float</span> <span class="n">getY</span> (  );
+};
 
-<span class="cp">#endif</span>
+<span class="c-Singleline">#endif</span>
 </pre></div>
 
 
@@ -158,13 +158,13 @@ c'est assez convaincant. Pour ce schéma :</p>
 <span class="cp">#include &quot;point.h&quot;</span>
 <span class="cp">#include &quot;shape.h&quot;</span>
 
-<span class="n">class</span> <span class="n">Rectangle</span><span class="o">:</span> <span class="n">public</span> <span class="n">Shape</span> <span class="p">{</span>
+<span class="n">class</span> <span class="nl">Rectangle</span><span class="p">:</span> <span class="n">public</span> <span class="n">Shape</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
    <span class="n">Point</span> <span class="n">points</span><span class="p">;</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public:</span>
-    <span class="kt">float</span> <span class="nf">getArea</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
 <span class="cp">#endif</span>
@@ -172,28 +172,28 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>shape.cpp 9/14</p>
-<div class="highlight"><pre><span class="c">#include &quot;shape.h&quot;</span>
+<div class="highlight"><pre><span class="cp">#include &quot;shape.h&quot;</span>
 </pre></div>
 
 
 <p>shape.h 10/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef SHAPE_H</span>
-<span class="cp">#define SHAPE_H</span>
+<div class="highlight"><pre><span class="c-Singleline">#ifndef SHAPE_H</span>
+<span class="c-Singleline">#define SHAPE_H</span>
 
-<span class="n">class</span> <span class="n">Shape</span> <span class="p">{</span>
-  <span class="c1">// Associations</span>
-  <span class="c1">// Attributes</span>
-  <span class="c1">// Operations</span>
-  <span class="nl">public:</span>
-    <span class="n">virtual</span> <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">};</span>
+<span class="k">class</span> <span class="n">Shape</span> {
+  // <span class="n">Associations</span>
+  // <span class="n">Attributes</span>
+  // <span class="n">Operations</span>
+  <span class="n">public:</span>
+    <span class="n">virtual</span> <span class="n">float</span> <span class="n">getArea</span> (  ) = <span class="mi">0</span>;
+};
 
-<span class="cp">#endif</span>
+<span class="c-Singleline">#endif</span>
 </pre></div>
 
 
 <p>window.cpp 11/14</p>
-<div class="highlight"><pre><span class="c">#include &quot;window.h&quot;</span>
+<div class="highlight"><pre><span class="cp">#include &quot;window.h&quot;</span>
 </pre></div>
 
 
@@ -206,10 +206,10 @@ c'est assez convaincant. Pour ce schéma :</p>
 <span class="n">class</span> <span class="n">Window</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
-  <span class="nl">private:</span>
+  <span class="nl">private</span><span class="p">:</span>
     <span class="n">Shape</span> <span class="n">visualrep</span><span class="p">;</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public:</span>
+  <span class="nl">public</span><span class="p">:</span>
     <span class="n">virtual</span> <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">};</span>
 
@@ -218,7 +218,7 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>windowmanager.cpp 13/14</p>
-<div class="highlight"><pre><span class="c">#include &quot;windowmanager.h&quot;</span>
+<div class="highlight"><pre><span class="cp">#include &quot;windowmanager.h&quot;</span>
 </pre></div>
 
 

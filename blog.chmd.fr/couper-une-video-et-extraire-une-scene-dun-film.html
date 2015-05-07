@@ -31,16 +31,16 @@
     <p>Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mencoder</span>
+<div class="highlight"><pre>sudo apt-get install mencoder
 </pre></div>
 
 
 <p>Et la syntaxe est la suivante :</p>
-<div class="highlight"><pre><span class="n">mencoder</span> <span class="o">-</span><span class="n">ss</span>     <span class="n">h</span><span class="o">:</span><span class="n">mm</span><span class="o">:</span><span class="n">ss</span>    \
-         <span class="o">-</span><span class="n">endpos</span> <span class="n">h</span><span class="o">:</span><span class="n">mm</span><span class="o">:</span><span class="n">ss</span>    \
-         <span class="n">film_origine</span><span class="p">.</span><span class="n">avi</span>   \
-         <span class="o">-</span><span class="n">o</span> <span class="n">extrait</span><span class="p">.</span><span class="n">avi</span>     \
-         <span class="o">-</span><span class="n">oac</span> <span class="n">copy</span> <span class="o">-</span><span class="n">ovc</span> <span class="n">copy</span>
+<div class="highlight"><pre>mencoder -ss     h:mm:ss    \
+         -endpos h:mm:ss    \
+         film_origine.avi   \
+         -o extrait.avi     \
+         -oac copy -ovc copy
 </pre></div>
 
 

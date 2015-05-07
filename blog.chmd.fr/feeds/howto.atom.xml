@@ -46,66 +46,66 @@ port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
 header, such that the web server knows that the clients are connecting
 securely. If you expose the same backend with HAproxy on the port 80,
 don't forget to filter the X-Forwarded-Proto header!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;backend&lt;/span&gt; &lt;span class="n"&gt;secure_http&lt;/span&gt;
-    &lt;span class="n"&gt;reqadd&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Forwarded&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Proto&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;
-    &lt;span class="n"&gt;rspadd&lt;/span&gt; &lt;span class="n"&gt;Strict&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Transport&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Security&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;31536000&lt;/span&gt;
-    &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;
-    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;httplog&lt;/span&gt;
-    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;forwardfor&lt;/span&gt;
-    &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="n"&gt;local_http_server&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;backend secure_http
+    reqadd X-Forwarded-Proto:\ https
+    rspadd Strict-Transport-Security:\ max-age=31536000
+    mode http
+    option httplog
+    option forwardfor
+    server local_http_server 127.0.0.1:80
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The ssh server:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt;
-    &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;tcp&lt;/span&gt;
-    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;tcplog&lt;/span&gt;
-    &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
-    &lt;span class="n"&gt;timeout&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;backend ssh
+    mode tcp
+    option tcplog
+    server ssh 127.0.0.1:22
+    timeout server 2h
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;And now, the magic. This happens in the frontend section. We listen in TCP mode
 and inspect the connections. Depending on whether we see ssh or not, we hook it
 to one of the backends.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;frontend&lt;/span&gt; &lt;span class="n"&gt;ssl&lt;/span&gt;
-    &lt;span class="n"&gt;bind&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="n"&gt;ssl&lt;/span&gt; &lt;span class="n"&gt;crt&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;private&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;certs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sslv3&lt;/span&gt;
-    &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;tcp&lt;/span&gt;
-    &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;tcplog&lt;/span&gt;
-    &lt;span class="n"&gt;tcp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;inspect&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;delay&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
-    &lt;span class="n"&gt;tcp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="n"&gt;accept&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;HTTP&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;frontend ssl
+    bind X.X.X.X:443 ssl crt /etc/ssl/private/certs.pem no-sslv3
+    mode tcp
+    option tcplog
+    tcp-request inspect-delay 5s
+    tcp-request content accept if HTTP
 
-    &lt;span class="n"&gt;acl&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="mi"&gt;5353482&lt;/span&gt;&lt;span class="n"&gt;d322e30&lt;/span&gt;
+    acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
 
-    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;
-    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt;
-    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;secure_http&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;HTTP&lt;/span&gt;
+    use_backend ssh if !HTTP
+    use_backend ssh if client_attempts_ssh
+    use_backend secure_http if HTTP
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Once you are done, you can test if this works by connecting on the server
 with openssl.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;openssl&lt;/span&gt; &lt;span class="n"&gt;s_client&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;quiet&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;openssl s_client -connect server.com:443 -quiet
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you see a string that looks like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;SSH&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;OpenSSH_6&lt;/span&gt;&lt;span class="mf"&gt;.6.1&lt;/span&gt;&lt;span class="n"&gt;p1&lt;/span&gt; &lt;span class="n"&gt;Debian&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;SSH-2.0-OpenSSH_6.6.1p1 Debian-7
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;then everything went fine!&lt;/p&gt;
 &lt;h2&gt;Connecting from an SSH client&lt;/h2&gt;
 &lt;p&gt;To connect to your server from linux, just drop this in your ~/.ssh/config:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
-    &lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;openssl&lt;/span&gt; &lt;span class="n"&gt;s_client&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;quiet&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Host server.com
+    ProxyCommand openssl s_client -connect server.com:443 -quiet
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you are on windows and you cannot install anything client side, there
 is also a solution for you. Download socat and putty (none of them
 requires admin rights). Then, with socat, run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8888&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -116,7 +116,7 @@ requires admin rights). Then, with socat, run:&lt;/p&gt;
 must send a string that starts with 'SSH-2.0' (this is also how sslh does
 it). Moreover, 5353482d322e30 is the binary representation of the string
 'SSH-2.0'. So everything boils down to this line:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;acl&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="mi"&gt;5353482&lt;/span&gt;&lt;span class="n"&gt;d322e30&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -180,19 +180,19 @@ to comment - or even better: to contribute - be my guest!&lt;/p&gt;</summary><ca
 &lt;p&gt;I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;sites&lt;/span&gt;&lt;span class="na"&gt;-available&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.conf&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="nb"&gt;Include&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.inc.conf&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="nb"&gt;Include&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.inc.conf&lt;/span&gt;
-    &lt;span class="nx"&gt;SSLEngine&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
-    &lt;span class="nx"&gt;SSLCertificateFile&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="k"&gt;private&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.pem&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;VirtualHost&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# file: /etc/apache2/sites-available/domain.com.conf
+&lt;span class="nt"&gt;&amp;lt;VirtualHost&lt;/span&gt; &lt;span class="err"&gt;*:80&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Include /etc/apache2/domain.com.inc.conf
+&lt;span class="nt"&gt;&amp;lt;/VirtualHost&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;VirtualHost&lt;/span&gt; &lt;span class="err"&gt;*:443&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Include /etc/apache2/domain.com.inc.conf
+    SSLEngine On
+    SSLCertificateFile /etc/ssl/private/domain.com.pem
+&lt;span class="nt"&gt;&amp;lt;/VirtualHost&amp;gt;&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;etc&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;apache2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;sites&lt;/span&gt;&lt;span class="na"&gt;-available&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com.inc.conf&lt;/span&gt;
-&lt;span class="nb"&gt;ServerName&lt;/span&gt; &lt;span class="nx"&gt;domain.com&lt;/span&gt;
-&lt;span class="nb"&gt;DocumentRoot&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;var&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;www&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;domain.com&lt;/span&gt;
+# file: /etc/apache2/sites-available/domain.com.inc.conf
+ServerName domain.com
+DocumentRoot /var/www/domain.com
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -202,14 +202,14 @@ virtualhosts. That is two files to maintain, for one domain.  If you want
 to do this for every domain you control, you have to multiply the files
 and includes.&lt;/p&gt;
 &lt;p&gt;Doing this with lighttpd is really easier:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# file /etc/lighttpd/lighttpd.conf&lt;/span&gt;
-&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;SERVER&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;socket&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:443&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;enable&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pemfile&lt;/span&gt;             &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/etc/ssl/private/domain.com.pem&amp;quot;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;host&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;domain.com&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/var/www/domain.com&amp;quot;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="x"&gt; file /etc/lighttpd/lighttpd.conf&lt;/span&gt;
+&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;SERVER&lt;/span&gt;&lt;span class="x"&gt;[&amp;quot;socket&amp;quot;] == &amp;quot;:443&amp;quot; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    ssl.engine              = &amp;quot;enable&amp;quot;&lt;/span&gt;
+&lt;span class="x"&gt;    ssl.pemfile             = &amp;quot;/etc/ssl/private/domain.com.pem&amp;quot;&lt;/span&gt;
+&lt;span class="x"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;HTTP&lt;/span&gt;&lt;span class="x"&gt;[&amp;quot;host&amp;quot;] == &amp;quot;domain.com&amp;quot; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    server.document-root    = &amp;quot;/var/www/domain.com&amp;quot;&lt;/span&gt;
+&lt;span class="x"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -226,23 +226,23 @@ hosting my public git repositories. I (quite obviously) named it
 &lt;/ul&gt;
 &lt;p&gt;Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;host&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;git.chmd.fr&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;HTTP&lt;/span&gt;&lt;span class="x"&gt;[&amp;quot;host&amp;quot;] == &amp;quot;git.chmd.fr&amp;quot; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
 
-    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;takes&lt;/span&gt; &lt;span class="n"&gt;care&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;serving&lt;/span&gt; &lt;span class="n"&gt;gitweb&lt;/span&gt;
-    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/usr/share/gitweb&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;cgi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;.cgi&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;indexfiles&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gitweb.cgi&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="x"&gt; This takes care of serving gitweb&lt;/span&gt;
+&lt;span class="x"&gt;    server.document-root    = &amp;quot;/usr/share/gitweb&amp;quot;&lt;/span&gt;
+&lt;span class="x"&gt;    cgi.assign = ( &amp;quot;.cgi&amp;quot; =&amp;gt; &amp;quot;&amp;quot; )&lt;/span&gt;
+&lt;span class="x"&gt;    server.indexfiles = ( &amp;quot;gitweb.cgi&amp;quot; )&lt;/span&gt;
 
-    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;And&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;objects&lt;/span&gt;
-    &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="n"&gt;alias&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;  &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/usr/lib/git-core/git-http-backend&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;cgi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;setenv&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;environment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;quot;GIT_PROJECT_ROOT&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/home/www/git-public-repos/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;quot;GIT_HTTP_EXPORT_ALL&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
-            &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="x"&gt; And this condition matches git objects&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;HTTP&lt;/span&gt;&lt;span class="x"&gt;[&amp;quot;url&amp;quot;] =~ &amp;quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;2}/[0-9a-f]&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;38} | pack/pack-[0-9a-f]&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;40}\.(pack|idx)) | git-(upload|receive)-pack))&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="x"&gt;&amp;quot; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;        alias.url  += ( &amp;quot;&amp;quot; =&amp;gt; &amp;quot;/usr/lib/git-core/git-http-backend&amp;quot;)&lt;/span&gt;
+&lt;span class="x"&gt;        cgi.assign = (&amp;quot;&amp;quot; =&amp;gt; &amp;quot;&amp;quot;)&lt;/span&gt;
+&lt;span class="x"&gt;        setenv.add-environment = (&lt;/span&gt;
+&lt;span class="x"&gt;            &amp;quot;GIT_PROJECT_ROOT&amp;quot; =&amp;gt; &amp;quot;/home/www/git-public-repos/&amp;quot;,&lt;/span&gt;
+&lt;span class="x"&gt;            &amp;quot;GIT_HTTP_EXPORT_ALL&amp;quot; =&amp;gt; &amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="x"&gt;            )&lt;/span&gt;
+&lt;span class="x"&gt;    }&lt;/span&gt;
+&lt;span class="x"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -263,7 +263,7 @@ module in question is called &lt;code&gt;pam_exec&lt;/code&gt;, and it is often 
 databases e.g. when passwords are changed. It can also be activated when
 someone logs in. The manpage explains that the following PAM items are
 exported as environment variables to the program executed:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;PAM_RHOST&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_RUSER&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_SERVICE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_TTY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_USER&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PAM_TYPE&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -276,8 +276,8 @@ script, using sendxmpp (saved as &lt;code&gt;/usr/local/bin/login_notify&lt;/cod
 4
 5&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/sh&lt;/span&gt;
 
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$PAM_USER@`hostname` logged from $PAM_RHOST&amp;quot;&lt;/span&gt; | &lt;span class="se"&gt;\&lt;/span&gt;
-    sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &amp;gt;/dev/null 2&amp;gt;&amp;amp;1 &amp;amp;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PAM_USER&lt;/span&gt;&lt;span class="s2"&gt;@`hostname` logged from &lt;/span&gt;&lt;span class="nv"&gt;$PAM_RHOST&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &amp;gt;/dev/null 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
 &lt;span class="nb"&gt;exit &lt;/span&gt;0
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
@@ -287,7 +287,7 @@ is ignored. Otherwise PAM would wait for the command to return before
 letting me in, and it would deny me the access if the notification failed
 to be delivered. Two things I clearly want to avoid.&lt;/p&gt;
 &lt;p&gt;Then, the following line goes at the end of &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;session&lt;/span&gt;         &lt;span class="n"&gt;optional&lt;/span&gt;        &lt;span class="n"&gt;pam_exec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;             &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;login_notify&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;session         optional        pam_exec.so             /usr/local/bin/login_notify
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -314,22 +314,22 @@ for choosing a strong, easy to remember passphrase. It's called the
 to determine the words of your passphrase.&lt;/p&gt;
 &lt;p&gt;To associate a word with the results of the die, you are given a list of
 words that looks like what follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;...&lt;/span&gt;
-&lt;span class="mi"&gt;46154&lt;/span&gt; &lt;span class="n"&gt;ox&lt;/span&gt;
-&lt;span class="mi"&gt;46155&lt;/span&gt; &lt;span class="n"&gt;oxyda&lt;/span&gt;
-&lt;span class="mi"&gt;46156&lt;/span&gt; &lt;span class="n"&gt;oxyde&lt;/span&gt;
-&lt;span class="mi"&gt;46161&lt;/span&gt; &lt;span class="n"&gt;oxyder&lt;/span&gt;
-&lt;span class="mi"&gt;46162&lt;/span&gt; &lt;span class="n"&gt;oy&lt;/span&gt;
-&lt;span class="mi"&gt;46163&lt;/span&gt; &lt;span class="n"&gt;oz&lt;/span&gt;
-&lt;span class="mi"&gt;46164&lt;/span&gt; &lt;span class="n"&gt;ozone&lt;/span&gt;
-&lt;span class="mi"&gt;46165&lt;/span&gt; &lt;span class="n"&gt;ozones&lt;/span&gt;
-&lt;span class="mi"&gt;46166&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;
-&lt;span class="mi"&gt;46211&lt;/span&gt; &lt;span class="n"&gt;pa&lt;/span&gt;
-&lt;span class="mi"&gt;46212&lt;/span&gt; &lt;span class="n"&gt;pacha&lt;/span&gt;
-&lt;span class="mi"&gt;46213&lt;/span&gt; &lt;span class="n"&gt;pack&lt;/span&gt;
-&lt;span class="mi"&gt;46214&lt;/span&gt; &lt;span class="n"&gt;packs&lt;/span&gt;
-&lt;span class="mi"&gt;46215&lt;/span&gt; &lt;span class="n"&gt;pacte&lt;/span&gt;
-&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;...
+46154 ox
+46155 oxyda
+46156 oxyde
+46161 oxyder
+46162 oy
+46163 oz
+46164 ozone
+46165 ozones
+46166 p
+46211 pa
+46212 pacha
+46213 pack
+46214 packs
+46215 pacte
+...
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -372,36 +372,36 @@ have decided to do the SSL part by myself. Thus, I configure apache to
 serve normally on the port 80, and I use stunnel to secure apache on the
 port 443. Here is how I do it: I remove the SSL part of my apache config
 and I add in my (normal, unencrypted) apache configuration:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ProxyRequests&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
-&lt;span class="nx"&gt;AllowConnect&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="o"&gt;*&amp;gt;&lt;/span&gt;
-    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
-    &lt;span class="nx"&gt;Deny&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
-    &lt;span class="nx"&gt;Allow&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ProxyRequests On
+AllowConnect 22
+&lt;span class="nt"&gt;&amp;lt; Proxy&lt;/span&gt; &lt;span class="err"&gt;*&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Order deny,allow
+    Deny from all
+&lt;span class="nt"&gt;&amp;lt;/Proxy&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;Proxy&lt;/span&gt; &lt;span class="err"&gt;127.0.0.1&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Order deny,allow
+    Allow from all
+&lt;span class="nt"&gt;&amp;lt;/Proxy&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Then, I install stunnel, and I set it up to listen on the port 443
 (https) and to forward it to the port 80 (http).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cert&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
-&lt;span class="p"&gt;...&lt;/span&gt;
-&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="n"&gt;accept&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;443&lt;/span&gt;
-&lt;span class="n"&gt;connect&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;
-&lt;span class="n"&gt;TIMEOUTclose&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cert = /etc/stunnel/stunnel.pem
+...
+[https]
+accept  = 443
+connect = 80
+TIMEOUTclose = 0
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;stunnel requires a bit of configuration. From the &lt;a href="http://www.stunnel.org/?page=docs"&gt;documentation&lt;/a&gt;, here
 is how to generate a certificate:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;
-&lt;span class="n"&gt;openssl&lt;/span&gt; &lt;span class="n"&gt;req&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x509&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt; &lt;span class="mi"&gt;365&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;nodes&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cnf&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;keyout&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
-&lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
-&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="mi"&gt;600&lt;/span&gt; &lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cd /etc/stunnel
+openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem
+chown stunnel:stunnel stunnel.pem
+chmod 600 stunnel.pem
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -442,8 +442,8 @@ master password. If the webmaster of the site you are visiting is evil, he
 could grab your master password and hack all your accounts. If you are a
 vimperator/pentadactyl user, it is easy to fix that, by executing
 supergenpass as a shell command (What follows is from my pentadactylrc):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;map&lt;/span&gt; &lt;span class="na"&gt;-modes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="err"&gt;~&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;.scripts&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;supergenpass&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Space&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;S-Insert&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Esc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="nx"&gt;gi&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;S&lt;/span&gt;&lt;span class="na"&gt;-Insert&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;Return&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="kt"&gt;map&lt;/span&gt; &lt;span class="na"&gt;-modes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Esc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="na"&gt;-F6&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;map -modes=n,v &amp;lt;C-F6&amp;gt; y:!~/.scripts/supergenpass&amp;lt;Space&amp;gt;&amp;#39;&amp;lt;S-Insert&amp;gt;&amp;#39;&amp;lt;Return&amp;gt;&amp;lt;Esc&amp;gt;2gi&amp;lt;S-Insert&amp;gt;&amp;lt;Return&amp;gt;
+map -modes=i &amp;lt;C-F6&amp;gt; &amp;lt;Esc&amp;gt;&amp;lt;C-F6&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -474,28 +474,28 @@ stuff as I can, provided it does not contains sensitive stuff like
 passwords. Problem: How do you save your crontab? I finally had a look at
 the crontab manual to realize that crontab could be called on a file. The
 following line goes into my &lt;code&gt;~/.zshrc&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;vi&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;alias crontab-e=&amp;#39;vi ~/.crontab &amp;amp;&amp;amp; crontab ~/.crontab&amp;#39;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Edit: I now find even better to use a shell function rather than an
 alias:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# CRONTAB&lt;/span&gt;
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
-    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;allows&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="n"&gt;zshrc&lt;/span&gt; &lt;span class="n"&gt;twice&lt;/span&gt;
-    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;crontab&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt; &lt;span class="err"&gt;$@&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-e&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;]];&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
-            &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;
-            &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="err"&gt;$@&lt;/span&gt;
-        &lt;span class="n"&gt;fi&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;
-    &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;CRONTABCMD&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crontab&lt;/span&gt;
-&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="x"&gt; CRONTAB&lt;/span&gt;
+&lt;span class="x"&gt;if test -z &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="x"&gt;; then&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="x"&gt; allows to source zshrc twice&lt;/span&gt;
+&lt;span class="x"&gt;    export CRONTABCMD=&lt;/span&gt;&lt;span class="p"&gt;$(&lt;/span&gt;&lt;span class="err"&gt;which&lt;/span&gt; &lt;span class="err"&gt;crontab&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    crontab()&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;        if [[ &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="x"&gt;@ == &amp;quot;-e&amp;quot; ]]; then&lt;/span&gt;
+&lt;span class="x"&gt;            vim ~/.crontab &amp;amp;&amp;amp; &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="x"&gt; ~/.crontab&lt;/span&gt;
+&lt;span class="x"&gt;        else&lt;/span&gt;
+&lt;span class="x"&gt;            &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="x"&gt; &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="x"&gt;@&lt;/span&gt;
+&lt;span class="x"&gt;        fi&lt;/span&gt;
+&lt;span class="x"&gt;    }&lt;/span&gt;
+&lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;CRONTABCMD&lt;/span&gt;&lt;span class="x"&gt; ~/.crontab&lt;/span&gt;
+&lt;span class="x"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="crontab"></category></entry><entry><title>Notifications from google calendar on my desktop</title><link href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="alternate"></link><updated>2010-11-23T15:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-23:notifications-from-google-calendar-on-my-desktop.html</id><summary type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=:&lt;/span&gt;&lt;span class="mf"&gt;0.0&lt;/span&gt; &lt;span class="n"&gt;gcalcli&lt;/span&gt; &lt;span class="n"&gt;remind&lt;/span&gt; &lt;span class="mi"&gt;240&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="mi"&gt;300000&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;myniceicon&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;svg&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Calendar&amp;quot;&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &amp;#39;notify-send -t 300000 -i myniceicon.svg &amp;quot;Calendar&amp;quot; \%s&amp;#39;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -522,7 +522,7 @@ respectively the standard ports for ssh and ssl).&lt;/p&gt;
 &lt;p&gt;We now want to configure the ssh clients in order to connect through this
 ssl tunnel. I said I was configuring the clients with proxytunnel. The
 exact command (in .ssh/config) was:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -541,7 +541,7 @@ best tool ever invented. I was wondering if I could reproduce
 proxytunnel's behavior with socat, and it turns out you can. Here is how
 to proceed: First, create an ssl tunnel between your client's
 localhost:1080 and server.com:443:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;socat TCP-LISTEN:1080 OPENSSL:server.com:443
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -549,21 +549,24 @@ localhost:1080 and server.com:443:&lt;/p&gt;
 on localhost:1080 Then, use socat and its proxy mode to ask for
 localhost:1080 (which is actually server.com:443 unencrypted) to
 connect to localhost:22 (which is then server.com:22).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PROXY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Bingo! You should see the ssh prompt. For the fun, I replaced in my
 .ssh/config the former&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;with&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PROXY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp;amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;strong&gt;Edit 2015-05-07&lt;/strong&gt;: See &lt;a href="https://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html#comment-2010371675"&gt;Vincent's
+comment&lt;/a&gt;
+for a cool idea to wrap the ssh command with the &lt;code&gt;-fMN&lt;/code&gt; options.&lt;/p&gt;
 &lt;p&gt;It works just fine. There is however a flaw in what I did: I use a
 hardcoded port, thus I can't establish two ssh connections at the
 same time. Forwarding the server.com:443 on localhost:1080 fails
@@ -576,12 +579,12 @@ requires three arguments and one of them is a port. If one of my
 readers has a suggestion, he/she's welcome. This remains a cool hack!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: The great &lt;a href="https://darkpan.com/"&gt;Marco Fontani&lt;/a&gt; gave a cool solution (see the
 comments). Here is how my .ssh/config looks like:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
-    &lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="n"&gt;TCP&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;LISTEN&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt; &lt;span class="n"&gt;OPENSSL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;sleep&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;socat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PROXY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1080&lt;/span&gt;
-    &lt;span class="n"&gt;DynamicForward&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;
-    &lt;span class="n"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
-    &lt;span class="n"&gt;ControlMaster&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt;
-    &lt;span class="n"&gt;ControlPath&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="n"&gt;h_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;p_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;Host&lt;/span&gt; &lt;span class="nt"&gt;server&lt;/span&gt;&lt;span class="nc"&gt;.com&lt;/span&gt;
+    &lt;span class="nt"&gt;ProxyCommand&lt;/span&gt; &lt;span class="nt"&gt;socat&lt;/span&gt; &lt;span class="nt"&gt;TCP-LISTEN&lt;/span&gt;&lt;span class="nd"&gt;:1080&lt;/span&gt; &lt;span class="nt"&gt;OPENSSL&lt;/span&gt;&lt;span class="nd"&gt;:server&lt;/span&gt;&lt;span class="nc"&gt;.com&lt;/span&gt;&lt;span class="nd"&gt;:443&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nt"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;;&lt;/span&gt; &lt;span class="nt"&gt;sleep&lt;/span&gt; &lt;span class="nt"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nt"&gt;socat&lt;/span&gt; &lt;span class="nt"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;PROXY&lt;/span&gt;&lt;span class="nd"&gt;:127&lt;/span&gt;&lt;span class="nc"&gt;.0.0.1&lt;/span&gt;&lt;span class="nd"&gt;:127&lt;/span&gt;&lt;span class="nc"&gt;.0.0.1&lt;/span&gt;&lt;span class="nd"&gt;:22&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nt"&gt;1080&lt;/span&gt;
+    &lt;span class="nt"&gt;DynamicForward&lt;/span&gt; &lt;span class="nt"&gt;1080&lt;/span&gt;
+    &lt;span class="nt"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="nt"&gt;60&lt;/span&gt;
+    &lt;span class="nt"&gt;ControlMaster&lt;/span&gt; &lt;span class="nt"&gt;auto&lt;/span&gt;
+    &lt;span class="nt"&gt;ControlPath&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="nc"&gt;.ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nt"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="nt"&gt;h_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nt"&gt;p_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nt"&gt;r&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-12:ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
 articles about doing SSH over SSL. I have been improving my configuration
 over the years, so the more recent, the better:&lt;/p&gt;
@@ -631,16 +634,16 @@ Clients will connect using a standard ssh client and proxytunnel.&lt;/p&gt;
 &lt;p&gt;It enables forward proxying for anyone, but only if the client asks for
 127.0.0.1:22 (other requests will be denied). This results in exposing the
 port 22 (ssh) of your server through a proxy, in an encrypted way.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ProxyRequests&lt;/span&gt; &lt;span class="k"&gt;On&lt;/span&gt;
-&lt;span class="nx"&gt;AllowConnect&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="o"&gt;*&amp;gt;&lt;/span&gt;
-    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
-    &lt;span class="nx"&gt;Deny&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="k"&gt;Order&lt;/span&gt; &lt;span class="nx"&gt;deny&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;allow&lt;/span&gt;
-    &lt;span class="nx"&gt;Allow&lt;/span&gt; &lt;span class="nb"&gt;from&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;
-&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nx"&gt;Proxy&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ProxyRequests On
+AllowConnect 22
+&lt;span class="nt"&gt;&amp;lt;Proxy&lt;/span&gt; &lt;span class="err"&gt;*&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Order deny,allow
+    Deny from all
+&lt;span class="nt"&gt;&amp;lt;/Proxy&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;Proxy&lt;/span&gt; &lt;span class="err"&gt;127.0.0.1&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Order deny,allow
+    Allow from all
+&lt;span class="nt"&gt;&amp;lt;/Proxy&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -657,7 +660,7 @@ commenting the three SSL related lines (you can switch to encrypted when
 it works). Proxytunnel can "chain" two proxies (a local one, and a remote
 one), but if the place you connect from does not use such a setting, here
 is how you can proceed:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -669,10 +672,10 @@ using the latest alpha).&lt;/p&gt;
 &lt;h1&gt;File .ssh/config&lt;/h1&gt;
 &lt;p&gt;Once you're done, just drop the working command line in the .ssh/config of
 your clients:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
-    &lt;span class="n"&gt;ProxyCommand&lt;/span&gt; &lt;span class="n"&gt;proxytunnel&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;
-    &lt;span class="n"&gt;DynamicForward&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;
-    &lt;span class="n"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Host server.com
+    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+    DynamicForward 1080
+    ServerAliveInterval 60
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -696,13 +699,13 @@ récupérer ce programme.&lt;/p&gt;
 lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
 (qui sera créé par le programme), où, s'il est déjà lancé, de
 récupérer ce programme.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;dtach&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;dtach -A /tmp/irssi.sock /usr/bin/irssi
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
 bon, si on peut se contenter d'un simple alias?&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;dtach&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;`&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;alias irssi=&amp;#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&amp;#39;`
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -743,17 +746,17 @@ done
 
 
 &lt;p&gt;Et désormais je lance irssi de la manière suivante:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# IRSSI IN TMUX&lt;/span&gt;
-&lt;span class="cp"&gt;# switch to irssi session (and if necessary starts this session before)&lt;/span&gt;
-&lt;span class="n"&gt;irssi&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
-         &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt;
-    &lt;span class="k"&gt;else&lt;/span&gt;
-        &lt;span class="n"&gt;TMUX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;irssi&lt;/span&gt;
-        &lt;span class="n"&gt;tmux&lt;/span&gt; &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;irssi&lt;/span&gt;
-    &lt;span class="n"&gt;fi&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# IRSSI IN TMUX
+# switch to irssi session (and if necessary starts this session before)
+irssi()
+{
+    if tmux has -t irssi &amp;gt;/dev/null; then
+         tmux switch -t irssi
+    else
+        TMUX=&amp;quot;&amp;quot; tmux new -d -s irssi /usr/bin/irssi
+        tmux switch -t irssi
+    fi
+}
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -774,12 +777,12 @@ modifications sur mes logs (je tire l'idée de ce script
 &lt;a href="http://www.daemontux.org/?q=node/31"&gt;d'un ancien post sur le planet libre&lt;/a&gt;).
 Après avoir installé incron, j'édite ma table de configuration
 incron:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;incrontab&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;incrontab -e
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Avec mon éditeur favori, je lui mets la ligne suivante:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="n"&gt;IN_MODIFY&lt;/span&gt; &lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;me&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;documents&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;scripts&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;popLog&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -902,76 +905,76 @@ j'ajoute quelques explications:&lt;/p&gt;
 &lt;span class="nv"&gt;errorIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-error.png&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;securityIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/security-medium.png&amp;#39;&lt;/span&gt;
 
-&lt;span class="nv"&gt;coloredLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;tail -n 1 &lt;span class="nv"&gt;$1&lt;/span&gt; |                   &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="nv"&gt;coloredLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;tail -n &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;                   &lt;span class="se"&gt;\&lt;/span&gt;
   &lt;span class="nb"&gt;source&lt;/span&gt;-highlight --failsafe                 &lt;span class="se"&gt;\&lt;/span&gt;
                    --src-lang&lt;span class="o"&gt;=&lt;/span&gt;log             &lt;span class="se"&gt;\&lt;/span&gt;
                    --style-file&lt;span class="o"&gt;=&lt;/span&gt;default.style &lt;span class="se"&gt;\&lt;/span&gt;
-                   --outlang-def&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;/documents/scripts/awesome.outlang&lt;span class="k"&gt;)&lt;/span&gt;
+                   --outlang-def&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/documents/scripts/awesome.outlang&lt;span class="k"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$coloredLog&lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$coloredLog&lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
 
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep info&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep warn&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;warning&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep err&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep auth&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;|grep access&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;;&lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$notification&lt;/span&gt;|grep &lt;span class="s1"&gt;&amp;#39;UFW BLOCK INPUT&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
-&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then &lt;/span&gt;&lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep info&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep warn&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;warning&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep err&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep auth&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep access&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$notification&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep &lt;span class="s1"&gt;&amp;#39;UFW BLOCK INPUT&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
 
-&lt;span class="k"&gt;    case&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; in
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; in
     info&lt;span class="o"&gt;)&lt;/span&gt;
         &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoUrgency&lt;/span&gt;
         &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoIcon&lt;/span&gt;
         &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoPopupTime&lt;/span&gt;
-    ;;
+    &lt;span class="p"&gt;;;&lt;/span&gt;
     warning&lt;span class="o"&gt;)&lt;/span&gt;
         &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningUrgency&lt;/span&gt;
         &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningIcon&lt;/span&gt;
         &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningPopupTime&lt;/span&gt;
-    ;;
+    &lt;span class="p"&gt;;;&lt;/span&gt;
     error&lt;span class="o"&gt;)&lt;/span&gt;
         &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorUrgency&lt;/span&gt;
         &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorIcon&lt;/span&gt;
         &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorPopupTime&lt;/span&gt;
-    ;;
+    &lt;span class="p"&gt;;;&lt;/span&gt;
     security&lt;span class="o"&gt;)&lt;/span&gt;
         &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityUrgency&lt;/span&gt;
         &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityIcon&lt;/span&gt;
         &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityPopupTime&lt;/span&gt;
-    ;;
+    &lt;span class="p"&gt;;;&lt;/span&gt;
     &lt;span class="k"&gt;esac&lt;/span&gt;
 
-&lt;span class="k"&gt;    &lt;/span&gt;notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;$icon&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$coloredLog&amp;quot;&lt;/span&gt;
+    notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$icon&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$coloredLog&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;Et voici /home/me/documents/scripts/awesome.outlang:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;extension&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;awesome&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;extension &amp;quot;awesome&amp;quot;
 
-&lt;span class="nx"&gt;color&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;span color=&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s2"&gt;$style&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s2"&gt;&amp;gt;$text&amp;lt;/span&amp;gt;&amp;quot;&lt;/span&gt;
+color &amp;quot;&lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;color=&lt;/span&gt;&lt;span class="s"&gt;\&amp;quot;$style\&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;$text&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;&amp;quot;
 
-&lt;span class="nx"&gt;colormap&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;green&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#33CC00&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;red&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FF0000&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;darkred&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#990000&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;blue&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#0000FF&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;brown&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#9A1900&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;pink&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#CC33CC&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FFCC00&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;cyan&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#66FFFF&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;purple&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#993399&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;orange&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FF6600&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;brightorange&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#FF9900&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;brightgreen&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#33FF33&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;darkgreen&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#009900&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;black&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#000000&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;teal&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#008080&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;gray&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#808080&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;darkblue&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#000080&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;default&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#66FFFF&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;end&lt;/span&gt;
+colormap
+&amp;quot;green&amp;quot; &amp;quot;#33CC00&amp;quot;
+&amp;quot;red&amp;quot; &amp;quot;#FF0000&amp;quot;
+&amp;quot;darkred&amp;quot; &amp;quot;#990000&amp;quot;
+&amp;quot;blue&amp;quot; &amp;quot;#0000FF&amp;quot;
+&amp;quot;brown&amp;quot; &amp;quot;#9A1900&amp;quot;
+&amp;quot;pink&amp;quot; &amp;quot;#CC33CC&amp;quot;
+&amp;quot;yellow&amp;quot; &amp;quot;#FFCC00&amp;quot;
+&amp;quot;cyan&amp;quot; &amp;quot;#66FFFF&amp;quot;
+&amp;quot;purple&amp;quot; &amp;quot;#993399&amp;quot;
+&amp;quot;orange&amp;quot; &amp;quot;#FF6600&amp;quot;
+&amp;quot;brightorange&amp;quot; &amp;quot;#FF9900&amp;quot;
+&amp;quot;brightgreen&amp;quot; &amp;quot;#33FF33&amp;quot;
+&amp;quot;darkgreen&amp;quot; &amp;quot;#009900&amp;quot;
+&amp;quot;black&amp;quot; &amp;quot;#000000&amp;quot;
+&amp;quot;teal&amp;quot; &amp;quot;#008080&amp;quot;
+&amp;quot;gray&amp;quot; &amp;quot;#808080&amp;quot;
+&amp;quot;darkblue&amp;quot; &amp;quot;#000080&amp;quot;
+default &amp;quot;#66FFFF&amp;quot;
+end
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1012,9 +1015,9 @@ intrusive, certe, mais à la durée assez courte pour ne pas être ennuyeuse.
 &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;10000
 &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;low&amp;#39;&lt;/span&gt;
 
-&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt; -f &lt;span class="nv"&gt;$todofile&lt;/span&gt;; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;notification&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;cat &lt;span class="nv"&gt;$todofile&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
-    notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;$icon&amp;quot;&lt;/span&gt; TODO &lt;span class="s2"&gt;&amp;quot;$notification&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; -f &lt;span class="nv"&gt;$todofile&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;notification&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;cat &lt;span class="nv"&gt;$todofile&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+    notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$icon&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; TODO &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$notification&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
@@ -1040,7 +1043,7 @@ simplement dire à vim de gérer tous vos scripts d'un coup. Pour cela, il
 vous suffit de maintenir à jour la liste des scripts qui vous intéressent
 dans le fichier &lt;code&gt;~/.vim/GetLatest/GetLatestVimScripts.dat&lt;/code&gt;. Le format de
 ce fichier est simple:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="err"&gt;é&lt;/span&gt;&lt;span class="n"&gt;ro&lt;/span&gt; &lt;span class="n"&gt;du&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="err"&gt;é&lt;/span&gt;&lt;span class="n"&gt;ro&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="err"&gt;é&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="n"&gt;du&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;AutoInstall&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;nom&lt;/span&gt; &lt;span class="n"&gt;du&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;lt;numéro du script&amp;gt; &amp;lt;numéro de version installée du script&amp;gt; :AutoInstall: &amp;lt;nom du script&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1050,9 +1053,9 @@ La version installée du script est maintenue directement par la commande
 &lt;p&gt;Maintenant, votre répertoire &lt;code&gt;~/.vim&lt;/code&gt; est assez facile à transporter. J'ai
 pour habitude d'en garder une copie "vide", avec une arborescence sous la
 forme:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
-    &lt;span class="o"&gt;|-&lt;/span&gt;&lt;span class="n"&gt;GetLatest&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
-               &lt;span class="o"&gt;|-&lt;/span&gt;&lt;span class="n"&gt;GetLatestVimScripts&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dat&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;\.vim/
+    |-GetLatest/
+               |-GetLatestVimScripts.dat
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1134,13 +1137,13 @@ un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
 disponible sur pas mal de distributions, c'est juste un script perl
 à appeler à la place de gcc, et ça rajoute des couleurs. Pour en
 profiter, il suffit de glisser dans vos Makefile&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;CXX&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;colorgcc&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;CXX=/usr/bin/colorgcc
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Avec les autotools, on peut régler ça à l'invocation du script
 configure :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="n"&gt;CXX&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;colorgcc&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./configure CXX=/usr/bin/colorgcc
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1164,8 +1167,8 @@ suffit de se faire un script. Mettons diffwrap.sh.&lt;/p&gt;
 &lt;span class="nv"&gt;DIFF&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/colordiff&amp;quot;&lt;/span&gt;
 &lt;span class="c"&gt;# Subversion provides the paths we need as the sixth and seventh&lt;/span&gt;
 &lt;span class="c"&gt;# parameters.&lt;/span&gt;
-&lt;span class="nv"&gt;LEFT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;6&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
-&lt;span class="nv"&gt;RIGHT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;7&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;LEFT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;6&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;RIGHT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;7&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 &lt;span class="c"&gt;# Call the diff command&lt;/span&gt;
 &lt;span class="nv"&gt;$DIFF&lt;/span&gt; &lt;span class="nv"&gt;$LEFT&lt;/span&gt; &lt;span class="nv"&gt;$RIGHT&lt;/span&gt;
 &lt;span class="c"&gt;# Return an errorcode of 0 if no differences were detected, 1 if some were.&lt;/span&gt;
@@ -1175,7 +1178,7 @@ suffit de se faire un script. Mettons diffwrap.sh.&lt;/p&gt;
 
 &lt;p&gt;J'ai installé colordiff pour faire le boulot. Il suffit après
 d'éditer \~/.subversion/config, et d'ajouter, section [helpers]&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cmd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;diffwrap&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;diff-cmd = /path/to/diffwrap.sh
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1184,37 +1187,37 @@ Il n'y aurait pas moyen de se cantonner aux erreurs gcc lorsqu'il y
 en a? Aller, on va baisser un peu ça avec un petit peu (le -j3 est
 pour multithreader le make : j'ai un dual core, autant en
 profiter).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;j3&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;alias make=&amp;#39;make -j3 -s&amp;#39;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Bien entendu, en tant qu'adepte de vim, j'utilise aussi beaucoup
 :make. Dans le .vimrc, il peut s'avérer utile de glisser alors:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufNewFile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufRead&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufEnter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;makeprg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;make&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;j3&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set makeprg=make\ -j3\ -s
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Au passage, j'espère que vous connaissiez
 &lt;a href="http://www.vim.org/scripts/script.php?script_id=1520"&gt;omnicppcomplete&lt;/a&gt;,
 qui va chez moi dans la même section du .vimrc:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufNewFile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufRead&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BufEnter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;omnifunc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;omni&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;complete&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;Main&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;On combine tout ça à quelques alias assez connus, et on vit un peu
 mieux dans sa console...&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# SOME COLORS&lt;/span&gt;
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dircolors&lt;/span&gt; &lt;span class="p"&gt;];&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt;
-    &lt;span class="n"&gt;eval&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;`dircolors -b`&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ls&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;vdir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;vdir&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;grep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;grep&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;fgrep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;fgrep&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;egrep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;egrep&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;auto&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;diff&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;colordiff&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;less&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;less&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
-&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# SOME COLORS
+if [ -x /usr/bin/dircolors ]; then
+    eval &amp;quot;`dircolors -b`&amp;quot;
+    alias ls=&amp;#39;ls --color=auto&amp;#39;
+    alias dir=&amp;#39;dir --color=auto&amp;#39;
+    alias vdir=&amp;#39;vdir --color=auto&amp;#39;
+    alias grep=&amp;#39;grep --color=auto&amp;#39;
+    alias fgrep=&amp;#39;fgrep --color=auto&amp;#39;
+    alias egrep=&amp;#39;egrep --color=auto&amp;#39;
+    alias diff=&amp;#39;colordiff&amp;#39;
+    alias less=&amp;#39;less -R&amp;#39;
+fi
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1226,15 +1229,15 @@ gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
 de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
 Commencez-donc par installer ffmpeg et nautilus-actions.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;ffmpeg&lt;/span&gt; &lt;span class="n"&gt;nautilus&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;actions&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install ffmpeg nautilus-actions
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;La syntaxe pour réaliser un gif animé à partir d'un film est&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ffmpeg&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;fichier_entree&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;avi&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pix_fmt&lt;/span&gt; &lt;span class="n"&gt;rgb24&lt;/span&gt; \
- &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="n"&gt;x120&lt;/span&gt;\
- &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;\
- &lt;span class="n"&gt;fichier_sortie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gif&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \
+ -s 120x120\
+ -r 5\
+ fichier_sortie.gif
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1253,7 +1256,7 @@ système&gt;préférences&gt;configuration des actions de nautilus. Faites
 &lt;p&gt;&lt;img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png" /&gt;
 &lt;img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Ce qui est important, c'est le champ 'paramètres' :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pix_fmt&lt;/span&gt; &lt;span class="n"&gt;rgb24&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="n"&gt;x120&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gif&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif
 &lt;/pre&gt;&lt;/div&gt;
 
 

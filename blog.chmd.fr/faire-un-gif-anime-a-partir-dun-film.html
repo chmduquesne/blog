@@ -33,15 +33,15 @@ gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
 de faire clic droit>générer un gif animé à partir de cette vidéo.
 Commencez-donc par installer ffmpeg et nautilus-actions.</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">ffmpeg</span> <span class="n">nautilus</span><span class="o">-</span><span class="n">actions</span>
+<div class="highlight"><pre>sudo apt-get install ffmpeg nautilus-actions
 </pre></div>
 
 
 <p>La syntaxe pour réaliser un gif animé à partir d'un film est</p>
-<div class="highlight"><pre><span class="n">ffmpeg</span> <span class="o">-</span><span class="n">i</span> <span class="n">fichier_entree</span><span class="p">.</span><span class="n">avi</span> <span class="o">-</span><span class="n">pix_fmt</span> <span class="n">rgb24</span> \
- <span class="o">-</span><span class="n">s</span> <span class="mi">120</span><span class="n">x120</span>\
- <span class="o">-</span><span class="n">r</span> <span class="mi">5</span>\
- <span class="n">fichier_sortie</span><span class="p">.</span><span class="n">gif</span>
+<div class="highlight"><pre>ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \
+ -s 120x120\
+ -r 5\
+ fichier_sortie.gif
 </pre></div>
 
 
@@ -60,7 +60,7 @@ système>préférences>configuration des actions de nautilus. Faites
 <p><img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png" />
 <img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png" /></p>
 <p>Ce qui est important, c'est le champ 'paramètres' :</p>
-<div class="highlight"><pre><span class="o">-</span><span class="n">i</span> <span class="o">%</span><span class="n">M</span> <span class="o">-</span><span class="n">pix_fmt</span> <span class="n">rgb24</span> <span class="o">-</span><span class="n">s</span> <span class="mi">120</span><span class="n">x120</span> <span class="o">-</span><span class="n">r</span> <span class="mi">5</span> <span class="o">%</span><span class="n">M</span><span class="p">.</span><span class="n">gif</span>
+<div class="highlight"><pre>-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif
 </pre></div>
 
 

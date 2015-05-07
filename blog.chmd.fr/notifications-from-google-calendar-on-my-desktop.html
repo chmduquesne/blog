@@ -29,7 +29,7 @@
 <article>
     <div class="entry-content">
     <p>I just added this in a crontab:</p>
-<div class="highlight"><pre><span class="err">*/</span><span class="mi">30</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">DISPLAY</span><span class="o">=:</span><span class="mf">0.0</span> <span class="n">gcalcli</span> <span class="n">remind</span> <span class="mi">240</span> <span class="err">&#39;</span><span class="n">notify</span><span class="o">-</span><span class="n">send</span> <span class="o">-</span><span class="n">t</span> <span class="mi">300000</span> <span class="o">-</span><span class="n">i</span> <span class="n">myniceicon</span><span class="p">.</span><span class="n">svg</span> <span class="s">&quot;Calendar&quot;</span> <span class="err">\</span><span class="o">%</span><span class="n">s</span><span class="err">&#39;</span>
+<div class="highlight"><pre>*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &#39;notify-send -t 300000 -i myniceicon.svg &quot;Calendar&quot; \%s&#39;
 </pre></div>
 
 

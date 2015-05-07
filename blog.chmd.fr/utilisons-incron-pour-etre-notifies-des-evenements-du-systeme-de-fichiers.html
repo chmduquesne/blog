@@ -40,12 +40,12 @@ modifications sur mes logs (je tire l'idée de ce script
 <a href="http://www.daemontux.org/?q=node/31">d'un ancien post sur le planet libre</a>).
 Après avoir installé incron, j'édite ma table de configuration
 incron:</p>
-<div class="highlight"><pre><span class="n">incrontab</span> <span class="o">-</span><span class="n">e</span>
+<div class="highlight"><pre>incrontab -e
 </pre></div>
 
 
 <p>Avec mon éditeur favori, je lui mets la ligne suivante:</p>
-<div class="highlight"><pre><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">kernel</span><span class="p">.</span><span class="n">log</span> <span class="n">IN_MODIFY</span> <span class="n">sh</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">documents</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">popLog</span><span class="p">.</span><span class="n">sh</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">kernel</span><span class="p">.</span><span class="n">log</span>
+<div class="highlight"><pre>/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log
 </pre></div>
 
 
@@ -168,76 +168,76 @@ j'ajoute quelques explications:</p>
 <span class="nv">errorIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-error.png&#39;</span>
 <span class="nv">securityIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/security-medium.png&#39;</span>
 
-<span class="nv">coloredLog</span><span class="o">=</span><span class="k">$(</span>tail -n 1 <span class="nv">$1</span> |                   <span class="se">\</span>
+<span class="nv">coloredLog</span><span class="o">=</span><span class="k">$(</span>tail -n <span class="m">1</span> <span class="nv">$1</span> <span class="p">|</span>                   <span class="se">\</span>
   <span class="nb">source</span>-highlight --failsafe                 <span class="se">\</span>
                    --src-lang<span class="o">=</span>log             <span class="se">\</span>
                    --style-file<span class="o">=</span>default.style <span class="se">\</span>
-                   --outlang-def<span class="o">=</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/documents/scripts/awesome.outlang<span class="k">)</span>
+                   --outlang-def<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/documents/scripts/awesome.outlang<span class="k">)</span>
 
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$coloredLog</span>!<span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="o">]]</span>; <span class="k">then</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$coloredLog</span>!<span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
 
-<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep info<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span>; <span class="k">fi</span>
-<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep warn<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;warning&#39;</span>; <span class="k">fi</span>
-<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep err<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;error&#39;</span>; <span class="k">fi</span>
-<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep auth<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span>; <span class="k">fi</span>
-<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span>|grep access<span class="k">)</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span>;<span class="k">fi</span>
-<span class="k">    if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$notification</span>|grep <span class="s1">&#39;UFW BLOCK INPUT&#39;</span><span class="k">)</span> <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">        </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span>; <span class="k">fi</span>
-<span class="k">    if</span> <span class="o">[[</span> <span class="nv">$messageType</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span>; <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep info<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep warn<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;warning&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep err<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;error&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep auth<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep access<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span><span class="p">;</span><span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$notification</span><span class="p">|</span>grep <span class="s1">&#39;UFW BLOCK INPUT&#39;</span><span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="nv">$messageType</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">;</span> <span class="k">fi</span>
 
-<span class="k">    case</span> <span class="nv">$messageType</span> in
+    <span class="k">case</span> <span class="nv">$messageType</span> in
     info<span class="o">)</span>
         <span class="nv">urgency</span><span class="o">=</span><span class="nv">$infoUrgency</span>
         <span class="nv">icon</span><span class="o">=</span><span class="nv">$infoIcon</span>
         <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$infoPopupTime</span>
-    ;;
+    <span class="p">;;</span>
     warning<span class="o">)</span>
         <span class="nv">urgency</span><span class="o">=</span><span class="nv">$warningUrgency</span>
         <span class="nv">icon</span><span class="o">=</span><span class="nv">$warningIcon</span>
         <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$warningPopupTime</span>
-    ;;
+    <span class="p">;;</span>
     error<span class="o">)</span>
         <span class="nv">urgency</span><span class="o">=</span><span class="nv">$errorUrgency</span>
         <span class="nv">icon</span><span class="o">=</span><span class="nv">$errorIcon</span>
         <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$errorPopupTime</span>
-    ;;
+    <span class="p">;;</span>
     security<span class="o">)</span>
         <span class="nv">urgency</span><span class="o">=</span><span class="nv">$securityUrgency</span>
         <span class="nv">icon</span><span class="o">=</span><span class="nv">$securityIcon</span>
         <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$securityPopupTime</span>
-    ;;
+    <span class="p">;;</span>
     <span class="k">esac</span>
 
-<span class="k">    </span>notify-send -u <span class="nv">$urgency</span> -t <span class="nv">$popupTime</span> -i <span class="s2">&quot;$icon&quot;</span> <span class="s2">&quot;$1&quot;</span> <span class="s2">&quot;$coloredLog&quot;</span>
+    notify-send -u <span class="nv">$urgency</span> -t <span class="nv">$popupTime</span> -i <span class="s2">&quot;</span><span class="nv">$icon</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$coloredLog</span><span class="s2">&quot;</span>
 <span class="k">fi</span>
 </pre></div>
 </td></tr></table>
 
 <p>Et voici /home/me/documents/scripts/awesome.outlang:</p>
-<div class="highlight"><pre><span class="nx">extension</span> <span class="s2">&quot;awesome&quot;</span>
+<div class="highlight"><pre>extension &quot;awesome&quot;
 
-<span class="nx">color</span> <span class="s2">&quot;&lt;span color=</span><span class="se">\&quot;</span><span class="s2">$style</span><span class="se">\&quot;</span><span class="s2">&gt;$text&lt;/span&gt;&quot;</span>
+color &quot;<span class="nt">&lt;span</span> <span class="na">color=</span><span class="s">\&quot;$style\&quot;</span><span class="nt">&gt;</span>$text<span class="nt">&lt;/span&gt;</span>&quot;
 
-<span class="nx">colormap</span>
-<span class="s2">&quot;green&quot;</span> <span class="s2">&quot;#33CC00&quot;</span>
-<span class="s2">&quot;red&quot;</span> <span class="s2">&quot;#FF0000&quot;</span>
-<span class="s2">&quot;darkred&quot;</span> <span class="s2">&quot;#990000&quot;</span>
-<span class="s2">&quot;blue&quot;</span> <span class="s2">&quot;#0000FF&quot;</span>
-<span class="s2">&quot;brown&quot;</span> <span class="s2">&quot;#9A1900&quot;</span>
-<span class="s2">&quot;pink&quot;</span> <span class="s2">&quot;#CC33CC&quot;</span>
-<span class="s2">&quot;yellow&quot;</span> <span class="s2">&quot;#FFCC00&quot;</span>
-<span class="s2">&quot;cyan&quot;</span> <span class="s2">&quot;#66FFFF&quot;</span>
-<span class="s2">&quot;purple&quot;</span> <span class="s2">&quot;#993399&quot;</span>
-<span class="s2">&quot;orange&quot;</span> <span class="s2">&quot;#FF6600&quot;</span>
-<span class="s2">&quot;brightorange&quot;</span> <span class="s2">&quot;#FF9900&quot;</span>
-<span class="s2">&quot;brightgreen&quot;</span> <span class="s2">&quot;#33FF33&quot;</span>
-<span class="s2">&quot;darkgreen&quot;</span> <span class="s2">&quot;#009900&quot;</span>
-<span class="s2">&quot;black&quot;</span> <span class="s2">&quot;#000000&quot;</span>
-<span class="s2">&quot;teal&quot;</span> <span class="s2">&quot;#008080&quot;</span>
-<span class="s2">&quot;gray&quot;</span> <span class="s2">&quot;#808080&quot;</span>
-<span class="s2">&quot;darkblue&quot;</span> <span class="s2">&quot;#000080&quot;</span>
-<span class="nb">default</span> <span class="s2">&quot;#66FFFF&quot;</span>
-<span class="nb">end</span>
+colormap
+&quot;green&quot; &quot;#33CC00&quot;
+&quot;red&quot; &quot;#FF0000&quot;
+&quot;darkred&quot; &quot;#990000&quot;
+&quot;blue&quot; &quot;#0000FF&quot;
+&quot;brown&quot; &quot;#9A1900&quot;
+&quot;pink&quot; &quot;#CC33CC&quot;
+&quot;yellow&quot; &quot;#FFCC00&quot;
+&quot;cyan&quot; &quot;#66FFFF&quot;
+&quot;purple&quot; &quot;#993399&quot;
+&quot;orange&quot; &quot;#FF6600&quot;
+&quot;brightorange&quot; &quot;#FF9900&quot;
+&quot;brightgreen&quot; &quot;#33FF33&quot;
+&quot;darkgreen&quot; &quot;#009900&quot;
+&quot;black&quot; &quot;#000000&quot;
+&quot;teal&quot; &quot;#008080&quot;
+&quot;gray&quot; &quot;#808080&quot;
+&quot;darkblue&quot; &quot;#000080&quot;
+default &quot;#66FFFF&quot;
+end
 </pre></div>
 
 

@@ -64,7 +64,11 @@ Bingo! You should see the ssh prompt. For the fun, I replaced in my
 
 with
 
-    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 & socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+
+**Edit 2015-05-07**: See [Vincent's
+comment](https://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html#comment-2010371675)
+for a cool idea to wrap the ssh command with the `-fMN` options.
 
 It works just fine. There is however a flaw in what I did: I use a
 hardcoded port, thus I can't establish two ssh connections at the

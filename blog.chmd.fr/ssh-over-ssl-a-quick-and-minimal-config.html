@@ -77,16 +77,16 @@ Clients will connect using a standard ssh client and proxytunnel.</p>
 <p>It enables forward proxying for anyone, but only if the client asks for
 127.0.0.1:22 (other requests will be denied). This results in exposing the
 port 22 (ssh) of your server through a proxy, in an encrypted way.</p>
-<div class="highlight"><pre><span class="nx">ProxyRequests</span> <span class="k">On</span>
-<span class="nx">AllowConnect</span> <span class="mi">22</span>
-<span class="o">&lt;</span><span class="nx">Proxy</span> <span class="o">*&gt;</span>
-    <span class="k">Order</span> <span class="nx">deny</span><span class="p">,</span><span class="nx">allow</span>
-    <span class="nx">Deny</span> <span class="nb">from</span> <span class="kc">all</span>
-<span class="o">&lt;/</span><span class="nx">Proxy</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">Proxy</span> <span class="mf">127.0.0.1</span><span class="o">&gt;</span>
-    <span class="k">Order</span> <span class="nx">deny</span><span class="p">,</span><span class="nx">allow</span>
-    <span class="nx">Allow</span> <span class="nb">from</span> <span class="kc">all</span>
-<span class="o">&lt;/</span><span class="nx">Proxy</span><span class="o">&gt;</span>
+<div class="highlight"><pre>ProxyRequests On
+AllowConnect 22
+<span class="nt">&lt;Proxy</span> <span class="err">*</span><span class="nt">&gt;</span>
+    Order deny,allow
+    Deny from all
+<span class="nt">&lt;/Proxy&gt;</span>
+<span class="nt">&lt;Proxy</span> <span class="err">127.0.0.1</span><span class="nt">&gt;</span>
+    Order deny,allow
+    Allow from all
+<span class="nt">&lt;/Proxy&gt;</span>
 </pre></div>
 
 
@@ -103,7 +103,7 @@ commenting the three SSL related lines (you can switch to encrypted when
 it works). Proxytunnel can "chain" two proxies (a local one, and a remote
 one), but if the place you connect from does not use such a setting, here
 is how you can proceed:</p>
-<div class="highlight"><pre><span class="n">proxytunnel</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">p</span> <span class="n">server</span><span class="p">.</span><span class="n">com</span><span class="o">:</span><span class="mi">443</span> <span class="o">-</span><span class="n">d</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">22</span> <span class="o">-</span><span class="n">v</span>
+<div class="highlight"><pre>proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v
 </pre></div>
 
 
@@ -115,10 +115,10 @@ using the latest alpha).</p>
 <h1>File .ssh/config</h1>
 <p>Once you're done, just drop the working command line in the .ssh/config of
 your clients:</p>
-<div class="highlight"><pre><span class="n">Host</span> <span class="n">server</span><span class="p">.</span><span class="n">com</span>
-    <span class="n">ProxyCommand</span> <span class="n">proxytunnel</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">p</span> <span class="n">server</span><span class="p">.</span><span class="n">com</span><span class="o">:</span><span class="mi">443</span> <span class="o">-</span><span class="n">d</span> <span class="mf">127.0.0.1</span><span class="o">:</span><span class="mi">22</span>
-    <span class="n">DynamicForward</span> <span class="mi">1080</span>
-    <span class="n">ServerAliveInterval</span> <span class="mi">60</span>
+<div class="highlight"><pre>Host server.com
+    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+    DynamicForward 1080
+    ServerAliveInterval 60
 </pre></div>
 
 

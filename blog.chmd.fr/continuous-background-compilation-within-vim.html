@@ -31,12 +31,12 @@
     <p>You <em>can</em> do continuous background compilation within vim. The following
 code snippet will compile your project with <code>make</code> each time you save the
 current buffer:</p>
-<div class="highlight"><pre><span class="n">augroup</span> <span class="n">c</span><span class="o">++</span>
-    <span class="n">autocmd</span> <span class="n">BufWritePost</span> <span class="o">*</span><span class="p">.{</span><span class="n">hpp</span><span class="p">,</span><span class="n">cpp</span><span class="p">}</span>
-                <span class="err">\</span> <span class="n">silent</span> <span class="n">execute</span> <span class="s">&quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot;</span> <span class="o">|</span>
-                <span class="err">\</span> <span class="n">redraw</span><span class="o">!</span> <span class="o">|</span>
-                <span class="err">\</span> <span class="n">cgetfile</span> <span class="o">~/</span><span class="p">.</span><span class="n">vim</span><span class="o">/</span><span class="n">cpperrors</span>
-<span class="n">augroup</span> <span class="n">END</span>
+<div class="highlight"><pre>augroup c++
+    autocmd BufWritePost *.{hpp,cpp}
+                \ silent execute &quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot; |
+                \ redraw! |
+                \ cgetfile ~/.vim/cpperrors
+augroup END
 </pre></div>
 
 

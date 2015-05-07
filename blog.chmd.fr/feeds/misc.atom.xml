@@ -20,7 +20,7 @@ simple to use) and continuous integration. There is even
 &lt;a href="http://saimon.org/sigal-demo/galleria/"&gt;demo&lt;/a&gt; galleries, for you to test
 it live before installing it. And of course, for maximal conveniency,
 there is a python package, that you can install very simply: just run&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sigal&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install sigal
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -125,7 +125,7 @@ with &lt;a href="http://disqus.com/"&gt;disqus&lt;/a&gt;. Just make an account a
 file I mentioned. Disqus provides a way to import comments from such a
 file. You will later be able to reattach threads to their articles by
 providing a csv map file following the syntax:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;old_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;new_url&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;old_url, new_url
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -138,12 +138,12 @@ wizard that tells you what to do quite accurately.&lt;/p&gt;
 &lt;h1&gt;What I could not fix&lt;/h1&gt;
 &lt;p&gt;The blog entries on my previous blog were obtained through links looking
 like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="s"&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Whereas on the new version, they look like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="s"&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -161,12 +161,12 @@ sont inspirés du véritable mail hadopi). Je vous préviens:
 l'utilisation de ce genre de service est probablement
 répréhensible, mais ça ne vous empêche pas de récupérer le code du
 projet sur github:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/padopi/padopi&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git clone https://github.com/padopi/padopi
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Ou bien, si vous préférez mon clone (Ho ho ho):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/chmduquesne/padopi&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git clone https://github.com/chmduquesne/padopi
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -300,16 +300,16 @@ possible d'en utiliser une sur mon compte free.&lt;/p&gt;
 &lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;mencoder&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install mencoder
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;mencoder&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ss&lt;/span&gt;     &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;mm&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ss&lt;/span&gt;    \
-         &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;endpos&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;mm&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ss&lt;/span&gt;    \
-         &lt;span class="n"&gt;film_origine&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;avi&lt;/span&gt;   \
-         &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;extrait&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;avi&lt;/span&gt;     \
-         &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;oac&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ovc&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mencoder -ss     h:mm:ss    \
+         -endpos h:mm:ss    \
+         film_origine.avi   \
+         -o extrait.avi     \
+         -oac copy -ovc copy
 &lt;/pre&gt;&lt;/div&gt;
 
 

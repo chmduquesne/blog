@@ -35,13 +35,13 @@ un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
 disponible sur pas mal de distributions, c'est juste un script perl
 à appeler à la place de gcc, et ça rajoute des couleurs. Pour en
 profiter, il suffit de glisser dans vos Makefile</p>
-<div class="highlight"><pre><span class="n">CXX</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">colorgcc</span>
+<div class="highlight"><pre>CXX=/usr/bin/colorgcc
 </pre></div>
 
 
 <p>Avec les autotools, on peut régler ça à l'invocation du script
 configure :</p>
-<div class="highlight"><pre><span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="n">CXX</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">colorgcc</span>
+<div class="highlight"><pre>./configure CXX=/usr/bin/colorgcc
 </pre></div>
 
 
@@ -65,8 +65,8 @@ suffit de se faire un script. Mettons diffwrap.sh.</p>
 <span class="nv">DIFF</span><span class="o">=</span><span class="s2">&quot;/usr/bin/colordiff&quot;</span>
 <span class="c"># Subversion provides the paths we need as the sixth and seventh</span>
 <span class="c"># parameters.</span>
-<span class="nv">LEFT</span><span class="o">=</span><span class="k">${</span><span class="nv">6</span><span class="k">}</span>
-<span class="nv">RIGHT</span><span class="o">=</span><span class="k">${</span><span class="nv">7</span><span class="k">}</span>
+<span class="nv">LEFT</span><span class="o">=</span><span class="si">${</span><span class="nv">6</span><span class="si">}</span>
+<span class="nv">RIGHT</span><span class="o">=</span><span class="si">${</span><span class="nv">7</span><span class="si">}</span>
 <span class="c"># Call the diff command</span>
 <span class="nv">$DIFF</span> <span class="nv">$LEFT</span> <span class="nv">$RIGHT</span>
 <span class="c"># Return an errorcode of 0 if no differences were detected, 1 if some were.</span>
@@ -76,7 +76,7 @@ suffit de se faire un script. Mettons diffwrap.sh.</p>
 
 <p>J'ai installé colordiff pour faire le boulot. Il suffit après
 d'éditer \~/.subversion/config, et d'ajouter, section [helpers]</p>
-<div class="highlight"><pre><span class="n">diff</span><span class="o">-</span><span class="n">cmd</span> <span class="o">=</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">diffwrap</span><span class="p">.</span><span class="n">sh</span>
+<div class="highlight"><pre>diff-cmd = /path/to/diffwrap.sh
 </pre></div>
 
 
@@ -85,37 +85,37 @@ Il n'y aurait pas moyen de se cantonner aux erreurs gcc lorsqu'il y
 en a? Aller, on va baisser un peu ça avec un petit peu (le -j3 est
 pour multithreader le make : j'ai un dual core, autant en
 profiter).</p>
-<div class="highlight"><pre><span class="n">alias</span> <span class="n">make</span><span class="o">=</span><span class="err">&#39;</span><span class="n">make</span> <span class="o">-</span><span class="n">j3</span> <span class="o">-</span><span class="n">s</span><span class="err">&#39;</span>
+<div class="highlight"><pre>alias make=&#39;make -j3 -s&#39;
 </pre></div>
 
 
 <p>Bien entendu, en tant qu'adepte de vim, j'utilise aussi beaucoup
 :make. Dans le .vimrc, il peut s'avérer utile de glisser alors:</p>
-<div class="highlight"><pre><span class="n">autocmd</span> <span class="n">BufNewFile</span><span class="p">,</span><span class="n">BufRead</span><span class="p">,</span><span class="n">BufEnter</span> <span class="o">*</span><span class="p">.</span><span class="n">cpp</span><span class="p">,</span><span class="o">*</span><span class="p">.</span><span class="n">hpp</span> <span class="n">set</span> <span class="n">makeprg</span><span class="o">=</span><span class="n">make</span><span class="err">\</span> <span class="o">-</span><span class="n">j3</span><span class="err">\</span> <span class="o">-</span><span class="n">s</span>
+<div class="highlight"><pre>autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set makeprg=make\ -j3\ -s
 </pre></div>
 
 
 <p>Au passage, j'espère que vous connaissiez
 <a href="http://www.vim.org/scripts/script.php?script_id=1520">omnicppcomplete</a>,
 qui va chez moi dans la même section du .vimrc:</p>
-<div class="highlight"><pre><span class="n">autocmd</span> <span class="n">BufNewFile</span><span class="p">,</span><span class="n">BufRead</span><span class="p">,</span><span class="n">BufEnter</span> <span class="o">*</span><span class="p">.</span><span class="n">cpp</span><span class="p">,</span><span class="o">*</span><span class="p">.</span><span class="n">hpp</span> <span class="n">set</span> <span class="n">omnifunc</span><span class="o">=</span><span class="n">omni</span><span class="err">#</span><span class="n">cpp</span><span class="err">#</span><span class="n">complete</span><span class="err">#</span><span class="n">Main</span>
+<div class="highlight"><pre>autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 </pre></div>
 
 
 <p>On combine tout ça à quelques alias assez connus, et on vit un peu
 mieux dans sa console...</p>
-<div class="highlight"><pre><span class="cp"># SOME COLORS</span>
-<span class="k">if</span> <span class="p">[</span> <span class="o">-</span><span class="n">x</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">dircolors</span> <span class="p">];</span> <span class="n">then</span>
-    <span class="n">eval</span> <span class="s">&quot;`dircolors -b`&quot;</span>
-    <span class="n">alias</span> <span class="n">ls</span><span class="o">=</span><span class="err">&#39;</span><span class="n">ls</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="k">auto</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">dir</span><span class="o">=</span><span class="err">&#39;</span><span class="n">dir</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="k">auto</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">vdir</span><span class="o">=</span><span class="err">&#39;</span><span class="n">vdir</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="k">auto</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">grep</span><span class="o">=</span><span class="err">&#39;</span><span class="n">grep</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="k">auto</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">fgrep</span><span class="o">=</span><span class="err">&#39;</span><span class="n">fgrep</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="k">auto</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">egrep</span><span class="o">=</span><span class="err">&#39;</span><span class="n">egrep</span> <span class="o">--</span><span class="n">color</span><span class="o">=</span><span class="k">auto</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">diff</span><span class="o">=</span><span class="err">&#39;</span><span class="n">colordiff</span><span class="err">&#39;</span>
-    <span class="n">alias</span> <span class="n">less</span><span class="o">=</span><span class="err">&#39;</span><span class="n">less</span> <span class="o">-</span><span class="n">R</span><span class="err">&#39;</span>
-<span class="n">fi</span>
+<div class="highlight"><pre># SOME COLORS
+if [ -x /usr/bin/dircolors ]; then
+    eval &quot;`dircolors -b`&quot;
+    alias ls=&#39;ls --color=auto&#39;
+    alias dir=&#39;dir --color=auto&#39;
+    alias vdir=&#39;vdir --color=auto&#39;
+    alias grep=&#39;grep --color=auto&#39;
+    alias fgrep=&#39;fgrep --color=auto&#39;
+    alias egrep=&#39;egrep --color=auto&#39;
+    alias diff=&#39;colordiff&#39;
+    alias less=&#39;less -R&#39;
+fi
 </pre></div>
 
 

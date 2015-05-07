@@ -32,19 +32,19 @@
 <p>I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:</p>
-<div class="highlight"><pre><span class="err">#</span> <span class="nb">file</span><span class="p">:</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">sites</span><span class="na">-available</span><span class="p">/</span><span class="nx">domain.com.conf</span>
-<span class="o">&lt;</span><span class="nx">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">80</span><span class="o">&gt;</span>
-    <span class="nb">Include</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">domain.com.inc.conf</span>
-<span class="o">&lt;/</span><span class="nx">VirtualHost</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">443</span><span class="o">&gt;</span>
-    <span class="nb">Include</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">domain.com.inc.conf</span>
-    <span class="nx">SSLEngine</span> <span class="k">On</span>
-    <span class="nx">SSLCertificateFile</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">ssl</span><span class="p">/</span><span class="k">private</span><span class="p">/</span><span class="nx">domain.com.pem</span>
-<span class="o">&lt;/</span><span class="nx">VirtualHost</span><span class="o">&gt;</span>
+<div class="highlight"><pre># file: /etc/apache2/sites-available/domain.com.conf
+<span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
+    Include /etc/apache2/domain.com.inc.conf
+<span class="nt">&lt;/VirtualHost&gt;</span>
+<span class="nt">&lt;VirtualHost</span> <span class="err">*:443</span><span class="nt">&gt;</span>
+    Include /etc/apache2/domain.com.inc.conf
+    SSLEngine On
+    SSLCertificateFile /etc/ssl/private/domain.com.pem
+<span class="nt">&lt;/VirtualHost&gt;</span>
 
-<span class="err">#</span> <span class="nb">file</span><span class="p">:</span> <span class="p">/</span><span class="nx">etc</span><span class="p">/</span><span class="nx">apache2</span><span class="p">/</span><span class="nx">sites</span><span class="na">-available</span><span class="p">/</span><span class="nx">domain.com.inc.conf</span>
-<span class="nb">ServerName</span> <span class="nx">domain.com</span>
-<span class="nb">DocumentRoot</span> <span class="p">/</span><span class="nb">var</span><span class="p">/</span><span class="nx">www</span><span class="p">/</span><span class="nx">domain.com</span>
+# file: /etc/apache2/sites-available/domain.com.inc.conf
+ServerName domain.com
+DocumentRoot /var/www/domain.com
 </pre></div>
 
 
@@ -54,14 +54,14 @@ virtualhosts. That is two files to maintain, for one domain.  If you want
 to do this for every domain you control, you have to multiply the files
 and includes.</p>
 <p>Doing this with lighttpd is really easier:</p>
-<div class="highlight"><pre><span class="cp"># file /etc/lighttpd/lighttpd.conf</span>
-<span class="err">$</span><span class="n">SERVER</span><span class="p">[</span><span class="s">&quot;socket&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;:443&quot;</span> <span class="p">{</span>
-    <span class="n">ssl</span><span class="p">.</span><span class="n">engine</span>              <span class="o">=</span> <span class="s">&quot;enable&quot;</span>
-    <span class="n">ssl</span><span class="p">.</span><span class="n">pemfile</span>             <span class="o">=</span> <span class="s">&quot;/etc/ssl/private/domain.com.pem&quot;</span>
-<span class="p">}</span>
-<span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;domain.com&quot;</span> <span class="p">{</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span>    <span class="o">=</span> <span class="s">&quot;/var/www/domain.com&quot;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span class="err">#</span><span class="x"> file /etc/lighttpd/lighttpd.conf</span>
+<span class="p">$</span><span class="nv">SERVER</span><span class="x">[&quot;socket&quot;] == &quot;:443&quot; </span><span class="err">{</span><span class="x"></span>
+<span class="x">    ssl.engine              = &quot;enable&quot;</span>
+<span class="x">    ssl.pemfile             = &quot;/etc/ssl/private/domain.com.pem&quot;</span>
+<span class="x">}</span>
+<span class="p">$</span><span class="nv">HTTP</span><span class="x">[&quot;host&quot;] == &quot;domain.com&quot; </span><span class="err">{</span><span class="x"></span>
+<span class="x">    server.document-root    = &quot;/var/www/domain.com&quot;</span>
+<span class="x">}</span>
 </pre></div>
 
 
@@ -78,23 +78,23 @@ hosting my public git repositories. I (quite obviously) named it
 </ul>
 <p>Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:</p>
-<div class="highlight"><pre><span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;git.chmd.fr&quot;</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="p">$</span><span class="nv">HTTP</span><span class="x">[&quot;host&quot;] == &quot;git.chmd.fr&quot; </span><span class="err">{</span><span class="x"></span>
 
-    <span class="err">#</span> <span class="n">This</span> <span class="n">takes</span> <span class="n">care</span> <span class="n">of</span> <span class="n">serving</span> <span class="n">gitweb</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span>    <span class="o">=</span> <span class="s">&quot;/usr/share/gitweb&quot;</span>
-    <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span> <span class="s">&quot;.cgi&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&quot;</span> <span class="p">)</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">indexfiles</span> <span class="o">=</span> <span class="p">(</span> <span class="s">&quot;gitweb.cgi&quot;</span> <span class="p">)</span>
+<span class="x">    </span><span class="err">#</span><span class="x"> This takes care of serving gitweb</span>
+<span class="x">    server.document-root    = &quot;/usr/share/gitweb&quot;</span>
+<span class="x">    cgi.assign = ( &quot;.cgi&quot; =&gt; &quot;&quot; )</span>
+<span class="x">    server.indexfiles = ( &quot;gitweb.cgi&quot; )</span>
 
-    <span class="err">#</span> <span class="n">And</span> <span class="n">this</span> <span class="n">condition</span> <span class="n">matches</span> <span class="n">git</span> <span class="n">objects</span>
-    <span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">]</span> <span class="o">=~</span> <span class="s">&quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot;</span> <span class="p">{</span>
-        <span class="n">alias</span><span class="p">.</span><span class="n">url</span>  <span class="o">+=</span> <span class="p">(</span> <span class="s">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;/usr/lib/git-core/git-http-backend&quot;</span><span class="p">)</span>
-        <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">setenv</span><span class="p">.</span><span class="n">add</span><span class="o">-</span><span class="n">environment</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s">&quot;GIT_PROJECT_ROOT&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;/home/www/git-public-repos/&quot;</span><span class="p">,</span>
-            <span class="s">&quot;GIT_HTTP_EXPORT_ALL&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&quot;</span>
-            <span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="x">    </span><span class="err">#</span><span class="x"> And this condition matches git objects</span>
+<span class="x">    </span><span class="p">$</span><span class="nv">HTTP</span><span class="x">[&quot;url&quot;] =~ &quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]</span><span class="err">{</span><span class="x">2}/[0-9a-f]</span><span class="err">{</span><span class="x">38} | pack/pack-[0-9a-f]</span><span class="err">{</span><span class="x">40}\.(pack|idx)) | git-(upload|receive)-pack))</span><span class="p">$</span><span class="x">&quot; </span><span class="err">{</span><span class="x"></span>
+<span class="x">        alias.url  += ( &quot;&quot; =&gt; &quot;/usr/lib/git-core/git-http-backend&quot;)</span>
+<span class="x">        cgi.assign = (&quot;&quot; =&gt; &quot;&quot;)</span>
+<span class="x">        setenv.add-environment = (</span>
+<span class="x">            &quot;GIT_PROJECT_ROOT&quot; =&gt; &quot;/home/www/git-public-repos/&quot;,</span>
+<span class="x">            &quot;GIT_HTTP_EXPORT_ALL&quot; =&gt; &quot;&quot;</span>
+<span class="x">            )</span>
+<span class="x">    }</span>
+<span class="x">}</span>
 </pre></div>
 
 

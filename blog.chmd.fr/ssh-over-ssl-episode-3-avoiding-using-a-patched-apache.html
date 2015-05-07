@@ -55,36 +55,36 @@ have decided to do the SSL part by myself. Thus, I configure apache to
 serve normally on the port 80, and I use stunnel to secure apache on the
 port 443. Here is how I do it: I remove the SSL part of my apache config
 and I add in my (normal, unencrypted) apache configuration:</p>
-<div class="highlight"><pre><span class="nx">ProxyRequests</span> <span class="k">On</span>
-<span class="nx">AllowConnect</span> <span class="mi">22</span>
-<span class="o">&lt;</span> <span class="nx">Proxy</span> <span class="o">*&gt;</span>
-    <span class="k">Order</span> <span class="nx">deny</span><span class="p">,</span><span class="nx">allow</span>
-    <span class="nx">Deny</span> <span class="nb">from</span> <span class="kc">all</span>
-<span class="o">&lt;/</span><span class="nx">Proxy</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">Proxy</span> <span class="mf">127.0.0.1</span><span class="o">&gt;</span>
-    <span class="k">Order</span> <span class="nx">deny</span><span class="p">,</span><span class="nx">allow</span>
-    <span class="nx">Allow</span> <span class="nb">from</span> <span class="kc">all</span>
-<span class="o">&lt;/</span><span class="nx">Proxy</span><span class="o">&gt;</span>
+<div class="highlight"><pre>ProxyRequests On
+AllowConnect 22
+<span class="nt">&lt; Proxy</span> <span class="err">*</span><span class="nt">&gt;</span>
+    Order deny,allow
+    Deny from all
+<span class="nt">&lt;/Proxy&gt;</span>
+<span class="nt">&lt;Proxy</span> <span class="err">127.0.0.1</span><span class="nt">&gt;</span>
+    Order deny,allow
+    Allow from all
+<span class="nt">&lt;/Proxy&gt;</span>
 </pre></div>
 
 
 <p>Then, I install stunnel, and I set it up to listen on the port 443
 (https) and to forward it to the port 80 (http).</p>
-<div class="highlight"><pre><span class="n">cert</span> <span class="o">=</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">stunnel</span><span class="o">/</span><span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span>
-<span class="p">...</span>
-<span class="p">[</span><span class="n">https</span><span class="p">]</span>
-<span class="n">accept</span>  <span class="o">=</span> <span class="mi">443</span>
-<span class="n">connect</span> <span class="o">=</span> <span class="mi">80</span>
-<span class="n">TIMEOUTclose</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight"><pre>cert = /etc/stunnel/stunnel.pem
+...
+[https]
+accept  = 443
+connect = 80
+TIMEOUTclose = 0
 </pre></div>
 
 
 <p>stunnel requires a bit of configuration. From the <a href="http://www.stunnel.org/?page=docs">documentation</a>, here
 is how to generate a certificate:</p>
-<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">stunnel</span>
-<span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">x509</span> <span class="o">-</span><span class="n">days</span> <span class="mi">365</span> <span class="o">-</span><span class="n">nodes</span> <span class="o">-</span><span class="n">config</span> <span class="n">stunnel</span><span class="p">.</span><span class="n">cnf</span> <span class="o">-</span><span class="n">out</span> <span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span> <span class="o">-</span><span class="n">keyout</span> <span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span>
-<span class="n">chown</span> <span class="n">stunnel</span><span class="o">:</span><span class="n">stunnel</span> <span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span>
-<span class="n">chmod</span> <span class="mi">600</span> <span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span>
+<div class="highlight"><pre>cd /etc/stunnel
+openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem
+chown stunnel:stunnel stunnel.pem
+chmod 600 stunnel.pem
 </pre></div>
 
 

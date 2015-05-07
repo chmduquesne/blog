@@ -41,13 +41,13 @@ récupérer ce programme.</p>
 lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
 (qui sera créé par le programme), où, s'il est déjà lancé, de
 récupérer ce programme.</p>
-<div class="highlight"><pre><span class="n">dtach</span> <span class="o">-</span><span class="n">A</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">irssi</span><span class="p">.</span><span class="n">sock</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irssi</span>
+<div class="highlight"><pre>dtach -A /tmp/irssi.sock /usr/bin/irssi
 </pre></div>
 
 
 <p>J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
 bon, si on peut se contenter d'un simple alias?</p>
-<div class="highlight"><pre><span class="n">alias</span> <span class="n">irssi</span><span class="o">=</span><span class="err">&#39;</span><span class="n">dtach</span> <span class="o">-</span><span class="n">A</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">irssi</span><span class="p">.</span><span class="n">sock</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irssi</span><span class="err">&#39;`</span>
+<div class="highlight"><pre>alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`
 </pre></div>
 
 
@@ -88,17 +88,17 @@ done
 
 
 <p>Et désormais je lance irssi de la manière suivante:</p>
-<div class="highlight"><pre><span class="cp"># IRSSI IN TMUX</span>
-<span class="cp"># switch to irssi session (and if necessary starts this session before)</span>
-<span class="n">irssi</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="n">tmux</span> <span class="n">has</span> <span class="o">-</span><span class="n">t</span> <span class="n">irssi</span> <span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span><span class="p">;</span> <span class="n">then</span>
-         <span class="n">tmux</span> <span class="k">switch</span> <span class="o">-</span><span class="n">t</span> <span class="n">irssi</span>
-    <span class="k">else</span>
-        <span class="n">TMUX</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="n">tmux</span> <span class="n">new</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">s</span> <span class="n">irssi</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irssi</span>
-        <span class="n">tmux</span> <span class="k">switch</span> <span class="o">-</span><span class="n">t</span> <span class="n">irssi</span>
-    <span class="n">fi</span>
-<span class="p">}</span>
+<div class="highlight"><pre># IRSSI IN TMUX
+# switch to irssi session (and if necessary starts this session before)
+irssi()
+{
+    if tmux has -t irssi &gt;/dev/null; then
+         tmux switch -t irssi
+    else
+        TMUX=&quot;&quot; tmux new -d -s irssi /usr/bin/irssi
+        tmux switch -t irssi
+    fi
+}
 </pre></div>
 
 
