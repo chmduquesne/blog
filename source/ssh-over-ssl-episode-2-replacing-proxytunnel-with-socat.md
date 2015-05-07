@@ -85,7 +85,7 @@ readers has a suggestion, he/she's welcome. This remains a cool hack!
 comments). Here is how my .ssh/config looks like:
 
     Host server.com
-        ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &; sleep 1 && socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+        ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 & sleep 1 && socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
         DynamicForward 1080
         ServerAliveInterval 60
         ControlMaster auto

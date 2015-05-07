@@ -613,15 +613,15 @@ the current version of apache does not allow to do it over https. There
 has been a &lt;a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=29744"&gt;bug report&lt;/a&gt; for years and various patches have been
 proposed, but as far as I know, still not any of these patches made it to
 the official release.&lt;/p&gt;
+&lt;p&gt;My solution so far was to apply the patch manually and recompile the
+relevant module. Doing this for every release can be annoying, so I've
+been looking for a different solution that would not involve recompiling
+apache.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Edit 2015-05-07:&lt;/strong&gt; This bug has been fixed for 3 years. I still
 recommend not to use the CONNECT method, because only apache supports it
 and it will force you to use it. There are cooler, faster webservers out
 there. Using the HAproxy based configuration is by far the most flexible
 way I know (it allows you to use any web server, apache included).&lt;/p&gt;
-&lt;p&gt;My solution so far was to apply the patch manually and recompile the
-relevant module. Doing this for every release can be annoying, so I've
-been looking for a different solution that would not involve recompiling
-apache.&lt;/p&gt;
 &lt;p&gt;The workaround I now use is fun enough for me to talk about it here. Since
 apache has no problem with the CONNECT method when SSL is not involved, I
 have decided to do the SSL part by myself. Thus, I configure apache to
@@ -857,12 +857,12 @@ requires three arguments and one of them is a port. If one of my
 readers has a suggestion, he/she's welcome. This remains a cool hack!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: The great &lt;a href="https://darkpan.com/"&gt;Marco Fontani&lt;/a&gt; gave a cool solution (see the
 comments). Here is how my .ssh/config looks like:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;Host&lt;/span&gt; &lt;span class="nt"&gt;server&lt;/span&gt;&lt;span class="nc"&gt;.com&lt;/span&gt;
-    &lt;span class="nt"&gt;ProxyCommand&lt;/span&gt; &lt;span class="nt"&gt;socat&lt;/span&gt; &lt;span class="nt"&gt;TCP-LISTEN&lt;/span&gt;&lt;span class="nd"&gt;:1080&lt;/span&gt; &lt;span class="nt"&gt;OPENSSL&lt;/span&gt;&lt;span class="nd"&gt;:server&lt;/span&gt;&lt;span class="nc"&gt;.com&lt;/span&gt;&lt;span class="nd"&gt;:443&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;verify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nt"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;;&lt;/span&gt; &lt;span class="nt"&gt;sleep&lt;/span&gt; &lt;span class="nt"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nt"&gt;socat&lt;/span&gt; &lt;span class="nt"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;PROXY&lt;/span&gt;&lt;span class="nd"&gt;:127&lt;/span&gt;&lt;span class="nc"&gt;.0.0.1&lt;/span&gt;&lt;span class="nd"&gt;:127&lt;/span&gt;&lt;span class="nc"&gt;.0.0.1&lt;/span&gt;&lt;span class="nd"&gt;:22&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;proxyport&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nt"&gt;1080&lt;/span&gt;
-    &lt;span class="nt"&gt;DynamicForward&lt;/span&gt; &lt;span class="nt"&gt;1080&lt;/span&gt;
-    &lt;span class="nt"&gt;ServerAliveInterval&lt;/span&gt; &lt;span class="nt"&gt;60&lt;/span&gt;
-    &lt;span class="nt"&gt;ControlMaster&lt;/span&gt; &lt;span class="nt"&gt;auto&lt;/span&gt;
-    &lt;span class="nt"&gt;ControlPath&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="nc"&gt;.ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nt"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="nt"&gt;h_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nt"&gt;p_&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nt"&gt;r&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Host server.com
+    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp;amp; sleep 1 &amp;amp;&amp;amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+    DynamicForward 1080
+    ServerAliveInterval 60
+    ControlMaster auto
+    ControlPath ~/.ssh/tmp/%h_%p_%r
 &lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Mon, 15 Nov 2010 23:53:00 +0100</pubDate><guid>tag:blog.chmd.fr,2010-11-15:ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</guid><category>socat</category><category>ssh</category><category>ssl</category></item><item><title>SSH over SSL, a quick and minimal config.</title><link>http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html</link><description>&lt;p&gt;If you are reading this, you might be interested in the full list of my
 articles about doing SSH over SSL. I have been improving my configuration
 over the years, so the more recent, the better:&lt;/p&gt;

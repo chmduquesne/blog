@@ -45,15 +45,15 @@ the current version of apache does not allow to do it over https. There
 has been a <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=29744">bug report</a> for years and various patches have been
 proposed, but as far as I know, still not any of these patches made it to
 the official release.</p>
+<p>My solution so far was to apply the patch manually and recompile the
+relevant module. Doing this for every release can be annoying, so I've
+been looking for a different solution that would not involve recompiling
+apache.</p>
 <p><strong>Edit 2015-05-07:</strong> This bug has been fixed for 3 years. I still
 recommend not to use the CONNECT method, because only apache supports it
 and it will force you to use it. There are cooler, faster webservers out
 there. Using the HAproxy based configuration is by far the most flexible
 way I know (it allows you to use any web server, apache included).</p>
-<p>My solution so far was to apply the patch manually and recompile the
-relevant module. Doing this for every release can be annoying, so I've
-been looking for a different solution that would not involve recompiling
-apache.</p>
 <p>The workaround I now use is fun enough for me to talk about it here. Since
 apache has no problem with the CONNECT method when SSL is not involved, I
 have decided to do the SSL part by myself. Thus, I configure apache to

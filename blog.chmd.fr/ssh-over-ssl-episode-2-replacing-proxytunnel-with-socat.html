@@ -107,12 +107,12 @@ requires three arguments and one of them is a port. If one of my
 readers has a suggestion, he/she's welcome. This remains a cool hack!</p>
 <p><strong>Edit</strong>: The great <a href="https://darkpan.com/">Marco Fontani</a> gave a cool solution (see the
 comments). Here is how my .ssh/config looks like:</p>
-<div class="highlight"><pre><span class="nt">Host</span> <span class="nt">server</span><span class="nc">.com</span>
-    <span class="nt">ProxyCommand</span> <span class="nt">socat</span> <span class="nt">TCP-LISTEN</span><span class="nd">:1080</span> <span class="nt">OPENSSL</span><span class="nd">:server</span><span class="nc">.com</span><span class="nd">:443</span><span class="o">,</span><span class="nt">verify</span><span class="o">=</span><span class="nt">0</span> <span class="o">&amp;;</span> <span class="nt">sleep</span> <span class="nt">1</span> <span class="o">&amp;&amp;</span> <span class="nt">socat</span> <span class="nt">-</span> <span class="nt">PROXY</span><span class="nd">:127</span><span class="nc">.0.0.1</span><span class="nd">:127</span><span class="nc">.0.0.1</span><span class="nd">:22</span><span class="o">,</span><span class="nt">proxyport</span><span class="o">=</span><span class="nt">1080</span>
-    <span class="nt">DynamicForward</span> <span class="nt">1080</span>
-    <span class="nt">ServerAliveInterval</span> <span class="nt">60</span>
-    <span class="nt">ControlMaster</span> <span class="nt">auto</span>
-    <span class="nt">ControlPath</span> <span class="o">~/</span><span class="nc">.ssh</span><span class="o">/</span><span class="nt">tmp</span><span class="o">/%</span><span class="nt">h_</span><span class="o">%</span><span class="nt">p_</span><span class="o">%</span><span class="nt">r</span>
+<div class="highlight"><pre>Host server.com
+    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp; sleep 1 &amp;&amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+    DynamicForward 1080
+    ServerAliveInterval 60
+    ControlMaster auto
+    ControlPath ~/.ssh/tmp/%h_%p_%r
 </pre></div>
     </div>
     <div class="comments">

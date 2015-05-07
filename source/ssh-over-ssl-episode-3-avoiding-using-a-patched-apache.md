@@ -23,16 +23,16 @@ has been a [bug report][2] for years and various patches have been
 proposed, but as far as I know, still not any of these patches made it to
 the official release.
 
+My solution so far was to apply the patch manually and recompile the
+relevant module. Doing this for every release can be annoying, so I've
+been looking for a different solution that would not involve recompiling
+apache.
+
 **Edit 2015-05-07:** This bug has been fixed for 3 years. I still
 recommend not to use the CONNECT method, because only apache supports it
 and it will force you to use it. There are cooler, faster webservers out
 there. Using the HAproxy based configuration is by far the most flexible
 way I know (it allows you to use any web server, apache included).
-
-My solution so far was to apply the patch manually and recompile the
-relevant module. Doing this for every release can be annoying, so I've
-been looking for a different solution that would not involve recompiling
-apache.
 
 The workaround I now use is fun enough for me to talk about it here. Since
 apache has no problem with the CONNECT method when SSL is not involved, I
