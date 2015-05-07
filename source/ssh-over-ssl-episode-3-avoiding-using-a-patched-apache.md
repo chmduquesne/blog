@@ -23,6 +23,12 @@ has been a [bug report][2] for years and various patches have been
 proposed, but as far as I know, still not any of these patches made it to
 the official release.
 
+**Edit 2015-05-07:** This bug has been fixed for 3 years. I still
+recommend not to use the CONNECT method, because only apache supports it
+and it will force you to use it. There are cooler, faster webservers out
+there. Using the HAproxy based configuration is by far the most flexible
+way I know (it allows you to use any web server, apache included).
+
 My solution so far was to apply the patch manually and recompile the
 relevant module. Doing this for every release can be annoying, so I've
 been looking for a different solution that would not involve recompiling
@@ -76,10 +82,11 @@ started to do telnet over SSL, but that is more or less the same
 story).
 
 Other alternatives I have considered:
-- Switching from apache to another http server: it turns out I was unable
+
+* Switching from apache to another http server: it turns out I was unable
   to find any other http server supporting the http CONNECT method (at
   least thttpd, lighttpd and nginx don't support it)
-- Using a perl script that serves on the port 443, waiting for the CONNECT
+* Using a perl script that serves on the port 443, waiting for the CONNECT
   method and forwarding every other message to apache (see
   [connect_switch][4])
 
