@@ -365,11 +365,11 @@ script, using sendxmpp (saved as &lt;code&gt;/usr/local/bin/login_notify&lt;/cod
 2
 3
 4
-5&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/sh&lt;/span&gt;
+5&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
 
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PAM_USER&lt;/span&gt;&lt;span class="s2"&gt;@`hostname` logged from &lt;/span&gt;&lt;span class="nv"&gt;$PAM_RHOST&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;$&lt;span class="s2"&gt;PAM_USER@`hostname` logged from &lt;/span&gt;$&lt;span class="s2"&gt;PAM_RHOST&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
     sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &amp;gt;/dev/null 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
-&lt;span class="nb"&gt;exit &lt;/span&gt;0
+&lt;span class="nb"&gt;exit&lt;/span&gt; 0
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
@@ -1276,73 +1276,73 @@ j'ajoute quelques explications:&lt;/p&gt;
 65
 66
 67
-68&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env bash&lt;/span&gt;
+68&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ch"&gt;#!/usr/bin/env bash&lt;/span&gt;
 
-&lt;span class="c"&gt;# Usage: popLog /var/log/yourlog&lt;/span&gt;
-&lt;span class="c"&gt;# pops a colored log with the last line of the log&lt;/span&gt;
+&lt;span class="c1"&gt;# Usage: popLog /var/log/yourlog&lt;/span&gt;
+&lt;span class="c1"&gt;# pops a colored log with the last line of the log&lt;/span&gt;
 
-&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;:0.0&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/home/me&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;:0.0&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/home/me&amp;quot;&lt;/span&gt;
 
-&lt;span class="c"&gt;#Urgency&lt;/span&gt;
+&lt;span class="c1"&gt;#Urgency&lt;/span&gt;
 &lt;span class="nv"&gt;infoUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;low&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;warningUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;normal&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;errorUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;critical&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;securityUrgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;critical&amp;#39;&lt;/span&gt;
 
-&lt;span class="c"&gt;#Popup time&lt;/span&gt;
+&lt;span class="c1"&gt;#Popup time&lt;/span&gt;
 &lt;span class="nv"&gt;infoPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5000
 &lt;span class="nv"&gt;warningPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;8000
 &lt;span class="nv"&gt;errorPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;11000
 &lt;span class="nv"&gt;securityPopupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;11000
 
-&lt;span class="c"&gt;#Icons&lt;/span&gt;
+&lt;span class="c1"&gt;#Icons&lt;/span&gt;
 &lt;span class="nv"&gt;infoIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;warningIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-warning.png&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;errorIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-error.png&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;securityIcon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/security-medium.png&amp;#39;&lt;/span&gt;
 
 &lt;span class="nv"&gt;coloredLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;tail -n &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;                   &lt;span class="se"&gt;\&lt;/span&gt;
-  &lt;span class="nb"&gt;source&lt;/span&gt;-highlight --failsafe                 &lt;span class="se"&gt;\&lt;/span&gt;
+  source-highlight --failsafe                 &lt;span class="se"&gt;\&lt;/span&gt;
                    --src-lang&lt;span class="o"&gt;=&lt;/span&gt;log             &lt;span class="se"&gt;\&lt;/span&gt;
                    --style-file&lt;span class="o"&gt;=&lt;/span&gt;default.style &lt;span class="se"&gt;\&lt;/span&gt;
                    --outlang-def&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/documents/scripts/awesome.outlang&lt;span class="k"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$coloredLog&lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$c&lt;/span&gt;oloredLog!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
 
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep info&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep warn&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;warning&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep err&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep auth&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep access&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$notification&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;grep &lt;span class="s1"&gt;&amp;#39;UFW BLOCK INPUT&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; $notification&lt;span class="p"&gt;|&lt;/span&gt;grep &lt;span class="s1"&gt;&amp;#39;UFW BLOCK INPUT&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
         &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;security&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; $&lt;span class="nv"&gt;messageType&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="nv"&gt;messageType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
 
-    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$messageType&lt;/span&gt; in
+    &lt;span class="k"&gt;case&lt;/span&gt; $messageType in
     info&lt;span class="o"&gt;)&lt;/span&gt;
-        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoUrgency&lt;/span&gt;
-        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoIcon&lt;/span&gt;
-        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$infoPopupTime&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$infoUrgency
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$infoIcon
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$infoPopupTime
     &lt;span class="p"&gt;;;&lt;/span&gt;
     warning&lt;span class="o"&gt;)&lt;/span&gt;
-        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningUrgency&lt;/span&gt;
-        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningIcon&lt;/span&gt;
-        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$warningPopupTime&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$warningUrgency
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$warningIcon
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$warningPopupTime
     &lt;span class="p"&gt;;;&lt;/span&gt;
     error&lt;span class="o"&gt;)&lt;/span&gt;
-        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorUrgency&lt;/span&gt;
-        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorIcon&lt;/span&gt;
-        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$errorPopupTime&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$e&lt;/span&gt;rrorUrgency
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$e&lt;/span&gt;rrorIcon
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$e&lt;/span&gt;rrorPopupTime
     &lt;span class="p"&gt;;;&lt;/span&gt;
     security&lt;span class="o"&gt;)&lt;/span&gt;
-        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityUrgency&lt;/span&gt;
-        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityIcon&lt;/span&gt;
-        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$securityPopupTime&lt;/span&gt;
+        &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$securityUrgency
+        &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$securityIcon
+        &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$securityPopupTime
     &lt;span class="p"&gt;;;&lt;/span&gt;
     &lt;span class="k"&gt;esac&lt;/span&gt;
 
-    notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$icon&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$coloredLog&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    notify-send -u $urgency -t $popupTime -i &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;$&lt;span class="s2"&gt;icon&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$c&lt;/span&gt;&lt;span class="s2"&gt;oloredLog&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
@@ -1401,20 +1401,20 @@ intrusive, certe, mais à la durée assez courte pour ne pas être ennuyeuse.
 12
 13
 14
-15&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env bash&lt;/span&gt;
+15&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ch"&gt;#!/usr/bin/env bash&lt;/span&gt;
 
-&lt;span class="c"&gt;# pour que cron sache sur quel moniteur jouer la notification&lt;/span&gt;
+&lt;span class="c1"&gt;# pour que cron sache sur quel moniteur jouer la notification&lt;/span&gt;
 &lt;span class="nv"&gt;DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;:0.0
 
-&lt;span class="c"&gt;#params&lt;/span&gt;
-&lt;span class="nv"&gt;todofile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/TODO
+&lt;span class="c1"&gt;#params&lt;/span&gt;
+&lt;span class="nv"&gt;todofile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;$HOME/TODO
 &lt;span class="nv"&gt;icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&amp;#39;&lt;/span&gt;
 &lt;span class="nv"&gt;popupTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;10000
 &lt;span class="nv"&gt;urgency&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;low&amp;#39;&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; -f &lt;span class="nv"&gt;$todofile&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-    &lt;span class="nv"&gt;notification&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;cat &lt;span class="nv"&gt;$todofile&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
-    notify-send -u &lt;span class="nv"&gt;$urgency&lt;/span&gt; -t &lt;span class="nv"&gt;$popupTime&lt;/span&gt; -i &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$icon&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; TODO &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$notification&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;test&lt;/span&gt; -f $todofile&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;notification&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;cat $todofile&lt;span class="sb"&gt;`&lt;/span&gt;
+    notify-send -u $urgency -t $popupTime -i &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;$&lt;span class="s2"&gt;icon&amp;quot;&lt;/span&gt; TODO &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;$&lt;span class="s2"&gt;notification&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
@@ -1625,17 +1625,17 @@ suffit de se faire un script. Mettons diffwrap.sh.&lt;/p&gt;
  8
  9
 10
-11&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/sh&lt;/span&gt;
-&lt;span class="c"&gt;# Configure your favorite diff program here.&lt;/span&gt;
+11&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="c1"&gt;# Configure your favorite diff program here.&lt;/span&gt;
 &lt;span class="nv"&gt;DIFF&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/colordiff&amp;quot;&lt;/span&gt;
-&lt;span class="c"&gt;# Subversion provides the paths we need as the sixth and seventh&lt;/span&gt;
-&lt;span class="c"&gt;# parameters.&lt;/span&gt;
+&lt;span class="c1"&gt;# Subversion provides the paths we need as the sixth and seventh&lt;/span&gt;
+&lt;span class="c1"&gt;# parameters.&lt;/span&gt;
 &lt;span class="nv"&gt;LEFT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;6&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 &lt;span class="nv"&gt;RIGHT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;7&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
-&lt;span class="c"&gt;# Call the diff command&lt;/span&gt;
-&lt;span class="nv"&gt;$DIFF&lt;/span&gt; &lt;span class="nv"&gt;$LEFT&lt;/span&gt; &lt;span class="nv"&gt;$RIGHT&lt;/span&gt;
-&lt;span class="c"&gt;# Return an errorcode of 0 if no differences were detected, 1 if some were.&lt;/span&gt;
-&lt;span class="c"&gt;# Any other errorcode will be treated as fatal.&lt;/span&gt;
+&lt;span class="c1"&gt;# Call the diff command&lt;/span&gt;
+&lt;span class="nv"&gt;$D&lt;/span&gt;IFF $LEFT $RIGHT
+&lt;span class="c1"&gt;# Return an errorcode of 0 if no differences were detected, 1 if some were.&lt;/span&gt;
+&lt;span class="c1"&gt;# Any other errorcode will be treated as fatal.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
@@ -1762,7 +1762,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;p&gt;&lt;img alt="uml_dia.png" src="images/uml_dia.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Les fichiers suivants seront générés :&lt;/p&gt;
 &lt;p&gt;foowindow.cpp 1/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;foowindow.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;foowindow.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;FooWindow&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -1773,7 +1773,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOW_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define FOOWINDOW_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;FooWindow&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -1788,7 +1788,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;foowindowmanager.cpp 3/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;foowindowmanager.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;foowindowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1796,7 +1796,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOWMANAGER_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define FOOWINDOWMANAGER_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;FooWindowManager&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -1809,7 +1809,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;point.cpp 5/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;point.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;){&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -1823,28 +1823,28 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;point.h 6/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c-Singleline"&gt;#ifndef POINT_H&lt;/span&gt;
-&lt;span class="c-Singleline"&gt;#define POINT_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef POINT_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define POINT_H&lt;/span&gt;
 
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; {
-  // &lt;span class="n"&gt;Associations&lt;/span&gt;
-  // &lt;span class="n"&gt;Attributes&lt;/span&gt;
-  &lt;span class="n"&gt;private:&lt;/span&gt;
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="o"&gt;x&lt;/span&gt;;
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;;
-  // &lt;span class="n"&gt;Operations&lt;/span&gt;
-  &lt;span class="n"&gt;public:&lt;/span&gt;
-    &lt;span class="n"&gt;Point&lt;/span&gt; ( &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="o"&gt;x&lt;/span&gt;, &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; );
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getX&lt;/span&gt; (  );
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getY&lt;/span&gt; (  );
-};
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="nl"&gt;private&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="c-Singleline"&gt;#endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;rectangle.cpp 7/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;rectangle.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;rectangle.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -1855,8 +1855,8 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef RECTANGLE_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define RECTANGLE_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
-&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;point.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -1872,28 +1872,28 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;shape.cpp 9/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;shape.h 10/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c-Singleline"&gt;#ifndef SHAPE_H&lt;/span&gt;
-&lt;span class="c-Singleline"&gt;#define SHAPE_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef SHAPE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define SHAPE_H&lt;/span&gt;
 
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; {
-  // &lt;span class="n"&gt;Associations&lt;/span&gt;
-  // &lt;span class="n"&gt;Attributes&lt;/span&gt;
-  // &lt;span class="n"&gt;Operations&lt;/span&gt;
-  &lt;span class="n"&gt;public:&lt;/span&gt;
-    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; (  ) = &lt;span class="mi"&gt;0&lt;/span&gt;;
-};
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="c-Singleline"&gt;#endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;window.cpp 11/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1901,7 +1901,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOW_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define WINDOW_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -1918,7 +1918,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;windowmanager.cpp 13/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1926,7 +1926,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOWMANAGER_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define WINDOWMANAGER_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;

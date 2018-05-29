@@ -60,17 +60,17 @@ suffit de se faire un script. Mettons diffwrap.sh.</p>
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
-<span class="c"># Configure your favorite diff program here.</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
+<span class="c1"># Configure your favorite diff program here.</span>
 <span class="nv">DIFF</span><span class="o">=</span><span class="s2">&quot;/usr/bin/colordiff&quot;</span>
-<span class="c"># Subversion provides the paths we need as the sixth and seventh</span>
-<span class="c"># parameters.</span>
+<span class="c1"># Subversion provides the paths we need as the sixth and seventh</span>
+<span class="c1"># parameters.</span>
 <span class="nv">LEFT</span><span class="o">=</span><span class="si">${</span><span class="nv">6</span><span class="si">}</span>
 <span class="nv">RIGHT</span><span class="o">=</span><span class="si">${</span><span class="nv">7</span><span class="si">}</span>
-<span class="c"># Call the diff command</span>
-<span class="nv">$DIFF</span> <span class="nv">$LEFT</span> <span class="nv">$RIGHT</span>
-<span class="c"># Return an errorcode of 0 if no differences were detected, 1 if some were.</span>
-<span class="c"># Any other errorcode will be treated as fatal.</span>
+<span class="c1"># Call the diff command</span>
+<span class="nv">$D</span>IFF $LEFT $RIGHT
+<span class="c1"># Return an errorcode of 0 if no differences were detected, 1 if some were.</span>
+<span class="c1"># Any other errorcode will be treated as fatal.</span>
 </pre></div>
 </td></tr></table>
 

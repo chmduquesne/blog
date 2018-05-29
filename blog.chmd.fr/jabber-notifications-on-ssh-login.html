@@ -55,11 +55,11 @@ script, using sendxmpp (saved as <code>/usr/local/bin/login_notify</code>):</p>
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$PAM_USER</span><span class="s2">@`hostname` logged from </span><span class="nv">$PAM_RHOST</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="se">\</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span>$<span class="s2">PAM_USER@`hostname` logged from </span>$<span class="s2">PAM_RHOST&quot;</span> <span class="p">|</span> <span class="se">\</span>
     sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &gt;/dev/null 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">&amp;</span>
-<span class="nb">exit </span>0
+<span class="nb">exit</span> 0
 </pre></div>
 </td></tr></table>
 

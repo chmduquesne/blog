@@ -312,7 +312,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;p&gt;&lt;img alt="uml_dia.png" src="images/uml_dia.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Les fichiers suivants seront générés :&lt;/p&gt;
 &lt;p&gt;foowindow.cpp 1/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;foowindow.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;foowindow.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;FooWindow&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -323,7 +323,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOW_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define FOOWINDOW_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;FooWindow&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -338,7 +338,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;foowindowmanager.cpp 3/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;foowindowmanager.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;foowindowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -346,7 +346,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOWMANAGER_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define FOOWINDOWMANAGER_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;FooWindowManager&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -359,7 +359,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;point.cpp 5/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;point.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;){&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -373,28 +373,28 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;point.h 6/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c-Singleline"&gt;#ifndef POINT_H&lt;/span&gt;
-&lt;span class="c-Singleline"&gt;#define POINT_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef POINT_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define POINT_H&lt;/span&gt;
 
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; {
-  // &lt;span class="n"&gt;Associations&lt;/span&gt;
-  // &lt;span class="n"&gt;Attributes&lt;/span&gt;
-  &lt;span class="n"&gt;private:&lt;/span&gt;
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="o"&gt;x&lt;/span&gt;;
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;;
-  // &lt;span class="n"&gt;Operations&lt;/span&gt;
-  &lt;span class="n"&gt;public:&lt;/span&gt;
-    &lt;span class="n"&gt;Point&lt;/span&gt; ( &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="o"&gt;x&lt;/span&gt;, &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; );
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getX&lt;/span&gt; (  );
-    &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getY&lt;/span&gt; (  );
-};
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="nl"&gt;private&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="c-Singleline"&gt;#endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;rectangle.cpp 7/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;rectangle.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;rectangle.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;){&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -405,8 +405,8 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef RECTANGLE_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define RECTANGLE_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;point.h&amp;quot;&lt;/span&gt;
-&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;point.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -422,28 +422,28 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;shape.cpp 9/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;shape.h 10/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c-Singleline"&gt;#ifndef SHAPE_H&lt;/span&gt;
-&lt;span class="c-Singleline"&gt;#define SHAPE_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef SHAPE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define SHAPE_H&lt;/span&gt;
 
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; {
-  // &lt;span class="n"&gt;Associations&lt;/span&gt;
-  // &lt;span class="n"&gt;Attributes&lt;/span&gt;
-  // &lt;span class="n"&gt;Operations&lt;/span&gt;
-  &lt;span class="n"&gt;public:&lt;/span&gt;
-    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="n"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; (  ) = &lt;span class="mi"&gt;0&lt;/span&gt;;
-};
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// Associations&lt;/span&gt;
+  &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
+  &lt;span class="c1"&gt;// Operations&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="c-Singleline"&gt;#endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;window.cpp 11/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -451,7 +451,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOW_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define WINDOW_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
@@ -468,7 +468,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;windowmanager.cpp 13/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -476,7 +476,7 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#ifndef WINDOWMANAGER_H&lt;/span&gt;
 &lt;span class="cp"&gt;#define WINDOWMANAGER_H&lt;/span&gt;
 
-&lt;span class="cp"&gt;#include &amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
 &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
