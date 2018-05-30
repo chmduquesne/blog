@@ -59,10 +59,10 @@ prend en entrée un schéma uml en dia, et génère du code dans le
 langage choisi. J'ai regardé la section
 <a href="http://dia2code.sourceforge.net/examples.html">examples</a> du site,
 c'est assez convaincant. Pour ce schéma :</p>
-<p><img alt="uml_dia.png" src="images/uml_dia.png" /></p>
+<p><img alt="uml_dia.png" src="images/uml_dia.png"></p>
 <p>Les fichiers suivants seront générés :</p>
 <p>foowindow.cpp 1/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;foowindow.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;foowindow.h&quot;</span><span class="cp"></span>
 
 <span class="kt">void</span> <span class="n">FooWindow</span><span class="o">::</span><span class="n">redraw</span> <span class="p">(</span>  <span class="p">){</span>
 <span class="p">}</span>
@@ -70,46 +70,46 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>foowindow.h 2/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef FOOWINDOW_H</span>
-<span class="cp">#define FOOWINDOW_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">FOOWINDOW_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">FOOWINDOW_H</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
+<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;window.h&quot;</span>
 
-<span class="n">class</span> <span class="nl">FooWindow</span><span class="p">:</span> <span class="n">public</span> <span class="n">Window</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">FooWindow</span>: <span class="kt">public</span> <span class="nx">Window</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public</span><span class="p">:</span>
-    <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="kr">public</span><span class="o">:</span>
+    <span class="k">void</span> <span class="nx">redraw</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 
 <p>foowindowmanager.cpp 3/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;foowindowmanager.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;foowindowmanager.h&quot;</span><span class="cp"></span>
 </pre></div>
 
 
 <p>foowindowmanager.h 4/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef FOOWINDOWMANAGER_H</span>
-<span class="cp">#define FOOWINDOWMANAGER_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">FOOWINDOWMANAGER_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">FOOWINDOWMANAGER_H</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;windowmanager.h&quot;</span><span class="cp"></span>
+<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;windowmanager.h&quot;</span>
 
-<span class="n">class</span> <span class="nl">FooWindowManager</span><span class="p">:</span> <span class="n">public</span> <span class="n">WindowManager</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">FooWindowManager</span>: <span class="kt">public</span> <span class="nx">WindowManager</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 
 <p>point.cpp 5/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;point.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;point.h&quot;</span><span class="cp"></span>
 
 <span class="n">Point</span><span class="o">::</span><span class="n">Point</span> <span class="p">(</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span> <span class="p">){</span>
 <span class="p">}</span>
@@ -123,28 +123,28 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>point.h 6/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef POINT_H</span>
-<span class="cp">#define POINT_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">POINT_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">POINT_H</span>
 
-<span class="n">class</span> <span class="n">Point</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">Point</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
-  <span class="nl">private</span><span class="p">:</span>
-    <span class="kt">float</span> <span class="n">x</span><span class="p">;</span>
-    <span class="kt">float</span> <span class="n">y</span><span class="p">;</span>
+  <span class="kr">private</span><span class="o">:</span>
+    <span class="kr">float</span> <span class="nx">x</span><span class="p">;</span>
+    <span class="kr">float</span> <span class="nx">y</span><span class="p">;</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public</span><span class="p">:</span>
-    <span class="n">Point</span> <span class="p">(</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span> <span class="p">);</span>
-    <span class="kt">float</span> <span class="nf">getX</span> <span class="p">(</span>  <span class="p">);</span>
-    <span class="kt">float</span> <span class="nf">getY</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="kr">public</span><span class="o">:</span>
+    <span class="nx">Point</span> <span class="p">(</span> <span class="kr">float</span> <span class="nx">x</span><span class="p">,</span> <span class="kr">float</span> <span class="nx">y</span> <span class="p">);</span>
+    <span class="kr">float</span> <span class="nx">getX</span> <span class="p">(</span>  <span class="p">);</span>
+    <span class="kr">float</span> <span class="nx">getY</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 
 <p>rectangle.cpp 7/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;rectangle.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;rectangle.h&quot;</span><span class="cp"></span>
 
 <span class="kt">float</span> <span class="n">Rectangle</span><span class="o">::</span><span class="n">getArea</span> <span class="p">(</span>  <span class="p">){</span>
 <span class="p">}</span>
@@ -152,90 +152,90 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>rectangle.h 8/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef RECTANGLE_H</span>
-<span class="cp">#define RECTANGLE_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">RECTANGLE_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">RECTANGLE_H</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;point.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
+<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;point.h&quot;</span>
+<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;shape.h&quot;</span>
 
-<span class="n">class</span> <span class="nl">Rectangle</span><span class="p">:</span> <span class="n">public</span> <span class="n">Shape</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">Rectangle</span>: <span class="kt">public</span> <span class="nx">Shape</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
-   <span class="n">Point</span> <span class="n">points</span><span class="p">;</span>
+   <span class="nx">Point</span> <span class="nx">points</span><span class="p">;</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public</span><span class="p">:</span>
-    <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="kr">public</span><span class="o">:</span>
+    <span class="kr">float</span> <span class="nx">getArea</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 
 <p>shape.cpp 9/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
 </pre></div>
 
 
 <p>shape.h 10/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef SHAPE_H</span>
-<span class="cp">#define SHAPE_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">SHAPE_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">SHAPE_H</span>
 
-<span class="n">class</span> <span class="n">Shape</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">Shape</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public</span><span class="p">:</span>
-    <span class="n">virtual</span> <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kr">public</span><span class="o">:</span>
+    <span class="nx">virtual</span> <span class="kr">float</span> <span class="nx">getArea</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 
 <p>window.cpp 11/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
 </pre></div>
 
 
 <p>window.h 12/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef WINDOW_H</span>
-<span class="cp">#define WINDOW_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">WINDOW_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">WINDOW_H</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
+<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;shape.h&quot;</span>
 
-<span class="n">class</span> <span class="n">Window</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">Window</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
-  <span class="nl">private</span><span class="p">:</span>
-    <span class="n">Shape</span> <span class="n">visualrep</span><span class="p">;</span>
+  <span class="kr">private</span><span class="o">:</span>
+    <span class="nx">Shape</span> <span class="nx">visualrep</span><span class="p">;</span>
   <span class="c1">// Operations</span>
-  <span class="nl">public</span><span class="p">:</span>
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kr">public</span><span class="o">:</span>
+    <span class="nx">virtual</span> <span class="k">void</span> <span class="nx">redraw</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 
 <p>windowmanager.cpp 13/14</p>
-<div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;windowmanager.h&quot;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;windowmanager.h&quot;</span><span class="cp"></span>
 </pre></div>
 
 
 <p>windowmanager.h 14/14</p>
-<div class="highlight"><pre><span class="cp">#ifndef WINDOWMANAGER_H</span>
-<span class="cp">#define WINDOWMANAGER_H</span>
+<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">WINDOWMANAGER_H</span>
+<span class="err">#</span><span class="nx">define</span> <span class="nx">WINDOWMANAGER_H</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
+<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;window.h&quot;</span>
 
-<span class="n">class</span> <span class="n">WindowManager</span> <span class="p">{</span>
+<span class="kr">class</span> <span class="nx">WindowManager</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
-   <span class="n">Window</span> <span class="n">windows</span><span class="p">;</span>
+   <span class="nx">Window</span> <span class="nx">windows</span><span class="p">;</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
 <span class="p">};</span>
 
-<span class="cp">#endif</span>
+<span class="err">#</span><span class="nx">endif</span>
 </pre></div>
 
 

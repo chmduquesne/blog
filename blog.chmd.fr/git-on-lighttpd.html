@@ -32,7 +32,7 @@
 <p>I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:</p>
-<div class="highlight"><pre># file: /etc/apache2/sites-available/domain.com.conf
+<div class="highlight"><pre><span></span># file: /etc/apache2/sites-available/domain.com.conf
 <span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
     Include /etc/apache2/domain.com.inc.conf
 <span class="nt">&lt;/VirtualHost&gt;</span>
@@ -54,14 +54,14 @@ virtualhosts. That is two files to maintain, for one domain.  If you want
 to do this for every domain you control, you have to multiply the files
 and includes.</p>
 <p>Doing this with lighttpd is really easier:</p>
-<div class="highlight"><pre><span class="err">#</span><span class="x"> file /etc/lighttpd/lighttpd.conf</span>
-<span class="p">$</span><span class="nv">SERVER</span><span class="x">[&quot;socket&quot;] == &quot;:443&quot; </span><span class="err">{</span><span class="x"></span>
-<span class="x">    ssl.engine              = &quot;enable&quot;</span>
-<span class="x">    ssl.pemfile             = &quot;/etc/ssl/private/domain.com.pem&quot;</span>
-<span class="x">}</span>
-<span class="p">$</span><span class="nv">HTTP</span><span class="x">[&quot;host&quot;] == &quot;domain.com&quot; </span><span class="err">{</span><span class="x"></span>
-<span class="x">    server.document-root    = &quot;/var/www/domain.com&quot;</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span># file /etc/lighttpd/lighttpd.conf
+$SERVER[&quot;socket&quot;] == &quot;:443&quot; {
+    ssl.engine              = &quot;enable&quot;
+    ssl.pemfile             = &quot;/etc/ssl/private/domain.com.pem&quot;
+}
+$HTTP[&quot;host&quot;] == &quot;domain.com&quot; {
+    server.document-root    = &quot;/var/www/domain.com&quot;
+}
 </pre></div>
 
 
@@ -78,23 +78,23 @@ hosting my public git repositories. I (quite obviously) named it
 </ul>
 <p>Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:</p>
-<div class="highlight"><pre><span class="p">$</span><span class="nv">HTTP</span><span class="x">[&quot;host&quot;] == &quot;git.chmd.fr&quot; </span><span class="err">{</span><span class="x"></span>
+<div class="highlight"><pre><span></span>$HTTP[&quot;host&quot;] == &quot;git.chmd.fr&quot; {
 
-<span class="x">    </span><span class="err">#</span><span class="x"> This takes care of serving gitweb</span>
-<span class="x">    server.document-root    = &quot;/usr/share/gitweb&quot;</span>
-<span class="x">    cgi.assign = ( &quot;.cgi&quot; =&gt; &quot;&quot; )</span>
-<span class="x">    server.indexfiles = ( &quot;gitweb.cgi&quot; )</span>
+    # This takes care of serving gitweb
+    server.document-root    = &quot;/usr/share/gitweb&quot;
+    cgi.assign = ( &quot;.cgi&quot; =&gt; &quot;&quot; )
+    server.indexfiles = ( &quot;gitweb.cgi&quot; )
 
-<span class="x">    </span><span class="err">#</span><span class="x"> And this condition matches git objects</span>
-<span class="x">    </span><span class="p">$</span><span class="nv">HTTP</span><span class="x">[&quot;url&quot;] =~ &quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]</span><span class="err">{</span><span class="x">2}/[0-9a-f]</span><span class="err">{</span><span class="x">38} | pack/pack-[0-9a-f]</span><span class="err">{</span><span class="x">40}\.(pack|idx)) | git-(upload|receive)-pack))</span><span class="p">$</span><span class="x">&quot; </span><span class="err">{</span><span class="x"></span>
-<span class="x">        alias.url  += ( &quot;&quot; =&gt; &quot;/usr/lib/git-core/git-http-backend&quot;)</span>
-<span class="x">        cgi.assign = (&quot;&quot; =&gt; &quot;&quot;)</span>
-<span class="x">        setenv.add-environment = (</span>
-<span class="x">            &quot;GIT_PROJECT_ROOT&quot; =&gt; &quot;/home/www/git-public-repos/&quot;,</span>
-<span class="x">            &quot;GIT_HTTP_EXPORT_ALL&quot; =&gt; &quot;&quot;</span>
-<span class="x">            )</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    # And this condition matches git objects
+    $HTTP[&quot;url&quot;] =~ &quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot; {
+        alias.url  += ( &quot;&quot; =&gt; &quot;/usr/lib/git-core/git-http-backend&quot;)
+        cgi.assign = (&quot;&quot; =&gt; &quot;&quot;)
+        setenv.add-environment = (
+            &quot;GIT_PROJECT_ROOT&quot; =&gt; &quot;/home/www/git-public-repos/&quot;,
+            &quot;GIT_HTTP_EXPORT_ALL&quot; =&gt; &quot;&quot;
+            )
+    }
+}
 </pre></div>
 
 

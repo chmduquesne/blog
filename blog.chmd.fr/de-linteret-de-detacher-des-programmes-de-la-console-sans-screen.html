@@ -41,13 +41,13 @@ récupérer ce programme.</p>
 lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
 (qui sera créé par le programme), où, s'il est déjà lancé, de
 récupérer ce programme.</p>
-<div class="highlight"><pre>dtach -A /tmp/irssi.sock /usr/bin/irssi
+<div class="highlight"><pre><span></span>dtach -A /tmp/irssi.sock /usr/bin/irssi
 </pre></div>
 
 
 <p>J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
 bon, si on peut se contenter d'un simple alias?</p>
-<div class="highlight"><pre>alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`
+<div class="highlight"><pre><span></span>alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`
 </pre></div>
 
 
@@ -75,7 +75,7 @@ nombre).</p>
 garantissent qu'une nouvelle session tmux est toujours lancée avec le
 shell. La fermeture de la session en cours entraine l'essai de connection
 à une autre session, sauf s'il n'y a plus aucune session de lancée.</p>
-<div class="highlight"><pre># TMUX
+<div class="highlight"><pre><span></span># TMUX
 # if no session is started, start a new session
 if test -z <span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>; then
     tmux
@@ -88,7 +88,7 @@ done
 
 
 <p>Et désormais je lance irssi de la manière suivante:</p>
-<div class="highlight"><pre># IRSSI IN TMUX
+<div class="highlight"><pre><span></span># IRSSI IN TMUX
 # switch to irssi session (and if necessary starts this session before)
 irssi()
 {

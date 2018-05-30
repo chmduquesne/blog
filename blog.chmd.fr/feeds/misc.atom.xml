@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/misc.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-07-20T15:11:00+02:00</updated><entry><title>Sigal, a static gallery generator</title><link href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="alternate"></link><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D - misc</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/misc.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2013-07-20T15:11:00+02:00</updated><entry><title>Sigal, a static gallery generator</title><link href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="alternate"></link><published>2013-07-20T15:11:00+02:00</published><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:/sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
+with my friends without using a third party service. At first, I thought
+about writing a lighttpd module that would generate thumbnails. Then I
+thought about a using a php script, but all of them have …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
 with my friends without using a third party service. At first, I thought
 about writing a lighttpd module that would generate thumbnails. Then I
 thought about a using a php script, but all of them have too many options,
@@ -20,7 +23,7 @@ simple to use) and continuous integration. There is even
 &lt;a href="http://saimon.org/sigal-demo/galleria/"&gt;demo&lt;/a&gt; galleries, for you to test
 it live before installing it. And of course, for maximal conveniency,
 there is a python package, that you can install very simply: just run&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;pip install sigal
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install sigal
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -29,7 +32,11 @@ short movies with my cameras, and I want to include them in the pictures
 that I am sharing. I thus decided to give a go to the code, in order to
 see if it easy to patch. It turned out to be rather easy. There's a &lt;a href="https://github.com/saimn/sigal/pull/18"&gt;pull
 request&lt;/a&gt; pending...&lt;/p&gt;
-&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</summary><category term="sigal gallery static"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="http://blog.chmd.fr/operations-research-and-beer-drinking.html" rel="alternate"></link><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-11-19:operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
+&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</content><category term="sigal gallery static"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="http://blog.chmd.fr/operations-research-and-beer-drinking.html" rel="alternate"></link><published>2011-11-19T17:06:00+01:00</published><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-11-19:/operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
+INFORMS 2011 conference. Being in the airport waiting for my flight, I
+figured out I could use this spare time to share a cool story about
+Operations Research.&lt;/p&gt;
+&lt;p&gt;I happen to be a beer lover …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
 INFORMS 2011 conference. Being in the airport waiting for my flight, I
 figured out I could use this spare time to share a cool story about
 Operations Research.&lt;/p&gt;
@@ -70,7 +77,7 @@ make it) with train tickets to Belgium. Cool facts about this trip:&lt;/p&gt;
 &lt;li&gt;We discussed with "le grand maître de &lt;a href="http://www.confreries.be/conf/grusalle/index.htm"&gt;la confrérie de la grusalle et de
   la trappiste de Rochefort&lt;/a&gt;".&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="grand_maitre_rochefort.jpg" src="images/grand_maitre_rochefort.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="grand_maitre_rochefort.jpg" src="images/grand_maitre_rochefort.jpg"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;We drank some "petit orval", a beer that you can find only at the abbey
   and at the bar (&lt;a href="http://www.orval.be/fr/accueil/auberge.html"&gt;l'auberge de l'Ange Gardien&lt;/a&gt;) and we learned about
@@ -82,7 +89,7 @@ make it) with train tickets to Belgium. Cool facts about this trip:&lt;/p&gt;
 &lt;li&gt;In Gent, there is a barber which is called bar-bier, who serves bier
   while shaving the clients (check it out on &lt;a href="https://goo.gl/maps/g4byF8u2f6F2"&gt;google street view&lt;/a&gt;!).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="gent_barbier.jpg" src="images/gent_barbier.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gent_barbier.jpg" src="images/gent_barbier.jpg"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Gent and Antwerpen are two of the most beautiful cities I have ever
   seen.&lt;/li&gt;
@@ -97,8 +104,11 @@ Westvleteren and he invited me to taste them, offering me the opportunity
 to "finish my trip". For the record, the Westvleteren 12 is ranked the
 best beer in the world by &lt;a href="http://www.ratebeer.com/"&gt;ratebeer.com&lt;/a&gt;. Needless to say, I enjoyed
 it very much. He let me keep the capsules as a souvenir:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="westvleteren.jpg" src="images/westvleteren.jpg" /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip" /&gt;&lt;/a&gt;&lt;/p&gt;</summary></entry><entry><title>Going static</title><link href="http://blog.chmd.fr/going-static.html" rel="alternate"></link><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-15:going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
+&lt;p&gt;&lt;img alt="westvleteren.jpg" src="images/westvleteren.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip"&gt;&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>Going static</title><link href="http://blog.chmd.fr/going-static.html" rel="alternate"></link><published>2011-09-15T20:10:00+02:00</published><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-15:/going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
+Wordpress is probably awesome if you are a team of 15 authors who want to
+handle mass production of articles with a nice web interface. On the other
+hand, it needs constant updates, and the last ones …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
 Wordpress is probably awesome if you are a team of 15 authors who want to
 handle mass production of articles with a nice web interface. On the other
 hand, it needs constant updates, and the last ones where requiring a
@@ -124,7 +134,7 @@ with &lt;a href="http://disqus.com/"&gt;disqus&lt;/a&gt;. Just make an account a
 file I mentioned. Disqus provides a way to import comments from such a
 file. You will later be able to reattach threads to their articles by
 providing a csv map file following the syntax:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;old_url, new_url
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;old_url, new_url
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -137,12 +147,12 @@ wizard that tells you what to do quite accurately.&lt;/p&gt;
 &lt;h1&gt;What I could not fix&lt;/h1&gt;
 &lt;p&gt;The blog entries on my previous blog were obtained through links looking
 like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Whereas on the new version, they look like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -150,7 +160,11 @@ like&lt;/p&gt;
 .htaccess, for the sake of SEO-friendliness. However, this would require
 some url rewriting, which &lt;a href="http://free.fr"&gt;free&lt;/a&gt; does not support. I decided to skip
 this step. I am keeping &lt;a href="https://github.com/chmduquesne/blog/blob/master/legacy/urlmap.csv"&gt;a map&lt;/a&gt; between the former and the new urls,
-just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</summary></entry><entry><title>[Je préfère ton clone] padopi</title><link href="http://blog.chmd.fr/je-prefere-ton-clone-padopi.html" rel="alternate"></link><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-06-19:je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
+just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</content></entry><entry><title>[Je préfère ton clone] padopi</title><link href="http://blog.chmd.fr/je-prefere-ton-clone-padopi.html" rel="alternate"></link><published>2011-06-19T14:13:00+02:00</published><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-06-19:/je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
+libre qui m'a fait bien rigoler: padopi. C'est une application web
+qui permet d'envoyer des faux mails à vos amis pour leur faire
+croire qu'ils se sont fait coincer à télécharger. Bon, les mails en
+question se terminent …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
 libre qui m'a fait bien rigoler: padopi. C'est une application web
 qui permet d'envoyer des faux mails à vos amis pour leur faire
 croire qu'ils se sont fait coincer à télécharger. Bon, les mails en
@@ -160,17 +174,24 @@ sont inspirés du véritable mail hadopi). Je vous préviens:
 l'utilisation de ce genre de service est probablement
 répréhensible, mais ça ne vous empêche pas de récupérer le code du
 projet sur github:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;git clone https://github.com/padopi/padopi
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/padopi/padopi
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Ou bien, si vous préférez mon clone (Ho ho ho):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;git clone https://github.com/chmduquesne/padopi
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/chmduquesne/padopi
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Aller, en bonus, la pub de référence :)&lt;/p&gt;
-&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="libre"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
+&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content><category term="libre"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><published>2010-09-07T13:07:00+02:00</published><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:/mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
+android.&lt;/p&gt;
+&lt;p&gt;Pour ceux qui n'auraient pas suivi le lancement de l'application la
+semaine dernière, TalkMyPhone est une application permettant de contrôler
+son mobile à distance via xmpp, le protocole utilisé par jabber/gtalk. La
+version beta supporte désormais:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;la réponse aux …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
 android.&lt;/p&gt;
 &lt;p&gt;Pour ceux qui n'auraient pas suivi le lancement de l'application la
 semaine dernière, TalkMyPhone est une application permettant de contrôler
@@ -184,7 +205,10 @@ version beta supporte désormais:&lt;/p&gt;
 &lt;p&gt;Ça se passe ici:
 &lt;a href="https://code.google.com/p/talkmyphone/"&gt;https://code.google.com/p/talkmyphone/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Update: On en parle sur
-&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</summary><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-10-06:gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
+&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</content><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><published>2009-10-06T19:19:00+02:00</published><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-10-06:/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
+sa version 7.0! Vous vous dîtes: "Bof, gdb je connais, une nouvelle
+version d'un débogueur qui sort, il n'y a pas de quoi fouetter un chat."
+Détrompez-vous!  Les progrès apportés sont tels que je n'allais pas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
 sa version 7.0! Vous vous dîtes: "Bof, gdb je connais, une nouvelle
 version d'un débogueur qui sort, il n'y a pas de quoi fouetter un chat."
 Détrompez-vous!  Les progrès apportés sont tels que je n'allais pas vous
@@ -217,7 +241,11 @@ features préférées, mais il y en a d'autres. Je vous lie la fameuse
 annonce, qui vaut son pesant de cacahuètes. Vivement que ma distribution
 le package.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.gnu.org/software/gdb/download/ANNOUNCEMENT"&gt;L'annonce&lt;/a&gt;
-&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</summary><category term="gdb"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-02:les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
+&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</content><category term="gdb"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><published>2008-05-02T18:51:00+02:00</published><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-02:/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
+lecteur de flux rss en ligne et je donnais un petit panorama des
+web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
+étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
+comme rien ne vaut un petit …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
 lecteur de flux rss en ligne et je donnais un petit panorama des
 web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
 étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
@@ -270,7 +298,12 @@ beaucoup plus facile à installer, plus stable et bénéficie d'un
 très bon système de plugins, ma préférence se porte sur Tiny tiny
 rss, qui a un développement plus dynamique, et surtout dont
 l'interface se révèle bien plus agréable et rapide à utiliser : si
-j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</summary><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait &lt;a href="http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom"&gt;un billet&lt;/a&gt; que j'ai trouvé assez
+j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</content><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><published>2008-05-01T15:19:00+02:00</published><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:/les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait &lt;a href="http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom"&gt;un billet&lt;/a&gt; que j'ai trouvé assez
+intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
+arguments, notamment le contrôle sur les données personnelles qu'on a avec
+un tel lecteur et qu'on n'a pas chez les fournisseurs de services en
+ligne.&lt;/p&gt;
+&lt;p&gt;Cela ne …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait &lt;a href="http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom"&gt;un billet&lt;/a&gt; que j'ai trouvé assez
 intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
 arguments, notamment le contrôle sur les données personnelles qu'on a avec
 un tel lecteur et qu'on n'a pas chez les fournisseurs de services en
@@ -296,15 +329,24 @@ possible d'en utiliser une sur mon compte free.&lt;/p&gt;
 &lt;a href="http://feedonfeeds.com/"&gt;feed on feeds&lt;/a&gt; et ses petit frères
 &lt;a href="http://fofredux.sourceforge.net/"&gt;FoFredux&lt;/a&gt; et
 &lt;a href="http://sourceforge.net/projects/monkeychow/"&gt;Monckeyshow&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</summary><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</content><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><published>2008-04-07T22:28:00+02:00</published><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:/couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install mencoder
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install mencoder
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;mencoder -ss     h:mm:ss    \
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mencoder -ss     h:mm:ss    \
+         -endpos h:mm …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+extraire une scène d'un film, par exemple pour en faire un fichier
+.gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install mencoder
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mencoder -ss     h:mm:ss    \
          -endpos h:mm:ss    \
          film_origine.avi   \
          -o extrait.avi     \
@@ -320,4 +362,4 @@ extraire une scène d'un film, par exemple pour en faire un fichier
   scène)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;En espérant que ça vous serve! PS : Ce billet est assez court, je
-compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</summary><category term="mencoder"></category><category term="gif"></category></entry></feed>
+compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</content><category term="mencoder"></category><category term="gif"></category></entry></feed>

@@ -73,7 +73,7 @@ port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
 header, such that the web server knows that the clients are connecting
 securely. If you expose the same backend with HAproxy on the port 80,
 don't forget to filter the X-Forwarded-Proto header!</p>
-<div class="highlight"><pre>backend secure_http
+<div class="highlight"><pre><span></span>backend secure_http
     reqadd X-Forwarded-Proto:\ https
     rspadd Strict-Transport-Security:\ max-age=31536000
     mode http
@@ -84,7 +84,7 @@ don't forget to filter the X-Forwarded-Proto header!</p>
 
 
 <p>The ssh server:</p>
-<div class="highlight"><pre>backend ssh
+<div class="highlight"><pre><span></span>backend ssh
     mode tcp
     option tcplog
     server ssh 127.0.0.1:22
@@ -95,7 +95,7 @@ don't forget to filter the X-Forwarded-Proto header!</p>
 <p>And now, the magic. This happens in the frontend section. We listen in TCP mode
 and inspect the connections. Depending on whether we see ssh or not, we hook it
 to one of the backends.</p>
-<div class="highlight"><pre>frontend ssl
+<div class="highlight"><pre><span></span>frontend ssl
     bind X.X.X.X:443 ssl crt /etc/ssl/private/certs.pem no-sslv3
     mode tcp
     option tcplog
@@ -112,19 +112,19 @@ to one of the backends.</p>
 
 <p>Once you are done, you can test if this works by connecting on the server
 with openssl.</p>
-<div class="highlight"><pre>openssl s_client -connect server.com:443 -quiet
+<div class="highlight"><pre><span></span>openssl s_client -connect server.com:443 -quiet
 </pre></div>
 
 
 <p>If you see a string that looks like</p>
-<div class="highlight"><pre>SSH-2.0-OpenSSH_6.6.1p1 Debian-7
+<div class="highlight"><pre><span></span>SSH-2.0-OpenSSH_6.6.1p1 Debian-7
 </pre></div>
 
 
 <p>then everything went fine!</p>
 <h2>Connecting from an SSH client</h2>
 <p>To connect to your server from linux, just drop this in your ~/.ssh/config:</p>
-<div class="highlight"><pre>Host server.com
+<div class="highlight"><pre><span></span>Host server.com
     ProxyCommand openssl s_client -connect server.com:443 -quiet
 </pre></div>
 
@@ -132,7 +132,7 @@ with openssl.</p>
 <p>If you are on windows and you cannot install anything client side, there
 is also a solution for you. Download socat and putty (none of them
 requires admin rights). Then, with socat, run:</p>
-<div class="highlight"><pre>socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0
+<div class="highlight"><pre><span></span>socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0
 </pre></div>
 
 
@@ -143,7 +143,7 @@ requires admin rights). Then, with socat, run:</p>
 must send a string that starts with 'SSH-2.0' (this is also how sslh does
 it). Moreover, 5353482d322e30 is the binary representation of the string
 'SSH-2.0'. So everything boils down to this line:</p>
-<div class="highlight"><pre>acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
+<div class="highlight"><pre><span></span>acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
 </pre></div>
 
 

@@ -31,7 +31,7 @@
     <p>You <em>can</em> do continuous background compilation within vim. The following
 code snippet will compile your project with <code>make</code> each time you save the
 current buffer:</p>
-<div class="highlight"><pre>augroup c++
+<div class="highlight"><pre><span></span>augroup c++
     autocmd BufWritePost *.{hpp,cpp}
                 \ silent execute &quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot; |
                 \ redraw! |

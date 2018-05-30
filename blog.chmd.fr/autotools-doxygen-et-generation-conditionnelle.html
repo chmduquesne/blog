@@ -38,21 +38,21 @@ htags, perl, etc... On va donc vérifier quels programmes sont
 présents grâce au configure.ac, et on va générer le doxyfile en
 fonction desquels sont présents. L'exemple que je donne n'est pas
 complet, mais vous pouvez vous en inspirer: Fichier configure.ac</p>
-<div class="highlight"><pre><span class="x">AC_CHECK_PROG([DOT], [dot], [yes], [no])</span>
-<span class="x">AC_CHECK_PROG([HTAGS], [htags], [yes], [no])</span>
-<span class="x">AC_PATH_PROG([PERL], [perl], [])</span>
-<span class="x">AM_CONDITIONAL([DOXYGEN], [test &quot;x</span><span class="p">$</span><span class="nv">doxygen_ok</span><span class="x">&quot; = xyes])</span>
-<span class="x">AM_CONDITIONAL([DOT], [test &quot;x</span><span class="p">$</span><span class="nv">dot_ok</span><span class="x">&quot; = xyes])</span>
+<div class="highlight"><pre><span></span>AC_CHECK_PROG([DOT], [dot], [yes], [no])
+AC_CHECK_PROG([HTAGS], [htags], [yes], [no])
+AC_PATH_PROG([PERL], [perl], [])
+AM_CONDITIONAL([DOXYGEN], [test &quot;x$doxygen_ok&quot; = xyes])
+AM_CONDITIONAL([DOT], [test &quot;x$dot_ok&quot; = xyes])
 
-<span class="x">AC_CONFIG_FILES(</span>
-<span class="x">    doc/doxygen_html.cfg</span>
-<span class="x">)</span>
+AC_CONFIG_FILES(
+    doc/doxygen_html.cfg
+)
 </pre></div>
 
 
 <p>Ensuite, il suffit de glisser les bonnes références dans le fichier
 doc/doxygen_html.cfg.in :</p>
-<div class="highlight"><pre>USE_HTAGS              = @HTAGS@
+<div class="highlight"><pre><span></span>USE_HTAGS              = @HTAGS@
 PERL_PATH              = @PERL@
 HAVE_DOT               = @DOT@
 </pre></div>

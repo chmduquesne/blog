@@ -53,27 +53,27 @@ intrusive, certe, mais à la durée assez courte pour ne pas être ennuyeuse.
 12
 13
 14
-15</pre></div></td><td class="code"><div class="highlight"><pre><span class="ch">#!/usr/bin/env bash</span>
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="c1"># pour que cron sache sur quel moniteur jouer la notification</span>
 <span class="nv">DISPLAY</span><span class="o">=</span>:0.0
 
 <span class="c1">#params</span>
-<span class="nv">todofile</span><span class="o">=</span>$HOME/TODO
+<span class="nv">todofile</span><span class="o">=</span><span class="nv">$HOME</span>/TODO
 <span class="nv">icon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&#39;</span>
-<span class="nv">popupTime</span><span class="o">=</span>10000
+<span class="nv">popupTime</span><span class="o">=</span><span class="m">10000</span>
 <span class="nv">urgency</span><span class="o">=</span><span class="s1">&#39;low&#39;</span>
 
-<span class="k">if</span> <span class="nb">test</span> -f $todofile<span class="p">;</span> <span class="k">then</span>
-    <span class="nv">notification</span><span class="o">=</span><span class="sb">`</span>cat $todofile<span class="sb">`</span>
-    notify-send -u $urgency -t $popupTime -i <span class="s2">&quot;</span>$<span class="s2">icon&quot;</span> TODO <span class="s2">&quot;</span>$<span class="s2">notification&quot;</span>
+<span class="k">if</span> <span class="nb">test</span> -f <span class="nv">$todofile</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nv">notification</span><span class="o">=</span><span class="sb">`</span>cat <span class="nv">$todofile</span><span class="sb">`</span>
+    notify-send -u <span class="nv">$urgency</span> -t <span class="nv">$popupTime</span> -i <span class="s2">&quot;</span><span class="nv">$icon</span><span class="s2">&quot;</span> TODO <span class="s2">&quot;</span><span class="nv">$notification</span><span class="s2">&quot;</span>
 <span class="k">fi</span>
 </pre></div>
 </td></tr></table>
 
 <p>Le script, que j'ai nommé todo.sh est à faire invoquer toutes les
 heures par une tache cron:</p>
-<div class="highlight"><pre>0 * * * *  sh <span class="cp">${</span><span class="n">HOME</span><span class="cp">}</span>/documents/scripts/todo.sh
+<div class="highlight"><pre><span></span>0 * * * *  sh <span class="cp">${</span><span class="n">HOME</span><span class="cp">}</span>/documents/scripts/todo.sh
 </pre></div>
 
 

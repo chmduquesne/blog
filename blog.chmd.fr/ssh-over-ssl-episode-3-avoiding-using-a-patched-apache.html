@@ -37,7 +37,7 @@ over the years, so the more recent, the better:</p>
 <li>2011-07-11: <a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html">Avoiding using a patched Apache</a></li>
 <li>2014-10-19: <a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html">HAproxy based configuration</a></li>
 </ul>
-<hr />
+<hr>
 <p>Another episode of my adventures of firewall bypassing...</p>
 <p>In order to use the http CONNECT method to tunnel ssh, you have to
 configure apache as I previously showed in <a href="../ssh-over-ssl-a-quick-and-minimal-config.html">a previous post</a>.  Sadly,
@@ -60,7 +60,7 @@ have decided to do the SSL part by myself. Thus, I configure apache to
 serve normally on the port 80, and I use stunnel to secure apache on the
 port 443. Here is how I do it: I remove the SSL part of my apache config
 and I add in my (normal, unencrypted) apache configuration:</p>
-<div class="highlight"><pre>ProxyRequests On
+<div class="highlight"><pre><span></span>ProxyRequests On
 AllowConnect 22
 <span class="nt">&lt; Proxy</span> <span class="err">*</span><span class="nt">&gt;</span>
     Order deny,allow
@@ -75,7 +75,7 @@ AllowConnect 22
 
 <p>Then, I install stunnel, and I set it up to listen on the port 443
 (https) and to forward it to the port 80 (http).</p>
-<div class="highlight"><pre>cert = /etc/stunnel/stunnel.pem
+<div class="highlight"><pre><span></span>cert = /etc/stunnel/stunnel.pem
 ...
 [https]
 accept  = 443
@@ -86,7 +86,7 @@ TIMEOUTclose = 0
 
 <p>stunnel requires a bit of configuration. From the <a href="http://www.stunnel.org/?page=docs">documentation</a>, here
 is how to generate a certificate:</p>
-<div class="highlight"><pre>cd /etc/stunnel
+<div class="highlight"><pre><span></span>cd /etc/stunnel
 openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem
 chown stunnel:stunnel stunnel.pem
 chmod 600 stunnel.pem
@@ -94,7 +94,7 @@ chmod 600 stunnel.pem
 
 
 <p>I also nedded to add in /etc/hosts.allow</p>
-<div class="highlight"><pre><span class="n">sshd</span><span class="o">:</span> <span class="n">ALL</span>
+<div class="highlight"><pre><span></span><span class="n">sshd</span><span class="o">:</span> <span class="n">ALL</span>
 <span class="n">stunnel</span><span class="o">:</span> <span class="n">ALL</span>
 <span class="n">https</span><span class="o">:</span> <span class="n">ALL</span>
 </pre></div>

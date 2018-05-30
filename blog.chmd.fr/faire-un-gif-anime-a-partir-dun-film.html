@@ -33,12 +33,12 @@ gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
 de faire clic droit>générer un gif animé à partir de cette vidéo.
 Commencez-donc par installer ffmpeg et nautilus-actions.</p>
-<div class="highlight"><pre>sudo apt-get install ffmpeg nautilus-actions
+<div class="highlight"><pre><span></span>sudo apt-get install ffmpeg nautilus-actions
 </pre></div>
 
 
 <p>La syntaxe pour réaliser un gif animé à partir d'un film est</p>
-<div class="highlight"><pre>ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \
+<div class="highlight"><pre><span></span>ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \
  -s 120x120\
  -r 5\
  fichier_sortie.gif
@@ -57,10 +57,10 @@ coup de clic droit. Sous Ubuntu, si vous avez bien installé
 nautilus-actions, ça se passe dans
 système>préférences>configuration des actions de nautilus. Faites
 'Ajouter'. Configurez la nouvelle action comme suit :</p>
-<p><img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png" />
-<img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png" /></p>
+<p><img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png">
+<img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png"></p>
 <p>Ce qui est important, c'est le champ 'paramètres' :</p>
-<div class="highlight"><pre>-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif
+<div class="highlight"><pre><span></span>-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif
 </pre></div>
 
 
