@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Ch-M.D - Tof</title><link>http://blog.chmd.fr/</link><description></description><lastBuildDate>Sun, 19 Oct 2014 17:40:00 +0200</lastBuildDate><item><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link>http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</link><description>&lt;h2&gt;Purpose of this article&lt;/h2&gt;
+<rss version="2.0"><channel><title>Ch-M.D - Tof</title><link>http://blog.chmd.fr/</link><description></description><lastBuildDate>Wed, 30 May 2018 23:11:00 +0200</lastBuildDate><item><title>Looping simultaneously over multiple lists in legacy shells</title><link>http://blog.chmd.fr/looping-simultaneously-over-multiple-lists-in-legacy-shells.html</link><description>&lt;p&gt;I was recently confronted to the problem of looping over multiple lists
+simultaneously in a legacy shell, and coming up with an elegant solution
+was an interesting challenge. Legacy shells do not support arrays, which
+means there is no structure you can directly address with an index i in
+order …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Wed, 30 May 2018 23:11:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2018-05-30:/looping-simultaneously-over-multiple-lists-in-legacy-shells.html</guid><category>shell</category><category>sh</category><category>dash</category><category>ash</category></item><item><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link>http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</link><description>&lt;h2&gt;Purpose of this article&lt;/h2&gt;
 &lt;p&gt;In this article, I am describing how to SSH to a remote server as
 discreetly as possible, by concealing the SSH packets into SSL. The
 server will still be able to run an SSL website.&lt;/p&gt;

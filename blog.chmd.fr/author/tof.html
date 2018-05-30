@@ -21,149 +21,211 @@
 <h2>Articles by Tof</h2>
 
                 <header>
-                    <h1><a href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"
-                            id="page-title">SSH over SSL, episode 4: a HAproxy based configuration</a></h1>
-                        <time datetime="2014-10-19T17:40:00+02:00">Sun 19 October 2014</time>
+                    <h1><a href="http://blog.chmd.fr/looping-simultaneously-over-multiple-lists-in-legacy-shells.html"
+                            id="page-title">Looping simultaneously over multiple lists in legacy shells</a></h1>
+                        <time datetime="2018-05-30T23:11:00+02:00">Wed 30 May 2018</time>
                 </header>
                 <article>
-                    <h2>Purpose of this article</h2>
-<p>In this article, I am describing how to SSH to a remote server as
-discreetly as possible, by concealing the SSH packets into SSL. The
-server will still be able to run an SSL website.</p>
-<h2>Rationale</h2>
-<p>In most cases, when your outgoing firewall blocks ssh, you can work around
-with <a href="http://www.rutschle.net/tech/sslh.shtml">sslh</a>, a tool that listens
-on the port 443 server-side, and selectively forwards, depending on the
-packet type, the incoming TCP connections to a local SSH or SSL service.
-You can then happily ssh to your server on the port 443 (normally
-dedicated to HTTPS), and also run a website on the same server so your
-connections look you are just harmlessly visiting this website. However,
-if your firewall is really sneaky, it will detect that you are sending the
-wrong packet type to the SSL port, and block your connection. In this
-case, there is not much choice: we must hide the SSH connection into a
-real SSL tunnel.</p>
-<h2>Comment for the long time readers</h2>
-<p>I know, I know: I covered this topic a few times already (here are the
-<a href="/ssh-over-ssl-a-quick-and-minimal-config.html">first</a>,
-<a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html">second</a>,
-and <a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html">third</a>
-episodes). All of these setups were relying on a feature of HTTP 1.1
-called CONNECT. However, it turns out that most webserver do not implement
-this CONNECT feature. As a consequence, if you wanted to do this, you were
-more or less stuck with Apache. This time, we are breaking free from
-Apache, with a HAproxy-based configuration. We will use HAproxy advanced
-packet inspection capabilities to implement a switch of protocol, the same
-way sslh works.</p>
-<h2>Server configuration</h2>
-<p>Some assumptions:</p>
-<ul>
-<li>The port 443 of your server is publicly reachable</li>
-<li>It runs ssh (but no need for the port 22 to be reachable)</li>
-<li>Some web server is running on the port 80 and it supports the
-  'X-Forwarded-Proto' header (see the documentation of your webserver to
-  enable that).</li>
-<li>You have generated ssl certificates (you copied the public key and the
-  private key in the same file /etc/ssl/private/certs.pem)</li>
-</ul>
-<p>Now, you need to setup HAproxy. HAproxy defines backends and frontends, and it
-can communicate with these backends both at the HTTP and at the TCP level. Let
-us start with the backends:</p>
-<p>The web server backend: we tell HAproxy that a server is running on the
-port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
-header, such that the web server knows that the clients are connecting
-securely. If you expose the same backend with HAproxy on the port 80,
-don't forget to filter the X-Forwarded-Proto header!</p>
-<div class="highlight"><pre><span></span>backend secure_http
-    reqadd X-Forwarded-Proto:\ https
-    rspadd Strict-Transport-Security:\ max-age=31536000
-    mode http
-    option httplog
-    option forwardfor
-    server local_http_server 127.0.0.1:80
+                    <p>I was recently confronted to the problem of looping over multiple lists
+simultaneously in a legacy shell, and coming up with an elegant solution
+was an interesting challenge. Legacy shells do not support arrays, which
+means there is no structure you can directly address with an index i in
+order to get the iᵗʰ element. How can one then process multiple lists
+simultaneously in order to get the first element of each list, then the
+second element of each list, then the third... and so on?</p>
+<h2>A python analogy</h2>
+<p>In python, there is a neat buitin called <code>zip</code>. Essentially, <code>zip</code> takes an
+arbitrary set of lists as an argument, and returns an iterator of tuples,
+such that the first tuple is composed of the first element of each list,
+the second tuple has the second element of each list, and so on. It always
+goes better with an example:</p>
+<div class="highlight"><pre><span></span>&gt;&gt;&gt; for t in zip([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;], [1, 2, 3, 4], [&#39;!&#39;, &#39;@&#39;, &#39;#&#39;, &#39;%&#39;]):
+...     print(t)
+...
+(&#39;a&#39;, 1, &#39;!&#39;)
+(&#39;b&#39;, 2, &#39;@&#39;)
+(&#39;c&#39;, 3, &#39;#&#39;)
+(&#39;d&#39;, 4, &#39;%&#39;)
 </pre></div>
 
 
-<p>The ssh server:</p>
-<div class="highlight"><pre><span></span>backend ssh
-    mode tcp
-    option tcplog
-    server ssh 127.0.0.1:22
-    timeout server 2h
+<p>The question is, how can we produce a similar function in a legacy shell?</p>
+<h2>Let's specify</h2>
+<p>Our goal is to produce a shell function that we will also conveniently
+name <code>zip</code>. Of course, this function must work in legacy shells such as
+ash or dash. It will expect an unspecified number of lists as arguments,
+and return a flattened list of tuples, where the iᵗʰ tuple is composed of
+all of the iᵗʰ elements of each list. Like in python, if the lists
+provided as arguments are not of equal lengths, the result will be cut at
+the shortest length. Here are examples of expected behaviour:</p>
+<div class="highlight"><pre><span></span># 3 lists of same length
+$ zip &quot;a b c d&quot; &quot;1 2 3 4&quot; &quot;! @ # %&quot;
+ a 1 !
+ b 2 @
+ c 3 #
+ d 4 %
+
+# 1 list
+$ zip &quot;a b c d&quot;
+ a
+ b
+ c
+ d
+
+# 2 lists of different length
+$ zip &quot;a b&quot; &quot;1 2 3&quot;
+ a 1
+ b 2
+
+# 0 list
+$ zip
 </pre></div>
 
 
-<p>And now, the magic. This happens in the frontend section. We listen in TCP mode
-and inspect the connections. Depending on whether we see ssh or not, we hook it
-to one of the backends.</p>
-<div class="highlight"><pre><span></span>frontend ssl
-    bind X.X.X.X:443 ssl crt /etc/ssl/private/certs.pem no-sslv3
-    mode tcp
-    option tcplog
-    tcp-request inspect-delay 5s
-    tcp-request content accept if HTTP
-
-    acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
-
-    use_backend ssh if !HTTP
-    use_backend ssh if client_attempts_ssh
-    use_backend secure_http if HTTP
+<p>How to use it would then just be a matter of using the set builtin:</p>
+<div class="highlight"><pre><span></span>$ <span class="nv">list1</span><span class="o">=</span><span class="s2">&quot;1 2 3 4&quot;</span>
+$ <span class="nv">list2</span><span class="o">=</span><span class="s2">&quot;a b c d&quot;</span>
+$ <span class="nb">set</span> <span class="k">$(</span>zip <span class="s2">&quot;</span><span class="nv">$list1</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$list2</span><span class="s2">&quot;</span><span class="k">)</span>
+$ <span class="k">for</span> i in <span class="k">$(</span>seq <span class="m">1</span> <span class="m">4</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span> <span class="se">\</span>
+    <span class="nb">echo</span> <span class="s2">&quot;processing </span><span class="nv">$1</span><span class="s2"> and </span><span class="nv">$2</span><span class="s2">&quot;</span><span class="p">;</span> <span class="se">\</span>
+    <span class="nb">shift</span> <span class="m">2</span><span class="p">;</span> <span class="se">\</span>
+<span class="k">done</span>
+processing <span class="m">1</span> and a
+processing <span class="m">2</span> and b
+processing <span class="m">3</span> and c
+processing <span class="m">4</span> and d
 </pre></div>
 
 
-<p>Once you are done, you can test if this works by connecting on the server
-with openssl.</p>
-<div class="highlight"><pre><span></span>openssl s_client -connect server.com:443 -quiet
+<h2>The implementation</h2>
+<p>It is often not obvious to the beginner how to create variable names out
+of other variables. For example, the name <code>list$i</code> is an illegal variable
+name, so you cannot do:</p>
+<div class="highlight"><pre><span></span>i=1
+list$i=&quot;a b c&quot;
 </pre></div>
 
 
-<p>If you see a string that looks like</p>
-<div class="highlight"><pre><span></span>SSH-2.0-OpenSSH_6.6.1p1 Debian-7
+<p>What is the way to get around that? The answer is <code>eval</code>, of course!</p>
+<div class="highlight"><pre><span></span>i=1
+eval &quot;list$i=&#39;a b c&#39;&quot;
 </pre></div>
 
 
-<p>then everything went fine!</p>
-<h2>Connecting from an SSH client</h2>
-<p>To connect to your server from linux, just drop this in your ~/.ssh/config:</p>
-<div class="highlight"><pre><span></span>Host server.com
-    ProxyCommand openssl s_client -connect server.com:443 -quiet
+<p>So our zip function begins like this</p>
+<div class="highlight"><pre><span></span>zip(){
+    nlists=$#
+    for i in $(seq 1 $nlists); do
+        eval &quot;list$i=&#39;$1&#39;&quot;
+        shift
+    done
+    # the input lists are now in the variable named list1, list2....
+    [...]
+}
 </pre></div>
 
 
-<p>If you are on windows and you cannot install anything client side, there
-is also a solution for you. Download socat and putty (none of them
-requires admin rights). Then, with socat, run:</p>
-<div class="highlight"><pre><span></span>socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0
+<p>We would like to loop over all lists, extract the first element, append it
+to the tuple, and update the list to reflect the tail. The least error
+prone way I have found to extract the first element is to use a printf
+construct</p>
+<div class="highlight"><pre><span></span>$ <span class="nb">printf</span> <span class="s2">&quot;%s\n&quot;</span> a b c d
+a
+b
+c
+d
 </pre></div>
 
 
-<p>And with putty, direct your client to 127.0.0.1 on the port 8888.</p>
-<h2>For the technically aware readers</h2>
-<p>So how does this work exactly? Basically, the <a href="https://tools.ietf.org/html/rfc4253#section-4.2">RFC 4253, section
-4.2</a> states that clients
-must send a string that starts with 'SSH-2.0' (this is also how sslh does
-it). Moreover, 5353482d322e30 is the binary representation of the string
-'SSH-2.0'. So everything boils down to this line:</p>
-<div class="highlight"><pre><span></span>acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
+<p>This prints all element of the list line by line. One can easily combine
+it with <code>head -n1</code> and <code>tail -n+2</code> to get the head or the tail of the
+list.</p>
+<div class="highlight"><pre><span></span>head=$(printf &#39;%s\n&#39; $list | head -n1)
+tail=$(printf &#39;%s\n&#39; $list | tail -n+2)
 </pre></div>
 
 
-<p>When a new connection is made on the port 443, HAproxy decrypts the SSL
-layer, and checks whether the stream of data sent by the client starts
-with this string. We use the result of this condition to choose the
-backend. This handles the case of 'active' SSH clients (like
-openssh-client on linux), who send a packet as soon as they connect.
-There are also 'passive' SSH clients (like putty), who wait for the server
-to send a string. These clients will get that string after 5 seconds (the
-inspect-delay).</p>
-<h2>Conclusion</h2>
-<p>Happy SSH!</p>
+<p>It works more reliably, for example, than using the buitin <code>set</code> to put the
+elements of the list in the argument list <code>$1</code>, <code>$2</code></p>
+<div class="highlight"><pre><span></span>set $list
+head=$1
+shift
+tail=&quot;$*&quot;
+</pre></div>
+
+
+<p>Why? The reason is that if the first argument is the string litteral <code>-</code>, set
+will not behave the way we want! The second part of the function therefore
+looks like this, with a bunch of <code>eval</code>s</p>
+<div class="highlight"><pre><span></span>while true; do
+    tuple=&quot;&quot;
+    for i in $(seq 1 $nlists); do
+        eval &quot;[ -z \&quot;\$list$i\&quot; ] &amp;&amp; return 0&quot;
+        eval &quot;head=\$(printf &#39;%s\\n&#39; \$list$i | head -n1)&quot;
+        eval &quot;list$i=\$(printf &#39;%s\\n&#39; \$list$i | tail -n+2)&quot;
+        tuple=&quot;$tuple $head&quot;
+    done
+    echo &quot;$tuple&quot;
+done
+</pre></div>
+
+
+<p>This looks about right: when one of the lists is empty, we know we will
+not be able to complete the current tuple, so we return immediately
+without further <code>echo</code>ing. The devil is in the details, because if
+provided with zero argument, this function will loop forever. However, we
+really want to start looping if and only if there are arguments. This
+could be achieved by changing</p>
+<div class="highlight"><pre><span></span>while true; do
+</pre></div>
+
+
+<p>to</p>
+<div class="highlight"><pre><span></span>while [ $nlists != 0 ]; do
+</pre></div>
+
+
+<p>I don't find this construct very readable, as it makes it look like this
+condition could change during the loops. I'd rather add the check</p>
+<div class="highlight"><pre><span></span>[ $nlist = 0 ] &amp;&amp; return 0
+</pre></div>
+
+
+<p>at the beginning of the function.</p>
+<h2>The result</h2>
+<p>Here is how the code looks at the end. I think this could be a fun
+interview question!</p>
+<div class="highlight"><pre><span></span>zip(){
+    nlists=$#
+    [ $nlists = 0 ] &amp;&amp; return 0
+    for i in $(seq 1 $nlists); do
+        eval &quot;list$i=&#39;$1&#39;&quot;
+        shift
+    done
+    while true; do
+        tuple=&quot;&quot;
+        for i in $(seq 1 $nlists); do
+            eval &quot;[ -z \&quot;\$list$i\&quot; ] &amp;&amp; return 0&quot;
+            eval &quot;head=\$(printf &#39;%s\\n&#39; \$list$i | head -n1)&quot;
+            eval &quot;list$i=\$(printf &#39;%s\\n&#39; \$list$i | tail -n+2)&quot;
+            tuple=&quot;$tuple $head&quot;
+        done
+        echo &quot;$tuple&quot;
+    done
+}
+</pre></div>
+
+
+<p>Do you think it can be improved? Do you have your own different technique
+to achieve this? Let me know in the comments!</p>
                 </article>
-                <a href="ssh-over-ssl-episode-4-a-haproxy-based-configuration.html#disqus_thread">
+                <a href="looping-simultaneously-over-multiple-lists-in-legacy-shells.html#disqus_thread">
                     To the comments
                 </a>
                 <section id="article-list">
                     <h2>All posts</h2>
                     <ol>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="bookmark" title="Permalink to SSH over SSL, episode 4: a HAproxy based configuration">SSH over SSL, episode 4: a HAproxy based configuration</a></li>
                 <li><a href="http://blog.chmd.fr/editing-a-cv-in-markdown-with-pandoc.html" rel="bookmark" title="Permalink to Editing a CV in markdown with pandoc">Editing a CV in markdown with pandoc</a></li>
                 <li><a href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="bookmark" title="Permalink to Using openid and the likes to protect static content (lighttpd)">Using openid and the likes to protect static content (lighttpd)</a></li>
                 <li><a href="http://blog.chmd.fr/git-on-lighttpd.html" rel="bookmark" title="Permalink to Git on lighttpd">Git on lighttpd</a></li>

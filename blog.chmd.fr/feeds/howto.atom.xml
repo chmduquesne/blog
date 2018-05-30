@@ -1,5 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D - howto</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/howto.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2014-10-19T17:40:00+02:00</updated><entry><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="alternate"></link><published>2014-10-19T17:40:00+02:00</published><updated>2014-10-19T17:40:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2014-10-19:/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</id><summary type="html">&lt;h2&gt;Purpose of this article&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ch-M.D - howto</title><link href="http://blog.chmd.fr/" rel="alternate"></link><link href="http://blog.chmd.fr/feeds/howto.atom.xml" rel="self"></link><id>http://blog.chmd.fr/</id><updated>2018-05-30T23:11:00+02:00</updated><entry><title>Looping simultaneously over multiple lists in legacy shells</title><link href="http://blog.chmd.fr/looping-simultaneously-over-multiple-lists-in-legacy-shells.html" rel="alternate"></link><published>2018-05-30T23:11:00+02:00</published><updated>2018-05-30T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2018-05-30:/looping-simultaneously-over-multiple-lists-in-legacy-shells.html</id><summary type="html">&lt;p&gt;I was recently confronted to the problem of looping over multiple lists
+simultaneously in a legacy shell, and coming up with an elegant solution
+was an interesting challenge. Legacy shells do not support arrays, which
+means there is no structure you can directly address with an index i in
+order …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I was recently confronted to the problem of looping over multiple lists
+simultaneously in a legacy shell, and coming up with an elegant solution
+was an interesting challenge. Legacy shells do not support arrays, which
+means there is no structure you can directly address with an index i in
+order to get the iᵗʰ element. How can one then process multiple lists
+simultaneously in order to get the first element of each list, then the
+second element of each list, then the third... and so on?&lt;/p&gt;
+&lt;h2&gt;A python analogy&lt;/h2&gt;
+&lt;p&gt;In python, there is a neat buitin called &lt;code&gt;zip&lt;/code&gt;. Essentially, &lt;code&gt;zip&lt;/code&gt; takes an
+arbitrary set of lists as an argument, and returns an iterator of tuples,
+such that the first tuple is composed of the first element of each list,
+the second tuple has the second element of each list, and so on. It always
+goes better with an example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; for t in zip([&amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;], [1, 2, 3, 4], [&amp;#39;!&amp;#39;, &amp;#39;@&amp;#39;, &amp;#39;#&amp;#39;, &amp;#39;%&amp;#39;]):
+...     print(t)
+...
+(&amp;#39;a&amp;#39;, 1, &amp;#39;!&amp;#39;)
+(&amp;#39;b&amp;#39;, 2, &amp;#39;@&amp;#39;)
+(&amp;#39;c&amp;#39;, 3, &amp;#39;#&amp;#39;)
+(&amp;#39;d&amp;#39;, 4, &amp;#39;%&amp;#39;)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The question is, how can we produce a similar function in a legacy shell?&lt;/p&gt;
+&lt;h2&gt;Let's specify&lt;/h2&gt;
+&lt;p&gt;Our goal is to produce a shell function that we will also conveniently
+name &lt;code&gt;zip&lt;/code&gt;. Of course, this function must work in legacy shells such as
+ash or dash. It will expect an unspecified number of lists as arguments,
+and return a flattened list of tuples, where the iᵗʰ tuple is composed of
+all of the iᵗʰ elements of each list. Like in python, if the lists
+provided as arguments are not of equal lengths, the result will be cut at
+the shortest length. Here are examples of expected behaviour:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# 3 lists of same length
+$ zip &amp;quot;a b c d&amp;quot; &amp;quot;1 2 3 4&amp;quot; &amp;quot;! @ # %&amp;quot;
+ a 1 !
+ b 2 @
+ c 3 #
+ d 4 %
+
+# 1 list
+$ zip &amp;quot;a b c d&amp;quot;
+ a
+ b
+ c
+ d
+
+# 2 lists of different length
+$ zip &amp;quot;a b&amp;quot; &amp;quot;1 2 3&amp;quot;
+ a 1
+ b 2
+
+# 0 list
+$ zip
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;How to use it would then just be a matter of using the set builtin:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 2 3 4&amp;quot;&lt;/span&gt;
+$ &lt;span class="nv"&gt;list2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;a b c d&amp;quot;&lt;/span&gt;
+$ &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;zip &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$list1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$list2&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+$ &lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="k"&gt;$(&lt;/span&gt;seq &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;processing &lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt; and &lt;/span&gt;&lt;span class="nv"&gt;$2&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nb"&gt;shift&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+processing &lt;span class="m"&gt;1&lt;/span&gt; and a
+processing &lt;span class="m"&gt;2&lt;/span&gt; and b
+processing &lt;span class="m"&gt;3&lt;/span&gt; and c
+processing &lt;span class="m"&gt;4&lt;/span&gt; and d
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;The implementation&lt;/h2&gt;
+&lt;p&gt;It is often not obvious to the beginner how to create variable names out
+of other variables. For example, the name &lt;code&gt;list$i&lt;/code&gt; is an illegal variable
+name, so you cannot do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i=1
+list$i=&amp;quot;a b c&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What is the way to get around that? The answer is &lt;code&gt;eval&lt;/code&gt;, of course!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i=1
+eval &amp;quot;list$i=&amp;#39;a b c&amp;#39;&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So our zip function begins like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;zip(){
+    nlists=$#
+    for i in $(seq 1 $nlists); do
+        eval &amp;quot;list$i=&amp;#39;$1&amp;#39;&amp;quot;
+        shift
+    done
+    # the input lists are now in the variable named list1, list2....
+    [...]
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We would like to loop over all lists, extract the first element, append it
+to the tuple, and update the list to reflect the tail. The least error
+prone way I have found to extract the first element is to use a printf
+construct&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;printf&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;%s\n&amp;quot;&lt;/span&gt; a b c d
+a
+b
+c
+d
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This prints all element of the list line by line. One can easily combine
+it with &lt;code&gt;head -n1&lt;/code&gt; and &lt;code&gt;tail -n+2&lt;/code&gt; to get the head or the tail of the
+list.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;head=$(printf &amp;#39;%s\n&amp;#39; $list | head -n1)
+tail=$(printf &amp;#39;%s\n&amp;#39; $list | tail -n+2)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It works more reliably, for example, than using the buitin &lt;code&gt;set&lt;/code&gt; to put the
+elements of the list in the argument list &lt;code&gt;$1&lt;/code&gt;, &lt;code&gt;$2&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;set $list
+head=$1
+shift
+tail=&amp;quot;$*&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Why? The reason is that if the first argument is the string litteral &lt;code&gt;-&lt;/code&gt;, set
+will not behave the way we want! The second part of the function therefore
+looks like this, with a bunch of &lt;code&gt;eval&lt;/code&gt;s&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;while true; do
+    tuple=&amp;quot;&amp;quot;
+    for i in $(seq 1 $nlists); do
+        eval &amp;quot;[ -z \&amp;quot;\$list$i\&amp;quot; ] &amp;amp;&amp;amp; return 0&amp;quot;
+        eval &amp;quot;head=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | head -n1)&amp;quot;
+        eval &amp;quot;list$i=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | tail -n+2)&amp;quot;
+        tuple=&amp;quot;$tuple $head&amp;quot;
+    done
+    echo &amp;quot;$tuple&amp;quot;
+done
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This looks about right: when one of the lists is empty, we know we will
+not be able to complete the current tuple, so we return immediately
+without further &lt;code&gt;echo&lt;/code&gt;ing. The devil is in the details, because if
+provided with zero argument, this function will loop forever. However, we
+really want to start looping if and only if there are arguments. This
+could be achieved by changing&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;while true; do
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;while [ $nlists != 0 ]; do
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I don't find this construct very readable, as it makes it look like this
+condition could change during the loops. I'd rather add the check&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[ $nlist = 0 ] &amp;amp;&amp;amp; return 0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;at the beginning of the function.&lt;/p&gt;
+&lt;h2&gt;The result&lt;/h2&gt;
+&lt;p&gt;Here is how the code looks at the end. I think this could be a fun
+interview question!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;zip(){
+    nlists=$#
+    [ $nlists = 0 ] &amp;amp;&amp;amp; return 0
+    for i in $(seq 1 $nlists); do
+        eval &amp;quot;list$i=&amp;#39;$1&amp;#39;&amp;quot;
+        shift
+    done
+    while true; do
+        tuple=&amp;quot;&amp;quot;
+        for i in $(seq 1 $nlists); do
+            eval &amp;quot;[ -z \&amp;quot;\$list$i\&amp;quot; ] &amp;amp;&amp;amp; return 0&amp;quot;
+            eval &amp;quot;head=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | head -n1)&amp;quot;
+            eval &amp;quot;list$i=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | tail -n+2)&amp;quot;
+            tuple=&amp;quot;$tuple $head&amp;quot;
+        done
+        echo &amp;quot;$tuple&amp;quot;
+    done
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Do you think it can be improved? Do you have your own different technique
+to achieve this? Let me know in the comments!&lt;/p&gt;</content><category term="shell"></category><category term="sh"></category><category term="dash"></category><category term="ash"></category></entry><entry><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="alternate"></link><published>2014-10-19T17:40:00+02:00</published><updated>2014-10-19T17:40:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2014-10-19:/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</id><summary type="html">&lt;h2&gt;Purpose of this article&lt;/h2&gt;
 &lt;p&gt;In this article, I am describing how to SSH to a remote server as
 discreetly as possible, by concealing the SSH packets into SSL. The
 server will still be able to run an SSL website.&lt;/p&gt;
