@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ch-M.D - uml tag</title>
+    <meta charset="utf-8" />
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
+<section id="content">
+<h2>Articles tagged with uml</h2>
+
+                <header>
+                    <h1><a href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html"
+                            id="page-title">l'UML automatisé et le libre : c'est pas gagné!</a></h1>
+                        <time datetime="2008-06-08T16:34:00+02:00">Sun 08 June 2008</time>
+                </header>
+                <article>
+                    <p>Je recherche en ce moment des outils qui me permettraient
+d'importer/exporter de l'<a href="http://fr.wikipedia.org/wiki/Unified_Modeling_Language">uml</a> pour un projet C++ que je vais faire cet
+été. L'idée est la suivante : je souhaiterais que les modifications de mon
+code soient répercutées sur un fichier contenant de l'uml sous un format
+quelconque, et je souhaiterais par ailleurs pouvoir générer du code à
+partir de ce format. Idéalement, une règle dans le Makefile, appelée à
+chaque génération du projet serait idéale pour ce genre de truc. À moins
+que j'ai mal compris, Umbrello est bien capable de générer du code, mais
+malheureusement l'import est une autre histoire : si celui-ci est bien
+capable d'importer une classe à partir du C++, en revanche il ne génère
+aucun diagramme (voir <a href="http://docs.kde.org/stable/en_GB/kdesdk/umbrello/code-import.html">la page consacrée de l'aide</a>):</p>
+<blockquote>
+<p>Note that Umbrello UML Modeller will not create any kind of Diagram
+for showing your classes, they will only be imported into your
+Model so that you can use them later in any diagram you want.</p>
+</blockquote>
+<p>J'ai aussi jeté un coup d'oeil du côté d'ArgoUml. Malheureusement,
+de ce côté non plus c'est pas la panacée puisqu'ici on ne parle que
+de java : moi, je veux du C++.</p>
+<blockquote>
+<p>What is ArgoUML?
+  ~ [...] ArgoUML also has the ability to reverse engineer
+    compiling Java code and generate UML diagrams for it.
+</p>
+</blockquote>
+<p>En allant inspecter les moteurs de recherche, j'ai fini par tomber
+sur un outil intéressant:<a href="http://dia2code.sourceforge.net/index.html">dia2code</a>. Celui-ci
+prend en entrée un schéma uml en dia, et génère du code dans le
+langage choisi. J'ai regardé la section
+<a href="http://dia2code.sourceforge.net/examples.html">examples</a> du site,
+c'est assez convaincant. Pour ce schéma :</p>
+<p><img alt="uml_dia.png" src="images/uml_dia.png"></p>
+<p>Les fichiers suivants seront générés :</p>
+<p>foowindow.cpp 1/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;foowindow.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="n">FooWindow</span><span class="o">::</span><span class="n">redraw</span> <span class="p">(</span>  <span class="p">){</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>foowindow.h 2/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef FOOWINDOW_H</span>
+<span class="cp">#define FOOWINDOW_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
+
+<span class="n">class</span> <span class="nl">FooWindow</span><span class="p">:</span> <span class="n">public</span> <span class="n">Window</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+  <span class="c1">// Attributes</span>
+  <span class="c1">// Operations</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>foowindowmanager.cpp 3/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;foowindowmanager.h&quot;</span><span class="cp"></span>
+</pre></div>
+
+
+<p>foowindowmanager.h 4/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef FOOWINDOWMANAGER_H</span>
+<span class="cp">#define FOOWINDOWMANAGER_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;windowmanager.h&quot;</span><span class="cp"></span>
+
+<span class="n">class</span> <span class="nl">FooWindowManager</span><span class="p">:</span> <span class="n">public</span> <span class="n">WindowManager</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+  <span class="c1">// Attributes</span>
+  <span class="c1">// Operations</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>point.cpp 5/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;point.h&quot;</span><span class="cp"></span>
+
+<span class="n">Point</span><span class="o">::</span><span class="n">Point</span> <span class="p">(</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span> <span class="p">){</span>
+<span class="p">}</span>
+
+<span class="kt">float</span> <span class="n">Point</span><span class="o">::</span><span class="n">getX</span> <span class="p">(</span>  <span class="p">){</span>
+<span class="p">}</span>
+
+<span class="kt">float</span> <span class="n">Point</span><span class="o">::</span><span class="n">getY</span> <span class="p">(</span>  <span class="p">){</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>point.h 6/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef POINT_H</span>
+<span class="cp">#define POINT_H</span>
+
+<span class="n">class</span> <span class="n">Point</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+  <span class="c1">// Attributes</span>
+  <span class="nl">private</span><span class="p">:</span>
+    <span class="kt">float</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">y</span><span class="p">;</span>
+  <span class="c1">// Operations</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="n">Point</span> <span class="p">(</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span> <span class="p">);</span>
+    <span class="kt">float</span> <span class="nf">getX</span> <span class="p">(</span>  <span class="p">);</span>
+    <span class="kt">float</span> <span class="nf">getY</span> <span class="p">(</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>rectangle.cpp 7/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;rectangle.h&quot;</span><span class="cp"></span>
+
+<span class="kt">float</span> <span class="n">Rectangle</span><span class="o">::</span><span class="n">getArea</span> <span class="p">(</span>  <span class="p">){</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>rectangle.h 8/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef RECTANGLE_H</span>
+<span class="cp">#define RECTANGLE_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;point.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
+
+<span class="n">class</span> <span class="nl">Rectangle</span><span class="p">:</span> <span class="n">public</span> <span class="n">Shape</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+   <span class="n">Point</span> <span class="n">points</span><span class="p">;</span>
+  <span class="c1">// Attributes</span>
+  <span class="c1">// Operations</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>shape.cpp 9/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
+</pre></div>
+
+
+<p>shape.h 10/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef SHAPE_H</span>
+<span class="cp">#define SHAPE_H</span>
+
+<span class="n">class</span> <span class="n">Shape</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+  <span class="c1">// Attributes</span>
+  <span class="c1">// Operations</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="n">virtual</span> <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>window.cpp 11/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
+</pre></div>
+
+
+<p>window.h 12/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef WINDOW_H</span>
+<span class="cp">#define WINDOW_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
+
+<span class="n">class</span> <span class="n">Window</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+  <span class="c1">// Attributes</span>
+  <span class="nl">private</span><span class="p">:</span>
+    <span class="n">Shape</span> <span class="n">visualrep</span><span class="p">;</span>
+  <span class="c1">// Operations</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>windowmanager.cpp 13/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;windowmanager.h&quot;</span><span class="cp"></span>
+</pre></div>
+
+
+<p>windowmanager.h 14/14</p>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef WINDOWMANAGER_H</span>
+<span class="cp">#define WINDOWMANAGER_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
+
+<span class="n">class</span> <span class="n">WindowManager</span> <span class="p">{</span>
+  <span class="c1">// Associations</span>
+   <span class="n">Window</span> <span class="n">windows</span><span class="p">;</span>
+  <span class="c1">// Attributes</span>
+  <span class="c1">// Operations</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>Pas mal. Il y a de l'idée. Maintenant, cherchons s'il existe le procédé
+inverse. J'ai trouvé trois outils capables de générer de l'uml dia à
+partir du C++ : <a href="http://cpp2dia.sourceforge.net/">cpp2dia</a>, <a href="http://www.aarontrevena.co.uk/opensource/autodia/index.html">autodia</a>, et <a href="http://medoosa.sourceforge.net/">medoosa</a>. Autant vous
+dire tout de suite que rien de spécialement convaincant ne sort de ces
+programmes.</p>
+<ul>
+<li>Le dernier de ces 3 à avoir été mis à jour semble être autodia
+    (2007). Autodia est un script perl qui peut parser plusieurs
+    langage, mais il semblerait que le module C++ soit buggué. D'abord,
+    la sortie est immonde et complètement enchevêtrée. Mais ça, ça
+    s'édite avec dia (du moment que les associations sont bonnes, moi
+    je suis content). Ensuite il prend mal les noms des classes
+    puisqu'il m'a embarqué l'accolade ouvrante à chaque génération de
+    classe (Je le soupçonne en fait d'avoir oublié de gérer les
+    namespaces). J'ai tout de même écrit à l'auteur pour lui signaler
+    le problème.</li>
+<li>cpp2dia est celui qui n'a pas été mis à jour depuis le plus de
+    temps (mai 2003). Cependant, les
+    <a href="http://cpp2dia.sourceforge.net/screenshots.html">screenshots</a> ont
+    l'air sympa. C'est un script tcl que j'ai réussi à faire marcher,
+    mais qui ne m'a pas du tout donné le même genre de résultat que ce
+    qu'on peut voir sur le site. Pourtant, l'idée est intéressante : au
+    lieu de parser le programme lui-même, il se sert des ctags pour
+    récupérer ce qui l'intéresse, comptant ainsi sur un programme qui
+    marche assez bien et auquel on peut résolument faire confiance. Par
+    ailleurs, il utilise neato (qui fait partie de
+    <a href="http://www.graphviz.org/">graphviz</a>) pour organiser le tout, donc
+    la sortie est nettement plus lisible. Malheurleusement, j'ai eu
+    beau traffiquer mon \~/.cpp2diarc, dans tous les sens, pas de bol
+    pour moi, les attributs ne sont pas pris en compte (J'ai aussi
+    contacté l'auteur pour lui demander s'il avait une astuce).</li>
+<li>Il reste medoosa, sans doute le plus élaboré des trois, mais
+    non véritablement mieux maintenu que cpp2dia (août 2003 pour la
+    dernière release). Ce programme a été écrit par un thésard, et sait
+    lui aussi produire des
+    <a href="http://medoosa.sourceforge.net/medoosa-model.ps">sorties</a> assez
+    sexy. L'idée originale est que celui-ci se sert de ccdoc, un
+    utilitaire de documentation à la doxygen, pour générer le graphe.
+    Malheureusement, il faut une vieille version de ccdoc (la 0.7a)
+    pour le faire marcher, et j'ai été incapable de trouver celle-ci en
+    téléchargement (encore une fois, j'ai contacté l'auteur pour lui
+    signaler ce problème, lui conseillant de s'arranger avec les
+    auteurs de ccdoc pour qu'ils remettent une vieille version en
+    ligne, car cela nuit à son programme).</li>
+</ul>
+<p>Conclusion: rien de bien convaincant pour l'instant. Cependant, je n'avais
+pas encore regardé bouml et je viens de voir qu'ils mentionnaient le genre
+de fonctionnalités que je recherche.  Quelqu'un a testé? Ou bien dans le
+cas général, connaissez-vous un quelque chose capable de faire mon
+bonheur?</p>
+                </article>
+                <a href="luml-automatise-et-le-libre-cest-pas-gagne.html#disqus_thread">
+                    To the comments
+                </a>
+
+    <hr />
+    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
+
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+</body>
+</html>

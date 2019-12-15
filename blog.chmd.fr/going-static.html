@@ -4,7 +4,7 @@
     <title>Going static</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -54,7 +54,7 @@ with <a href="http://disqus.com/">disqus</a>. Just make an account and upload th
 file I mentioned. Disqus provides a way to import comments from such a
 file. You will later be able to reattach threads to their articles by
 providing a csv map file following the syntax:</p>
-<div class="highlight"><pre><span></span>old_url, new_url
+<div class="highlight"><pre><span></span><span class="err">old_url, new_url</span>
 </pre></div>
 
 
@@ -67,12 +67,12 @@ wizard that tells you what to do quite accurately.</p>
 <h1>What I could not fix</h1>
 <p>The blog entries on my previous blog were obtained through links looking
 like</p>
-<div class="highlight"><pre><span></span>&quot;http://chm.duquesne.free.fr/blog/?p=xxx&quot;
+<div class="highlight"><pre><span></span><span class="err">&quot;http://chm.duquesne.free.fr/blog/?p=xxx&quot;</span>
 </pre></div>
 
 
 <p>Whereas on the new version, they look like</p>
-<div class="highlight"><pre><span></span>&quot;http://blog.chmd.fr/title-of-the-article.html&quot;
+<div class="highlight"><pre><span></span><span class="err">&quot;http://blog.chmd.fr/title-of-the-article.html&quot;</span>
 </pre></div>
 
 

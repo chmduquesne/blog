@@ -4,7 +4,7 @@
     <title>SSH over SSL, episode 4: a HAproxy based configuration</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -75,66 +75,66 @@ port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
 header, such that the web server knows that the clients are connecting
 securely. If you expose the same backend with HAproxy on the port 80,
 don't forget to filter the X-Forwarded-Proto header!</p>
-<div class="highlight"><pre><span></span>backend secure_http
-    reqadd X-Forwarded-Proto:\ https
-    rspadd Strict-Transport-Security:\ max-age=31536000
-    mode http
-    option httplog
-    option forwardfor
-    server local_http_server 127.0.0.1:80
+<div class="highlight"><pre><span></span><span class="err">backend secure_http</span>
+<span class="err">    reqadd X-Forwarded-Proto:\ https</span>
+<span class="err">    rspadd Strict-Transport-Security:\ max-age=31536000</span>
+<span class="err">    mode http</span>
+<span class="err">    option httplog</span>
+<span class="err">    option forwardfor</span>
+<span class="err">    server local_http_server 127.0.0.1:80</span>
 </pre></div>
 
 
 <p>The ssh server:</p>
-<div class="highlight"><pre><span></span>backend ssh
-    mode tcp
-    option tcplog
-    server ssh 127.0.0.1:22
-    timeout server 2h
+<div class="highlight"><pre><span></span><span class="err">backend ssh</span>
+<span class="err">    mode tcp</span>
+<span class="err">    option tcplog</span>
+<span class="err">    server ssh 127.0.0.1:22</span>
+<span class="err">    timeout server 2h</span>
 </pre></div>
 
 
 <p>And now, the magic. This happens in the frontend section. We listen in TCP mode
 and inspect the connections. Depending on whether we see ssh or not, we hook it
 to one of the backends.</p>
-<div class="highlight"><pre><span></span>frontend ssl
-    bind X.X.X.X:443 ssl crt /etc/ssl/private/certs.pem no-sslv3
-    mode tcp
-    option tcplog
-    tcp-request inspect-delay 5s
-    tcp-request content accept if HTTP
+<div class="highlight"><pre><span></span><span class="n">frontend</span> <span class="n">ssl</span>
+    <span class="n">bind</span> <span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">:</span><span class="mi">443</span> <span class="n">ssl</span> <span class="n">crt</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">certs</span><span class="p">.</span><span class="n">pem</span> <span class="k">no</span><span class="o">-</span><span class="n">sslv3</span>
+    <span class="k">mode</span> <span class="n">tcp</span>
+    <span class="k">option</span> <span class="n">tcplog</span>
+    <span class="n">tcp</span><span class="o">-</span><span class="n">request</span> <span class="n">inspect</span><span class="o">-</span><span class="n">delay</span> <span class="mi">5</span><span class="n">s</span>
+    <span class="n">tcp</span><span class="o">-</span><span class="n">request</span> <span class="n">content</span> <span class="n">accept</span> <span class="k">if</span> <span class="n">HTTP</span>
 
-    acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
+    <span class="n">acl</span> <span class="n">client_attempts_ssh</span> <span class="n">payload</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span> <span class="o">-</span><span class="n">m</span> <span class="n">bin</span> <span class="mi">5353482</span><span class="n">d322e30</span>
 
-    use_backend ssh if !HTTP
-    use_backend ssh if client_attempts_ssh
-    use_backend secure_http if HTTP
+    <span class="n">use_backend</span> <span class="n">ssh</span> <span class="k">if</span> <span class="o">!</span><span class="n">HTTP</span>
+    <span class="n">use_backend</span> <span class="n">ssh</span> <span class="k">if</span> <span class="n">client_attempts_ssh</span>
+    <span class="n">use_backend</span> <span class="n">secure_http</span> <span class="k">if</span> <span class="n">HTTP</span>
 </pre></div>
 
 
 <p>Once you are done, you can test if this works by connecting on the server
 with openssl.</p>
-<div class="highlight"><pre><span></span>openssl s_client -connect server.com:443 -quiet
+<div class="highlight"><pre><span></span><span class="err">openssl s_client -connect server.com:443 -quiet</span>
 </pre></div>
 
 
 <p>If you see a string that looks like</p>
-<div class="highlight"><pre><span></span>SSH-2.0-OpenSSH_6.6.1p1 Debian-7
+<div class="highlight"><pre><span></span><span class="err">SSH-2.0-OpenSSH_6.6.1p1 Debian-7</span>
 </pre></div>
 
 
 <p>then everything went fine!</p>
 <h2>Connecting from an SSH client</h2>
 <p>To connect to your server from linux, just drop this in your ~/.ssh/config:</p>
-<div class="highlight"><pre><span></span>Host server.com
-    ProxyCommand openssl s_client -connect server.com:443 -quiet
+<div class="highlight"><pre><span></span><span class="err">Host server.com</span>
+<span class="err">    ProxyCommand openssl s_client -connect server.com:443 -quiet</span>
 </pre></div>
 
 
 <p>If you are on windows and you cannot install anything client side, there
 is also a solution for you. Download socat and putty (none of them
 requires admin rights). Then, with socat, run:</p>
-<div class="highlight"><pre><span></span>socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0
+<div class="highlight"><pre><span></span><span class="err">socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0</span>
 </pre></div>
 
 
@@ -145,7 +145,7 @@ requires admin rights). Then, with socat, run:</p>
 must send a string that starts with 'SSH-2.0' (this is also how sslh does
 it). Moreover, 5353482d322e30 is the binary representation of the string
 'SSH-2.0'. So everything boils down to this line:</p>
-<div class="highlight"><pre><span></span>acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
+<div class="highlight"><pre><span></span><span class="err">acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30</span>
 </pre></div>
 
 

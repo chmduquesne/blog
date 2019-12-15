@@ -4,7 +4,7 @@
     <title>Saving your crontab in your dotfiles</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -35,26 +35,26 @@ stuff as I can, provided it does not contains sensitive stuff like
 passwords. Problem: How do you save your crontab? I finally had a look at
 the crontab manual to realize that crontab could be called on a file. The
 following line goes into my <code>~/.zshrc</code>:</p>
-<div class="highlight"><pre><span></span>alias crontab-e=&#39;vi ~/.crontab &amp;&amp; crontab ~/.crontab&#39;
+<div class="highlight"><pre><span></span><span class="err">alias crontab-e=&#39;vi ~/.crontab &amp;&amp; crontab ~/.crontab&#39;</span>
 </pre></div>
 
 
 <p>Edit: I now find even better to use a shell function rather than an
 alias:</p>
-<div class="highlight"><pre><span></span># CRONTAB
-if test -z $CRONTABCMD; then
-    # allows to source zshrc twice
-    export CRONTABCMD=$(which crontab)
-    crontab()
-    {
-        if [[ $@ == &quot;-e&quot; ]]; then
-            vim ~/.crontab &amp;&amp; $CRONTABCMD ~/.crontab
-        else
-            $CRONTABCMD $@
-        fi
-    }
-    $CRONTABCMD ~/.crontab
-fi
+<div class="highlight"><pre><span></span><span class="err"># CRONTAB</span>
+<span class="err">if test -z $CRONTABCMD; then</span>
+<span class="err">    # allows to source zshrc twice</span>
+<span class="err">    export CRONTABCMD=$(which crontab)</span>
+<span class="err">    crontab()</span>
+<span class="err">    {</span>
+<span class="err">        if [[ $@ == &quot;-e&quot; ]]; then</span>
+<span class="err">            vim ~/.crontab &amp;&amp; $CRONTABCMD ~/.crontab</span>
+<span class="err">        else</span>
+<span class="err">            $CRONTABCMD $@</span>
+<span class="err">        fi</span>
+<span class="err">    }</span>
+<span class="err">    $CRONTABCMD ~/.crontab</span>
+<span class="err">fi</span>
 </pre></div>
     </div>
     <div class="comments">

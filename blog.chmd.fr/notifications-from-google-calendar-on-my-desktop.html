@@ -4,7 +4,7 @@
     <title>Notifications from google calendar on my desktop</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -29,7 +29,7 @@
 <article>
     <div class="entry-content">
     <p>I just added this in a crontab:</p>
-<div class="highlight"><pre><span></span>*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &#39;notify-send -t 300000 -i myniceicon.svg &quot;Calendar&quot; \%s&#39;
+<div class="highlight"><pre><span></span><span class="err">*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &#39;notify-send -t 300000 -i myniceicon.svg &quot;Calendar&quot; \%s&#39;</span>
 </pre></div>
 
 

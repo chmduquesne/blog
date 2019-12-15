@@ -4,7 +4,7 @@
     <title>Gérer ses plugins vim avec :GetLatestVimScripts</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -42,7 +42,7 @@ simplement dire à vim de gérer tous vos scripts d'un coup. Pour cela, il
 vous suffit de maintenir à jour la liste des scripts qui vous intéressent
 dans le fichier <code>~/.vim/GetLatest/GetLatestVimScripts.dat</code>. Le format de
 ce fichier est simple:</p>
-<div class="highlight"><pre><span></span>&lt;numéro du script&gt; &lt;numéro de version installée du script&gt; :AutoInstall: &lt;nom du script&gt;
+<div class="highlight"><pre><span></span><span class="err">&lt;numéro du script&gt; &lt;numéro de version installée du script&gt; :AutoInstall: &lt;nom du script&gt;</span>
 </pre></div>
 
 
@@ -52,9 +52,9 @@ La version installée du script est maintenue directement par la commande
 <p>Maintenant, votre répertoire <code>~/.vim</code> est assez facile à transporter. J'ai
 pour habitude d'en garder une copie "vide", avec une arborescence sous la
 forme:</p>
-<div class="highlight"><pre><span></span>\.vim/
-    |-GetLatest/
-               |-GetLatestVimScripts.dat
+<div class="highlight"><pre><span></span><span class="err">\.vim/</span>
+<span class="err">    |-GetLatest/</span>
+<span class="err">               |-GetLatestVimScripts.dat</span>
 </pre></div>
 
 

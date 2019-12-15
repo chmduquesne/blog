@@ -4,7 +4,7 @@
     <title>Couper une vidéo et extraire une scène d'un film</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -31,16 +31,16 @@
     <p>Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :</p>
-<div class="highlight"><pre><span></span>sudo apt-get install mencoder
+<div class="highlight"><pre><span></span><span class="err">sudo apt-get install mencoder</span>
 </pre></div>
 
 
 <p>Et la syntaxe est la suivante :</p>
-<div class="highlight"><pre><span></span>mencoder -ss     h:mm:ss    \
-         -endpos h:mm:ss    \
-         film_origine.avi   \
-         -o extrait.avi     \
-         -oac copy -ovc copy
+<div class="highlight"><pre><span></span><span class="err">mencoder -ss     h:mm:ss    \</span>
+<span class="err">         -endpos h:mm:ss    \</span>
+<span class="err">         film_origine.avi   \</span>
+<span class="err">         -o extrait.avi     \</span>
+<span class="err">         -oac copy -ovc copy</span>
 </pre></div>
 
 

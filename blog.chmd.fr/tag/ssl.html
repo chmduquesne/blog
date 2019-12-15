@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ch-M.D - ssl tag</title>
+    <meta charset="utf-8" />
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
+<section id="content">
+<h2>Articles tagged with ssl</h2>
+
+                <header>
+                    <h1><a href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html"
+                            id="page-title">SSH over SSL, episode 4: a HAproxy based configuration</a></h1>
+                        <time datetime="2014-10-19T17:40:00+02:00">Sun 19 October 2014</time>
+                </header>
+                <article>
+                    <h2>Purpose of this article</h2>
+<p>In this article, I am describing how to SSH to a remote server as
+discreetly as possible, by concealing the SSH packets into SSL. The
+server will still be able to run an SSL website.</p>
+<h2>Rationale</h2>
+<p>In most cases, when your outgoing firewall blocks ssh, you can work around
+with <a href="http://www.rutschle.net/tech/sslh.shtml">sslh</a>, a tool that listens
+on the port 443 server-side, and selectively forwards, depending on the
+packet type, the incoming TCP connections to a local SSH or SSL service.
+You can then happily ssh to your server on the port 443 (normally
+dedicated to HTTPS), and also run a website on the same server so your
+connections look you are just harmlessly visiting this website. However,
+if your firewall is really sneaky, it will detect that you are sending the
+wrong packet type to the SSL port, and block your connection. In this
+case, there is not much choice: we must hide the SSH connection into a
+real SSL tunnel.</p>
+<h2>Comment for the long time readers</h2>
+<p>I know, I know: I covered this topic a few times already (here are the
+<a href="/ssh-over-ssl-a-quick-and-minimal-config.html">first</a>,
+<a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html">second</a>,
+and <a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html">third</a>
+episodes). All of these setups were relying on a feature of HTTP 1.1
+called CONNECT. However, it turns out that most webserver do not implement
+this CONNECT feature. As a consequence, if you wanted to do this, you were
+more or less stuck with Apache. This time, we are breaking free from
+Apache, with a HAproxy-based configuration. We will use HAproxy advanced
+packet inspection capabilities to implement a switch of protocol, the same
+way sslh works.</p>
+<h2>Server configuration</h2>
+<p>Some assumptions:</p>
+<ul>
+<li>The port 443 of your server is publicly reachable</li>
+<li>It runs ssh (but no need for the port 22 to be reachable)</li>
+<li>Some web server is running on the port 80 and it supports the
+  'X-Forwarded-Proto' header (see the documentation of your webserver to
+  enable that).</li>
+<li>You have generated ssl certificates (you copied the public key and the
+  private key in the same file /etc/ssl/private/certs.pem)</li>
+</ul>
+<p>Now, you need to setup HAproxy. HAproxy defines backends and frontends, and it
+can communicate with these backends both at the HTTP and at the TCP level. Let
+us start with the backends:</p>
+<p>The web server backend: we tell HAproxy that a server is running on the
+port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
+header, such that the web server knows that the clients are connecting
+securely. If you expose the same backend with HAproxy on the port 80,
+don't forget to filter the X-Forwarded-Proto header!</p>
+<div class="highlight"><pre><span></span><span class="err">backend secure_http</span>
+<span class="err">    reqadd X-Forwarded-Proto:\ https</span>
+<span class="err">    rspadd Strict-Transport-Security:\ max-age=31536000</span>
+<span class="err">    mode http</span>
+<span class="err">    option httplog</span>
+<span class="err">    option forwardfor</span>
+<span class="err">    server local_http_server 127.0.0.1:80</span>
+</pre></div>
+
+
+<p>The ssh server:</p>
+<div class="highlight"><pre><span></span><span class="err">backend ssh</span>
+<span class="err">    mode tcp</span>
+<span class="err">    option tcplog</span>
+<span class="err">    server ssh 127.0.0.1:22</span>
+<span class="err">    timeout server 2h</span>
+</pre></div>
+
+
+<p>And now, the magic. This happens in the frontend section. We listen in TCP mode
+and inspect the connections. Depending on whether we see ssh or not, we hook it
+to one of the backends.</p>
+<div class="highlight"><pre><span></span><span class="n">frontend</span> <span class="n">ssl</span>
+    <span class="n">bind</span> <span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">.</span><span class="n">X</span><span class="p">:</span><span class="mi">443</span> <span class="n">ssl</span> <span class="n">crt</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">certs</span><span class="p">.</span><span class="n">pem</span> <span class="k">no</span><span class="o">-</span><span class="n">sslv3</span>
+    <span class="k">mode</span> <span class="n">tcp</span>
+    <span class="k">option</span> <span class="n">tcplog</span>
+    <span class="n">tcp</span><span class="o">-</span><span class="n">request</span> <span class="n">inspect</span><span class="o">-</span><span class="n">delay</span> <span class="mi">5</span><span class="n">s</span>
+    <span class="n">tcp</span><span class="o">-</span><span class="n">request</span> <span class="n">content</span> <span class="n">accept</span> <span class="k">if</span> <span class="n">HTTP</span>
+
+    <span class="n">acl</span> <span class="n">client_attempts_ssh</span> <span class="n">payload</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span> <span class="o">-</span><span class="n">m</span> <span class="n">bin</span> <span class="mi">5353482</span><span class="n">d322e30</span>
+
+    <span class="n">use_backend</span> <span class="n">ssh</span> <span class="k">if</span> <span class="o">!</span><span class="n">HTTP</span>
+    <span class="n">use_backend</span> <span class="n">ssh</span> <span class="k">if</span> <span class="n">client_attempts_ssh</span>
+    <span class="n">use_backend</span> <span class="n">secure_http</span> <span class="k">if</span> <span class="n">HTTP</span>
+</pre></div>
+
+
+<p>Once you are done, you can test if this works by connecting on the server
+with openssl.</p>
+<div class="highlight"><pre><span></span><span class="err">openssl s_client -connect server.com:443 -quiet</span>
+</pre></div>
+
+
+<p>If you see a string that looks like</p>
+<div class="highlight"><pre><span></span><span class="err">SSH-2.0-OpenSSH_6.6.1p1 Debian-7</span>
+</pre></div>
+
+
+<p>then everything went fine!</p>
+<h2>Connecting from an SSH client</h2>
+<p>To connect to your server from linux, just drop this in your ~/.ssh/config:</p>
+<div class="highlight"><pre><span></span><span class="err">Host server.com</span>
+<span class="err">    ProxyCommand openssl s_client -connect server.com:443 -quiet</span>
+</pre></div>
+
+
+<p>If you are on windows and you cannot install anything client side, there
+is also a solution for you. Download socat and putty (none of them
+requires admin rights). Then, with socat, run:</p>
+<div class="highlight"><pre><span></span><span class="err">socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0</span>
+</pre></div>
+
+
+<p>And with putty, direct your client to 127.0.0.1 on the port 8888.</p>
+<h2>For the technically aware readers</h2>
+<p>So how does this work exactly? Basically, the <a href="https://tools.ietf.org/html/rfc4253#section-4.2">RFC 4253, section
+4.2</a> states that clients
+must send a string that starts with 'SSH-2.0' (this is also how sslh does
+it). Moreover, 5353482d322e30 is the binary representation of the string
+'SSH-2.0'. So everything boils down to this line:</p>
+<div class="highlight"><pre><span></span><span class="err">acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30</span>
+</pre></div>
+
+
+<p>When a new connection is made on the port 443, HAproxy decrypts the SSL
+layer, and checks whether the stream of data sent by the client starts
+with this string. We use the result of this condition to choose the
+backend. This handles the case of 'active' SSH clients (like
+openssh-client on linux), who send a packet as soon as they connect.
+There are also 'passive' SSH clients (like putty), who wait for the server
+to send a string. These clients will get that string after 5 seconds (the
+inspect-delay).</p>
+<h2>Conclusion</h2>
+<p>Happy SSH!</p>
+                </article>
+                <a href="ssh-over-ssl-episode-4-a-haproxy-based-configuration.html#disqus_thread">
+                    To the comments
+                </a>
+                <section id="article-list">
+                    <h2>All posts</h2>
+                    <ol>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="bookmark" title="Permalink to SSH over SSL, episode 3: Avoiding using a patched apache.">SSH over SSL, episode 3: Avoiding using a patched apache.</a></li>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="bookmark" title="Permalink to SSH over SSL, episode 2: replacing proxytunnel with socat">SSH over SSL, episode 2: replacing proxytunnel with socat</a></li>
+                <li><a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="bookmark" title="Permalink to SSH over SSL, a quick and minimal config.">SSH over SSL, a quick and minimal config.</a></li>
+            </ol>
+            </section><!-- #article-list -->
+
+    <hr />
+    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
+
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+</body>
+</html>

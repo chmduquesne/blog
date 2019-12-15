@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ch-M.D - security tag</title>
+    <meta charset="utf-8" />
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
+<section id="content">
+<h2>Articles tagged with security</h2>
+
+                <header>
+                    <h1><a href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html"
+                            id="page-title">Jabber notifications on ssh login</a></h1>
+                        <time datetime="2012-09-19T15:33:00+02:00">Wed 19 September 2012</time>
+                </header>
+                <article>
+                    <p>I coined this little trick the other day, I thought I might share it. I
+wanted, for fun, to be notified on gtalk everytime someone logs in my
+server. You never know, maybe I could discover unexpected connections. It
+turned out to be possible, and the whole thing costed me reading a couple
+of manpages and typing 5 lines of code.</p>
+<p>Before you do the same thing with you own server, let me claim here that I
+am absolutely not a security expert. It is more an experiment than
+anything else, so I suggest being really careful and read all the manpages
+involved if you want to do the same thing. Also, I'd be happy to be
+notified of any potential threat in the comments.</p>
+<p>Basically, you can have PAM (Pluggable Authentication Modules, the thing
+that handles authentication on Linux) execute external commands. The
+module in question is called <code>pam_exec</code>, and it is often used to rebuild
+databases e.g. when passwords are changed. It can also be activated when
+someone logs in. The manpage explains that the following PAM items are
+exported as environment variables to the program executed:</p>
+<div class="highlight"><pre><span></span><span class="err"> PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE</span>
+</pre></div>
+
+
+<p>I decided to use it to my advantage. I created on jabber.org an account
+for my server. I added it in my gmail friends, and I wrote this little
+script, using sendxmpp (saved as <code>/usr/local/bin/login_notify</code>):</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$PAM_USER</span><span class="s2">@`hostname` logged from </span><span class="nv">$PAM_RHOST</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="se">\</span>
+    sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &gt;/dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">&amp;</span>
+<span class="nb">exit</span> <span class="m">0</span>
+</pre></div>
+</td></tr></table>
+
+<p>Note that the sendxmpp command runs in background and that its exit status
+is ignored. Otherwise PAM would wait for the command to return before
+letting me in, and it would deny me the access if the notification failed
+to be delivered. Two things I clearly want to avoid.</p>
+<p>Then, the following line goes at the end of <code>/etc/pam.d/sshd</code>:</p>
+<div class="highlight"><pre><span></span><span class="err">session         optional        pam_exec.so             /usr/local/bin/login_notify</span>
+</pre></div>
+
+
+<p>There you go, notifications each time someone logs in.</p>
+<h1>Are you doing this for real? Read on...</h1>
+<p>Ok, just a couple of extra instructions for you:</p>
+<ul>
+<li>Be really really careful before modifying <code>/etc/pam.d/sshd</code>. If you
+  put a bogus command in there, you might screw up your remote access.
+  Please double check that the command <code>/usr/local/bin/login_notify</code> is
+  running with no error. Only when you are sure of that, you can add the
+  line to <code>/etc/pam.d/sshd</code>.</li>
+<li>Don't forget to <code>chmod +x /usr/local/bin/login_notify</code></li>
+<li>When you run <code>/usr/local/bin/login_notify</code>, you should receive a
+  jabber message. If you don't, then you have to verify that you can
+  actually send messages to your gmail account. Use a jabber client
+  and try to have a conversation with your gmail account. Then, try to
+  use <code>sendxmpp</code>, then try again with the <code>login_notify</code> script.</li>
+<li>My instructions are probably incomplete. Use your brain to fill in the
+  blanks.</li>
+</ul>
+                </article>
+                <a href="jabber-notifications-on-ssh-login.html#disqus_thread">
+                    To the comments
+                </a>
+                <section id="article-list">
+                    <h2>All posts</h2>
+                    <ol>
+                <li><a href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="bookmark" title="Permalink to Choose your passphrase with a die">Choose your passphrase with a die</a></li>
+            </ol>
+            </section><!-- #article-list -->
+
+    <hr />
+    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
+
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+</body>
+</html>

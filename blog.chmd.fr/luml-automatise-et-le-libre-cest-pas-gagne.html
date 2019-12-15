@@ -4,7 +4,7 @@
     <title>l'UML automatisé et le libre : c'est pas gagné!</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/code.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -70,20 +70,20 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>foowindow.h 2/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">FOOWINDOW_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">FOOWINDOW_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef FOOWINDOW_H</span>
+<span class="cp">#define FOOWINDOW_H</span>
 
-<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;window.h&quot;</span>
+<span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
 
-<span class="kr">class</span> <span class="nx">FooWindow</span>: <span class="kt">public</span> <span class="nx">Window</span> <span class="p">{</span>
+<span class="n">class</span> <span class="nl">FooWindow</span><span class="p">:</span> <span class="n">public</span> <span class="n">Window</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="kr">public</span><span class="o">:</span>
-    <span class="k">void</span> <span class="nx">redraw</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 
@@ -93,18 +93,18 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>foowindowmanager.h 4/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">FOOWINDOWMANAGER_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">FOOWINDOWMANAGER_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef FOOWINDOWMANAGER_H</span>
+<span class="cp">#define FOOWINDOWMANAGER_H</span>
 
-<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;windowmanager.h&quot;</span>
+<span class="cp">#include</span> <span class="cpf">&quot;windowmanager.h&quot;</span><span class="cp"></span>
 
-<span class="kr">class</span> <span class="nx">FooWindowManager</span>: <span class="kt">public</span> <span class="nx">WindowManager</span> <span class="p">{</span>
+<span class="n">class</span> <span class="nl">FooWindowManager</span><span class="p">:</span> <span class="n">public</span> <span class="n">WindowManager</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 
@@ -123,23 +123,23 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>point.h 6/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">POINT_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">POINT_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef POINT_H</span>
+<span class="cp">#define POINT_H</span>
 
-<span class="kr">class</span> <span class="nx">Point</span> <span class="p">{</span>
+<span class="n">class</span> <span class="n">Point</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
-  <span class="kr">private</span><span class="o">:</span>
-    <span class="kr">float</span> <span class="nx">x</span><span class="p">;</span>
-    <span class="kr">float</span> <span class="nx">y</span><span class="p">;</span>
+  <span class="nl">private</span><span class="p">:</span>
+    <span class="kt">float</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">y</span><span class="p">;</span>
   <span class="c1">// Operations</span>
-  <span class="kr">public</span><span class="o">:</span>
-    <span class="nx">Point</span> <span class="p">(</span> <span class="kr">float</span> <span class="nx">x</span><span class="p">,</span> <span class="kr">float</span> <span class="nx">y</span> <span class="p">);</span>
-    <span class="kr">float</span> <span class="nx">getX</span> <span class="p">(</span>  <span class="p">);</span>
-    <span class="kr">float</span> <span class="nx">getY</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="n">Point</span> <span class="p">(</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span> <span class="p">);</span>
+    <span class="kt">float</span> <span class="nf">getX</span> <span class="p">(</span>  <span class="p">);</span>
+    <span class="kt">float</span> <span class="nf">getY</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 
@@ -152,22 +152,22 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>rectangle.h 8/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">RECTANGLE_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">RECTANGLE_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef RECTANGLE_H</span>
+<span class="cp">#define RECTANGLE_H</span>
 
-<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;point.h&quot;</span>
-<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;shape.h&quot;</span>
+<span class="cp">#include</span> <span class="cpf">&quot;point.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
 
-<span class="kr">class</span> <span class="nx">Rectangle</span>: <span class="kt">public</span> <span class="nx">Shape</span> <span class="p">{</span>
+<span class="n">class</span> <span class="nl">Rectangle</span><span class="p">:</span> <span class="n">public</span> <span class="n">Shape</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
-   <span class="nx">Point</span> <span class="nx">points</span><span class="p">;</span>
+   <span class="n">Point</span> <span class="n">points</span><span class="p">;</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="kr">public</span><span class="o">:</span>
-    <span class="kr">float</span> <span class="nx">getArea</span> <span class="p">(</span>  <span class="p">);</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 
@@ -177,18 +177,18 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>shape.h 10/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">SHAPE_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">SHAPE_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef SHAPE_H</span>
+<span class="cp">#define SHAPE_H</span>
 
-<span class="kr">class</span> <span class="nx">Shape</span> <span class="p">{</span>
+<span class="n">class</span> <span class="n">Shape</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
-  <span class="kr">public</span><span class="o">:</span>
-    <span class="nx">virtual</span> <span class="kr">float</span> <span class="nx">getArea</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="n">virtual</span> <span class="kt">float</span> <span class="n">getArea</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 
@@ -198,22 +198,22 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>window.h 12/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">WINDOW_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">WINDOW_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef WINDOW_H</span>
+<span class="cp">#define WINDOW_H</span>
 
-<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;shape.h&quot;</span>
+<span class="cp">#include</span> <span class="cpf">&quot;shape.h&quot;</span><span class="cp"></span>
 
-<span class="kr">class</span> <span class="nx">Window</span> <span class="p">{</span>
+<span class="n">class</span> <span class="n">Window</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
   <span class="c1">// Attributes</span>
-  <span class="kr">private</span><span class="o">:</span>
-    <span class="nx">Shape</span> <span class="nx">visualrep</span><span class="p">;</span>
+  <span class="nl">private</span><span class="p">:</span>
+    <span class="n">Shape</span> <span class="n">visualrep</span><span class="p">;</span>
   <span class="c1">// Operations</span>
-  <span class="kr">public</span><span class="o">:</span>
-    <span class="nx">virtual</span> <span class="k">void</span> <span class="nx">redraw</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nl">public</span><span class="p">:</span>
+    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">redraw</span> <span class="p">(</span>  <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 
@@ -223,19 +223,19 @@ c'est assez convaincant. Pour ce schéma :</p>
 
 
 <p>windowmanager.h 14/14</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="nx">ifndef</span> <span class="nx">WINDOWMANAGER_H</span>
-<span class="err">#</span><span class="nx">define</span> <span class="nx">WINDOWMANAGER_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef WINDOWMANAGER_H</span>
+<span class="cp">#define WINDOWMANAGER_H</span>
 
-<span class="err">#</span><span class="nx">include</span> <span class="s2">&quot;window.h&quot;</span>
+<span class="cp">#include</span> <span class="cpf">&quot;window.h&quot;</span><span class="cp"></span>
 
-<span class="kr">class</span> <span class="nx">WindowManager</span> <span class="p">{</span>
+<span class="n">class</span> <span class="n">WindowManager</span> <span class="p">{</span>
   <span class="c1">// Associations</span>
-   <span class="nx">Window</span> <span class="nx">windows</span><span class="p">;</span>
+   <span class="n">Window</span> <span class="n">windows</span><span class="p">;</span>
   <span class="c1">// Attributes</span>
   <span class="c1">// Operations</span>
 <span class="p">};</span>
 
-<span class="err">#</span><span class="nx">endif</span>
+<span class="cp">#endif</span>
 </pre></div>
 
 

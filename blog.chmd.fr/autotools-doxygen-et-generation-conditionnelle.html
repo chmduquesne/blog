@@ -4,7 +4,7 @@
     <title>autotools, doxygen, et génération conditionnelle</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/code.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -38,23 +38,23 @@ htags, perl, etc... On va donc vérifier quels programmes sont
 présents grâce au configure.ac, et on va générer le doxyfile en
 fonction desquels sont présents. L'exemple que je donne n'est pas
 complet, mais vous pouvez vous en inspirer: Fichier configure.ac</p>
-<div class="highlight"><pre><span></span>AC_CHECK_PROG([DOT], [dot], [yes], [no])
-AC_CHECK_PROG([HTAGS], [htags], [yes], [no])
-AC_PATH_PROG([PERL], [perl], [])
-AM_CONDITIONAL([DOXYGEN], [test &quot;x$doxygen_ok&quot; = xyes])
-AM_CONDITIONAL([DOT], [test &quot;x$dot_ok&quot; = xyes])
+<div class="highlight"><pre><span></span><span class="n">AC_CHECK_PROG</span><span class="p">(</span><span class="o">[</span><span class="n">DOT</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">dot</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">yes</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">no</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AC_CHECK_PROG</span><span class="p">(</span><span class="o">[</span><span class="n">HTAGS</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">htags</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">yes</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">no</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AC_PATH_PROG</span><span class="p">(</span><span class="o">[</span><span class="n">PERL</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">perl</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="err">[]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AM_CONDITIONAL</span><span class="p">(</span><span class="o">[</span><span class="n">DOXYGEN</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">test &quot;x$doxygen_ok&quot; = xyes</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AM_CONDITIONAL</span><span class="p">(</span><span class="o">[</span><span class="n">DOT</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">test &quot;x$dot_ok&quot; = xyes</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
 
-AC_CONFIG_FILES(
-    doc/doxygen_html.cfg
-)
+<span class="n">AC_CONFIG_FILES</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">doc</span><span class="o">/</span><span class="n">doxygen_html</span><span class="p">.</span><span class="n">cfg</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 
 
 <p>Ensuite, il suffit de glisser les bonnes références dans le fichier
 doc/doxygen_html.cfg.in :</p>
-<div class="highlight"><pre><span></span>USE_HTAGS              = @HTAGS@
-PERL_PATH              = @PERL@
-HAVE_DOT               = @DOT@
+<div class="highlight"><pre><span></span><span class="err">USE_HTAGS              = @HTAGS@</span>
+<span class="err">PERL_PATH              = @PERL@</span>
+<span class="err">HAVE_DOT               = @DOT@</span>
 </pre></div>
 
 

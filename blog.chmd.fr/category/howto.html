@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Ch-M.D</title>
+    <title>Ch-M.D - howto category</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -40,13 +40,13 @@ arbitrary set of lists as an argument, and returns an iterator of tuples,
 such that the first tuple is composed of the first element of each list,
 the second tuple has the second element of each list, and so on. It always
 goes better with an example:</p>
-<div class="highlight"><pre><span></span>&gt;&gt;&gt; for t in zip([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;], [1, 2, 3, 4], [&#39;!&#39;, &#39;@&#39;, &#39;#&#39;, &#39;%&#39;]):
-...     print(t)
-...
-(&#39;a&#39;, 1, &#39;!&#39;)
-(&#39;b&#39;, 2, &#39;@&#39;)
-(&#39;c&#39;, 3, &#39;#&#39;)
-(&#39;d&#39;, 4, &#39;%&#39;)
+<div class="highlight"><pre><span></span><span class="err">&gt;&gt;&gt; for t in zip([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;], [1, 2, 3, 4], [&#39;!&#39;, &#39;@&#39;, &#39;#&#39;, &#39;%&#39;]):</span>
+<span class="err">...     print(t)</span>
+<span class="err">...</span>
+<span class="err">(&#39;a&#39;, 1, &#39;!&#39;)</span>
+<span class="err">(&#39;b&#39;, 2, &#39;@&#39;)</span>
+<span class="err">(&#39;c&#39;, 3, &#39;#&#39;)</span>
+<span class="err">(&#39;d&#39;, 4, &#39;%&#39;)</span>
 </pre></div>
 
 
@@ -59,27 +59,27 @@ and return a flattened list of tuples, where the iᵗʰ tuple is composed of
 all of the iᵗʰ elements of each list. Like in python, if the lists
 provided as arguments are not of equal lengths, the result will be cut at
 the shortest length. Here are examples of expected behaviour:</p>
-<div class="highlight"><pre><span></span># 3 lists of same length
-$ zip &quot;a b c d&quot; &quot;1 2 3 4&quot; &quot;! @ # %&quot;
- a 1 !
- b 2 @
- c 3 #
- d 4 %
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="mi">3</span> <span class="n">lists</span> <span class="k">of</span> <span class="n">same</span> <span class="k">length</span>
+<span class="err">$</span> <span class="n">zip</span> <span class="ss">&quot;a b c d&quot;</span> <span class="ss">&quot;1 2 3 4&quot;</span> <span class="ss">&quot;! @ # %&quot;</span>
+ <span class="n">a</span> <span class="mi">1</span> <span class="o">!</span>
+ <span class="n">b</span> <span class="mi">2</span> <span class="o">@</span>
+ <span class="k">c</span> <span class="mi">3</span> <span class="o">#</span>
+ <span class="n">d</span> <span class="mi">4</span> <span class="o">%</span>
 
-# 1 list
-$ zip &quot;a b c d&quot;
- a
- b
- c
- d
+<span class="o">#</span> <span class="mi">1</span> <span class="n">list</span>
+<span class="err">$</span> <span class="n">zip</span> <span class="ss">&quot;a b c d&quot;</span>
+ <span class="n">a</span>
+ <span class="n">b</span>
+ <span class="k">c</span>
+ <span class="n">d</span>
 
-# 2 lists of different length
-$ zip &quot;a b&quot; &quot;1 2 3&quot;
- a 1
- b 2
+<span class="o">#</span> <span class="mi">2</span> <span class="n">lists</span> <span class="k">of</span> <span class="n">different</span> <span class="k">length</span>
+<span class="err">$</span> <span class="n">zip</span> <span class="ss">&quot;a b&quot;</span> <span class="ss">&quot;1 2 3&quot;</span>
+ <span class="n">a</span> <span class="mi">1</span>
+ <span class="n">b</span> <span class="mi">2</span>
 
-# 0 list
-$ zip
+<span class="o">#</span> <span class="mi">0</span> <span class="n">list</span>
+<span class="err">$</span> <span class="n">zip</span>
 </pre></div>
 
 
@@ -102,27 +102,27 @@ processing <span class="m">4</span> and d
 <p>It is often not obvious to the beginner how to create variable names out
 of other variables. For example, the name <code>list$i</code> is an illegal variable
 name, so you cannot do:</p>
-<div class="highlight"><pre><span></span>i=1
-list$i=&quot;a b c&quot;
+<div class="highlight"><pre><span></span><span class="err">i=1</span>
+<span class="err">list$i=&quot;a b c&quot;</span>
 </pre></div>
 
 
 <p>What is the way to get around that? The answer is <code>eval</code>, of course!</p>
-<div class="highlight"><pre><span></span>i=1
-eval &quot;list$i=&#39;a b c&#39;&quot;
+<div class="highlight"><pre><span></span><span class="err">i=1</span>
+<span class="err">eval &quot;list$i=&#39;a b c&#39;&quot;</span>
 </pre></div>
 
 
 <p>So our zip function begins like this</p>
-<div class="highlight"><pre><span></span>zip(){
-    nlists=$#
-    for i in $(seq 1 $nlists); do
-        eval &quot;list$i=&#39;$1&#39;&quot;
-        shift
-    done
-    # the input lists are now in the variable named list1, list2....
-    [...]
-}
+<div class="highlight"><pre><span></span><span class="err">zip(){</span>
+<span class="err">    nlists=$#</span>
+<span class="err">    for i in $(seq 1 $nlists); do</span>
+<span class="err">        eval &quot;list$i=&#39;$1&#39;&quot;</span>
+<span class="err">        shift</span>
+<span class="err">    done</span>
+<span class="err">    # the input lists are now in the variable named list1, list2....</span>
+<span class="err">    [...]</span>
+<span class="err">}</span>
 </pre></div>
 
 
@@ -141,33 +141,33 @@ d
 <p>This prints all element of the list line by line. One can easily combine
 it with <code>head -n1</code> and <code>tail -n+2</code> to get the head or the tail of the
 list.</p>
-<div class="highlight"><pre><span></span>head=$(printf &#39;%s\n&#39; $list | head -n1)
-tail=$(printf &#39;%s\n&#39; $list | tail -n+2)
+<div class="highlight"><pre><span></span><span class="err">head=$(printf &#39;%s\n&#39; $list | head -n1)</span>
+<span class="err">tail=$(printf &#39;%s\n&#39; $list | tail -n+2)</span>
 </pre></div>
 
 
 <p>It works more reliably, for example, than using the buitin <code>set</code> to put the
 elements of the list in the argument list <code>$1</code>, <code>$2</code></p>
-<div class="highlight"><pre><span></span>set $list
-head=$1
-shift
-tail=&quot;$*&quot;
+<div class="highlight"><pre><span></span><span class="err">set $list</span>
+<span class="err">head=$1</span>
+<span class="err">shift</span>
+<span class="err">tail=&quot;$*&quot;</span>
 </pre></div>
 
 
 <p>Why? The reason is that if the first argument is the string litteral <code>-</code>, set
 will not behave the way we want! The second part of the function therefore
 looks like this, with a bunch of <code>eval</code>s</p>
-<div class="highlight"><pre><span></span>while true; do
-    tuple=&quot;&quot;
-    for i in $(seq 1 $nlists); do
-        eval &quot;[ -z \&quot;\$list$i\&quot; ] &amp;&amp; return 0&quot;
-        eval &quot;head=\$(printf &#39;%s\\n&#39; \$list$i | head -n1)&quot;
-        eval &quot;list$i=\$(printf &#39;%s\\n&#39; \$list$i | tail -n+2)&quot;
-        tuple=&quot;$tuple $head&quot;
-    done
-    echo &quot;$tuple&quot;
-done
+<div class="highlight"><pre><span></span><span class="err">while true; do</span>
+<span class="err">    tuple=&quot;&quot;</span>
+<span class="err">    for i in $(seq 1 $nlists); do</span>
+<span class="err">        eval &quot;[ -z \&quot;\$list$i\&quot; ] &amp;&amp; return 0&quot;</span>
+<span class="err">        eval &quot;head=\$(printf &#39;%s\\n&#39; \$list$i | head -n1)&quot;</span>
+<span class="err">        eval &quot;list$i=\$(printf &#39;%s\\n&#39; \$list$i | tail -n+2)&quot;</span>
+<span class="err">        tuple=&quot;$tuple $head&quot;</span>
+<span class="err">    done</span>
+<span class="err">    echo &quot;$tuple&quot;</span>
+<span class="err">done</span>
 </pre></div>
 
 
@@ -177,18 +177,18 @@ without further <code>echo</code>ing. The devil is in the details, because if
 provided with zero argument, this function will loop forever. However, we
 really want to start looping if and only if there are arguments. This
 could be achieved by changing</p>
-<div class="highlight"><pre><span></span>while true; do
+<div class="highlight"><pre><span></span><span class="err">while true; do</span>
 </pre></div>
 
 
 <p>to</p>
-<div class="highlight"><pre><span></span>while [ $nlists != 0 ]; do
+<div class="highlight"><pre><span></span><span class="err">while [ $nlists != 0 ]; do</span>
 </pre></div>
 
 
 <p>I don't find this construct very readable, as it makes it look like this
 condition could change during the loops. I'd rather add the check</p>
-<div class="highlight"><pre><span></span>[ $nlist = 0 ] &amp;&amp; return 0
+<div class="highlight"><pre><span></span><span class="err">[ $nlist = 0 ] &amp;&amp; return 0</span>
 </pre></div>
 
 
@@ -196,24 +196,24 @@ condition could change during the loops. I'd rather add the check</p>
 <h2>The result</h2>
 <p>Here is how the code looks at the end. I think this could be a fun
 interview question!</p>
-<div class="highlight"><pre><span></span>zip(){
-    nlists=$#
-    [ $nlists = 0 ] &amp;&amp; return 0
-    for i in $(seq 1 $nlists); do
-        eval &quot;list$i=&#39;$1&#39;&quot;
-        shift
-    done
-    while true; do
-        tuple=&quot;&quot;
-        for i in $(seq 1 $nlists); do
-            eval &quot;[ -z \&quot;\$list$i\&quot; ] &amp;&amp; return 0&quot;
-            eval &quot;head=\$(printf &#39;%s\\n&#39; \$list$i | head -n1)&quot;
-            eval &quot;list$i=\$(printf &#39;%s\\n&#39; \$list$i | tail -n+2)&quot;
-            tuple=&quot;$tuple $head&quot;
-        done
-        echo &quot;$tuple&quot;
-    done
-}
+<div class="highlight"><pre><span></span><span class="err">zip(){</span>
+<span class="err">    nlists=$#</span>
+<span class="err">    [ $nlists = 0 ] &amp;&amp; return 0</span>
+<span class="err">    for i in $(seq 1 $nlists); do</span>
+<span class="err">        eval &quot;list$i=&#39;$1&#39;&quot;</span>
+<span class="err">        shift</span>
+<span class="err">    done</span>
+<span class="err">    while true; do</span>
+<span class="err">        tuple=&quot;&quot;</span>
+<span class="err">        for i in $(seq 1 $nlists); do</span>
+<span class="err">            eval &quot;[ -z \&quot;\$list$i\&quot; ] &amp;&amp; return 0&quot;</span>
+<span class="err">            eval &quot;head=\$(printf &#39;%s\\n&#39; \$list$i | head -n1)&quot;</span>
+<span class="err">            eval &quot;list$i=\$(printf &#39;%s\\n&#39; \$list$i | tail -n+2)&quot;</span>
+<span class="err">            tuple=&quot;$tuple $head&quot;</span>
+<span class="err">        done</span>
+<span class="err">        echo &quot;$tuple&quot;</span>
+<span class="err">    done</span>
+<span class="err">}</span>
 </pre></div>
 
 

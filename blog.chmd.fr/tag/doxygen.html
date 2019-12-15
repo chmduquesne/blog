@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ch-M.D - doxygen tag</title>
+    <meta charset="utf-8" />
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
+<section id="content">
+<h2>Articles tagged with doxygen</h2>
+
+                <header>
+                    <h1><a href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html"
+                            id="page-title">autotools, doxygen, et génération conditionnelle</a></h1>
+                        <time datetime="2009-07-10T12:54:00+02:00">Fri 10 July 2009</time>
+                </header>
+                <article>
+                    <p>On m'a donné une astuce bien sympa pour générer de la documentation
+de manière conditionnelle avec doxygen. J'utilise ça dans le projet
+que je code au boulot, et je pense que ça vaut le coup de partager.
+L'idée est de générer la  documentation automatiquement à chaque
+compilation de mon projet, en faisant appel aux features avancées
+de doxygen en fonction des outils dont dispose l'utilisateur : dot,
+htags, perl, etc... On va donc vérifier quels programmes sont
+présents grâce au configure.ac, et on va générer le doxyfile en
+fonction desquels sont présents. L'exemple que je donne n'est pas
+complet, mais vous pouvez vous en inspirer: Fichier configure.ac</p>
+<div class="highlight"><pre><span></span><span class="n">AC_CHECK_PROG</span><span class="p">(</span><span class="o">[</span><span class="n">DOT</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">dot</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">yes</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">no</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AC_CHECK_PROG</span><span class="p">(</span><span class="o">[</span><span class="n">HTAGS</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">htags</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">yes</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">no</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AC_PATH_PROG</span><span class="p">(</span><span class="o">[</span><span class="n">PERL</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">perl</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="err">[]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AM_CONDITIONAL</span><span class="p">(</span><span class="o">[</span><span class="n">DOXYGEN</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">test &quot;x$doxygen_ok&quot; = xyes</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="n">AM_CONDITIONAL</span><span class="p">(</span><span class="o">[</span><span class="n">DOT</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">test &quot;x$dot_ok&quot; = xyes</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">AC_CONFIG_FILES</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">doc</span><span class="o">/</span><span class="n">doxygen_html</span><span class="p">.</span><span class="n">cfg</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+</pre></div>
+
+
+<p>Ensuite, il suffit de glisser les bonnes références dans le fichier
+doc/doxygen_html.cfg.in :</p>
+<div class="highlight"><pre><span></span><span class="err">USE_HTAGS              = @HTAGS@</span>
+<span class="err">PERL_PATH              = @PERL@</span>
+<span class="err">HAVE_DOT               = @DOT@</span>
+</pre></div>
+
+
+<p>Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
+va être généré, et les expressions entre @ vont y être remplacées
+par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
+fichier pour véritablement générer la doc...</p>
+                </article>
+                <a href="autotools-doxygen-et-generation-conditionnelle.html#disqus_thread">
+                    To the comments
+                </a>
+
+    <hr />
+    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
+
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+</body>
+</html>

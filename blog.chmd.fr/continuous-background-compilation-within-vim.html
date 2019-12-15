@@ -4,7 +4,7 @@
     <title>Continuous background compilation within vim</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/code.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -31,12 +31,12 @@
     <p>You <em>can</em> do continuous background compilation within vim. The following
 code snippet will compile your project with <code>make</code> each time you save the
 current buffer:</p>
-<div class="highlight"><pre><span></span>augroup c++
-    autocmd BufWritePost *.{hpp,cpp}
-                \ silent execute &quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot; |
-                \ redraw! |
-                \ cgetfile ~/.vim/cpperrors
-augroup END
+<div class="highlight"><pre><span></span><span class="err">augroup c++</span>
+<span class="err">    autocmd BufWritePost *.{hpp,cpp}</span>
+<span class="err">                \ silent execute &quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot; |</span>
+<span class="err">                \ redraw! |</span>
+<span class="err">                \ cgetfile ~/.vim/cpperrors</span>
+<span class="err">augroup END</span>
 </pre></div>
 
 

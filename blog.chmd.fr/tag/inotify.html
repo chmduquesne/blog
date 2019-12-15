@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ch-M.D - inotify tag</title>
+    <meta charset="utf-8" />
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
+<section id="content">
+<h2>Articles tagged with inotify</h2>
+
+                <header>
+                    <h1><a href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html"
+                            id="page-title">Utilisons incron pour être notifiés des événements du système de fichiers</a></h1>
+                        <time datetime="2010-02-18T00:26:00+01:00">Thu 18 February 2010</time>
+                </header>
+                <article>
+                    <p><a href="http://incron.aiken.cz/">incron</a> est un programme fonctionnant sur
+le même principe que cron, mais basé sur des événements dans le
+système de fichiers plutôt que sur des moments de la journée. C'est
+très propre: pour l'utiliser, on spécifie un ou des fichiers à
+surveiller, un type d'action à détecter sur le(s) fichier(s) en
+question, et une commande à déclencher lorsque l'événement
+survient. Je me suis dit que c'était l'occasion où jamais de mettre
+à jour un vieux script que j'avais, qui me met au courant des
+modifications sur mes logs (je tire l'idée de ce script
+<a href="http://www.daemontux.org/?q=node/31">d'un ancien post sur le planet libre</a>).
+Après avoir installé incron, j'édite ma table de configuration
+incron:</p>
+<div class="highlight"><pre><span></span><span class="err">incrontab -e</span>
+</pre></div>
+
+
+<p>Avec mon éditeur favori, je lui mets la ligne suivante:</p>
+<div class="highlight"><pre><span></span><span class="err">/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log</span>
+</pre></div>
+
+
+<p>popLog.sh est un script qui prend en argument un log, en extrait la
+dernière ligne modifiée, la colorise avec `source-highlight`_ et
+l'envoie en notification par le biais de `notify-send`_. Le but
+de ce script est donc d'afficher le dernier log dans une bulle,
+avec coloration syntaxique. Je fournis le script en question, et
+j'ajoute quelques explications:</p>
+<ul>
+<li>source-highlight a besoin de parler un code couleurs compris
+    par les bulles de notifications. notification-daemon comprend des
+    couleurs de type &lt;span color="couleur">mots à colorier&lt;/span>,
+    d'où le fichier supplémentaire awesome.outlang (que j'avais écrit à
+    l'origine pour naughty et donc compatible avec celui-ci, pour les
+    utilisateurs d'<a href="http://awesome.naquadah.org/">awesome wm</a> - à ce
+    propos il y a plusieurs entrées dans le wiki pour faire des choses
+    semblables).</li>
+<li>incron ne comprend pas bien les variables d'environnement, il
+    vaut mieux les redéfinir dans le script, comme je l'ai fait.</li>
+<li>faites attention à ne pas faire n'importe quoi avec incron, il
+    est facile de créer une boucle infinie en surveillant par exemple
+    /var/log/everything.log (vous notifiant du lancement de ce script,
+    et donc générant une nouvelle notification): IN_NO_LOOP est votre
+    ami.</li>
+<li>incron prend des chemins absolus.</li>
+</ul>
+<p>Après tous ces avertissements, voici
+/home/me/documents/scripts/popLog.sh:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="c1"># Usage: popLog /var/log/yourlog</span>
+<span class="c1"># pops a colored log with the last line of the log</span>
+
+<span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span><span class="s2">&quot;:0.0&quot;</span>
+<span class="nb">export</span> <span class="nv">HOME</span><span class="o">=</span><span class="s2">&quot;/home/me&quot;</span>
+
+<span class="c1">#Urgency</span>
+<span class="nv">infoUrgency</span><span class="o">=</span><span class="s1">&#39;low&#39;</span>
+<span class="nv">warningUrgency</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span>
+<span class="nv">errorUrgency</span><span class="o">=</span><span class="s1">&#39;critical&#39;</span>
+<span class="nv">securityUrgency</span><span class="o">=</span><span class="s1">&#39;critical&#39;</span>
+
+<span class="c1">#Popup time</span>
+<span class="nv">infoPopupTime</span><span class="o">=</span><span class="m">5000</span>
+<span class="nv">warningPopupTime</span><span class="o">=</span><span class="m">8000</span>
+<span class="nv">errorPopupTime</span><span class="o">=</span><span class="m">11000</span>
+<span class="nv">securityPopupTime</span><span class="o">=</span><span class="m">11000</span>
+
+<span class="c1">#Icons</span>
+<span class="nv">infoIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-information.png&#39;</span>
+<span class="nv">warningIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-warning.png&#39;</span>
+<span class="nv">errorIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/dialog-error.png&#39;</span>
+<span class="nv">securityIcon</span><span class="o">=</span><span class="s1">&#39;/usr/share/icons/gnome/32x32/status/security-medium.png&#39;</span>
+
+<span class="nv">coloredLog</span><span class="o">=</span><span class="k">$(</span>tail -n <span class="m">1</span> <span class="nv">$1</span> <span class="p">|</span>                   <span class="se">\</span>
+  source-highlight --failsafe                 <span class="se">\</span>
+                   --src-lang<span class="o">=</span>log             <span class="se">\</span>
+                   --style-file<span class="o">=</span>default.style <span class="se">\</span>
+                   --outlang-def<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/documents/scripts/awesome.outlang<span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$coloredLog</span>!<span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep info<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep warn<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;warning&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep err<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;error&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep auth<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$1</span><span class="p">|</span>grep access<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span><span class="p">;</span><span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$notification</span><span class="p">|</span>grep <span class="s1">&#39;UFW BLOCK INPUT&#39;</span><span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;security&#39;</span><span class="p">;</span> <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="nv">$messageType</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">messageType</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">;</span> <span class="k">fi</span>
+
+    <span class="k">case</span> <span class="nv">$messageType</span> in
+    info<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$infoUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$infoIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$infoPopupTime</span>
+    <span class="p">;;</span>
+    warning<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$warningUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$warningIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$warningPopupTime</span>
+    <span class="p">;;</span>
+    error<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$errorUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$errorIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$errorPopupTime</span>
+    <span class="p">;;</span>
+    security<span class="o">)</span>
+        <span class="nv">urgency</span><span class="o">=</span><span class="nv">$securityUrgency</span>
+        <span class="nv">icon</span><span class="o">=</span><span class="nv">$securityIcon</span>
+        <span class="nv">popupTime</span><span class="o">=</span><span class="nv">$securityPopupTime</span>
+    <span class="p">;;</span>
+    <span class="k">esac</span>
+
+    notify-send -u <span class="nv">$urgency</span> -t <span class="nv">$popupTime</span> -i <span class="s2">&quot;</span><span class="nv">$icon</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$coloredLog</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</td></tr></table>
+
+<p>Et voici /home/me/documents/scripts/awesome.outlang:</p>
+<div class="highlight"><pre><span></span>extension &quot;awesome&quot;
+
+color &quot;<span class="nt">&lt;span</span> <span class="na">color=</span><span class="s">\&quot;$style\&quot;</span><span class="nt">&gt;</span>$text<span class="nt">&lt;/span&gt;</span>&quot;
+
+colormap
+&quot;green&quot; &quot;#33CC00&quot;
+&quot;red&quot; &quot;#FF0000&quot;
+&quot;darkred&quot; &quot;#990000&quot;
+&quot;blue&quot; &quot;#0000FF&quot;
+&quot;brown&quot; &quot;#9A1900&quot;
+&quot;pink&quot; &quot;#CC33CC&quot;
+&quot;yellow&quot; &quot;#FFCC00&quot;
+&quot;cyan&quot; &quot;#66FFFF&quot;
+&quot;purple&quot; &quot;#993399&quot;
+&quot;orange&quot; &quot;#FF6600&quot;
+&quot;brightorange&quot; &quot;#FF9900&quot;
+&quot;brightgreen&quot; &quot;#33FF33&quot;
+&quot;darkgreen&quot; &quot;#009900&quot;
+&quot;black&quot; &quot;#000000&quot;
+&quot;teal&quot; &quot;#008080&quot;
+&quot;gray&quot; &quot;#808080&quot;
+&quot;darkblue&quot; &quot;#000080&quot;
+default &quot;#66FFFF&quot;
+end
+</pre></div>
+
+
+<p>Je vous laisse faire joujou, je suis sûr que vous allez trouver
+plein d'idées.</p>
+                </article>
+                <a href="utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html#disqus_thread">
+                    To the comments
+                </a>
+
+    <hr />
+    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
+
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+</body>
+</html>

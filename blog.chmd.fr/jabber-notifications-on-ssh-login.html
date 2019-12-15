@@ -4,7 +4,7 @@
     <title>Jabber notifications on ssh login</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -44,7 +44,7 @@ module in question is called <code>pam_exec</code>, and it is often used to rebu
 databases e.g. when passwords are changed. It can also be activated when
 someone logs in. The manpage explains that the following PAM items are
 exported as environment variables to the program executed:</p>
-<div class="highlight"><pre><span></span> PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE
+<div class="highlight"><pre><span></span><span class="err"> PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE</span>
 </pre></div>
 
 
@@ -68,7 +68,7 @@ is ignored. Otherwise PAM would wait for the command to return before
 letting me in, and it would deny me the access if the notification failed
 to be delivered. Two things I clearly want to avoid.</p>
 <p>Then, the following line goes at the end of <code>/etc/pam.d/sshd</code>:</p>
-<div class="highlight"><pre><span></span>session         optional        pam_exec.so             /usr/local/bin/login_notify
+<div class="highlight"><pre><span></span><span class="err">session         optional        pam_exec.so             /usr/local/bin/login_notify</span>
 </pre></div>
 
 

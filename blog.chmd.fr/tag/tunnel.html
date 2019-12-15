@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ch-M.D - tunnel tag</title>
+    <meta charset="utf-8" />
+    <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
+    <!-- hack to have the css in a relative path -->
+    <!--
+    <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="http://blog.chmd.fr/theme/css/main.css" />
+    -->
+    <link rel="stylesheet" href="/theme/css/rdark.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+    <header id="banner" class="body">
+        <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
+    </header><!-- /#banner -->
+<section id="content">
+<h2>Articles tagged with tunnel</h2>
+
+                <header>
+                    <h1><a href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html"
+                            id="page-title">SSH over SSL, a quick and minimal config.</a></h1>
+                        <time datetime="2010-11-12T11:52:00+01:00">Fri 12 November 2010</time>
+                </header>
+                <article>
+                    <p>If you are reading this, you might be interested in the full list of my
+articles about doing SSH over SSL. I have been improving my configuration
+over the years, so the more recent, the better:</p>
+<ul>
+<li>2010-11-12: <a href="/ssh-over-ssl-a-quick-and-minimal-config.html">Quick and minimal config</a></li>
+<li>2010-11-15: <a href="/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html">Replacing proxytunnel with socat</a></li>
+<li>2011-07-11: <a href="/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html">Avoiding using a patched Apache</a></li>
+<li>2014-10-19: <a href="/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html">HAproxy based configuration</a></li>
+</ul>
+<hr>
+<p>So you are behind a vicious firewall that filters outgoing ssh and
+vpn, and the only safe way out is SSL. In this article, I'll
+describe how to SSH over SSL to a machine that runs an ssh server
+and apache2. This machine will still be able to run an SSL website.
+Clients will connect using a standard ssh client and proxytunnel.</p>
+<h1>Server configuration</h1>
+<p>I assume that:</p>
+<ul>
+<li>The server is accessible on the port 443 through the "server.com" domain
+  name (otherwise using the raw ip will do the trick).</li>
+<li>It also runs an ssh server (but no need for the port 22 to be
+  reachable).</li>
+<li>You already have set up certificates for SSL</li>
+<li>You've enabled the modules for ssl (a2enmod ssl)</li>
+<li>You're running the default ssl website in
+  /etc/apache2/sites-available/default-ssl and it is enabled (a2ensite
+  default-ssl)</li>
+<li>You've enabled necessary modules for proxying and using proxy connect
+  methods (a2enmod proxy proxy_connect proxy_http)</li>
+</ul>
+<h1>File /etc/apache2/sites-available/default-ssl</h1>
+<p>It's minimalistic on purpose, so you can see what is really needed.</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;IfModule</span> <span class="err">mod_ssl.c</span><span class="nt">&gt;</span>
+<span class="nt">&lt;VirtualHost</span> <span class="err">_default_:443</span><span class="nt">&gt;</span>
+    # enable ssl
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+    # proxytunnel
+    Include /etc/apache2/proxytunnel/main.conf
+<span class="nt">&lt;/VirtualHost&gt;</span>
+<span class="nt">&lt;/IfModule&gt;</span>
+</pre></div>
+
+
+<h1>File /etc/apache2/proxytunnel/main.conf</h1>
+<p>It enables forward proxying for anyone, but only if the client asks for
+127.0.0.1:22 (other requests will be denied). This results in exposing the
+port 22 (ssh) of your server through a proxy, in an encrypted way.</p>
+<div class="highlight"><pre><span></span>ProxyRequests On
+AllowConnect 22
+<span class="nt">&lt;Proxy</span> <span class="err">*</span><span class="nt">&gt;</span>
+    Order deny,allow
+    Deny from all
+<span class="nt">&lt;/Proxy&gt;</span>
+<span class="nt">&lt;Proxy</span> <span class="err">127.0.0.1</span><span class="nt">&gt;</span>
+    Order deny,allow
+    Allow from all
+<span class="nt">&lt;/Proxy&gt;</span>
+</pre></div>
+
+
+<h1>Client configuration</h1>
+<p>I assume that:</p>
+<ul>
+<li>An ssh client is installed</li>
+<li>proxytunnel is installed</li>
+</ul>
+<p>First, you'll need to test your server setting using proxytunnel alone.
+Since debugging encryption problems can be tedious, at first, I suggest
+you set up your server to provide the proxy in a non encrypted way,
+commenting the three SSL related lines (you can switch to encrypted when
+it works). Proxytunnel can "chain" two proxies (a local one, and a remote
+one), but if the place you connect from does not use such a setting, here
+is how you can proceed:</p>
+<div class="highlight"><pre><span></span><span class="err">proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v</span>
+</pre></div>
+
+
+<p>-v is for verbose. Replace it with -q (quiet) if it works. You can say it
+works when you are prompted an ssh login. Apache2 used to have <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=29744">a bug</a>
+with proxy_connect and SSL, so using encryption may require some extra
+work (like patching and recompiling the mod_proxy shared libraries or
+using the latest alpha).</p>
+<h1>File .ssh/config</h1>
+<p>Once you're done, just drop the working command line in the .ssh/config of
+your clients:</p>
+<div class="highlight"><pre><span></span><span class="err">Host server.com</span>
+<span class="err">    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22</span>
+<span class="err">    DynamicForward 1080</span>
+<span class="err">    ServerAliveInterval 60</span>
+</pre></div>
+
+
+<p>If you are stuck, I recommend you read <a href="http://www.saulchristie.co.uk/how-to/bypass-firewalls">this excellent article</a>. One
+problem remains with this config: If the traffic is correctly monitored,
+the ip of you server could be logged (even though it will be impossible to
+prove you have been doing something not allowed). First, you should run an
+https website on this ip (like a blog, or a code repository), in order to
+make this traffic more realistic. What could also be cool would be to
+chain proxies, <a href="http://lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine">using for example the appengine</a>. This way your traffic
+will look like it's going to google.</p>
+                </article>
+                <a href="ssh-over-ssl-a-quick-and-minimal-config.html#disqus_thread">
+                    To the comments
+                </a>
+
+    <hr />
+    <a href="http://blog.chmd.fr/feeds/all.atom.xml">Atom feed</a></li>
+
+    <footer id="contentinfo" class="body">
+        <address id="about" class="vcard body">
+        Generated by <a href="http://getpelican.com/">pelican</a>,
+        theme <a href="https://github.com/chmduquesne/small">small</a>
+        </address><!-- /#about -->
+    </footer><!-- /#contentinfo -->
+</body>
+</html>

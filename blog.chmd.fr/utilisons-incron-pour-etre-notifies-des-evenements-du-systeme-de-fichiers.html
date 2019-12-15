@@ -4,7 +4,7 @@
     <title>Utilisons incron pour être notifiés des événements du système de fichiers</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -40,12 +40,12 @@ modifications sur mes logs (je tire l'idée de ce script
 <a href="http://www.daemontux.org/?q=node/31">d'un ancien post sur le planet libre</a>).
 Après avoir installé incron, j'édite ma table de configuration
 incron:</p>
-<div class="highlight"><pre><span></span>incrontab -e
+<div class="highlight"><pre><span></span><span class="err">incrontab -e</span>
 </pre></div>
 
 
 <p>Avec mon éditeur favori, je lui mets la ligne suivante:</p>
-<div class="highlight"><pre><span></span>/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log
+<div class="highlight"><pre><span></span><span class="err">/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log</span>
 </pre></div>
 
 

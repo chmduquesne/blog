@@ -4,7 +4,7 @@
     <title>Git on lighttpd</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -54,14 +54,14 @@ virtualhosts. That is two files to maintain, for one domain.  If you want
 to do this for every domain you control, you have to multiply the files
 and includes.</p>
 <p>Doing this with lighttpd is really easier:</p>
-<div class="highlight"><pre><span></span># file /etc/lighttpd/lighttpd.conf
-$SERVER[&quot;socket&quot;] == &quot;:443&quot; {
-    ssl.engine              = &quot;enable&quot;
-    ssl.pemfile             = &quot;/etc/ssl/private/domain.com.pem&quot;
-}
-$HTTP[&quot;host&quot;] == &quot;domain.com&quot; {
-    server.document-root    = &quot;/var/www/domain.com&quot;
-}
+<div class="highlight"><pre><span></span><span class="err"># file /etc/lighttpd/lighttpd.conf</span>
+<span class="err">$SERVER[&quot;socket&quot;] == &quot;:443&quot; {</span>
+<span class="err">    ssl.engine              = &quot;enable&quot;</span>
+<span class="err">    ssl.pemfile             = &quot;/etc/ssl/private/domain.com.pem&quot;</span>
+<span class="err">}</span>
+<span class="err">$HTTP[&quot;host&quot;] == &quot;domain.com&quot; {</span>
+<span class="err">    server.document-root    = &quot;/var/www/domain.com&quot;</span>
+<span class="err">}</span>
 </pre></div>
 
 
@@ -78,23 +78,23 @@ hosting my public git repositories. I (quite obviously) named it
 </ul>
 <p>Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:</p>
-<div class="highlight"><pre><span></span>$HTTP[&quot;host&quot;] == &quot;git.chmd.fr&quot; {
+<div class="highlight"><pre><span></span><span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="ss">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="ss">&quot;git.chmd.fr&quot;</span> <span class="err">{</span>
 
-    # This takes care of serving gitweb
-    server.document-root    = &quot;/usr/share/gitweb&quot;
-    cgi.assign = ( &quot;.cgi&quot; =&gt; &quot;&quot; )
-    server.indexfiles = ( &quot;gitweb.cgi&quot; )
+    <span class="o">#</span> <span class="n">This</span> <span class="n">takes</span> <span class="n">care</span> <span class="k">of</span> <span class="n">serving</span> <span class="n">gitweb</span>
+    <span class="n">server</span><span class="p">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span>    <span class="o">=</span> <span class="ss">&quot;/usr/share/gitweb&quot;</span>
+    <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span> <span class="ss">&quot;.cgi&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;&quot;</span> <span class="p">)</span>
+    <span class="n">server</span><span class="p">.</span><span class="n">indexfiles</span> <span class="o">=</span> <span class="p">(</span> <span class="ss">&quot;gitweb.cgi&quot;</span> <span class="p">)</span>
 
-    # And this condition matches git objects
-    $HTTP[&quot;url&quot;] =~ &quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot; {
-        alias.url  += ( &quot;&quot; =&gt; &quot;/usr/lib/git-core/git-http-backend&quot;)
-        cgi.assign = (&quot;&quot; =&gt; &quot;&quot;)
-        setenv.add-environment = (
-            &quot;GIT_PROJECT_ROOT&quot; =&gt; &quot;/home/www/git-public-repos/&quot;,
-            &quot;GIT_HTTP_EXPORT_ALL&quot; =&gt; &quot;&quot;
-            )
-    }
-}
+    <span class="o">#</span> <span class="k">And</span> <span class="n">this</span> <span class="n">condition</span> <span class="n">matches</span> <span class="n">git</span> <span class="n">objects</span>
+    <span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="ss">&quot;url&quot;</span><span class="p">]</span> <span class="o">=~</span> <span class="ss">&quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot;</span> <span class="err">{</span>
+        <span class="k">alias</span><span class="p">.</span><span class="n">url</span>  <span class="o">+=</span> <span class="p">(</span> <span class="ss">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;/usr/lib/git-core/git-http-backend&quot;</span><span class="p">)</span>
+        <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span><span class="ss">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">setenv</span><span class="p">.</span><span class="k">add</span><span class="o">-</span><span class="n">environment</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="ss">&quot;GIT_PROJECT_ROOT&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;/home/www/git-public-repos/&quot;</span><span class="p">,</span>
+            <span class="ss">&quot;GIT_HTTP_EXPORT_ALL&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;&quot;</span>
+            <span class="p">)</span>
+    <span class="err">}</span>
+<span class="err">}</span>
 </pre></div>
 
 

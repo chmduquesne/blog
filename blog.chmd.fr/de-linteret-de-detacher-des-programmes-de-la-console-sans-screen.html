@@ -4,7 +4,7 @@
     <title>De l'intérêt de détacher des programmes de la console (sans screen)</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -41,13 +41,13 @@ récupérer ce programme.</p>
 lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
 (qui sera créé par le programme), où, s'il est déjà lancé, de
 récupérer ce programme.</p>
-<div class="highlight"><pre><span></span>dtach -A /tmp/irssi.sock /usr/bin/irssi
+<div class="highlight"><pre><span></span><span class="err">dtach -A /tmp/irssi.sock /usr/bin/irssi</span>
 </pre></div>
 
 
 <p>J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
 bon, si on peut se contenter d'un simple alias?</p>
-<div class="highlight"><pre><span></span>alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`
+<div class="highlight"><pre><span></span><span class="err">alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`</span>
 </pre></div>
 
 
@@ -88,17 +88,17 @@ done
 
 
 <p>Et désormais je lance irssi de la manière suivante:</p>
-<div class="highlight"><pre><span></span># IRSSI IN TMUX
-# switch to irssi session (and if necessary starts this session before)
-irssi()
-{
-    if tmux has -t irssi &gt;/dev/null; then
-         tmux switch -t irssi
-    else
-        TMUX=&quot;&quot; tmux new -d -s irssi /usr/bin/irssi
-        tmux switch -t irssi
-    fi
-}
+<div class="highlight"><pre><span></span><span class="err"># IRSSI IN TMUX</span>
+<span class="err"># switch to irssi session (and if necessary starts this session before)</span>
+<span class="err">irssi()</span>
+<span class="err">{</span>
+<span class="err">    if tmux has -t irssi &gt;/dev/null; then</span>
+<span class="err">         tmux switch -t irssi</span>
+<span class="err">    else</span>
+<span class="err">        TMUX=&quot;&quot; tmux new -d -s irssi /usr/bin/irssi</span>
+<span class="err">        tmux switch -t irssi</span>
+<span class="err">    fi</span>
+<span class="err">}</span>
 </pre></div>
 
 

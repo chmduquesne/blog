@@ -16,13 +16,13 @@ arbitrary set of lists as an argument, and returns an iterator of tuples,
 such that the first tuple is composed of the first element of each list,
 the second tuple has the second element of each list, and so on. It always
 goes better with an example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; for t in zip([&amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;], [1, 2, 3, 4], [&amp;#39;!&amp;#39;, &amp;#39;@&amp;#39;, &amp;#39;#&amp;#39;, &amp;#39;%&amp;#39;]):
-...     print(t)
-...
-(&amp;#39;a&amp;#39;, 1, &amp;#39;!&amp;#39;)
-(&amp;#39;b&amp;#39;, 2, &amp;#39;@&amp;#39;)
-(&amp;#39;c&amp;#39;, 3, &amp;#39;#&amp;#39;)
-(&amp;#39;d&amp;#39;, 4, &amp;#39;%&amp;#39;)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; for t in zip([&amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;], [1, 2, 3, 4], [&amp;#39;!&amp;#39;, &amp;#39;@&amp;#39;, &amp;#39;#&amp;#39;, &amp;#39;%&amp;#39;]):&lt;/span&gt;
+&lt;span class="err"&gt;...     print(t)&lt;/span&gt;
+&lt;span class="err"&gt;...&lt;/span&gt;
+&lt;span class="err"&gt;(&amp;#39;a&amp;#39;, 1, &amp;#39;!&amp;#39;)&lt;/span&gt;
+&lt;span class="err"&gt;(&amp;#39;b&amp;#39;, 2, &amp;#39;@&amp;#39;)&lt;/span&gt;
+&lt;span class="err"&gt;(&amp;#39;c&amp;#39;, 3, &amp;#39;#&amp;#39;)&lt;/span&gt;
+&lt;span class="err"&gt;(&amp;#39;d&amp;#39;, 4, &amp;#39;%&amp;#39;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -35,27 +35,27 @@ and return a flattened list of tuples, where the iᵗʰ tuple is composed of
 all of the iᵗʰ elements of each list. Like in python, if the lists
 provided as arguments are not of equal lengths, the result will be cut at
 the shortest length. Here are examples of expected behaviour:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# 3 lists of same length
-$ zip &amp;quot;a b c d&amp;quot; &amp;quot;1 2 3 4&amp;quot; &amp;quot;! @ # %&amp;quot;
- a 1 !
- b 2 @
- c 3 #
- d 4 %
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;lists&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;same&lt;/span&gt; &lt;span class="k"&gt;length&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;zip&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;a b c d&amp;quot;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;1 2 3 4&amp;quot;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;! @ # %&amp;quot;&lt;/span&gt;
+ &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;
+ &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt;
+ &lt;span class="k"&gt;c&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;#&lt;/span&gt;
+ &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;
 
-# 1 list
-$ zip &amp;quot;a b c d&amp;quot;
- a
- b
- c
- d
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;zip&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;a b c d&amp;quot;&lt;/span&gt;
+ &lt;span class="n"&gt;a&lt;/span&gt;
+ &lt;span class="n"&gt;b&lt;/span&gt;
+ &lt;span class="k"&gt;c&lt;/span&gt;
+ &lt;span class="n"&gt;d&lt;/span&gt;
 
-# 2 lists of different length
-$ zip &amp;quot;a b&amp;quot; &amp;quot;1 2 3&amp;quot;
- a 1
- b 2
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;lists&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;different&lt;/span&gt; &lt;span class="k"&gt;length&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;zip&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;a b&amp;quot;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;1 2 3&amp;quot;&lt;/span&gt;
+ &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+ &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
 
-# 0 list
-$ zip
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;zip&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -78,27 +78,27 @@ processing &lt;span class="m"&gt;4&lt;/span&gt; and d
 &lt;p&gt;It is often not obvious to the beginner how to create variable names out
 of other variables. For example, the name &lt;code&gt;list$i&lt;/code&gt; is an illegal variable
 name, so you cannot do:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i=1
-list$i=&amp;quot;a b c&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;i=1&lt;/span&gt;
+&lt;span class="err"&gt;list$i=&amp;quot;a b c&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;What is the way to get around that? The answer is &lt;code&gt;eval&lt;/code&gt;, of course!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i=1
-eval &amp;quot;list$i=&amp;#39;a b c&amp;#39;&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;i=1&lt;/span&gt;
+&lt;span class="err"&gt;eval &amp;quot;list$i=&amp;#39;a b c&amp;#39;&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;So our zip function begins like this&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;zip(){
-    nlists=$#
-    for i in $(seq 1 $nlists); do
-        eval &amp;quot;list$i=&amp;#39;$1&amp;#39;&amp;quot;
-        shift
-    done
-    # the input lists are now in the variable named list1, list2....
-    [...]
-}
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;zip(){&lt;/span&gt;
+&lt;span class="err"&gt;    nlists=$#&lt;/span&gt;
+&lt;span class="err"&gt;    for i in $(seq 1 $nlists); do&lt;/span&gt;
+&lt;span class="err"&gt;        eval &amp;quot;list$i=&amp;#39;$1&amp;#39;&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        shift&lt;/span&gt;
+&lt;span class="err"&gt;    done&lt;/span&gt;
+&lt;span class="err"&gt;    # the input lists are now in the variable named list1, list2....&lt;/span&gt;
+&lt;span class="err"&gt;    [...]&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -117,33 +117,33 @@ d
 &lt;p&gt;This prints all element of the list line by line. One can easily combine
 it with &lt;code&gt;head -n1&lt;/code&gt; and &lt;code&gt;tail -n+2&lt;/code&gt; to get the head or the tail of the
 list.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;head=$(printf &amp;#39;%s\n&amp;#39; $list | head -n1)
-tail=$(printf &amp;#39;%s\n&amp;#39; $list | tail -n+2)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;head=$(printf &amp;#39;%s\n&amp;#39; $list | head -n1)&lt;/span&gt;
+&lt;span class="err"&gt;tail=$(printf &amp;#39;%s\n&amp;#39; $list | tail -n+2)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;It works more reliably, for example, than using the buitin &lt;code&gt;set&lt;/code&gt; to put the
 elements of the list in the argument list &lt;code&gt;$1&lt;/code&gt;, &lt;code&gt;$2&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;set $list
-head=$1
-shift
-tail=&amp;quot;$*&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;set $list&lt;/span&gt;
+&lt;span class="err"&gt;head=$1&lt;/span&gt;
+&lt;span class="err"&gt;shift&lt;/span&gt;
+&lt;span class="err"&gt;tail=&amp;quot;$*&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Why? The reason is that if the first argument is the string litteral &lt;code&gt;-&lt;/code&gt;, set
 will not behave the way we want! The second part of the function therefore
 looks like this, with a bunch of &lt;code&gt;eval&lt;/code&gt;s&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;while true; do
-    tuple=&amp;quot;&amp;quot;
-    for i in $(seq 1 $nlists); do
-        eval &amp;quot;[ -z \&amp;quot;\$list$i\&amp;quot; ] &amp;amp;&amp;amp; return 0&amp;quot;
-        eval &amp;quot;head=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | head -n1)&amp;quot;
-        eval &amp;quot;list$i=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | tail -n+2)&amp;quot;
-        tuple=&amp;quot;$tuple $head&amp;quot;
-    done
-    echo &amp;quot;$tuple&amp;quot;
-done
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;while true; do&lt;/span&gt;
+&lt;span class="err"&gt;    tuple=&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;    for i in $(seq 1 $nlists); do&lt;/span&gt;
+&lt;span class="err"&gt;        eval &amp;quot;[ -z \&amp;quot;\$list$i\&amp;quot; ] &amp;amp;&amp;amp; return 0&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        eval &amp;quot;head=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | head -n1)&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        eval &amp;quot;list$i=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | tail -n+2)&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        tuple=&amp;quot;$tuple $head&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;    done&lt;/span&gt;
+&lt;span class="err"&gt;    echo &amp;quot;$tuple&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;done&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -153,18 +153,18 @@ without further &lt;code&gt;echo&lt;/code&gt;ing. The devil is in the details, b
 provided with zero argument, this function will loop forever. However, we
 really want to start looping if and only if there are arguments. This
 could be achieved by changing&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;while true; do
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;while true; do&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;to&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;while [ $nlists != 0 ]; do
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;while [ $nlists != 0 ]; do&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;I don't find this construct very readable, as it makes it look like this
 condition could change during the loops. I'd rather add the check&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[ $nlist = 0 ] &amp;amp;&amp;amp; return 0
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;[ $nlist = 0 ] &amp;amp;&amp;amp; return 0&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -172,29 +172,29 @@ condition could change during the loops. I'd rather add the check&lt;/p&gt;
 &lt;h2&gt;The result&lt;/h2&gt;
 &lt;p&gt;Here is how the code looks at the end. I think this could be a fun
 interview question!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;zip(){
-    nlists=$#
-    [ $nlists = 0 ] &amp;amp;&amp;amp; return 0
-    for i in $(seq 1 $nlists); do
-        eval &amp;quot;list$i=&amp;#39;$1&amp;#39;&amp;quot;
-        shift
-    done
-    while true; do
-        tuple=&amp;quot;&amp;quot;
-        for i in $(seq 1 $nlists); do
-            eval &amp;quot;[ -z \&amp;quot;\$list$i\&amp;quot; ] &amp;amp;&amp;amp; return 0&amp;quot;
-            eval &amp;quot;head=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | head -n1)&amp;quot;
-            eval &amp;quot;list$i=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | tail -n+2)&amp;quot;
-            tuple=&amp;quot;$tuple $head&amp;quot;
-        done
-        echo &amp;quot;$tuple&amp;quot;
-    done
-}
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;zip(){&lt;/span&gt;
+&lt;span class="err"&gt;    nlists=$#&lt;/span&gt;
+&lt;span class="err"&gt;    [ $nlists = 0 ] &amp;amp;&amp;amp; return 0&lt;/span&gt;
+&lt;span class="err"&gt;    for i in $(seq 1 $nlists); do&lt;/span&gt;
+&lt;span class="err"&gt;        eval &amp;quot;list$i=&amp;#39;$1&amp;#39;&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        shift&lt;/span&gt;
+&lt;span class="err"&gt;    done&lt;/span&gt;
+&lt;span class="err"&gt;    while true; do&lt;/span&gt;
+&lt;span class="err"&gt;        tuple=&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        for i in $(seq 1 $nlists); do&lt;/span&gt;
+&lt;span class="err"&gt;            eval &amp;quot;[ -z \&amp;quot;\$list$i\&amp;quot; ] &amp;amp;&amp;amp; return 0&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;            eval &amp;quot;head=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | head -n1)&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;            eval &amp;quot;list$i=\$(printf &amp;#39;%s\\n&amp;#39; \$list$i | tail -n+2)&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;            tuple=&amp;quot;$tuple $head&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;        done&lt;/span&gt;
+&lt;span class="err"&gt;        echo &amp;quot;$tuple&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;    done&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Do you think it can be improved? Do you have your own different technique
-to achieve this? Let me know in the comments!&lt;/p&gt;</content><category term="shell"></category><category term="sh"></category><category term="dash"></category><category term="ash"></category></entry><entry><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="alternate"></link><published>2014-10-19T17:40:00+02:00</published><updated>2014-10-19T17:40:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2014-10-19:/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</id><summary type="html">&lt;h2&gt;Purpose of this article&lt;/h2&gt;
+to achieve this? Let me know in the comments!&lt;/p&gt;</content><category term="howto"></category><category term="shell"></category><category term="sh"></category><category term="dash"></category><category term="ash"></category></entry><entry><title>SSH over SSL, episode 4: a HAproxy based configuration</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="alternate"></link><published>2014-10-19T17:40:00+02:00</published><updated>2014-10-19T17:40:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2014-10-19:/ssh-over-ssl-episode-4-a-haproxy-based-configuration.html</id><summary type="html">&lt;h2&gt;Purpose of this article&lt;/h2&gt;
 &lt;p&gt;In this article, I am describing how to SSH to a remote server as
 discreetly as possible, by concealing the SSH packets into SSL. The
 server will still be able to run an SSL website.&lt;/p&gt;
@@ -246,66 +246,66 @@ port 80, and speaks HTTP. On this backend, we add a X-Forwarded-Proto
 header, such that the web server knows that the clients are connecting
 securely. If you expose the same backend with HAproxy on the port 80,
 don't forget to filter the X-Forwarded-Proto header!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;backend secure_http
-    reqadd X-Forwarded-Proto:\ https
-    rspadd Strict-Transport-Security:\ max-age=31536000
-    mode http
-    option httplog
-    option forwardfor
-    server local_http_server 127.0.0.1:80
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;backend secure_http&lt;/span&gt;
+&lt;span class="err"&gt;    reqadd X-Forwarded-Proto:\ https&lt;/span&gt;
+&lt;span class="err"&gt;    rspadd Strict-Transport-Security:\ max-age=31536000&lt;/span&gt;
+&lt;span class="err"&gt;    mode http&lt;/span&gt;
+&lt;span class="err"&gt;    option httplog&lt;/span&gt;
+&lt;span class="err"&gt;    option forwardfor&lt;/span&gt;
+&lt;span class="err"&gt;    server local_http_server 127.0.0.1:80&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The ssh server:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;backend ssh
-    mode tcp
-    option tcplog
-    server ssh 127.0.0.1:22
-    timeout server 2h
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;backend ssh&lt;/span&gt;
+&lt;span class="err"&gt;    mode tcp&lt;/span&gt;
+&lt;span class="err"&gt;    option tcplog&lt;/span&gt;
+&lt;span class="err"&gt;    server ssh 127.0.0.1:22&lt;/span&gt;
+&lt;span class="err"&gt;    timeout server 2h&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;And now, the magic. This happens in the frontend section. We listen in TCP mode
 and inspect the connections. Depending on whether we see ssh or not, we hook it
 to one of the backends.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;frontend ssl
-    bind X.X.X.X:443 ssl crt /etc/ssl/private/certs.pem no-sslv3
-    mode tcp
-    option tcplog
-    tcp-request inspect-delay 5s
-    tcp-request content accept if HTTP
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;frontend&lt;/span&gt; &lt;span class="n"&gt;ssl&lt;/span&gt;
+    &lt;span class="n"&gt;bind&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt; &lt;span class="n"&gt;ssl&lt;/span&gt; &lt;span class="n"&gt;crt&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ssl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;private&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;certs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt; &lt;span class="k"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sslv3&lt;/span&gt;
+    &lt;span class="k"&gt;mode&lt;/span&gt; &lt;span class="n"&gt;tcp&lt;/span&gt;
+    &lt;span class="k"&gt;option&lt;/span&gt; &lt;span class="n"&gt;tcplog&lt;/span&gt;
+    &lt;span class="n"&gt;tcp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;inspect&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;delay&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+    &lt;span class="n"&gt;tcp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="n"&gt;accept&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;HTTP&lt;/span&gt;
 
-    acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
+    &lt;span class="n"&gt;acl&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="mi"&gt;5353482&lt;/span&gt;&lt;span class="n"&gt;d322e30&lt;/span&gt;
 
-    use_backend ssh if !HTTP
-    use_backend ssh if client_attempts_ssh
-    use_backend secure_http if HTTP
+    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;
+    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;client_attempts_ssh&lt;/span&gt;
+    &lt;span class="n"&gt;use_backend&lt;/span&gt; &lt;span class="n"&gt;secure_http&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;HTTP&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Once you are done, you can test if this works by connecting on the server
 with openssl.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;openssl s_client -connect server.com:443 -quiet
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;openssl s_client -connect server.com:443 -quiet&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you see a string that looks like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SSH-2.0-OpenSSH_6.6.1p1 Debian-7
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SSH-2.0-OpenSSH_6.6.1p1 Debian-7&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;then everything went fine!&lt;/p&gt;
 &lt;h2&gt;Connecting from an SSH client&lt;/h2&gt;
 &lt;p&gt;To connect to your server from linux, just drop this in your ~/.ssh/config:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host server.com
-    ProxyCommand openssl s_client -connect server.com:443 -quiet
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;Host server.com&lt;/span&gt;
+&lt;span class="err"&gt;    ProxyCommand openssl s_client -connect server.com:443 -quiet&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you are on windows and you cannot install anything client side, there
 is also a solution for you. Download socat and putty (none of them
 requires admin rights). Then, with socat, run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;socat TCP-LISTEN:8888 OPENSSL:server.com:443,verify=0&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -316,7 +316,7 @@ requires admin rights). Then, with socat, run:&lt;/p&gt;
 must send a string that starts with 'SSH-2.0' (this is also how sslh does
 it). Moreover, 5353482d322e30 is the binary representation of the string
 'SSH-2.0'. So everything boils down to this line:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;acl client_attempts_ssh payload(0,7) -m bin 5353482d322e30&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -329,7 +329,7 @@ There are also 'passive' SSH clients (like putty), who wait for the server
 to send a string. These clients will get that string after 5 seconds (the
 inspect-delay).&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Happy SSH!&lt;/p&gt;</content><category term="ssh"></category><category term="ssl"></category><category term="HAproxy"></category></entry><entry><title>Editing a CV in markdown with pandoc</title><link href="http://blog.chmd.fr/editing-a-cv-in-markdown-with-pandoc.html" rel="alternate"></link><published>2013-10-30T15:53:00+01:00</published><updated>2013-10-30T15:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-30:/editing-a-cv-in-markdown-with-pandoc.html</id><summary type="html">&lt;p&gt;CV maintainance is one of these painful and repetitive tasks that you
+&lt;p&gt;Happy SSH!&lt;/p&gt;</content><category term="howto"></category><category term="ssh"></category><category term="ssl"></category><category term="HAproxy"></category></entry><entry><title>Editing a CV in markdown with pandoc</title><link href="http://blog.chmd.fr/editing-a-cv-in-markdown-with-pandoc.html" rel="alternate"></link><published>2013-10-30T15:53:00+01:00</published><updated>2013-10-30T15:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-30:/editing-a-cv-in-markdown-with-pandoc.html</id><summary type="html">&lt;p&gt;CV maintainance is one of these painful and repetitive tasks that you
 don't want to burn too much time on.  For a while, I have been using latex
 with the excellent &lt;a href="http://www.ctan.org/pkg/moderncv"&gt;moderncv class&lt;/a&gt;, but
 the pdf format has annoying limitations:&lt;/p&gt;
@@ -373,7 +373,7 @@ Interests
 
 &lt;p&gt;The file can then be compiled in various formats. To obtain the html
 version:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pandoc --standalone --from markdown --to html -o index.html index.md
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pandoc --standalone --from markdown --to html -o index.html index.md&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -381,21 +381,21 @@ version:&lt;/p&gt;
 CSS&lt;/a&gt; to go with the html generated by pandoc.
 It is inspired by moderncv, and specially adapted for this use case. The
 command line becomes:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pandoc --standalone -c style.css --from markdown --to html -o index.html index.md
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pandoc --standalone -c style.css --from markdown --to html -o index.html index.md&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now that you are at it, you can also generate a word document or even some
 plain text file. No need to build a new one in a hurry!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pandoc --from markdown --to docx -o index.docx index.md
-pandoc --standalone --smart --from markdown --to plain -o index.txt index.md
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pandoc --from markdown --to docx -o index.docx index.md&lt;/span&gt;
+&lt;span class="err"&gt;pandoc --standalone --smart --from markdown --to plain -o index.txt index.md&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You can get a look at what it looks like on &lt;a href="//resume.chmd.fr"&gt;my own
 résumé&lt;/a&gt;. The full code can be found on
 &lt;a href="https://git.chmd.fr/?p=resume.git"&gt;git.chmd.fr&lt;/a&gt; (and
-&lt;a href="https://github.com/chmduquesne/resume"&gt;github&lt;/a&gt;).&lt;/p&gt;</content><category term="pandoc markdown"></category></entry><entry><title>Using openid and the likes to protect static content (lighttpd)</title><link href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="alternate"></link><published>2013-10-29T14:22:00+01:00</published><updated>2013-10-29T14:22:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:/using-openid-and-the-likes-to-protect-static-content-lighttpd.html</id><summary type="html">&lt;p&gt;I &lt;a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html"&gt;recently&lt;/a&gt;
+&lt;a href="https://github.com/chmduquesne/resume"&gt;github&lt;/a&gt;).&lt;/p&gt;</content><category term="code"></category><category term="pandoc markdown"></category></entry><entry><title>Using openid and the likes to protect static content (lighttpd)</title><link href="http://blog.chmd.fr/using-openid-and-the-likes-to-protect-static-content-lighttpd.html" rel="alternate"></link><published>2013-10-29T14:22:00+01:00</published><updated>2013-10-29T14:22:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-10-29:/using-openid-and-the-likes-to-protect-static-content-lighttpd.html</id><summary type="html">&lt;p&gt;I &lt;a href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html"&gt;recently&lt;/a&gt;
 set up a self-hosted gallery for my pictures. Obviously, I did this
 because I wanted to stop giving my content to external platforms, but also
 to gain some level of privacy: I want to limit the number of people who
@@ -447,7 +447,7 @@ how to proceed. Check it out!&lt;/p&gt;
 believe it is pretty secure (provided you trust the third parties
 involved, of course), but I still have to warn you: don't use this to
 protect important documents. If you have knowledge about security and want
-to comment - or even better: to contribute - be my guest!&lt;/p&gt;</content><category term="openid lighttpd"></category></entry><entry><title>Git on lighttpd</title><link href="http://blog.chmd.fr/git-on-lighttpd.html" rel="alternate"></link><published>2013-08-08T16:09:00+02:00</published><updated>2013-08-08T16:09:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-08-08:/git-on-lighttpd.html</id><summary type="html">&lt;h1&gt;Intro&lt;/h1&gt;
+to comment - or even better: to contribute - be my guest!&lt;/p&gt;</content><category term="howto"></category><category term="openid lighttpd"></category></entry><entry><title>Git on lighttpd</title><link href="http://blog.chmd.fr/git-on-lighttpd.html" rel="alternate"></link><published>2013-08-08T16:09:00+02:00</published><updated>2013-08-08T16:09:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-08-08:/git-on-lighttpd.html</id><summary type="html">&lt;h1&gt;Intro&lt;/h1&gt;
 &lt;p&gt;I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:&lt;/p&gt;
@@ -479,14 +479,14 @@ virtualhosts. That is two files to maintain, for one domain.  If you want
 to do this for every domain you control, you have to multiply the files
 and includes.&lt;/p&gt;
 &lt;p&gt;Doing this with lighttpd is really easier:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# file /etc/lighttpd/lighttpd.conf
-$SERVER[&amp;quot;socket&amp;quot;] == &amp;quot;:443&amp;quot; {
-    ssl.engine              = &amp;quot;enable&amp;quot;
-    ssl.pemfile             = &amp;quot;/etc/ssl/private/domain.com.pem&amp;quot;
-}
-$HTTP[&amp;quot;host&amp;quot;] == &amp;quot;domain.com&amp;quot; {
-    server.document-root    = &amp;quot;/var/www/domain.com&amp;quot;
-}
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# file /etc/lighttpd/lighttpd.conf&lt;/span&gt;
+&lt;span class="err"&gt;$SERVER[&amp;quot;socket&amp;quot;] == &amp;quot;:443&amp;quot; {&lt;/span&gt;
+&lt;span class="err"&gt;    ssl.engine              = &amp;quot;enable&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;    ssl.pemfile             = &amp;quot;/etc/ssl/private/domain.com.pem&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;span class="err"&gt;$HTTP[&amp;quot;host&amp;quot;] == &amp;quot;domain.com&amp;quot; {&lt;/span&gt;
+&lt;span class="err"&gt;    server.document-root    = &amp;quot;/var/www/domain.com&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -503,28 +503,28 @@ hosting my public git repositories. I (quite obviously) named it
 &lt;/ul&gt;
 &lt;p&gt;Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$HTTP[&amp;quot;host&amp;quot;] == &amp;quot;git.chmd.fr&amp;quot; {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;host&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;git.chmd.fr&amp;quot;&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
 
-    # This takes care of serving gitweb
-    server.document-root    = &amp;quot;/usr/share/gitweb&amp;quot;
-    cgi.assign = ( &amp;quot;.cgi&amp;quot; =&amp;gt; &amp;quot;&amp;quot; )
-    server.indexfiles = ( &amp;quot;gitweb.cgi&amp;quot; )
+    &lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;takes&lt;/span&gt; &lt;span class="n"&gt;care&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;serving&lt;/span&gt; &lt;span class="n"&gt;gitweb&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;/usr/share/gitweb&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;cgi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;.cgi&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;indexfiles&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;gitweb.cgi&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
 
-    # And this condition matches git objects
-    $HTTP[&amp;quot;url&amp;quot;] =~ &amp;quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&amp;quot; {
-        alias.url  += ( &amp;quot;&amp;quot; =&amp;gt; &amp;quot;/usr/lib/git-core/git-http-backend&amp;quot;)
-        cgi.assign = (&amp;quot;&amp;quot; =&amp;gt; &amp;quot;&amp;quot;)
-        setenv.add-environment = (
-            &amp;quot;GIT_PROJECT_ROOT&amp;quot; =&amp;gt; &amp;quot;/home/www/git-public-repos/&amp;quot;,
-            &amp;quot;GIT_HTTP_EXPORT_ALL&amp;quot; =&amp;gt; &amp;quot;&amp;quot;
-            )
-    }
-}
+    &lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;And&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;objects&lt;/span&gt;
+    &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HTTP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=~&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&amp;quot;&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;alias&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;  &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;/usr/lib/git-core/git-http-backend&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;cgi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;setenv&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;add&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;environment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="ss"&gt;&amp;quot;GIT_PROJECT_ROOT&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;/home/www/git-public-repos/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="ss"&gt;&amp;quot;GIT_HTTP_EXPORT_ALL&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+            &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="err"&gt;}&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Combined with the trick from above, you can get this to work on both http
-and https. I hope this will help others!&lt;/p&gt;</content><category term="git gitweb server"></category></entry><entry><title>Sigal, a static gallery generator</title><link href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="alternate"></link><published>2013-07-20T15:11:00+02:00</published><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:/sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
+and https. I hope this will help others!&lt;/p&gt;</content><category term="howto"></category><category term="git gitweb server"></category></entry><entry><title>Sigal, a static gallery generator</title><link href="http://blog.chmd.fr/sigal-a-static-gallery-generator.html" rel="alternate"></link><published>2013-07-20T15:11:00+02:00</published><updated>2013-07-20T15:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2013-07-20:/sigal-a-static-gallery-generator.html</id><summary type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
 with my friends without using a third party service. At first, I thought
 about writing a lighttpd module that would generate thumbnails. Then I
 thought about a using a php script, but all of them have …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
@@ -548,7 +548,7 @@ simple to use) and continuous integration. There is even
 &lt;a href="http://saimon.org/sigal-demo/galleria/"&gt;demo&lt;/a&gt; galleries, for you to test
 it live before installing it. And of course, for maximal conveniency,
 there is a python package, that you can install very simply: just run&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install sigal
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install sigal&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -557,7 +557,7 @@ short movies with my cameras, and I want to include them in the pictures
 that I am sharing. I thus decided to give a go to the code, in order to
 see if it easy to patch. It turned out to be rather easy. There's a &lt;a href="https://github.com/saimn/sigal/pull/18"&gt;pull
 request&lt;/a&gt; pending...&lt;/p&gt;
-&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</content><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><published>2012-09-19T15:33:00+02:00</published><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:/jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
+&lt;p&gt;TL;DR you should try sigal!&lt;/p&gt;</content><category term="misc"></category><category term="sigal gallery static"></category></entry><entry><title>Jabber notifications on ssh login</title><link href="http://blog.chmd.fr/jabber-notifications-on-ssh-login.html" rel="alternate"></link><published>2012-09-19T15:33:00+02:00</published><updated>2012-09-19T15:33:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-09-19:/jabber-notifications-on-ssh-login.html</id><summary type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
 wanted, for fun, to be notified on gtalk everytime someone logs in my
 server. You never know, maybe I could discover unexpected connections. It
 turned out to be possible, and the whole thing costed me …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
@@ -576,7 +576,7 @@ module in question is called &lt;code&gt;pam_exec&lt;/code&gt;, and it is often 
 databases e.g. when passwords are changed. It can also be activated when
 someone logs in. The manpage explains that the following PAM items are
 exported as environment variables to the program executed:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt; PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -600,7 +600,7 @@ is ignored. Otherwise PAM would wait for the command to return before
 letting me in, and it would deny me the access if the notification failed
 to be delivered. Two things I clearly want to avoid.&lt;/p&gt;
 &lt;p&gt;Then, the following line goes at the end of &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;session         optional        pam_exec.so             /usr/local/bin/login_notify
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;session         optional        pam_exec.so             /usr/local/bin/login_notify&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -621,7 +621,7 @@ to be delivered. Two things I clearly want to avoid.&lt;/p&gt;
   use &lt;code&gt;sendxmpp&lt;/code&gt;, then try again with the &lt;code&gt;login_notify&lt;/code&gt; script.&lt;/li&gt;
 &lt;li&gt;My instructions are probably incomplete. Use your brain to fill in the
   blanks.&lt;/li&gt;
-&lt;/ul&gt;</content><category term="security"></category><category term="ssh"></category></entry><entry><title>Choose your passphrase with a die</title><link href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="alternate"></link><published>2012-08-01T17:25:00+02:00</published><updated>2012-08-01T17:25:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-08-01:/choose-your-passphrase-with-a-die.html</id><summary type="html">&lt;p&gt;Lurking on the archlinux &lt;a href="https://wiki.archlinux.org/index.php/Disk_Encryption#Choosing_a_strong_passphrase"&gt;wiki&lt;/a&gt;, I found a very interesting resource
+&lt;/ul&gt;</content><category term="howto"></category><category term="security"></category><category term="ssh"></category></entry><entry><title>Choose your passphrase with a die</title><link href="http://blog.chmd.fr/choose-your-passphrase-with-a-die.html" rel="alternate"></link><published>2012-08-01T17:25:00+02:00</published><updated>2012-08-01T17:25:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2012-08-01:/choose-your-passphrase-with-a-die.html</id><summary type="html">&lt;p&gt;Lurking on the archlinux &lt;a href="https://wiki.archlinux.org/index.php/Disk_Encryption#Choosing_a_strong_passphrase"&gt;wiki&lt;/a&gt;, I found a very interesting resource
 for choosing a strong, easy to remember passphrase. It's called the
 &lt;a href="http://world.std.com/~reinhold/diceware.html"&gt;diceware method&lt;/a&gt;. You basically pick a die and throw it repeatedly
 to determine the words of your passphrase.&lt;/p&gt;
@@ -631,22 +631,22 @@ for choosing a strong, easy to remember passphrase. It's called the
 to determine the words of your passphrase.&lt;/p&gt;
 &lt;p&gt;To associate a word with the results of the die, you are given a list of
 words that looks like what follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;...
-46154 ox
-46155 oxyda
-46156 oxyde
-46161 oxyder
-46162 oy
-46163 oz
-46164 ozone
-46165 ozones
-46166 p
-46211 pa
-46212 pacha
-46213 pack
-46214 packs
-46215 pacte
-...
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;...&lt;/span&gt;
+&lt;span class="err"&gt;46154 ox&lt;/span&gt;
+&lt;span class="err"&gt;46155 oxyda&lt;/span&gt;
+&lt;span class="err"&gt;46156 oxyde&lt;/span&gt;
+&lt;span class="err"&gt;46161 oxyder&lt;/span&gt;
+&lt;span class="err"&gt;46162 oy&lt;/span&gt;
+&lt;span class="err"&gt;46163 oz&lt;/span&gt;
+&lt;span class="err"&gt;46164 ozone&lt;/span&gt;
+&lt;span class="err"&gt;46165 ozones&lt;/span&gt;
+&lt;span class="err"&gt;46166 p&lt;/span&gt;
+&lt;span class="err"&gt;46211 pa&lt;/span&gt;
+&lt;span class="err"&gt;46212 pacha&lt;/span&gt;
+&lt;span class="err"&gt;46213 pack&lt;/span&gt;
+&lt;span class="err"&gt;46214 packs&lt;/span&gt;
+&lt;span class="err"&gt;46215 pacte&lt;/span&gt;
+&lt;span class="err"&gt;...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -662,7 +662,7 @@ remember.&lt;/p&gt;
 &lt;p&gt;Sure, I read &lt;a href="http://xkcd.com/936/"&gt;xkcd&lt;/a&gt; and I was already using long sentences that made
 sense only if you are me, but this method beats mine, since there is no
 way I was picking these words randomly.&lt;/p&gt;
-&lt;p&gt;Since I could not find a list of french words, I quickly made &lt;a href="https://github.com/chmduquesne/diceware-fr"&gt;my own&lt;/a&gt;.&lt;/p&gt;</content><category term="security"></category><category term="passphrase"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="http://blog.chmd.fr/operations-research-and-beer-drinking.html" rel="alternate"></link><published>2011-11-19T17:06:00+01:00</published><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-11-19:/operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
+&lt;p&gt;Since I could not find a list of french words, I quickly made &lt;a href="https://github.com/chmduquesne/diceware-fr"&gt;my own&lt;/a&gt;.&lt;/p&gt;</content><category term="howto"></category><category term="security"></category><category term="passphrase"></category></entry><entry><title>Operations Research and Beer drinking</title><link href="http://blog.chmd.fr/operations-research-and-beer-drinking.html" rel="alternate"></link><published>2011-11-19T17:06:00+01:00</published><updated>2011-11-19T17:06:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-11-19:/operations-research-and-beer-drinking.html</id><summary type="html">&lt;p&gt;I am just returning from Charlotte NC, where I had an amazing time at the
 INFORMS 2011 conference. Being in the airport waiting for my flight, I
 figured out I could use this spare time to share a cool story about
 Operations Research.&lt;/p&gt;
@@ -735,7 +735,7 @@ to "finish my trip". For the record, the Westvleteren 12 is ranked the
 best beer in the world by &lt;a href="http://www.ratebeer.com/"&gt;ratebeer.com&lt;/a&gt;. Needless to say, I enjoyed
 it very much. He let me keep the capsules as a souvenir:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="westvleteren.jpg" src="images/westvleteren.jpg"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip"&gt;&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><published>2011-09-22T00:00:00+02:00</published><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
+&lt;p&gt;&lt;a href="images/belgium_trip.jpg"&gt;&lt;img alt="Our actual map during the trip" src="images/belgium_trip.resized.jpg" title="Our actual map during the trip"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Releasing Michel, a flat-text-file-to-google-tasks uploader</title><link href="http://blog.chmd.fr/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html" rel="alternate"></link><published>2011-09-22T00:00:00+02:00</published><updated>2011-09-22T00:00:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-22:/releasing-michel-a-flat-text-file-to-google-tasks-uploader.html</id><summary type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
 The main reason why I prefer them over anything else is that I find it
 far easier to display it with notification popups this way.&lt;/p&gt;
 &lt;p&gt;I also heavily rely on gmail to organise myself …&lt;/p&gt;</summary><content type="html">&lt;p&gt;When it comes to handling my todo list, I'm a huge fan of flat text files.
@@ -752,8 +752,8 @@ that they had &lt;a href="http://googleappsdeveloper.blogspot.com/2011/05/gettin
 needs to help me handle my todo list text file. So here comes &lt;a href="https://github.com/chmduquesne/michel"&gt;Michel&lt;/a&gt;,
 your friendly mate that helps you managing your todo list. It features two
 commands&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;michel pull
-michel push &amp;lt;file&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;michel pull&lt;/span&gt;
+&lt;span class="err"&gt;michel push &amp;lt;file&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -762,8 +762,8 @@ michel push &amp;lt;file&amp;gt;
 able to install it using easy_install (provided you install pyxdg with
 your standard package manager, since it does not seem to be installable
 from easy_install).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;easy_install michel
-&lt;/pre&gt;&lt;/div&gt;</content><category term="gtasks"></category></entry><entry><title>Going static</title><link href="http://blog.chmd.fr/going-static.html" rel="alternate"></link><published>2011-09-15T20:10:00+02:00</published><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-15:/going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;easy_install michel&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="code"></category><category term="gtasks"></category></entry><entry><title>Going static</title><link href="http://blog.chmd.fr/going-static.html" rel="alternate"></link><published>2011-09-15T20:10:00+02:00</published><updated>2011-09-15T20:10:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-09-15:/going-static.html</id><summary type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
 Wordpress is probably awesome if you are a team of 15 authors who want to
 handle mass production of articles with a nice web interface. On the other
 hand, it needs constant updates, and the last ones …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I eventually got sick of wordpress and of my former hoster &lt;a href="http://free.fr"&gt;free.fr&lt;/a&gt;.
@@ -792,7 +792,7 @@ with &lt;a href="http://disqus.com/"&gt;disqus&lt;/a&gt;. Just make an account a
 file I mentioned. Disqus provides a way to import comments from such a
 file. You will later be able to reattach threads to their articles by
 providing a csv map file following the syntax:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;old_url, new_url
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;old_url, new_url&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -805,12 +805,12 @@ wizard that tells you what to do quite accurately.&lt;/p&gt;
 &lt;h1&gt;What I could not fix&lt;/h1&gt;
 &lt;p&gt;The blog entries on my previous blog were obtained through links looking
 like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Whereas on the new version, they look like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -818,7 +818,7 @@ like&lt;/p&gt;
 .htaccess, for the sake of SEO-friendliness. However, this would require
 some url rewriting, which &lt;a href="http://free.fr"&gt;free&lt;/a&gt; does not support. I decided to skip
 this step. I am keeping &lt;a href="https://github.com/chmduquesne/blog/blob/master/legacy/urlmap.csv"&gt;a map&lt;/a&gt; between the former and the new urls,
-just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</content></entry><entry><title>plowbot, a jabber bot that downloads links from 1-click hosters</title><link href="http://blog.chmd.fr/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="alternate"></link><published>2011-07-26T13:46:00+02:00</published><updated>2011-07-26T13:46:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-26:/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html</id><summary type="html">&lt;p&gt;I wrote a jabber bot that does just one thing: it uses &lt;a href="https://code.google.com/p/plowshare/"&gt;plowshare&lt;/a&gt; to
+just in case I'd have the courage to write these redirections in php...&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>plowbot, a jabber bot that downloads links from 1-click hosters</title><link href="http://blog.chmd.fr/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html" rel="alternate"></link><published>2011-07-26T13:46:00+02:00</published><updated>2011-07-26T13:46:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-26:/plowbot-a-jabber-bot-that-downloads-links-from-1-click-hosters.html</id><summary type="html">&lt;p&gt;I wrote a jabber bot that does just one thing: it uses &lt;a href="https://code.google.com/p/plowshare/"&gt;plowshare&lt;/a&gt; to
 download what you paste. It is quite minimalist and thus does not offer
 queue management features nor advanced captcha solving possibilities, so
 you should not try to use it on links plowshare can't break automatically
@@ -835,7 +835,7 @@ to fork it and add whatever you find useful, it's on github:&lt;/p&gt;
 &lt;p&gt;I am personally quite satisfied with it (it fits my limited usage
 for this kind of service), but I am open to pull requests. Of
 course, I also made an AUR package for arch users, which adds an rc
-script for starting it at boot as your prefered user.&lt;/p&gt;</content><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><published>2011-07-11T13:12:00+02:00</published><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-11:/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
+script for starting it at boot as your prefered user.&lt;/p&gt;</content><category term="code"></category><category term="plowbot"></category><category term="plowshare"></category></entry><entry><title>SSH over SSL, episode 3: Avoiding using a patched apache.</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html" rel="alternate"></link><published>2011-07-11T13:12:00+02:00</published><updated>2011-07-11T13:12:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-07-11:/ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
 articles about doing SSH over SSL. I have been improving my configuration
 over the years, so the more recent, the better:&lt;/p&gt;
 &lt;ul&gt;
@@ -888,21 +888,21 @@ AllowConnect 22
 
 &lt;p&gt;Then, I install stunnel, and I set it up to listen on the port 443
 (https) and to forward it to the port 80 (http).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cert = /etc/stunnel/stunnel.pem
-...
-[https]
-accept  = 443
-connect = 80
-TIMEOUTclose = 0
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;cert&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;stunnel&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pem&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;accept&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;connect&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;TIMEOUTclose&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;stunnel requires a bit of configuration. From the &lt;a href="http://www.stunnel.org/?page=docs"&gt;documentation&lt;/a&gt;, here
 is how to generate a certificate:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /etc/stunnel
-openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem
-chown stunnel:stunnel stunnel.pem
-chmod 600 stunnel.pem
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;cd /etc/stunnel&lt;/span&gt;
+&lt;span class="err"&gt;openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem&lt;/span&gt;
+&lt;span class="err"&gt;chown stunnel:stunnel stunnel.pem&lt;/span&gt;
+&lt;span class="err"&gt;chmod 600 stunnel.pem&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -930,7 +930,7 @@ story).&lt;/p&gt;
 anyone does and has any success with it, please leave a comment
 here, I am interested. I would also be interested if someone knows
 any http server lighter than apache and guaranteed to support the
-CONNECT method...&lt;/p&gt;</content><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>[Je préfère ton clone] padopi</title><link href="http://blog.chmd.fr/je-prefere-ton-clone-padopi.html" rel="alternate"></link><published>2011-06-19T14:13:00+02:00</published><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-06-19:/je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
+CONNECT method...&lt;/p&gt;</content><category term="howto"></category><category term="ssh"></category><category term="ssl"></category><category term="stunnel"></category><category term="apache"></category></entry><entry><title>[Je préfère ton clone] padopi</title><link href="http://blog.chmd.fr/je-prefere-ton-clone-padopi.html" rel="alternate"></link><published>2011-06-19T14:13:00+02:00</published><updated>2011-06-19T14:13:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2011-06-19:/je-prefere-ton-clone-padopi.html</id><summary type="html">&lt;p&gt;Je reprends du service sur ce blog pour parler d'un petit projet
 libre qui m'a fait bien rigoler: padopi. C'est une application web
 qui permet d'envoyer des faux mails à vos amis pour leur faire
 croire qu'ils se sont fait coincer à télécharger. Bon, les mails en
@@ -944,17 +944,17 @@ sont inspirés du véritable mail hadopi). Je vous préviens:
 l'utilisation de ce genre de service est probablement
 répréhensible, mais ça ne vous empêche pas de récupérer le code du
 projet sur github:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/padopi/padopi
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;git clone https://github.com/padopi/padopi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Ou bien, si vous préférez mon clone (Ho ho ho):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/chmduquesne/padopi
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;git clone https://github.com/chmduquesne/padopi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Aller, en bonus, la pub de référence :)&lt;/p&gt;
-&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content><category term="libre"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><published>2010-12-20T18:39:00+01:00</published><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-20:/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a &lt;a href="http://supergenpass.com/"&gt;supergenpass&lt;/a&gt;
+&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content><category term="misc"></category><category term="libre"></category></entry><entry><title>Using a shell version of supergenpass from vimperator/pentadactyl</title><link href="http://blog.chmd.fr/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html" rel="alternate"></link><published>2010-12-20T18:39:00+01:00</published><updated>2010-12-20T18:39:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-20:/using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html</id><summary type="html">&lt;p&gt;Last week, I was glad to be a &lt;a href="http://supergenpass.com/"&gt;supergenpass&lt;/a&gt;
 user: &lt;a href="http://www.businessinsider.com/gawker-hacked-2010-12"&gt;gawker.com was
 hacked&lt;/a&gt; and a huge
 number of their username/password hashes was exposed.  While I am not
@@ -974,8 +974,8 @@ master password. If the webmaster of the site you are visiting is evil, he
 could grab your master password and hack all your accounts. If you are a
 vimperator/pentadactyl user, it is easy to fix that, by executing
 supergenpass as a shell command (What follows is from my pentadactylrc):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;map -modes=n,v &amp;lt;C-F6&amp;gt; y:!~/.scripts/supergenpass&amp;lt;Space&amp;gt;&amp;#39;&amp;lt;S-Insert&amp;gt;&amp;#39;&amp;lt;Return&amp;gt;&amp;lt;Esc&amp;gt;2gi&amp;lt;S-Insert&amp;gt;&amp;lt;Return&amp;gt;
-map -modes=i &amp;lt;C-F6&amp;gt; &amp;lt;Esc&amp;gt;&amp;lt;C-F6&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;map -modes=n,v &amp;lt;C-F6&amp;gt; y:!~/.scripts/supergenpass&amp;lt;Space&amp;gt;&amp;#39;&amp;lt;S-Insert&amp;gt;&amp;#39;&amp;lt;Return&amp;gt;&amp;lt;Esc&amp;gt;2gi&amp;lt;S-Insert&amp;gt;&amp;lt;Return&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt;map -modes=i &amp;lt;C-F6&amp;gt; &amp;lt;Esc&amp;gt;&amp;lt;C-F6&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -999,7 +999,7 @@ Gorven&lt;/a&gt;.&lt;/p&gt;
   filled my login)&lt;/li&gt;
 &lt;li&gt;and &lt;code&gt;&amp;lt;S-Insert&amp;gt;&lt;/code&gt; will paste the clipboard (now filled with the generated
   password) in this focused field.&lt;/li&gt;
-&lt;/ul&gt;</content><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><published>2010-12-02T19:25:00+01:00</published><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:/saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of people, I
+&lt;/ul&gt;</content><category term="howto"></category><category term="supergenpass"></category><category term="pentadactyl"></category></entry><entry><title>Saving your crontab in your dotfiles</title><link href="http://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html" rel="alternate"></link><published>2010-12-02T19:25:00+01:00</published><updated>2010-12-02T19:25:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-12-02:/saving-your-crontab-in-your-dotfiles.html</id><summary type="html">&lt;p&gt;In order to share them across several machine, like a lot of people, I
 synchronize my dotfile using a DVCS on &lt;a href="http://bitbucket.org/chmduquesne/dotfiles"&gt;a public
 repository&lt;/a&gt;. I save as much
 stuff as I can, provided it does not contains sensitive stuff like
@@ -1010,39 +1010,33 @@ stuff as I can, provided it does not contains sensitive stuff like
 passwords. Problem: How do you save your crontab? I finally had a look at
 the crontab manual to realize that crontab could be called on a file. The
 following line goes into my &lt;code&gt;~/.zshrc&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;alias crontab-e=&amp;#39;vi ~/.crontab &amp;amp;&amp;amp; crontab ~/.crontab&amp;#39;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;alias crontab-e=&amp;#39;vi ~/.crontab &amp;amp;&amp;amp; crontab ~/.crontab&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Edit: I now find even better to use a shell function rather than an
 alias:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# CRONTAB
-if test -z $CRONTABCMD; then
-    # allows to source zshrc twice
-    export CRONTABCMD=$(which crontab)
-    crontab()
-    {
-        if [[ $@ == &amp;quot;-e&amp;quot; ]]; then
-            vim ~/.crontab &amp;amp;&amp;amp; $CRONTABCMD ~/.crontab
-        else
-            $CRONTABCMD $@
-        fi
-    }
-    $CRONTABCMD ~/.crontab
-fi
-&lt;/pre&gt;&lt;/div&gt;</content><category term="crontab"></category></entry><entry><title>Notifications from google calendar on my desktop</title><link href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="alternate"></link><published>2010-11-23T15:11:00+01:00</published><updated>2010-11-23T15:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-23:/notifications-from-google-calendar-on-my-desktop.html</id><summary type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &amp;#39;notify-send -t 300000 -i myniceicon.svg &amp;quot;Calendar&amp;quot; \%s&amp;#39;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# CRONTAB&lt;/span&gt;
+&lt;span class="err"&gt;if test -z $CRONTABCMD; then&lt;/span&gt;
+&lt;span class="err"&gt;    # allows to source zshrc twice&lt;/span&gt;
+&lt;span class="err"&gt;    export CRONTABCMD=$(which crontab)&lt;/span&gt;
+&lt;span class="err"&gt;    crontab()&lt;/span&gt;
+&lt;span class="err"&gt;    {&lt;/span&gt;
+&lt;span class="err"&gt;        if [[ $@ == &amp;quot;-e&amp;quot; ]]; then&lt;/span&gt;
+&lt;span class="err"&gt;            vim ~/.crontab &amp;amp;&amp;amp; $CRONTABCMD ~/.crontab&lt;/span&gt;
+&lt;span class="err"&gt;        else&lt;/span&gt;
+&lt;span class="err"&gt;            $CRONTABCMD $@&lt;/span&gt;
+&lt;span class="err"&gt;        fi&lt;/span&gt;
+&lt;span class="err"&gt;    }&lt;/span&gt;
+&lt;span class="err"&gt;    $CRONTABCMD ~/.crontab&lt;/span&gt;
+&lt;span class="err"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="howto"></category><category term="crontab"></category></entry><entry><title>Notifications from google calendar on my desktop</title><link href="http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html" rel="alternate"></link><published>2010-11-23T15:11:00+01:00</published><updated>2010-11-23T15:11:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-23:/notifications-from-google-calendar-on-my-desktop.html</id><content type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &amp;#39;notify-send -t 300000 -i myniceicon.svg &amp;quot;Calendar&amp;quot; \%s&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
-for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</summary><content type="html">&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &amp;#39;notify-send -t 300000 -i myniceicon.svg &amp;quot;Calendar&amp;quot; \%s&amp;#39;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
-for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</content><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><published>2010-11-15T23:53:00+01:00</published><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-15:/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
+for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</content><category term="howto"></category><category term="notify-send"></category></entry><entry><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link href="http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html" rel="alternate"></link><published>2010-11-15T23:53:00+01:00</published><updated>2010-11-15T23:53:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-15:/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
 articles about doing SSH over SSL. I have been improving my configuration
 over the years, so the more recent, the better:&lt;/p&gt;
 &lt;ul&gt;
@@ -1070,7 +1064,7 @@ respectively the standard ports for ssh and ssl).&lt;/p&gt;
 &lt;p&gt;We now want to configure the ssh clients in order to connect through this
 ssl tunnel. I said I was configuring the clients with proxytunnel. The
 exact command (in .ssh/config) was:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1089,7 +1083,7 @@ best tool ever invented. I was wondering if I could reproduce
 proxytunnel's behavior with socat, and it turns out you can. Here is how
 to proceed: First, create an ssl tunnel between your client's
 localhost:1080 and server.com:443:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;socat TCP-LISTEN:1080 OPENSSL:server.com:443
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;socat TCP-LISTEN:1080 OPENSSL:server.com:443&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1097,18 +1091,18 @@ localhost:1080 and server.com:443:&lt;/p&gt;
 on localhost:1080 Then, use socat and its proxy mode to ask for
 localhost:1080 (which is actually server.com:443 unencrypted) to
 connect to localhost:22 (which is then server.com:22).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Bingo! You should see the ssh prompt. For the fun, I replaced in my
 .ssh/config the former&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;with&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp;amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp;amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1127,13 +1121,13 @@ requires three arguments and one of them is a port. If one of my
 readers has a suggestion, he/she's welcome. This remains a cool hack!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: The great &lt;a href="https://darkpan.com/"&gt;Marco Fontani&lt;/a&gt; gave a cool solution (see the
 comments). Here is how my .ssh/config looks like:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host server.com
-    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp;amp; sleep 1 &amp;amp;&amp;amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
-    DynamicForward 1080
-    ServerAliveInterval 60
-    ControlMaster auto
-    ControlPath ~/.ssh/tmp/%h_%p_%r
-&lt;/pre&gt;&lt;/div&gt;</content><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><published>2010-11-12T11:52:00+01:00</published><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-12:/ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;Host server.com&lt;/span&gt;
+&lt;span class="err"&gt;    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp;amp; sleep 1 &amp;amp;&amp;amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080&lt;/span&gt;
+&lt;span class="err"&gt;    DynamicForward 1080&lt;/span&gt;
+&lt;span class="err"&gt;    ServerAliveInterval 60&lt;/span&gt;
+&lt;span class="err"&gt;    ControlMaster auto&lt;/span&gt;
+&lt;span class="err"&gt;    ControlPath ~/.ssh/tmp/%h_%p_%r&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="howto"></category><category term="socat"></category><category term="ssh"></category><category term="ssl"></category></entry><entry><title>SSH over SSL, a quick and minimal config.</title><link href="http://blog.chmd.fr/ssh-over-ssl-a-quick-and-minimal-config.html" rel="alternate"></link><published>2010-11-12T11:52:00+01:00</published><updated>2010-11-12T11:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-11-12:/ssh-over-ssl-a-quick-and-minimal-config.html</id><summary type="html">&lt;p&gt;If you are reading this, you might be interested in the full list of my
 articles about doing SSH over SSL. I have been improving my configuration
 over the years, so the more recent, the better:&lt;/p&gt;
 &lt;ul&gt;
@@ -1214,7 +1208,7 @@ commenting the three SSL related lines (you can switch to encrypted when
 it works). Proxytunnel can "chain" two proxies (a local one, and a remote
 one), but if the place you connect from does not use such a setting, here
 is how you can proceed:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1226,10 +1220,10 @@ using the latest alpha).&lt;/p&gt;
 &lt;h1&gt;File .ssh/config&lt;/h1&gt;
 &lt;p&gt;Once you're done, just drop the working command line in the .ssh/config of
 your clients:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host server.com
-    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
-    DynamicForward 1080
-    ServerAliveInterval 60
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;Host server.com&lt;/span&gt;
+&lt;span class="err"&gt;    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22&lt;/span&gt;
+&lt;span class="err"&gt;    DynamicForward 1080&lt;/span&gt;
+&lt;span class="err"&gt;    ServerAliveInterval 60&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1240,7 +1234,7 @@ prove you have been doing something not allowed). First, you should run an
 https website on this ip (like a blog, or a code repository), in order to
 make this traffic more realistic. What could also be cool would be to
 chain proxies, &lt;a href="http://lifehacker.com/5484934/run-your-own-free-proxy-through-the-google-app-engine"&gt;using for example the appengine&lt;/a&gt;. This way your traffic
-will look like it's going to google.&lt;/p&gt;</content><category term="apache"></category><category term="ssh"></category><category term="ssl"></category><category term="tunnel"></category></entry><entry><title>Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</title><link href="http://blog.chmd.fr/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="alternate"></link><published>2010-10-27T23:11:00+02:00</published><updated>2010-10-27T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-10-27:/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html</id><summary type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
+will look like it's going to google.&lt;/p&gt;</content><category term="howto"></category><category term="apache"></category><category term="ssh"></category><category term="ssl"></category><category term="tunnel"></category></entry><entry><title>Vim: complete C++ accurately, pulling informations from the compiler, with gccsense and clang_complete</title><link href="http://blog.chmd.fr/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html" rel="alternate"></link><published>2010-10-27T23:11:00+02:00</published><updated>2010-10-27T23:11:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-10-27:/vim-complete-c-accurately-pulling-informations-from-the-compiler-with-gccsense-and-clang_complete.html</id><summary type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
 C++ code within vim. Sure, there was omnicppcomplete, which was able to
 complete more or less accurately from ctags databases, but the quality of
 the completion was greatly dependent on your coding style (I never …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It has been a while since I first dreamt about a reliable way to complete
@@ -1277,7 +1271,7 @@ go for it, because this is for sure a feature that will continue to be
 maintained by the llvm crew. Otherwise, gccsense should work exactly like
 gcc-4.4. Honestly, I did not have the chance to really test any of them,
 so it will be difficult to provide good feedback for me. If someone has
-the opportunity to test it, please leave a comment!&lt;/p&gt;</content><category term="vim"></category><category term="gccsense"></category><category term="clang_complete"></category></entry><entry><title>Google releasing a constraint programming library</title><link href="http://blog.chmd.fr/google-releasing-a-constraint-programming-library.html" rel="alternate"></link><published>2010-09-25T00:31:00+02:00</published><updated>2010-09-25T00:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-25:/google-releasing-a-constraint-programming-library.html</id><summary type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
+the opportunity to test it, please leave a comment!&lt;/p&gt;</content><category term="code"></category><category term="vim"></category><category term="gccsense"></category><category term="clang_complete"></category></entry><entry><title>Google releasing a constraint programming library</title><link href="http://blog.chmd.fr/google-releasing-a-constraint-programming-library.html" rel="alternate"></link><published>2010-09-25T00:31:00+02:00</published><updated>2010-09-25T00:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-25:/google-releasing-a-constraint-programming-library.html</id><summary type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
 discover that Google just released a project in my field. It is simply
 called "or-tools" and contains a constraint programming solver.&lt;/p&gt;
 &lt;p&gt;While CP is not my primary field of study, I know the basics and I gave a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As an Operation Research engineer/PhD student, I was very interested to
@@ -1315,7 +1309,7 @@ field for cplex, the famous MIP solver.&lt;/p&gt;
 and a website:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://sites.google.com/site/ortoolssite/"&gt;https://sites.google.com/site/ortoolssite/&lt;/a&gt;,&lt;/p&gt;
 &lt;p&gt;so I guess google also plans to maintain this library. Conclusion:
-Good news for OR!&lt;/p&gt;</content><category term="or"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><published>2010-09-07T13:07:00+02:00</published><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:/mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
+Good news for OR!&lt;/p&gt;</content><category term="code"></category><category term="or"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><published>2010-09-07T13:07:00+02:00</published><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:/mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
 android.&lt;/p&gt;
 &lt;p&gt;Pour ceux qui n'auraient pas suivi le lancement de l'application la
 semaine dernière, TalkMyPhone est une application permettant de contrôler
@@ -1336,7 +1330,7 @@ version beta supporte désormais:&lt;/p&gt;
 &lt;p&gt;Ça se passe ici:
 &lt;a href="https://code.google.com/p/talkmyphone/"&gt;https://code.google.com/p/talkmyphone/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Update: On en parle sur
-&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</content><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</title><link href="http://blog.chmd.fr/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="alternate"></link><published>2010-09-01T16:29:00+02:00</published><updated>2010-09-01T16:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-01:/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html</id><summary type="html">&lt;p&gt;Hello planet libre, J'ai codé une application android pour recevoir des
+&lt;a href="http://www.frandroid.com/33622/talkmyphone-controlez-votre-telephone-a-distance/"&gt;frandroid&lt;/a&gt;!&lt;/p&gt;</content><category term="misc"></category><category term="libre"></category><category term="talkmyphone"></category></entry><entry><title>TalkMyPhone, une appli android pour recevoir des notifications de son téléphone</title><link href="http://blog.chmd.fr/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html" rel="alternate"></link><published>2010-09-01T16:29:00+02:00</published><updated>2010-09-01T16:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-01:/talkmyphone-une-appli-android-pour-recevoir-des-notifications-de-son-telephone.html</id><summary type="html">&lt;p&gt;Hello planet libre, J'ai codé une application android pour recevoir des
 notifications de son téléphone.&lt;/p&gt;
 &lt;p&gt;Le principe est simple: vous créez un compte jabber pour votre appareil et
 vous l'inscrivez dans vos amis gtalk (vérifiez que ça marche avec
@@ -1362,7 +1356,7 @@ L'url du projet:
 &lt;a href="https://code.google.com/p/talkmyphone/"&gt;https://code.google.com/p/talkmyphone/&lt;/a&gt;
 PS: Je ne garantis pas que ça marche sur votre téléphone. J'ai fait ça sur
 mon temps libre, pour le fun, et je ne compte pas y passer des nuits
-blanches. Mais je regarderai les rapports de bug s'il y en a...&lt;/p&gt;</content><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>De l'intérêt de détacher des programmes de la console (sans screen)</title><link href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="alternate"></link><published>2010-04-09T09:57:00+02:00</published><updated>2010-04-09T09:57:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-04-09:/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html</id><summary type="html">&lt;p&gt;Qui n'a jamais perdu par erreur une compilation, une session ssh ou
+blanches. Mais je regarderai les rapports de bug s'il y en a...&lt;/p&gt;</content><category term="code"></category><category term="android"></category><category term="talkmyphone"></category></entry><entry><title>De l'intérêt de détacher des programmes de la console (sans screen)</title><link href="http://blog.chmd.fr/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html" rel="alternate"></link><published>2010-04-09T09:57:00+02:00</published><updated>2010-04-09T09:57:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-04-09:/de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html</id><summary type="html">&lt;p&gt;Qui n'a jamais perdu par erreur une compilation, une session ssh ou
 une fenêtre irssi en fermant une console par inadvertance, à cause
 d'un lag réseau, ou bien à cause d'un redémarrage brutal de X11?&lt;/p&gt;
 &lt;p&gt;Les outils présentés ici permettent de vous affranchir de ce genre
@@ -1379,13 +1373,13 @@ récupérer ce programme.&lt;/p&gt;
 lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
 (qui sera créé par le programme), où, s'il est déjà lancé, de
 récupérer ce programme.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dtach -A /tmp/irssi.sock /usr/bin/irssi
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;dtach -A /tmp/irssi.sock /usr/bin/irssi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
 bon, si on peut se contenter d'un simple alias?&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;alias irssi=&amp;#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&amp;#39;`
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;alias irssi=&amp;#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&amp;#39;`&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1426,17 +1420,17 @@ done
 
 
 &lt;p&gt;Et désormais je lance irssi de la manière suivante:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# IRSSI IN TMUX
-# switch to irssi session (and if necessary starts this session before)
-irssi()
-{
-    if tmux has -t irssi &amp;gt;/dev/null; then
-         tmux switch -t irssi
-    else
-        TMUX=&amp;quot;&amp;quot; tmux new -d -s irssi /usr/bin/irssi
-        tmux switch -t irssi
-    fi
-}
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# IRSSI IN TMUX&lt;/span&gt;
+&lt;span class="err"&gt;# switch to irssi session (and if necessary starts this session before)&lt;/span&gt;
+&lt;span class="err"&gt;irssi()&lt;/span&gt;
+&lt;span class="err"&gt;{&lt;/span&gt;
+&lt;span class="err"&gt;    if tmux has -t irssi &amp;gt;/dev/null; then&lt;/span&gt;
+&lt;span class="err"&gt;         tmux switch -t irssi&lt;/span&gt;
+&lt;span class="err"&gt;    else&lt;/span&gt;
+&lt;span class="err"&gt;        TMUX=&amp;quot;&amp;quot; tmux new -d -s irssi /usr/bin/irssi&lt;/span&gt;
+&lt;span class="err"&gt;        tmux switch -t irssi&lt;/span&gt;
+&lt;span class="err"&gt;    fi&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1445,36 +1439,35 @@ vous suggère de jeter un coup d'oeil à &lt;a href="https://github.com/chmduque
 problèmes de couleurs et de scrolling y sont réglés). À noter qu'il existe
 d'autres alternatives à gnu screen, dont le très prometteur &lt;a href="http://caca.zoy.org/wiki/neercs"&gt;neercs&lt;/a&gt;,
 qui permet entre autre de détacher des programmes qu'on avait oublié de
-lancer dans neercs.&lt;/p&gt;</content><category term="tmux"></category><category term="irssi"></category><category term="dtach"></category></entry><entry><title>renaming files and variables from vim</title><link href="http://blog.chmd.fr/renaming-files-and-variables-from-vim.html" rel="alternate"></link><published>2010-03-26T01:10:00+01:00</published><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-26:/renaming-files-and-variables-from-vim.html</id><summary type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
-&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
-&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</content><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="alternate"></link><published>2010-03-14T16:36:00+01:00</published><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-14:/continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The following
+lancer dans neercs.&lt;/p&gt;</content><category term="howto"></category><category term="tmux"></category><category term="irssi"></category><category term="dtach"></category></entry><entry><title>renaming files and variables from vim</title><link href="http://blog.chmd.fr/renaming-files-and-variables-from-vim.html" rel="alternate"></link><published>2010-03-26T01:10:00+01:00</published><updated>2010-03-26T01:10:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-26:/renaming-files-and-variables-from-vim.html</id><content type="html">&lt;p&gt;I just wrote a plugin that does it (thanks to cscope). Find it here:
+&lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</content><category term="code"></category><category term="vim"></category></entry><entry><title>Continuous background compilation within vim</title><link href="http://blog.chmd.fr/continuous-background-compilation-within-vim.html" rel="alternate"></link><published>2010-03-14T16:36:00+01:00</published><updated>2010-03-14T16:36:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-03-14:/continuous-background-compilation-within-vim.html</id><summary type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The following
 code snippet will compile your project with &lt;code&gt;make&lt;/code&gt; each time you save the
 current buffer:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;augroup c++
-    autocmd BufWritePost *.{hpp,cpp}
-                \ silent execute &amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot; |
-                \ redraw! |
-                \ cgetfile ~/.vim/cpperrors
-augroup END
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;augroup c++&lt;/span&gt;
+&lt;span class="err"&gt;    autocmd BufWritePost *.{hpp,cpp}&lt;/span&gt;
+&lt;span class="err"&gt;                \ silent execute &amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot; |&lt;/span&gt;
+&lt;span class="err"&gt;                \ redraw! |&lt;/span&gt;
+&lt;span class="err"&gt;                \ cgetfile ~/.vim/cpperrors&lt;/span&gt;
+&lt;span class="err"&gt;augroup END&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Of course you could replace the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The following
 code snippet will compile your project with &lt;code&gt;make&lt;/code&gt; each time you save the
 current buffer:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;augroup c++
-    autocmd BufWritePost *.{hpp,cpp}
-                \ silent execute &amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot; |
-                \ redraw! |
-                \ cgetfile ~/.vim/cpperrors
-augroup END
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;augroup c++&lt;/span&gt;
+&lt;span class="err"&gt;    autocmd BufWritePost *.{hpp,cpp}&lt;/span&gt;
+&lt;span class="err"&gt;                \ silent execute &amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot; |&lt;/span&gt;
+&lt;span class="err"&gt;                \ redraw! |&lt;/span&gt;
+&lt;span class="err"&gt;                \ cgetfile ~/.vim/cpperrors&lt;/span&gt;
+&lt;span class="err"&gt;augroup END&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Of course you could replace the make command with something more
 complicated (for example calling some script that would run the
 compilation on another machine, and getting the error file back in your
-&lt;code&gt;~/.vim&lt;/code&gt; directory).&lt;/p&gt;</content><category term="vim"></category><category term="makefile"></category></entry><entry><title>Utilisons incron pour être notifiés des événements du système de fichiers</title><link href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="alternate"></link><published>2010-02-18T00:26:00+01:00</published><updated>2010-02-18T00:26:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-02-18:/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html</id><summary type="html">&lt;p&gt;&lt;a href="http://incron.aiken.cz/"&gt;incron&lt;/a&gt; est un programme fonctionnant sur
+&lt;code&gt;~/.vim&lt;/code&gt; directory).&lt;/p&gt;</content><category term="code"></category><category term="vim"></category><category term="makefile"></category></entry><entry><title>Utilisons incron pour être notifiés des événements du système de fichiers</title><link href="http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html" rel="alternate"></link><published>2010-02-18T00:26:00+01:00</published><updated>2010-02-18T00:26:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-02-18:/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html</id><summary type="html">&lt;p&gt;&lt;a href="http://incron.aiken.cz/"&gt;incron&lt;/a&gt; est un programme fonctionnant sur
 le même principe que cron, mais basé sur des événements dans le
 système de fichiers plutôt que sur des moments de la journée. C'est
 très propre: pour l'utiliser, on spécifie un ou des fichiers à
@@ -1490,12 +1483,12 @@ modifications sur mes logs (je tire l'idée de ce script
 &lt;a href="http://www.daemontux.org/?q=node/31"&gt;d'un ancien post sur le planet libre&lt;/a&gt;).
 Après avoir installé incron, j'édite ma table de configuration
 incron:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;incrontab -e
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;incrontab -e&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Avec mon éditeur favori, je lui mets la ligne suivante:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;/var/log/kernel.log IN_MODIFY sh /home/me/documents/scripts/popLog.sh /var/log/kernel.log&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1692,7 +1685,7 @@ end
 
 
 &lt;p&gt;Je vous laisse faire joujou, je suis sûr que vous allez trouver
-plein d'idées.&lt;/p&gt;</content><category term="incron"></category><category term="inotify"></category><category term="notify-send"></category></entry><entry><title>La TODO liste du pauvre</title><link href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="alternate"></link><published>2009-12-20T22:08:00+01:00</published><updated>2009-12-20T22:08:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-12-20:/la-todo-liste-du-pauvre.html</id><summary type="html">&lt;p&gt;Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
+plein d'idées.&lt;/p&gt;</content><category term="howto"></category><category term="incron"></category><category term="inotify"></category><category term="notify-send"></category></entry><entry><title>La TODO liste du pauvre</title><link href="http://blog.chmd.fr/la-todo-liste-du-pauvre.html" rel="alternate"></link><published>2009-12-20T22:08:00+01:00</published><updated>2009-12-20T22:08:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-12-20:/la-todo-liste-du-pauvre.html</id><summary type="html">&lt;p&gt;Il y a des dizaines de logiciels permettant de gérer sa TODO liste.
 Paradoxalement, si on cherche quelque chose de simple, on ne trouve
 pas. Ce que je cherchais à faire est on ne peut plus simple à
 décrire: quelque chose qui apparaisse une fois par heure.&lt;/p&gt;
@@ -1746,7 +1739,7 @@ heures par une tache cron:&lt;/p&gt;
 
 
 &lt;p&gt;Simple comme bonjour, et efficace. Ça fait un moment que je
-l'utilise, et j'en suis satisfait.&lt;/p&gt;</content><category term="libre"></category><category term="notify-send"></category></entry><entry><title>Gérer ses plugins vim avec :GetLatestVimScripts</title><link href="http://blog.chmd.fr/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="alternate"></link><published>2009-11-05T18:52:00+01:00</published><updated>2009-11-05T18:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-11-05:/gerer-ses-plugins-vim-avec-getlatestvimscripts.html</id><summary type="html">&lt;p&gt;J'ai envie d'attirer l'attention sur une fonctionnalité sympa de
+l'utilise, et j'en suis satisfait.&lt;/p&gt;</content><category term="howto"></category><category term="libre"></category><category term="notify-send"></category></entry><entry><title>Gérer ses plugins vim avec :GetLatestVimScripts</title><link href="http://blog.chmd.fr/gerer-ses-plugins-vim-avec-getlatestvimscripts.html" rel="alternate"></link><published>2009-11-05T18:52:00+01:00</published><updated>2009-11-05T18:52:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-11-05:/gerer-ses-plugins-vim-avec-getlatestvimscripts.html</id><summary type="html">&lt;p&gt;J'ai envie d'attirer l'attention sur une fonctionnalité sympa de
 vim, qui pourtant semble méconnue de pas mal de monde, même des
 utilisateurs avancés: la commande &lt;code&gt;:GetLatestVimScripts&lt;/code&gt;, ou son
 alias &lt;code&gt;:GLVS&lt;/code&gt;.&lt;/p&gt;
@@ -1765,7 +1758,7 @@ simplement dire à vim de gérer tous vos scripts d'un coup. Pour cela, il
 vous suffit de maintenir à jour la liste des scripts qui vous intéressent
 dans le fichier &lt;code&gt;~/.vim/GetLatest/GetLatestVimScripts.dat&lt;/code&gt;. Le format de
 ce fichier est simple:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;numéro du script&amp;gt; &amp;lt;numéro de version installée du script&amp;gt; :AutoInstall: &amp;lt;nom du script&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;numéro du script&amp;gt; &amp;lt;numéro de version installée du script&amp;gt; :AutoInstall: &amp;lt;nom du script&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1775,9 +1768,9 @@ La version installée du script est maintenue directement par la commande
 &lt;p&gt;Maintenant, votre répertoire &lt;code&gt;~/.vim&lt;/code&gt; est assez facile à transporter. J'ai
 pour habitude d'en garder une copie "vide", avec une arborescence sous la
 forme:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;\.vim/
-    |-GetLatest/
-               |-GetLatestVimScripts.dat
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;\.vim/&lt;/span&gt;
+&lt;span class="err"&gt;    |-GetLatest/&lt;/span&gt;
+&lt;span class="err"&gt;               |-GetLatestVimScripts.dat&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1852,7 +1845,7 @@ plugins sympa qui sortent.&lt;/p&gt;
 2540 1 :AutoInstall: snipMate.zip
 2645 1 :AutoInstall: colourscheme_bandit.vim
 2646 1 :AutoInstall: ctags_highlighting.vba
-&lt;/pre&gt;&lt;/div&gt;</content><category term="vim"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><published>2009-10-06T19:19:00+02:00</published><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-10-06:/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
+&lt;/pre&gt;&lt;/div&gt;</content><category term="howto"></category><category term="vim"></category></entry><entry><title>gdb 7.0 est sorti, c'est une merveille et vous ne le saviez pas.</title><link href="http://blog.chmd.fr/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html" rel="alternate"></link><published>2009-10-06T19:19:00+02:00</published><updated>2009-10-06T19:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-10-06:/gdb-70-est-sorti-cest-une-merveille-et-vous-ne-le-saviez-pas.html</id><summary type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
 sa version 7.0! Vous vous dîtes: "Bof, gdb je connais, une nouvelle
 version d'un débogueur qui sort, il n'y a pas de quoi fouetter un chat."
 Détrompez-vous!  Les progrès apportés sont tels que je n'allais pas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;L'annonce vient de tomber sur la mailing liste : gdb vient de sortir dans
@@ -1888,7 +1881,7 @@ features préférées, mais il y en a d'autres. Je vous lie la fameuse
 annonce, qui vaut son pesant de cacahuètes. Vivement que ma distribution
 le package.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.gnu.org/software/gdb/download/ANNOUNCEMENT"&gt;L'annonce&lt;/a&gt;
-&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</content><category term="gdb"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><published>2009-07-10T12:54:00+02:00</published><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-07-10:/autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
+&lt;a href="http://sourceware.org/gdb/download/onlinedocs/gdb_7.html#SEC51"&gt;La nouvelle doc sur le reverse debugging&lt;/a&gt;&lt;/p&gt;</content><category term="misc"></category><category term="gdb"></category></entry><entry><title>autotools, doxygen, et génération conditionnelle</title><link href="http://blog.chmd.fr/autotools-doxygen-et-generation-conditionnelle.html" rel="alternate"></link><published>2009-07-10T12:54:00+02:00</published><updated>2009-07-10T12:54:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-07-10:/autotools-doxygen-et-generation-conditionnelle.html</id><summary type="html">&lt;p&gt;On m'a donné une astuce bien sympa pour générer de la documentation
 de manière conditionnelle avec doxygen. J'utilise ça dans le projet
 que je code au boulot, et je pense que ça vaut le coup de partager.
 L'idée est de générer la  documentation automatiquement à chaque
@@ -1902,30 +1895,30 @@ htags, perl, etc... On va donc vérifier quels programmes sont
 présents grâce au configure.ac, et on va générer le doxyfile en
 fonction desquels sont présents. L'exemple que je donne n'est pas
 complet, mais vous pouvez vous en inspirer: Fichier configure.ac&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;AC_CHECK_PROG([DOT], [dot], [yes], [no])
-AC_CHECK_PROG([HTAGS], [htags], [yes], [no])
-AC_PATH_PROG([PERL], [perl], [])
-AM_CONDITIONAL([DOXYGEN], [test &amp;quot;x$doxygen_ok&amp;quot; = xyes])
-AM_CONDITIONAL([DOT], [test &amp;quot;x$dot_ok&amp;quot; = xyes])
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;AC_CHECK_PROG&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;AC_CHECK_PROG&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;HTAGS&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;htags&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;AC_PATH_PROG&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;PERL&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;perl&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;[]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;AM_CONDITIONAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;DOXYGEN&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test &amp;quot;x$doxygen_ok&amp;quot; = xyes&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;AM_CONDITIONAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;DOT&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test &amp;quot;x$dot_ok&amp;quot; = xyes&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-AC_CONFIG_FILES(
-    doc/doxygen_html.cfg
-)
+&lt;span class="n"&gt;AC_CONFIG_FILES&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;doxygen_html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Ensuite, il suffit de glisser les bonnes références dans le fichier
 doc/doxygen_html.cfg.in :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;USE_HTAGS              = @HTAGS@
-PERL_PATH              = @PERL@
-HAVE_DOT               = @DOT@
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;USE_HTAGS              = @HTAGS@&lt;/span&gt;
+&lt;span class="err"&gt;PERL_PATH              = @PERL@&lt;/span&gt;
+&lt;span class="err"&gt;HAVE_DOT               = @DOT@&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Ainsi, après l'appel de ./configure, le fichier doxygen_html.cfg
 va être généré, et les expressions entre @ vont y être remplacées
 par les bonnes valeurs. Vous pourrez ensuite vous servir de ce
-fichier pour véritablement générer la doc...&lt;/p&gt;</content><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>Mettre des couleurs un peu partout (gcc, diff, grep...)</title><link href="http://blog.chmd.fr/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="alternate"></link><published>2009-06-19T21:31:00+02:00</published><updated>2009-06-19T21:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-06-19:/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html</id><summary type="html">&lt;p&gt;Aujourd'hui, après avoir passé un bout de temps à déchiffrer la
+fichier pour véritablement générer la doc...&lt;/p&gt;</content><category term="code"></category><category term="autotools"></category><category term="doxygen"></category><category term="libre"></category></entry><entry><title>Mettre des couleurs un peu partout (gcc, diff, grep...)</title><link href="http://blog.chmd.fr/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html" rel="alternate"></link><published>2009-06-19T21:31:00+02:00</published><updated>2009-06-19T21:31:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-06-19:/mettre-des-couleurs-un-peu-partout-gcc-diff-grep.html</id><summary type="html">&lt;p&gt;Aujourd'hui, après avoir passé un bout de temps à déchiffrer la
 sortie d'une compilation, je me suis mis en quête d'améliorer mon
 quotidien et d'y mettre... des couleurs! Pour ce faire, on cherche
 un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
@@ -1936,13 +1929,13 @@ un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
 disponible sur pas mal de distributions, c'est juste un script perl
 à appeler à la place de gcc, et ça rajoute des couleurs. Pour en
 profiter, il suffit de glisser dans vos Makefile&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;CXX=/usr/bin/colorgcc
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;CXX=/usr/bin/colorgcc&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Avec les autotools, on peut régler ça à l'invocation du script
 configure :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./configure CXX=/usr/bin/colorgcc
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;./configure CXX=/usr/bin/colorgcc&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1977,7 +1970,7 @@ suffit de se faire un script. Mettons diffwrap.sh.&lt;/p&gt;
 
 &lt;p&gt;J'ai installé colordiff pour faire le boulot. Il suffit après
 d'éditer \~/.subversion/config, et d'ajouter, section [helpers]&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;diff-cmd = /path/to/diffwrap.sh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;diff-cmd = /path/to/diffwrap.sh&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1986,44 +1979,44 @@ Il n'y aurait pas moyen de se cantonner aux erreurs gcc lorsqu'il y
 en a? Aller, on va baisser un peu ça avec un petit peu (le -j3 est
 pour multithreader le make : j'ai un dual core, autant en
 profiter).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;alias make=&amp;#39;make -j3 -s&amp;#39;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;alias make=&amp;#39;make -j3 -s&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Bien entendu, en tant qu'adepte de vim, j'utilise aussi beaucoup
 :make. Dans le .vimrc, il peut s'avérer utile de glisser alors:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set makeprg=make\ -j3\ -s
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set makeprg=make\ -j3\ -s&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Au passage, j'espère que vous connaissiez
 &lt;a href="http://www.vim.org/scripts/script.php?script_id=1520"&gt;omnicppcomplete&lt;/a&gt;,
 qui va chez moi dans la même section du .vimrc:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;On combine tout ça à quelques alias assez connus, et on vit un peu
 mieux dans sa console...&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# SOME COLORS
-if [ -x /usr/bin/dircolors ]; then
-    eval &amp;quot;`dircolors -b`&amp;quot;
-    alias ls=&amp;#39;ls --color=auto&amp;#39;
-    alias dir=&amp;#39;dir --color=auto&amp;#39;
-    alias vdir=&amp;#39;vdir --color=auto&amp;#39;
-    alias grep=&amp;#39;grep --color=auto&amp;#39;
-    alias fgrep=&amp;#39;fgrep --color=auto&amp;#39;
-    alias egrep=&amp;#39;egrep --color=auto&amp;#39;
-    alias diff=&amp;#39;colordiff&amp;#39;
-    alias less=&amp;#39;less -R&amp;#39;
-fi
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# SOME COLORS&lt;/span&gt;
+&lt;span class="err"&gt;if [ -x /usr/bin/dircolors ]; then&lt;/span&gt;
+&lt;span class="err"&gt;    eval &amp;quot;`dircolors -b`&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;    alias ls=&amp;#39;ls --color=auto&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias dir=&amp;#39;dir --color=auto&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias vdir=&amp;#39;vdir --color=auto&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias grep=&amp;#39;grep --color=auto&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias fgrep=&amp;#39;fgrep --color=auto&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias egrep=&amp;#39;egrep --color=auto&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias diff=&amp;#39;colordiff&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;    alias less=&amp;#39;less -R&amp;#39;&lt;/span&gt;
+&lt;span class="err"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Si vous avez des trucs utiles, n'hésitez pas! Je suis en
 particulier à la recherche d'un script vim qui exploiterait un rien
 les options 'errorformat' et 'QuickFixCmdPost' afin d'améliorer
-encore la lisibilité des compilations dans la fenêtre quickfix.&lt;/p&gt;</content><category term="colors"></category><category term="console"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="alternate"></link><published>2009-02-25T00:29:00+01:00</published><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-02-25:/vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en profite donc
+encore la lisibilité des compilations dans la fenêtre quickfix.&lt;/p&gt;</content><category term="howto"></category><category term="colors"></category><category term="console"></category></entry><entry><title>vim+gdb=vimgdb</title><link href="http://blog.chmd.fr/vimgdbvimgdb.html" rel="alternate"></link><published>2009-02-25T00:29:00+01:00</published><updated>2009-02-25T00:29:00+01:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2009-02-25:/vimgdbvimgdb.html</id><summary type="html">&lt;p&gt;Ça faisait longtemps que je n'avais pas fait d'article, j'en profite donc
 pour rendre hommage au méconnu &lt;a href="http://clewn.sourceforge.net/"&gt;vimgdb&lt;/a&gt;.
 vimgdb est un patch pour vim qui permet de débogguer dans vim. On ne
 vantera jamais assez les mérites d'un déboggeur (franchement, il y a un
@@ -2068,7 +2061,7 @@ référence en cas de trou de mémoire... Bon déboggage! Si vous souhaitez
 des screenshots, regardez &lt;a href="http://sourceforge.net/project/screenshots.php?group_id=111038"&gt;par
 là&lt;/a&gt;...&lt;/p&gt;
 &lt;p&gt;PS: apparemment mon PKGBUILD a été marqué "out of date", je vais
-corriger ça dès que possible...&lt;/p&gt;</content><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><published>2008-06-08T16:34:00+02:00</published><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-06-08:/luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
+corriger ça dès que possible...&lt;/p&gt;</content><category term="code"></category><category term="vim"></category><category term="gdb"></category></entry><entry><title>l'UML automatisé et le libre : c'est pas gagné!</title><link href="http://blog.chmd.fr/luml-automatise-et-le-libre-cest-pas-gagne.html" rel="alternate"></link><published>2008-06-08T16:34:00+02:00</published><updated>2008-06-08T16:34:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-06-08:/luml-automatise-et-le-libre-cest-pas-gagne.html</id><summary type="html">&lt;p&gt;Je recherche en ce moment des outils qui me permettraient
 d'importer/exporter de l'&lt;a href="http://fr.wikipedia.org/wiki/Unified_Modeling_Language"&gt;uml&lt;/a&gt; pour un projet C++ que je vais faire cet
 été. L'idée est la suivante : je souhaiterais que les modifications de mon
 code soient répercutées sur un fichier contenant de l'uml sous un format
@@ -2114,20 +2107,20 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;foowindow.h 2/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;FOOWINDOW_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;FOOWINDOW_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOW_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define FOOWINDOW_H&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;FooWindow&lt;/span&gt;: &lt;span class="kt"&gt;public&lt;/span&gt; &lt;span class="nx"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;FooWindow&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
-  &lt;span class="kr"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2137,18 +2130,18 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;foowindowmanager.h 4/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;FOOWINDOWMANAGER_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;FOOWINDOWMANAGER_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef FOOWINDOWMANAGER_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define FOOWINDOWMANAGER_H&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;windowmanager.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;FooWindowManager&lt;/span&gt;: &lt;span class="kt"&gt;public&lt;/span&gt; &lt;span class="nx"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;FooWindowManager&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2167,23 +2160,23 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;point.h 6/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;POINT_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;POINT_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef POINT_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define POINT_H&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
-  &lt;span class="kr"&gt;private&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;private&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
-  &lt;span class="kr"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="nx"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getX&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="nf"&gt;getY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2196,22 +2189,22 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;rectangle.h 8/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;RECTANGLE_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;RECTANGLE_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef RECTANGLE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define RECTANGLE_H&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;point.h&amp;quot;&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;point.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;Rectangle&lt;/span&gt;: &lt;span class="kt"&gt;public&lt;/span&gt; &lt;span class="nx"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="nl"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
-   &lt;span class="nx"&gt;Point&lt;/span&gt; &lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
-  &lt;span class="kr"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2221,18 +2214,18 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;shape.h 10/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;SHAPE_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;SHAPE_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef SHAPE_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define SHAPE_H&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
-  &lt;span class="kr"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="nx"&gt;virtual&lt;/span&gt; &lt;span class="kr"&gt;float&lt;/span&gt; &lt;span class="nx"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getArea&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2242,22 +2235,22 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;window.h 12/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;WINDOW_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;WINDOW_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef WINDOW_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define WINDOW_H&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;shape.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
-  &lt;span class="kr"&gt;private&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="nx"&gt;Shape&lt;/span&gt; &lt;span class="nx"&gt;visualrep&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;private&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;Shape&lt;/span&gt; &lt;span class="n"&gt;visualrep&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
-  &lt;span class="kr"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-    &lt;span class="nx"&gt;virtual&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;public&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;virtual&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2267,19 +2260,19 @@ c'est assez convaincant. Pour ce schéma :&lt;/p&gt;
 
 
 &lt;p&gt;windowmanager.h 14/14&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;ifndef&lt;/span&gt; &lt;span class="nx"&gt;WINDOWMANAGER_H&lt;/span&gt;
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;define&lt;/span&gt; &lt;span class="nx"&gt;WINDOWMANAGER_H&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#ifndef WINDOWMANAGER_H&lt;/span&gt;
+&lt;span class="cp"&gt;#define WINDOWMANAGER_H&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;quot;window.h&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
-&lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;WindowManager&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// Associations&lt;/span&gt;
-   &lt;span class="nx"&gt;Window&lt;/span&gt; &lt;span class="nx"&gt;windows&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;Window&lt;/span&gt; &lt;span class="n"&gt;windows&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
   &lt;span class="c1"&gt;// Attributes&lt;/span&gt;
   &lt;span class="c1"&gt;// Operations&lt;/span&gt;
 &lt;span class="p"&gt;};&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="nx"&gt;endif&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2332,7 +2325,7 @@ programmes.&lt;/p&gt;
 pas encore regardé bouml et je viens de voir qu'ils mentionnaient le genre
 de fonctionnalités que je recherche.  Quelqu'un a testé? Ou bien dans le
 cas général, connaissez-vous un quelque chose capable de faire mon
-bonheur?&lt;/p&gt;</content><category term="uml"></category><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><published>2008-05-02T18:51:00+02:00</published><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-02:/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
+bonheur?&lt;/p&gt;</content><category term="code"></category><category term="uml"></category><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss, en ligne, indépendants, libres (suite).</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html" rel="alternate"></link><published>2008-05-02T18:51:00+02:00</published><updated>2008-05-02T18:51:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-02:/les-lecteurs-de-flux-rss-en-ligne-independants-libres-suite.html</id><summary type="html">&lt;p&gt;Hier, j'expliquais pourquoi je préférais de loin utiliser un
 lecteur de flux rss en ligne et je donnais un petit panorama des
 web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
 étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
@@ -2389,7 +2382,7 @@ beaucoup plus facile à installer, plus stable et bénéficie d'un
 très bon système de plugins, ma préférence se porte sur Tiny tiny
 rss, qui a un développement plus dynamique, et surtout dont
 l'interface se révèle bien plus agréable et rapide à utiliser : si
-j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</content><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><published>2008-05-01T15:19:00+02:00</published><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:/les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait &lt;a href="http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom"&gt;un billet&lt;/a&gt; que j'ai trouvé assez
+j'ai un lecteur de flux rss, c'est pour gagner en productivité.&lt;/p&gt;</content><category term="misc"></category><category term="libre"></category></entry><entry><title>Les lecteurs de flux rss en ligne libres</title><link href="http://blog.chmd.fr/les-lecteurs-de-flux-rss-en-ligne-libres.html" rel="alternate"></link><published>2008-05-01T15:19:00+02:00</published><updated>2008-05-01T15:19:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-05-01:/les-lecteurs-de-flux-rss-en-ligne-libres.html</id><summary type="html">&lt;p&gt;Aujourd'hui, Samuel Martin a fait &lt;a href="http://blog.creaone.fr/post/2008/04/30/10-bonnes-raisons-dutiliser-Liferea-:-Lecteur-de-fils-rss/atom"&gt;un billet&lt;/a&gt; que j'ai trouvé assez
 intéressant sur les avantages de liferea. J'avoue qu'il y a de bons
 arguments, notamment le contrôle sur les données personnelles qu'on a avec
 un tel lecteur et qu'on n'a pas chez les fournisseurs de services en
@@ -2420,28 +2413,28 @@ possible d'en utiliser une sur mon compte free.&lt;/p&gt;
 &lt;a href="http://feedonfeeds.com/"&gt;feed on feeds&lt;/a&gt; et ses petit frères
 &lt;a href="http://fofredux.sourceforge.net/"&gt;FoFredux&lt;/a&gt; et
 &lt;a href="http://sourceforge.net/projects/monkeychow/"&gt;Monckeyshow&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</content><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><published>2008-04-07T22:28:00+02:00</published><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:/couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+&lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</content><category term="misc"></category><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><published>2008-04-07T22:28:00+02:00</published><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:/couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install mencoder
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install mencoder&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mencoder -ss     h:mm:ss    \
-         -endpos h:mm …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mencoder -ss     h:mm:ss    \&lt;/span&gt;
+&lt;span class="err"&gt;         -endpos h:mm …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install mencoder
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install mencoder&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mencoder -ss     h:mm:ss    \
-         -endpos h:mm:ss    \
-         film_origine.avi   \
-         -o extrait.avi     \
-         -oac copy -ovc copy
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mencoder -ss     h:mm:ss    \&lt;/span&gt;
+&lt;span class="err"&gt;         -endpos h:mm:ss    \&lt;/span&gt;
+&lt;span class="err"&gt;         film_origine.avi   \&lt;/span&gt;
+&lt;span class="err"&gt;         -o extrait.avi     \&lt;/span&gt;
+&lt;span class="err"&gt;         -oac copy -ovc copy&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2453,7 +2446,7 @@ extraire une scène d'un film, par exemple pour en faire un fichier
   scène)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;En espérant que ça vous serve! PS : Ce billet est assez court, je
-compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</content><category term="mencoder"></category><category term="gif"></category></entry><entry><title>Faire un gif animé à partir d'un film</title><link href="http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html" rel="alternate"></link><published>2008-04-06T21:29:00+02:00</published><updated>2008-04-06T21:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-06:/faire-un-gif-anime-a-partir-dun-film.html</id><summary type="html">&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
+compte me rattraper en en faisant un plus substantiel bientôt...&lt;/p&gt;</content><category term="misc"></category><category term="mencoder"></category><category term="gif"></category></entry><entry><title>Faire un gif animé à partir d'un film</title><link href="http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html" rel="alternate"></link><published>2008-04-06T21:29:00+02:00</published><updated>2008-04-06T21:29:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-06:/faire-un-gif-anime-a-partir-dun-film.html</id><summary type="html">&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
 gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
 de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
@@ -2462,15 +2455,15 @@ gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
 de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
 Commencez-donc par installer ffmpeg et nautilus-actions.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install ffmpeg nautilus-actions
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install ffmpeg nautilus-actions&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;La syntaxe pour réaliser un gif animé à partir d'un film est&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \
- -s 120x120\
- -r 5\
- fichier_sortie.gif
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \&lt;/span&gt;
+&lt;span class="err"&gt; -s 120x120\&lt;/span&gt;
+&lt;span class="err"&gt; -r 5\&lt;/span&gt;
+&lt;span class="err"&gt; fichier_sortie.gif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2489,7 +2482,7 @@ système&gt;préférences&gt;configuration des actions de nautilus. Faites
 &lt;p&gt;&lt;img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png"&gt;
 &lt;img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png"&gt;&lt;/p&gt;
 &lt;p&gt;Ce qui est important, c'est le champ 'paramètres' :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2501,4 +2494,4 @@ en laissant cochée l'option 'boucle infinie'... Dans un prochain
 billet, je vous expliquerais comment couper votre vidéo pour
 extraire une scène qui vous intéresse. Ainsi, il vous sera possible
 de chainer les deux méthodes pour faire exactement le gif que vous
-voulez.&lt;/p&gt;</content><category term="libre"></category></entry></feed>
+voulez.&lt;/p&gt;</content><category term="howto"></category><category term="libre"></category></entry></feed>

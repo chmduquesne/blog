@@ -4,7 +4,7 @@
     <title>SSH over SSL, a quick and minimal config.</title>
     <meta charset="utf-8" />
     <link href="http://blog.chmd.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Full Atom Feed" />
-    <link href="http://blog.chmd.fr/feeds/howto.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
+    <link href="http://blog.chmd.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Ch-M.D Categories Atom Feed" />
     <!-- hack to have the css in a relative path -->
     <!--
     <link rel="stylesheet" href="http://blog.chmd.fr/theme/css/rdark.css" />
@@ -103,7 +103,7 @@ commenting the three SSL related lines (you can switch to encrypted when
 it works). Proxytunnel can "chain" two proxies (a local one, and a remote
 one), but if the place you connect from does not use such a setting, here
 is how you can proceed:</p>
-<div class="highlight"><pre><span></span>proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v
+<div class="highlight"><pre><span></span><span class="err">proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v</span>
 </pre></div>
 
 
@@ -115,10 +115,10 @@ using the latest alpha).</p>
 <h1>File .ssh/config</h1>
 <p>Once you're done, just drop the working command line in the .ssh/config of
 your clients:</p>
-<div class="highlight"><pre><span></span>Host server.com
-    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
-    DynamicForward 1080
-    ServerAliveInterval 60
+<div class="highlight"><pre><span></span><span class="err">Host server.com</span>
+<span class="err">    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22</span>
+<span class="err">    DynamicForward 1080</span>
+<span class="err">    ServerAliveInterval 60</span>
 </pre></div>
 
 
