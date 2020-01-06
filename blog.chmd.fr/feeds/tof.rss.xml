@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Ch-M.D - Tof</title><link>http://blog.chmd.fr/</link><description></description><lastBuildDate>Wed, 30 May 2018 23:11:00 +0200</lastBuildDate><item><title>Looping simultaneously over multiple lists in legacy shells</title><link>http://blog.chmd.fr/looping-simultaneously-over-multiple-lists-in-legacy-shells.html</link><description>&lt;p&gt;I was recently confronted to the problem of looping over multiple lists
+<rss version="2.0"><channel><title>Ch-M.D - Tof</title><link>http://blog.chmd.fr/</link><description></description><lastBuildDate>Mon, 06 Jan 2020 14:30:00 +0100</lastBuildDate><item><title>Scripting sudo with pass</title><link>http://blog.chmd.fr/scripting-sudo-with-pass.html</link><description>&lt;p&gt;Like a lot of folks, I use &lt;a href="https://www.passwordstore.org/"&gt;zx2c4's pass&lt;/a&gt;. Like even more
+people, I use sudo for administrative tasks on my machines. The obvious
+advantage of pass is its scriptability. A lot of tools (&lt;a href="http://www.offlineimap.org/"&gt;offlineimap&lt;/a&gt;,
+&lt;a href="https://github.com/docker/docker-credential-helpers"&gt;docker&lt;/a&gt;, &lt;a href="https://www.sudo.ws/man/1.8.15/sudoers.man.html"&gt;ansible-vault&lt;/a&gt;...) offer a way to provide the password
+through an external command. This allows …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Mon, 06 Jan 2020 14:30:00 +0100</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2020-01-06:/scripting-sudo-with-pass.html</guid><category>passwords</category><category>shell</category></item><item><title>Looping simultaneously over multiple lists in legacy shells</title><link>http://blog.chmd.fr/looping-simultaneously-over-multiple-lists-in-legacy-shells.html</link><description>&lt;p&gt;I was recently confronted to the problem of looping over multiple lists
 simultaneously in a legacy shell, and coming up with an elegant solution
 was an interesting challenge. Legacy shells do not support arrays, which
 means there is no structure you can directly address with an index i in
