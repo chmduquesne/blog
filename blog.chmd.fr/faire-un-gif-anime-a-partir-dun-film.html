@@ -26,19 +26,17 @@
     <p>J'ai souvent vu des gens poser cette question : comment fait-on un
 gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
-de faire clic droit>générer un gif animé à partir de cette vidéo.
+de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
 Commencez-donc par installer ffmpeg et nautilus-actions.</p>
-<div class="highlight"><pre><span></span><span class="err">sudo apt-get install ffmpeg nautilus-actions</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sudo apt-get install ffmpeg nautilus-actions
+</code></pre></div>
 
 <p>La syntaxe pour réaliser un gif animé à partir d'un film est</p>
-<div class="highlight"><pre><span></span><span class="err">ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \</span>
-<span class="err"> -s 120x120\</span>
-<span class="err"> -r 5\</span>
-<span class="err"> fichier_sortie.gif</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>ffmpeg -i fichier_entree.avi -pix_fmt rgb24 \
+ -s 120x120\
+ -r 5\
+ fichier_sortie.gif
+</code></pre></div>
 
 <ul>
 <li>Vous pouvez régler la hauteur et la largeur du fichier de
@@ -50,14 +48,13 @@ Commencez-donc par installer ffmpeg et nautilus-actions.</p>
 <p>Bon, maintenant, offrons-nous la possibilité de gérer tout ça à
 coup de clic droit. Sous Ubuntu, si vous avez bien installé
 nautilus-actions, ça se passe dans
-système>préférences>configuration des actions de nautilus. Faites
+système&gt;préférences&gt;configuration des actions de nautilus. Faites
 'Ajouter'. Configurez la nouvelle action comme suit :</p>
 <p><img alt="nautilus-actions-1.png" src="images/nautilus-actions-1.png">
 <img alt="nautilus-actions-2.png" src="images/nautilus-actions-2.png"></p>
 <p>Ce qui est important, c'est le champ 'paramètres' :</p>
-<div class="highlight"><pre><span></span><span class="err">-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>-i %M -pix_fmt rgb24 -s 120x120 -r 5 %M.gif
+</code></pre></div>
 
 <p>Vous pouvez désormais vous amuser à faire toute sorte de gif
 animés. Le seul défaut : les fichiers produits ont le désavantage

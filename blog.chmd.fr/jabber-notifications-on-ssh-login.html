@@ -39,33 +39,30 @@ module in question is called <code>pam_exec</code>, and it is often used to rebu
 databases e.g. when passwords are changed. It can also be activated when
 someone logs in. The manpage explains that the following PAM items are
 exported as environment variables to the program executed:</p>
-<div class="highlight"><pre><span></span><span class="err"> PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code> PAM_RHOST, PAM_RUSER, PAM_SERVICE, PAM_TTY, PAM_USER, PAM_TYPE
+</code></pre></div>
 
 <p>I decided to use it to my advantage. I created on jabber.org an account
 for my server. I added it in my gmail friends, and I wrote this little
 script, using sendxmpp (saved as <code>/usr/local/bin/login_notify</code>):</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/bin/sh</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$PAM_USER</span><span class="s2">@`hostname` logged from </span><span class="nv">$PAM_RHOST</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="se">\</span>
-    sendxmpp -u server_account -j jabber.org -p xxxx me@gmail.com &gt;/dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">&amp;</span>
-<span class="nb">exit</span> <span class="m">0</span>
-</pre></div>
-</td></tr></table>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PAM_USER</span><span class="s2">@`hostname` logged from </span><span class="nv">$PAM_RHOST</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>sendxmpp<span class="w"> </span>-u<span class="w"> </span>server_account<span class="w"> </span>-j<span class="w"> </span>jabber.org<span class="w"> </span>-p<span class="w"> </span>xxxx<span class="w"> </span>me@gmail.com<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div></td></tr></table></div>
 
 <p>Note that the sendxmpp command runs in background and that its exit status
 is ignored. Otherwise PAM would wait for the command to return before
 letting me in, and it would deny me the access if the notification failed
 to be delivered. Two things I clearly want to avoid.</p>
 <p>Then, the following line goes at the end of <code>/etc/pam.d/sshd</code>:</p>
-<div class="highlight"><pre><span></span><span class="err">session         optional        pam_exec.so             /usr/local/bin/login_notify</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>session         optional        pam_exec.so             /usr/local/bin/login_notify
+</code></pre></div>
 
 <p>There you go, notifications each time someone logs in.</p>
 <h1>Are you doing this for real? Read on...</h1>

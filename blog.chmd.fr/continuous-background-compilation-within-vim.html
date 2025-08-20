@@ -26,14 +26,13 @@
     <p>You <em>can</em> do continuous background compilation within vim. The following
 code snippet will compile your project with <code>make</code> each time you save the
 current buffer:</p>
-<div class="highlight"><pre><span></span><span class="err">augroup c++</span>
-<span class="err">    autocmd BufWritePost *.{hpp,cpp}</span>
-<span class="err">                \ silent execute &quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot; |</span>
-<span class="err">                \ redraw! |</span>
-<span class="err">                \ cgetfile ~/.vim/cpperrors</span>
-<span class="err">augroup END</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">augroup</span> <span class="n">c</span><span class="o">++</span>
+    <span class="n">autocmd</span> <span class="n">BufWritePost</span> <span class="o">*</span><span class="p">.{</span><span class="n">hpp</span><span class="p">,</span><span class="n">cpp</span><span class="p">}</span>
+                <span class="err">\</span> <span class="n">silent</span> <span class="n">execute</span> <span class="s">&quot;:!make &gt; ~/.vim/cpperrors 2&gt;&amp;1 &amp;&quot;</span> <span class="p">|</span>
+                <span class="err">\</span> <span class="n">redraw</span><span class="err">!</span> <span class="p">|</span>
+                <span class="err">\</span> <span class="n">cgetfile</span> <span class="o">~/</span><span class="p">.</span><span class="n">vim</span><span class="o">/</span><span class="n">cpperrors</span>
+<span class="n">augroup</span> <span class="kr">END</span>
+</code></pre></div>
 
 <p>Of course you could replace the make command with something more
 complicated (for example calling some script that would run the

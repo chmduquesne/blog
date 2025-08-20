@@ -15,102 +15,97 @@
 <section id="content">
 
                 <header>
-                    <h1><a href="scripting-sudo-with-pass.html"
-                            id="page-title">Scripting sudo with pass</a></h1>
-                        <time datetime="2020-01-06T14:30:00+01:00">Mon 06 January 2020</time>
+                    <h1><a href="self-archiving-emails.html"
+                            id="page-title">Self-Archiving Emails</a></h1>
+                        <time datetime="2025-08-19T19:00:00+02:00">Tue 19 August 2025</time>
                 </header>
                 <article>
-                    <p>Like a lot of folks, I use <a href="https://www.passwordstore.org/">zx2c4's pass</a>. Like even more
-people, I use sudo for administrative tasks on my machines. The obvious
-advantage of pass is its scriptability. A lot of tools (<a href="http://www.offlineimap.org/">offlineimap</a>,
-<a href="https://github.com/docker/docker-credential-helpers">docker</a>, <a href="https://www.sudo.ws/man/1.8.15/sudoers.man.html">ansible-vault</a>...) offer a way to provide the password
-through an external command. This allows your passwords to be all in one
-place, with no overhead in your workflow.</p>
-<p>If you want to run a sudo command without typing the password
-interactively, you can use the <a href="https://www.sudo.ws/man/1.8.15/sudoers.man.html">NOPASSWD</a> option in <code>/etc/sudoers</code>.  I
-do not find it desirable: should you leave a console unattended, this
-exposes you to somebody running administrative commands too easily.</p>
-<p>So can you instead tell sudo to use pass for the password input? Yes, but,
-not seamlessly. The <code>-A</code> <a href="https://www.sudo.ws/man/1.8.3/sudo.man.html">command line option</a> is designed to provide
-the password through an helper program. To quote the manpage:</p>
-<blockquote>
-<p>If the -A (askpass) option is specified, a (possibly graphical) helper
-program is executed to read the user's password and output the password
-to the standard output. If the <code>SUDO_ASKPASS</code> environment variable is set,
-it specifies the path to the helper program.</p>
-</blockquote>
-<p>I store in pass my different "<code>user@host</code>" passwords under the path
-<code>host/&lt;user&gt;@&lt;host&gt;</code>. If you adopt the same convention, this is what you can
-do:</p>
-<p>Save the following file as executable under <code>~/.local/bin/sudo-askpass</code></p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-pass show hosts/<span class="k">$(</span>whoami<span class="k">)</span>@<span class="k">$(</span>hostname<span class="k">)</span> <span class="p">|</span> head -n1
-</pre></div>
+                    <p>The concept of Inbox Zero has been around since 2007, and we can thank
+Merlin Mann for popularizing it. If you have not watched the
+<a href="https://www.youtube.com/watch?v=z9UjeTMb3Yk">presentation</a>, I highly recommend doing it, because it is still
+relevant in 2025.</p>
+<p>For the past 3 years, I have been running an automation which I now
+consider essential to keeping my inbox tidy. I call it <em>self-archiving
+emails</em>. The concept is simple: if an email has been sitting in my inbox
+for long enough (and for me, that's currently 8 months), I will probably
+never do anything about it. So it might as well archive itself. In
+practice, 8 months is a worst-case scenario, because a lot of the emails I
+receive are only interesting for a few days. The expiration date is set on
+a case by case situation, using regular email rules.</p>
+<h2>Gmail implementation</h2>
+<p>I am leveraging labels to implement this strategy. My flow is as follows:
+using basic filters, I label every incoming email with one of the
+following: <code>archive-1d</code>, <code>archive-3d</code>, <code>archive-7d</code>, <code>archive-1m</code>,
+<code>archive-2m</code>, <code>archive-4m</code> or <code>archive-ifread</code>. Every hour, a script
+archives every message which sits in my inbox and is older than what the
+label indicates.</p>
+<p>The script runs as a google apps script:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// find all the archive-xx labels</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">GmailApp</span><span class="p">.</span><span class="nx">getUserLabels</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">label</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">label</span><span class="p">.</span><span class="nx">getName</span><span class="p">())</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">name</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s2">&quot;archive-&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">name</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;archive-xx&quot;</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
 
+<span class="w">  </span><span class="c1">// archive all the expired emails according to their respective labels</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">label</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">labels</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">label</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mf">1</span><span class="p">];</span>
+<span class="w">    </span><span class="nx">archive</span><span class="p">(</span><span class="s2">&quot;in:inbox label:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">label</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; older_than:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">duration</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
 
-<p>Insert your password in pass accordingly</p>
-<div class="highlight"><pre><span></span>pass edit hosts/<span class="k">$(</span>whoami<span class="k">)</span>@<span class="k">$(</span>hostname<span class="k">)</span>
-</pre></div>
+<span class="w">  </span><span class="c1">// archive anything older than 8m</span>
+<span class="w">  </span><span class="nx">archive</span><span class="p">(</span><span class="s2">&quot;in:inbox older_than:8m&quot;</span><span class="p">);</span>
 
+<span class="w">  </span><span class="c1">// archive emails which have no value once I have seen them</span>
+<span class="w">  </span><span class="nx">archive</span><span class="p">(</span><span class="s2">&quot;in:inbox is:read label:archive-ifread&quot;</span><span class="p">);</span>
+<span class="p">}</span>
 
-<p>And now if you run</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SUDO_ASKPASS</span><span class="o">=</span><span class="nv">$HOME</span>/.local/bin/sudo-askpass
-sudo -A whoami
-</pre></div>
+<span class="kd">function</span><span class="w"> </span><span class="nx">archive</span><span class="p">(</span><span class="nx">search</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;archiving: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">search</span><span class="p">)</span>
 
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">GmailApp</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="nx">search</span><span class="p">);</span>
 
-<p>The answer should be <code>root</code>. Neat, but not seamless, since you need the -A
-switch. You <em>could</em> solve the problem by adding these 2 lines in your shell
-startup file</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SUDO_ASKPASS</span><span class="o">=</span><span class="nv">$HOME</span>/.local/bin/sudo-askpass
-<span class="nb">alias</span> <span class="nv">sudo</span><span class="o">=</span><span class="s1">&#39;sudo -A&#39;</span>
-</pre></div>
+<span class="w">  </span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;found &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">threads</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; threads:&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">threads</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="kd">var</span><span class="w"> </span><span class="nx">thread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threads</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+<span class="w">   </span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="nx">i</span><span class="o">+</span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;. &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">thread</span><span class="p">.</span><span class="nx">getFirstMessageSubject</span><span class="p">());</span>
+<span class="w">  </span><span class="p">}</span>
 
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100</span><span class="p">;</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">threads</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">this_batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">threads</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">batch_size</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">this_batch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threads</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">this_batch_size</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">GmailApp</span><span class="p">.</span><span class="nx">moveThreadsToArchive</span><span class="p">(</span><span class="nx">this_batch</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
-<p>However, programs which invoke <code>sudo</code> (such as <a href="https://github.com/Jguer/yay">yay</a>) will not know about
-this alias, and you will still be required to type your password
-interactively. What I do instead is to create my own sudo executable with
-higher precedence in the path whicht insert the proper options before
-invoking the real binary:</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="nv">SCRIPTDIR</span><span class="o">=</span><span class="k">$(</span>dirname <span class="k">$(</span>which <span class="nv">$0</span><span class="k">))</span>
-<span class="nv">PATH_WITHOUT_SCRIPTDIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$PATH</span> <span class="p">|</span> tr <span class="s2">&quot;:&quot;</span> <span class="s2">&quot;\n&quot;</span> <span class="p">|</span> grep -v <span class="s2">&quot;</span><span class="nv">$SCRIPTDIR</span><span class="s2">&quot;</span> <span class="p">|</span> tr <span class="s2">&quot;\n&quot;</span> <span class="s2">&quot;:&quot;</span><span class="k">)</span>
-<span class="nv">REAL_SUDO</span><span class="o">=</span><span class="k">$(</span>env <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH_WITHOUT_SCRIPTDIR</span> which sudo<span class="k">)</span>
-<span class="nb">exec</span> env <span class="nv">SUDO_ASKPASS</span><span class="o">=</span><span class="nv">$HOME</span>/.local/bin/sudo-askpass <span class="nv">$REAL_SUDO</span> --askpass <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
-</pre></div>
-
-
-<p>If your distribution follows the <a href="http://man7.org/linux/man-pages/man7/file-hierarchy.7.html">systemd file hierarchy</a>, you can save
-this file under <code>~/.local/bin/sudo</code> and it will happily take precedence
-over the real sudo.</p>
-<p>I employ a similar trick for unlocking my ssh keys with keychain. I store
-in pass the password of the private ssh key of <code>&lt;user&gt;@&lt;host&gt;</code> as
-<code>ssh/&lt;user&gt;@&lt;host&gt;</code>. The following file is saved as executable under
-<code>~/.local/bin/ssh-askpass</code></p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-pass show ssh/<span class="k">$(</span>whoami<span class="k">)</span>@<span class="k">$(</span>hostname<span class="k">)</span> <span class="p">|</span> head -n1
-</pre></div>
-
-
-<p>And this goes in my shell startup file</p>
-<div class="highlight"><pre><span></span><span class="o">{</span><span class="nb">type</span> keychain &gt; /dev/null<span class="o">}</span> <span class="o">&amp;&amp;</span> <span class="o">{</span><span class="nb">type</span> ssh-askpass &gt; /dev/null<span class="o">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    <span class="nb">source</span> &lt;<span class="o">(</span><span class="nv">SSH_ASKPASS</span><span class="o">=</span>ssh-askpass keychain --quiet --eval id_rsa &lt;/dev/null<span class="o">)</span>
-</pre></div>
-
-
-<p>If you have a look at my <a href="https://github.com/chmduquesne/dotfiles">dotfiles</a>, you will realize that there is
-more to this setup. The main additional thing to know is that I use a
-<a href="https://www.yubico.com/">smartcard</a> to handle the gpg decryption, so that no machine contains
-the gpg key that I use with <code>pass</code>. This will likely be the purpose of a
-different article. Until then, happy sudo-ing!</p>
+<p>There are already plenty of google apps scripts tutorials, so I will not
+go into the details of deploying this script, but it roughly involves
+going to <a href="https://script.google.com">script.google.com</a>, pasting this code into a new project and
+setting the function <code>run</code> to trigger every hour. I am sure you will
+figure this out.</p>
+<h2>Office 365</h2>
+<p>My workplace uses office 365, but that did not stop me from implementing
+the same logic using MS powerflows. It is, however, massively ugly, so I
+will not share it here. If you are interested in how to do it, send me an
+email, I may post another article about it if this is a popular request.</p>
+<h2>Feedback</h2>
+<p>I have been running this automation for more than 3 years already. It
+works. I can report that this concept of self-archiving emails has
+drastically reduced the size of my inbox, to the point that I could not
+imagine living without it. Surprisingly, I am the only person I know who
+runs such an automation. I discussed about it with some friends the other
+day, and because this generated some interest, I decided to share it here.
+If you end up using it as well, feel free to shoot me an email, and if you
+promote this approach to others, please credit me 😉</p>
                 </article>
-                <a href="scripting-sudo-with-pass.html#disqus_thread">
+                <a href="self-archiving-emails.html#disqus_thread">
                     To the comments
                 </a>
                 <section id="article-list">
                     <h2>All posts</h2>
                     <ol>
+                <li><a href="scripting-sudo-with-pass.html" rel="bookmark" title="Permalink to Scripting sudo with pass">Scripting sudo with pass</a></li>
                 <li><a href="looping-simultaneously-over-multiple-lists-in-legacy-shells.html" rel="bookmark" title="Permalink to Looping simultaneously over multiple lists in legacy shells">Looping simultaneously over multiple lists in legacy shells</a></li>
                 <li><a href="ssh-over-ssl-episode-4-a-haproxy-based-configuration.html" rel="bookmark" title="Permalink to SSH over SSL, episode 4: a HAproxy based configuration">SSH over SSL, episode 4: a HAproxy based configuration</a></li>
                 <li><a href="editing-a-cv-in-markdown-with-pandoc.html" rel="bookmark" title="Permalink to Editing a CV in markdown with pandoc">Editing a CV in markdown with pandoc</a></li>

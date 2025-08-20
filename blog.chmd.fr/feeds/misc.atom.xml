@@ -23,9 +23,8 @@ simple to use) and continuous integration. There is even
 &lt;a href="http://saimon.org/sigal-demo/galleria/"&gt;demo&lt;/a&gt; galleries, for you to test
 it live before installing it. And of course, for maximal conveniency,
 there is a python package, that you can install very simply: just run&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install sigal&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pip install sigal
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The only thing that I was missing was video support. I sometimes film
 short movies with my cameras, and I want to include them in the pictures
@@ -134,9 +133,8 @@ with &lt;a href="http://disqus.com/"&gt;disqus&lt;/a&gt;. Just make an account a
 file I mentioned. Disqus provides a way to import comments from such a
 file. You will later be able to reattach threads to their articles by
 providing a csv map file following the syntax:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;old_url, new_url&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;old_url, new_url
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2&gt;Setting up an amazon account&lt;/h2&gt;
 &lt;p&gt;The next step is to set up an amazon account for use with s3, and to buy a
@@ -147,14 +145,12 @@ wizard that tells you what to do quite accurately.&lt;/p&gt;
 &lt;h1&gt;What I could not fix&lt;/h1&gt;
 &lt;p&gt;The blog entries on my previous blog were obtained through links looking
 like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;quot;http://chm.duquesne.free.fr/blog/?p=xxx&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Whereas on the new version, they look like&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;quot;http://blog.chmd.fr/title-of-the-article.html&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It would have been cool to be able to put 301 redirect entries in a
 .htaccess, for the sake of SEO-friendliness. However, this would require
@@ -174,14 +170,12 @@ sont inspirés du véritable mail hadopi). Je vous préviens:
 l'utilisation de ce genre de service est probablement
 répréhensible, mais ça ne vous empêche pas de récupérer le code du
 projet sur github:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;git clone https://github.com/padopi/padopi&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone https://github.com/padopi/padopi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ou bien, si vous préférez mon clone (Ho ho ho):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;git clone https://github.com/chmduquesne/padopi&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone https://github.com/chmduquesne/padopi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Aller, en bonus, la pub de référence :)&lt;/p&gt;
 &lt;iframe width="560" height="315" src="http://www.youtube.com/embed/3WfdBQhGBgU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content><category term="misc"></category><category term="libre"></category></entry><entry><title>Mise à jour de TalkMyPhone</title><link href="http://blog.chmd.fr/mise-a-jour-de-talkmyphone.html" rel="alternate"></link><published>2010-09-07T13:07:00+02:00</published><updated>2010-09-07T13:07:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2010-09-07:/mise-a-jour-de-talkmyphone.html</id><summary type="html">&lt;p&gt;Salut planet-libre, J'ai mis à jour TalkMyPhone, mon application
@@ -251,7 +245,7 @@ web-agregator libres que j'avais pu découvrir. J'ai fait ma petite
 étude, et tiny tiny rss sort à mon avis grand gagnant. D'abord,
 comme rien ne vaut un petit essai pour se faire une idée, voici des
 liens vers les versions de démo que j'ai pu trouver :&lt;/p&gt;
-&lt;p&gt;Tiny tiny rss -&gt; [&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
+&lt;p&gt;Tiny tiny rss -&amp;gt; [&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
 [&lt;a href="http://tt-rss.org/demo/tt-rss.php"&gt;démo&lt;/a&gt;] :&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Sait aggréger plusieurs flux pour en former un seul dont vous
@@ -269,7 +263,7 @@ liens vers les versions de démo que j'ai pu trouver :&lt;/p&gt;
     d'opml, voir les commentaires du billet précédent pour corriger ça,
     et les tags ne marchent pas du tout)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;gregarius -&gt; [&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
+&lt;p&gt;gregarius -&amp;gt; [&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
 [&lt;a href="http://tt-rss.org/demo/tt-rss.php"&gt;démo&lt;/a&gt;] :&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;ne marche qu'avec mysql, mais par contre buggue moins&lt;/li&gt;
@@ -282,12 +276,12 @@ liens vers les versions de démo que j'ai pu trouver :&lt;/p&gt;
 &lt;li&gt;développement moins actif&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Je n'ai pas trouvé de version de test disponible pour feed on feeds
--&gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]. Sachez que Feed on feeds est
+-&amp;gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]. Sachez que Feed on feeds est
 assez vieux et que son développement est apparemment arrêté. Il a
 donné lieu à deux projets : FoFredux
--&gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
+-&amp;gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;]
 [&lt;a href="http://tt-rss.org/demo/tt-rss.php"&gt;démo&lt;/a&gt;] et à MonkeyChow
--&gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;], pour lequel je dispose
+-&amp;gt;[&lt;a href="http://tt-rss.org/trac/"&gt;site&lt;/a&gt;], pour lequel je dispose
 simplement d'un &lt;a href="http://www.shokk.com/mc.html"&gt;screencast&lt;/a&gt; (en
 flash, beurk). Je n'ai pas poussé beaucoup mes tests, car aucun
 d'eux n'a vu de nouvelle version sortir depuis 2006, ce qui est
@@ -332,27 +326,24 @@ possible d'en utiliser une sur mon compte free.&lt;/p&gt;
 &lt;p&gt;Si vous en connaissez d'autres, je suis preneur...&lt;/p&gt;</content><category term="misc"></category><category term="tt-rss"></category></entry><entry><title>Couper une vidéo et extraire une scène d'un film</title><link href="http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html" rel="alternate"></link><published>2008-04-07T22:28:00+02:00</published><updated>2008-04-07T22:28:00+02:00</updated><author><name>Tof</name></author><id>tag:blog.chmd.fr,2008-04-07:/couper-une-video-et-extraire-une-scene-dun-film.html</id><summary type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install mencoder&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install mencoder
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mencoder -ss     h:mm:ss    \&lt;/span&gt;
-&lt;span class="err"&gt;         -endpos h:mm …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mencoder -ss     h:mm:ss    \
+         -endpos h:mm …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install mencoder&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install mencoder
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mencoder -ss     h:mm:ss    \&lt;/span&gt;
-&lt;span class="err"&gt;         -endpos h:mm:ss    \&lt;/span&gt;
-&lt;span class="err"&gt;         film_origine.avi   \&lt;/span&gt;
-&lt;span class="err"&gt;         -o extrait.avi     \&lt;/span&gt;
-&lt;span class="err"&gt;         -oac copy -ovc copy&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mencoder -ss     h:mm:ss    \
+         -endpos h:mm:ss    \
+         film_origine.avi   \
+         -o extrait.avi     \
+         -oac copy -ovc copy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;L'argument de -ss est le temps à partir duquel commence la

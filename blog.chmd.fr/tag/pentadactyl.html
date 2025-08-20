@@ -13,7 +13,7 @@
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
 <section id="content">
-<h2>Articles tagged with pentadactyl</h2>
+    <h2>Articles tagged with pentadactyl</h2>
 
                 <header>
                     <h1><a href="using-a-shell-version-of-supergenpass-from-vimperatorpentadactyl.html"
@@ -36,10 +36,9 @@ master password. If the webmaster of the site you are visiting is evil, he
 could grab your master password and hack all your accounts. If you are a
 vimperator/pentadactyl user, it is easy to fix that, by executing
 supergenpass as a shell command (What follows is from my pentadactylrc):</p>
-<div class="highlight"><pre><span></span><span class="err">map -modes=n,v &lt;C-F6&gt; y:!~/.scripts/supergenpass&lt;Space&gt;&#39;&lt;S-Insert&gt;&#39;&lt;Return&gt;&lt;Esc&gt;2gi&lt;S-Insert&gt;&lt;Return&gt;</span>
-<span class="err">map -modes=i &lt;C-F6&gt; &lt;Esc&gt;&lt;C-F6&gt;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nv">map</span><span class="w"> </span><span class="o">-</span><span class="nv">modes</span><span class="o">=</span><span class="nv">n</span>,<span class="nv">v</span><span class="w"> </span><span class="o">&lt;</span><span class="nv">C</span><span class="o">-</span><span class="nv">F6</span><span class="o">&gt;</span><span class="w"> </span><span class="nv">y</span>:<span class="o">!~/</span>.<span class="nv">scripts</span><span class="o">/</span><span class="nv">supergenpass</span><span class="o">&lt;</span><span class="nv">Space</span><span class="o">&gt;</span><span class="s1">&#39;&lt;S-Insert&gt;&#39;</span><span class="o">&lt;</span><span class="k">Return</span><span class="o">&gt;&lt;</span><span class="nv">Esc</span><span class="o">&gt;</span><span class="mi">2</span><span class="nv">gi</span><span class="o">&lt;</span><span class="nv">S</span><span class="o">-</span><span class="nv">Insert</span><span class="o">&gt;&lt;</span><span class="k">Return</span><span class="o">&gt;</span>
+<span class="nv">map</span><span class="w"> </span><span class="o">-</span><span class="nv">modes</span><span class="o">=</span><span class="nv">i</span><span class="w"> </span><span class="o">&lt;</span><span class="nv">C</span><span class="o">-</span><span class="nv">F6</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="nv">Esc</span><span class="o">&gt;&lt;</span><span class="nv">C</span><span class="o">-</span><span class="nv">F6</span><span class="o">&gt;</span>
+</code></pre></div>
 
 <p>Where <code>~/.scripts/supergenpass</code> is a python supergenpass script I
 customized for my needs (it uses the gtk-based ssh-askpass program to get

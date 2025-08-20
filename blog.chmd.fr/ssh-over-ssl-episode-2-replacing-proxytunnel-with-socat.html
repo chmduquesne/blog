@@ -45,9 +45,8 @@ respectively the standard ports for ssh and ssl).</p>
 <p>We now want to configure the ssh clients in order to connect through this
 ssl tunnel. I said I was configuring the clients with proxytunnel. The
 exact command (in .ssh/config) was:</p>
-<div class="highlight"><pre><span></span><span class="err">proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+</code></pre></div>
 
 <p>I'll explain it:</p>
 <ul>
@@ -64,28 +63,24 @@ best tool ever invented. I was wondering if I could reproduce
 proxytunnel's behavior with socat, and it turns out you can. Here is how
 to proceed: First, create an ssl tunnel between your client's
 localhost:1080 and server.com:443:</p>
-<div class="highlight"><pre><span></span><span class="err">socat TCP-LISTEN:1080 OPENSSL:server.com:443</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>socat TCP-LISTEN:1080 OPENSSL:server.com:443
+</code></pre></div>
 
 <p>This way, the port 443 of server.com is now available unencrypted
 on localhost:1080 Then, use socat and its proxy mode to ask for
 localhost:1080 (which is actually server.com:443 unencrypted) to
 connect to localhost:22 (which is then server.com:22).</p>
-<div class="highlight"><pre><span></span><span class="err">socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+</code></pre></div>
 
 <p>Bingo! You should see the ssh prompt. For the fun, I replaced in my
 .ssh/config the former</p>
-<div class="highlight"><pre><span></span><span class="err">ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+</code></pre></div>
 
 <p>with</p>
-<div class="highlight"><pre><span></span><span class="err">ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+</code></pre></div>
 
 <p><strong>Edit 2015-05-07</strong>: See <a href="https://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html#comment-2010371675">Vincent's
 comment</a>
@@ -102,13 +97,13 @@ requires three arguments and one of them is a port. If one of my
 readers has a suggestion, he/she's welcome. This remains a cool hack!</p>
 <p><strong>Edit</strong>: The great <a href="https://darkpan.com/">Marco Fontani</a> gave a cool solution (see the
 comments). Here is how my .ssh/config looks like:</p>
-<div class="highlight"><pre><span></span><span class="err">Host server.com</span>
-<span class="err">    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp; sleep 1 &amp;&amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080</span>
-<span class="err">    DynamicForward 1080</span>
-<span class="err">    ServerAliveInterval 60</span>
-<span class="err">    ControlMaster auto</span>
-<span class="err">    ControlPath ~/.ssh/tmp/%h_%p_%r</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>Host server.com
+    ProxyCommand socat TCP-LISTEN:1080 OPENSSL:server.com:443,verify=0 &amp; sleep 1 &amp;&amp; socat - PROXY:127.0.0.1:127.0.0.1:22,proxyport=1080
+    DynamicForward 1080
+    ServerAliveInterval 60
+    ControlMaster auto
+    ControlPath ~/.ssh/tmp/%h_%p_%r
+</code></pre></div>
     </div>
     <div class="comments">
         <h2>Comments !</h2>

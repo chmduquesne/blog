@@ -34,21 +34,21 @@ heure, le contenu de ce fichier est affiché dans une bulle de notification
 qui dure 10 secondes. Une façon gentille de rappeler les choses à faire,
 intrusive, certe, mais à la durée assez courte pour ne pas être ennuyeuse.
 Ça se fait très facilement avec le script suivant:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="c1"># pour que cron sache sur quel moniteur jouer la notification</span>
 <span class="nv">DISPLAY</span><span class="o">=</span>:0.0
@@ -59,18 +59,16 @@ intrusive, certe, mais à la durée assez courte pour ne pas être ennuyeuse.
 <span class="nv">popupTime</span><span class="o">=</span><span class="m">10000</span>
 <span class="nv">urgency</span><span class="o">=</span><span class="s1">&#39;low&#39;</span>
 
-<span class="k">if</span> <span class="nb">test</span> -f <span class="nv">$todofile</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nv">notification</span><span class="o">=</span><span class="sb">`</span>cat <span class="nv">$todofile</span><span class="sb">`</span>
-    notify-send -u <span class="nv">$urgency</span> -t <span class="nv">$popupTime</span> -i <span class="s2">&quot;</span><span class="nv">$icon</span><span class="s2">&quot;</span> TODO <span class="s2">&quot;</span><span class="nv">$notification</span><span class="s2">&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$todofile</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">notification</span><span class="o">=</span><span class="sb">`</span>cat<span class="w"> </span><span class="nv">$todofile</span><span class="sb">`</span>
+<span class="w">    </span>notify-send<span class="w"> </span>-u<span class="w"> </span><span class="nv">$urgency</span><span class="w"> </span>-t<span class="w"> </span><span class="nv">$popupTime</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$icon</span><span class="s2">&quot;</span><span class="w"> </span>TODO<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$notification</span><span class="s2">&quot;</span>
 <span class="k">fi</span>
-</pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 
 <p>Le script, que j'ai nommé todo.sh est à faire invoquer toutes les
 heures par une tache cron:</p>
-<div class="highlight"><pre><span></span>0 * * * *  sh <span class="cp">${</span><span class="n">HOME</span><span class="cp">}</span>/documents/scripts/todo.sh
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="mf">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w">  </span><span class="n">sh</span><span class="w"> </span><span class="err">${</span><span class="n">HOME</span><span class="err">}</span><span class="o">/</span><span class="n">documents</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="kr">to</span><span class="n">do</span><span class="mf">.</span><span class="n">sh</span>
+</code></pre></div>
 
 <p>Simple comme bonjour, et efficace. Ça fait un moment que je
 l'utilise, et j'en suis satisfait.</p>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Ch-M.D - Tof</title><link>http://blog.chmd.fr/</link><description></description><lastBuildDate>Mon, 06 Jan 2020 14:30:00 +0100</lastBuildDate><item><title>Scripting sudo with pass</title><link>http://blog.chmd.fr/scripting-sudo-with-pass.html</link><description>&lt;p&gt;Like a lot of folks, I use &lt;a href="https://www.passwordstore.org/"&gt;zx2c4's pass&lt;/a&gt;. Like even more
+<rss version="2.0"><channel><title>Ch-M.D - Tof</title><link>http://blog.chmd.fr/</link><description></description><lastBuildDate>Tue, 19 Aug 2025 19:00:00 +0200</lastBuildDate><item><title>Self-Archiving Emails</title><link>http://blog.chmd.fr/self-archiving-emails.html</link><description>&lt;p&gt;The concept of Inbox Zero has been around since 2007, and we can thank
+Merlin Mann for popularizing it. If you have not watched the
+&lt;a href="https://www.youtube.com/watch?v=z9UjeTMb3Yk"&gt;presentation&lt;/a&gt;, I highly recommend doing it, because it is still
+relevant in 2025.&lt;/p&gt;
+&lt;p&gt;For the past 3 years, I have been running an automation which …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Tue, 19 Aug 2025 19:00:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2025-08-19:/self-archiving-emails.html</guid><category>email</category><category>gmail</category></item><item><title>Scripting sudo with pass</title><link>http://blog.chmd.fr/scripting-sudo-with-pass.html</link><description>&lt;p&gt;Like a lot of folks, I use &lt;a href="https://www.passwordstore.org/"&gt;zx2c4's pass&lt;/a&gt;. Like even more
 people, I use sudo for administrative tasks on my machines. The obvious
 advantage of pass is its scriptability. A lot of tools (&lt;a href="http://www.offlineimap.org/"&gt;offlineimap&lt;/a&gt;,
 &lt;a href="https://github.com/docker/docker-credential-helpers"&gt;docker&lt;/a&gt;, &lt;a href="https://www.sudo.ws/man/1.8.15/sudoers.man.html"&gt;ansible-vault&lt;/a&gt;...) offer a way to provide the password
@@ -26,9 +30,9 @@ are able to look at these pictures.&lt;/p&gt;
 &lt;p&gt;I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# file: /etc/apache2/sites-available/domain.com.conf
-&lt;span class="nt"&gt;&amp;lt;VirtualHost&lt;/span&gt; &lt;span class="err"&gt;*:80&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-    Include /etc …&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Thu, 08 Aug 2013 16:09:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2013-08-08:/git-on-lighttpd.html</guid><category>howto</category><category>git gitweb server</category></item><item><title>Sigal, a static gallery generator</title><link>http://blog.chmd.fr/sigal-a-static-gallery-generator.html</link><description>&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;#&lt;span class="w"&gt; &lt;/span&gt;file:&lt;span class="w"&gt; &lt;/span&gt;/etc/apache2/sites-available/domain.com.conf
+&lt;span class="nt"&gt;&amp;lt;VirtualHost&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;*:80&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;Include&lt;span class="w"&gt; &lt;/span&gt;/etc …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Thu, 08 Aug 2013 16:09:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2013-08-08:/git-on-lighttpd.html</guid><category>howto</category><category>git gitweb server</category></item><item><title>Sigal, a static gallery generator</title><link>http://blog.chmd.fr/sigal-a-static-gallery-generator.html</link><description>&lt;p&gt;I wanted to self-host my pictures. Nothing crazy, just a way to share them
 with my friends without using a third party service. At first, I thought
 about writing a lighttpd module that would generate thumbnails. Then I
 thought about a using a php script, but all of them have …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Sat, 20 Jul 2013 15:11:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2013-07-20:/sigal-a-static-gallery-generator.html</guid><category>misc</category><category>sigal gallery static</category></item><item><title>Jabber notifications on ssh login</title><link>http://blog.chmd.fr/jabber-notifications-on-ssh-login.html</link><description>&lt;p&gt;I coined this little trick the other day, I thought I might share it. I
@@ -72,9 +76,8 @@ synchronize my dotfile using a DVCS on &lt;a href="http://bitbucket.org/chmduque
 repository&lt;/a&gt;. I save as much
 stuff as I can, provided it does not contains sensitive stuff like
 passwords. Problem: How do you save your crontab? I finally …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Thu, 02 Dec 2010 19:25:00 +0100</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2010-12-02:/saving-your-crontab-in-your-dotfiles.html</guid><category>howto</category><category>crontab</category></item><item><title>Notifications from google calendar on my desktop</title><link>http://blog.chmd.fr/notifications-from-google-calendar-on-my-desktop.html</link><description>&lt;p&gt;I just added this in a crontab:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &amp;#39;notify-send -t 300000 -i myniceicon.svg &amp;quot;Calendar&amp;quot; \%s&amp;#39;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;*/30 &lt;span class="gs"&gt;* *&lt;/span&gt; * * DISPLAY=:0.0 gcalcli remind 240 &amp;#39;notify-send -t 300000 -i myniceicon.svg &amp;quot;Calendar&amp;quot; \%s&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;So every 30 minutes, I get a notification with a 5 minutes timeout
 for upcoming events in the next 4 hours. I really don't need more.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Tue, 23 Nov 2010 15:11:00 +0100</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2010-11-23:/notifications-from-google-calendar-on-my-desktop.html</guid><category>howto</category><category>notify-send</category></item><item><title>SSH over SSL, episode 2: replacing proxytunnel with socat</title><link>http://blog.chmd.fr/ssh-over-ssl-episode-2-replacing-proxytunnel-with-socat.html</link><description>&lt;p&gt;If you are reading this, you might be interested in the full list of my
@@ -115,14 +118,13 @@ de problème. dtach est …&lt;/p&gt;</description><dc:creator xmlns:dc="http://
 &lt;a href="http://www.vim.org/scripts/script.php?script_id=3028"&gt;http://www.vim.org/scripts/script.php?script_id=3028&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Fri, 26 Mar 2010 01:10:00 +0100</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2010-03-26:/renaming-files-and-variables-from-vim.html</guid><category>code</category><category>vim</category></item><item><title>Continuous background compilation within vim</title><link>http://blog.chmd.fr/continuous-background-compilation-within-vim.html</link><description>&lt;p&gt;You &lt;em&gt;can&lt;/em&gt; do continuous background compilation within vim. The following
 code snippet will compile your project with &lt;code&gt;make&lt;/code&gt; each time you save the
 current buffer:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;augroup c++&lt;/span&gt;
-&lt;span class="err"&gt;    autocmd BufWritePost *.{hpp,cpp}&lt;/span&gt;
-&lt;span class="err"&gt;                \ silent execute &amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot; |&lt;/span&gt;
-&lt;span class="err"&gt;                \ redraw! |&lt;/span&gt;
-&lt;span class="err"&gt;                \ cgetfile ~/.vim/cpperrors&lt;/span&gt;
-&lt;span class="err"&gt;augroup END&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;
+    &lt;span class="n"&gt;autocmd&lt;/span&gt; &lt;span class="n"&gt;BufWritePost&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.{&lt;/span&gt;&lt;span class="n"&gt;hpp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;silent&lt;/span&gt; &lt;span class="n"&gt;execute&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;:!make &amp;gt; ~/.vim/cpperrors 2&amp;gt;&amp;amp;1 &amp;amp;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;redraw&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+                &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="n"&gt;cgetfile&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cpperrors&lt;/span&gt;
+&lt;span class="n"&gt;augroup&lt;/span&gt; &lt;span class="kr"&gt;END&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Of course you could replace the …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Sun, 14 Mar 2010 16:36:00 +0100</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2010-03-14:/continuous-background-compilation-within-vim.html</guid><category>code</category><category>vim</category><category>makefile</category></item><item><title>Utilisons incron pour être notifiés des événements du système de fichiers</title><link>http://blog.chmd.fr/utilisons-incron-pour-etre-notifies-des-evenements-du-systeme-de-fichiers.html</link><description>&lt;p&gt;&lt;a href="http://incron.aiken.cz/"&gt;incron&lt;/a&gt; est un programme fonctionnant sur
 le même principe que cron, mais basé sur des événements dans le
@@ -168,14 +170,13 @@ ligne.&lt;/p&gt;
 &lt;p&gt;Cela ne …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Thu, 01 May 2008 15:19:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2008-05-01:/les-lecteurs-de-flux-rss-en-ligne-libres.html</guid><category>misc</category><category>tt-rss</category></item><item><title>Couper une vidéo et extraire une scène d'un film</title><link>http://blog.chmd.fr/couper-une-video-et-extraire-une-scene-dun-film.html</link><description>&lt;p&gt;Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install mencoder&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install mencoder
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Et la syntaxe est la suivante :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mencoder -ss     h:mm:ss    \&lt;/span&gt;
-&lt;span class="err"&gt;         -endpos h:mm …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Mon, 07 Apr 2008 22:28:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2008-04-07:/couper-une-video-et-extraire-une-scene-dun-film.html</guid><category>misc</category><category>mencoder</category><category>gif</category></item><item><title>Faire un gif animé à partir d'un film</title><link>http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html</link><description>&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mencoder -ss     h:mm:ss    \
+         -endpos h:mm …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Mon, 07 Apr 2008 22:28:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2008-04-07:/couper-une-video-et-extraire-une-scene-dun-film.html</guid><category>misc</category><category>mencoder</category><category>gif</category></item><item><title>Faire un gif animé à partir d'un film</title><link>http://blog.chmd.fr/faire-un-gif-anime-a-partir-dun-film.html</link><description>&lt;p&gt;J'ai souvent vu des gens poser cette question : comment fait-on un
 gif animé à partir d'un film sous ubuntu? Avec ffmpeg, rien de plus
 aisé. Sous gnome, avec nautilus-actions, il vous sera même possible
-de faire clic droit&gt;générer un gif animé à partir de cette vidéo.
+de faire clic droit&amp;gt;générer un gif animé à partir de cette vidéo.
 Commencez-donc par installer …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Tof</dc:creator><pubDate>Sun, 06 Apr 2008 21:29:00 +0200</pubDate><guid isPermaLink="false">tag:blog.chmd.fr,2008-04-06:/faire-un-gif-anime-a-partir-dun-film.html</guid><category>howto</category><category>libre</category></item></channel></rss>

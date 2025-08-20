@@ -24,9 +24,8 @@
 <article>
     <div class="entry-content">
     <p>I just added this in a crontab:</p>
-<div class="highlight"><pre><span></span><span class="err">*/30 * * * * DISPLAY=:0.0 gcalcli remind 240 &#39;notify-send -t 300000 -i myniceicon.svg &quot;Calendar&quot; \%s&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>*/30 <span class="gs">* *</span> * * DISPLAY=:0.0 gcalcli remind 240 &#39;notify-send -t 300000 -i myniceicon.svg &quot;Calendar&quot; \%s&#39;
+</code></pre></div>
 
 <p>So every 30 minutes, I get a notification with a 5 minutes timeout
 for upcoming events in the next 4 hours. I really don't need more.</p>

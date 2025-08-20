@@ -13,7 +13,7 @@
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
 <section id="content">
-<h2>Articles tagged with tunnel</h2>
+    <h2>Articles tagged with tunnel</h2>
 
                 <header>
                     <h1><a href="ssh-over-ssl-a-quick-and-minimal-config.html"
@@ -53,35 +53,33 @@ Clients will connect using a standard ssh client and proxytunnel.</p>
 </ul>
 <h1>File /etc/apache2/sites-available/default-ssl</h1>
 <p>It's minimalistic on purpose, so you can see what is really needed.</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;IfModule</span> <span class="err">mod_ssl.c</span><span class="nt">&gt;</span>
-<span class="nt">&lt;VirtualHost</span> <span class="err">_default_:443</span><span class="nt">&gt;</span>
-    # enable ssl
-    SSLEngine on
-    SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
-    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-    # proxytunnel
-    Include /etc/apache2/proxytunnel/main.conf
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;IfModule</span><span class="w"> </span><span class="err">mod_ssl.c</span><span class="nt">&gt;</span>
+<span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="err">_default_:443</span><span class="nt">&gt;</span>
+<span class="w">    </span>#<span class="w"> </span>enable<span class="w"> </span>ssl
+<span class="w">    </span>SSLEngine<span class="w"> </span>on
+<span class="w">    </span>SSLCertificateFile<span class="w">    </span>/etc/ssl/certs/ssl-cert-snakeoil.pem
+<span class="w">    </span>SSLCertificateKeyFile<span class="w"> </span>/etc/ssl/private/ssl-cert-snakeoil.key
+<span class="w">    </span>#<span class="w"> </span>proxytunnel
+<span class="w">    </span>Include<span class="w"> </span>/etc/apache2/proxytunnel/main.conf
 <span class="nt">&lt;/VirtualHost&gt;</span>
 <span class="nt">&lt;/IfModule&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <h1>File /etc/apache2/proxytunnel/main.conf</h1>
 <p>It enables forward proxying for anyone, but only if the client asks for
 127.0.0.1:22 (other requests will be denied). This results in exposing the
 port 22 (ssh) of your server through a proxy, in an encrypted way.</p>
-<div class="highlight"><pre><span></span>ProxyRequests On
-AllowConnect 22
-<span class="nt">&lt;Proxy</span> <span class="err">*</span><span class="nt">&gt;</span>
-    Order deny,allow
-    Deny from all
+<div class="highlight"><pre><span></span><code>ProxyRequests<span class="w"> </span>On
+AllowConnect<span class="w"> </span>22
+<span class="nt">&lt;Proxy</span><span class="w"> </span><span class="err">*</span><span class="nt">&gt;</span>
+<span class="w">    </span>Order<span class="w"> </span>deny,allow
+<span class="w">    </span>Deny<span class="w"> </span>from<span class="w"> </span>all
 <span class="nt">&lt;/Proxy&gt;</span>
-<span class="nt">&lt;Proxy</span> <span class="err">127.0.0.1</span><span class="nt">&gt;</span>
-    Order deny,allow
-    Allow from all
+<span class="nt">&lt;Proxy</span><span class="w"> </span><span class="err">127.0.0.1</span><span class="nt">&gt;</span>
+<span class="w">    </span>Order<span class="w"> </span>deny,allow
+<span class="w">    </span>Allow<span class="w"> </span>from<span class="w"> </span>all
 <span class="nt">&lt;/Proxy&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <h1>Client configuration</h1>
 <p>I assume that:</p>
@@ -96,9 +94,8 @@ commenting the three SSL related lines (you can switch to encrypted when
 it works). Proxytunnel can "chain" two proxies (a local one, and a remote
 one), but if the place you connect from does not use such a setting, here
 is how you can proceed:</p>
-<div class="highlight"><pre><span></span><span class="err">proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>proxytunnel -E -p server.com:443 -d 127.0.0.1:22 -v
+</code></pre></div>
 
 <p>-v is for verbose. Replace it with -q (quiet) if it works. You can say it
 works when you are prompted an ssh login. Apache2 used to have <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=29744">a bug</a>
@@ -108,12 +105,11 @@ using the latest alpha).</p>
 <h1>File .ssh/config</h1>
 <p>Once you're done, just drop the working command line in the .ssh/config of
 your clients:</p>
-<div class="highlight"><pre><span></span><span class="err">Host server.com</span>
-<span class="err">    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22</span>
-<span class="err">    DynamicForward 1080</span>
-<span class="err">    ServerAliveInterval 60</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>Host server.com
+    ProxyCommand proxytunnel -q -E -p server.com:443 -d 127.0.0.1:22
+    DynamicForward 1080
+    ServerAliveInterval 60
+</code></pre></div>
 
 <p>If you are stuck, I recommend you read <a href="http://www.saulchristie.co.uk/how-to/bypass-firewalls">this excellent article</a>. One
 problem remains with this config: If the traffic is correctly monitored,

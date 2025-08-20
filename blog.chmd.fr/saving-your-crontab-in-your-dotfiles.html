@@ -30,27 +30,26 @@ stuff as I can, provided it does not contains sensitive stuff like
 passwords. Problem: How do you save your crontab? I finally had a look at
 the crontab manual to realize that crontab could be called on a file. The
 following line goes into my <code>~/.zshrc</code>:</p>
-<div class="highlight"><pre><span></span><span class="err">alias crontab-e=&#39;vi ~/.crontab &amp;&amp; crontab ~/.crontab&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>alias crontab-e=&#39;vi ~/.crontab &amp;&amp; crontab ~/.crontab&#39;
+</code></pre></div>
 
 <p>Edit: I now find even better to use a shell function rather than an
 alias:</p>
-<div class="highlight"><pre><span></span><span class="err"># CRONTAB</span>
-<span class="err">if test -z $CRONTABCMD; then</span>
-<span class="err">    # allows to source zshrc twice</span>
-<span class="err">    export CRONTABCMD=$(which crontab)</span>
-<span class="err">    crontab()</span>
-<span class="err">    {</span>
-<span class="err">        if [[ $@ == &quot;-e&quot; ]]; then</span>
-<span class="err">            vim ~/.crontab &amp;&amp; $CRONTABCMD ~/.crontab</span>
-<span class="err">        else</span>
-<span class="err">            $CRONTABCMD $@</span>
-<span class="err">        fi</span>
-<span class="err">    }</span>
-<span class="err">    $CRONTABCMD ~/.crontab</span>
-<span class="err">fi</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># CRONTAB</span>
+<span class="k">if</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">-</span><span class="n">z</span><span class="w"> </span><span class="o">$</span><span class="n">CRONTABCMD</span><span class="p">;</span><span class="w"> </span><span class="n">then</span>
+<span class="w">    </span><span class="c1"># allows to source zshrc twice</span>
+<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="n">CRONTABCMD</span><span class="o">=$</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="n">crontab</span><span class="p">)</span>
+<span class="w">    </span><span class="n">crontab</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">[[</span><span class="w"> </span><span class="o">$</span><span class="err">@</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;-e&quot;</span><span class="w"> </span><span class="p">]];</span><span class="w"> </span><span class="n">then</span>
+<span class="w">            </span><span class="n">vim</span><span class="w"> </span><span class="o">~/.</span><span class="n">crontab</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">$</span><span class="n">CRONTABCMD</span><span class="w"> </span><span class="o">~/.</span><span class="n">crontab</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="o">$</span><span class="n">CRONTABCMD</span><span class="w"> </span><span class="o">$</span><span class="err">@</span>
+<span class="w">        </span><span class="n">fi</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="o">$</span><span class="n">CRONTABCMD</span><span class="w"> </span><span class="o">~/.</span><span class="n">crontab</span>
+<span class="n">fi</span>
+</code></pre></div>
     </div>
     <div class="comments">
         <h2>Comments !</h2>

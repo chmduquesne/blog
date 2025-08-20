@@ -13,7 +13,7 @@
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
 <section id="content">
-<h2>Articles tagged with dtach</h2>
+    <h2>Articles tagged with dtach</h2>
 
                 <header>
                     <h1><a href="de-linteret-de-detacher-des-programmes-de-la-console-sans-screen.html"
@@ -34,15 +34,13 @@ récupérer ce programme.</p>
 lancer le programme irssi en détaché, sur le socket /tmp/irssi.sock
 (qui sera créé par le programme), où, s'il est déjà lancé, de
 récupérer ce programme.</p>
-<div class="highlight"><pre><span></span><span class="err">dtach -A /tmp/irssi.sock /usr/bin/irssi</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>dtach -A /tmp/irssi.sock /usr/bin/irssi
+</code></pre></div>
 
 <p>J'en connais des tas qui ne jurent que par gnu screen. Mais  à quoi
 bon, si on peut se contenter d'un simple alias?</p>
-<div class="highlight"><pre><span></span><span class="err">alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>alias irssi=&#39;dtach -A /tmp/irssi.sock /usr/bin/irssi&#39;`
+</code></pre></div>
 
 <p>Jusque là, je me contentais de deux ou trois alias du genre, et j'avais
 une petite fonction au début de mon .zshrc qui me permettait de toujours
@@ -68,32 +66,30 @@ nombre).</p>
 garantissent qu'une nouvelle session tmux est toujours lancée avec le
 shell. La fermeture de la session en cours entraine l'essai de connection
 à une autre session, sauf s'il n'y a plus aucune session de lancée.</p>
-<div class="highlight"><pre><span></span># TMUX
-# if no session is started, start a new session
-if test -z <span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>; then
-    tmux
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span>TMUX
+#<span class="w"> </span>if<span class="w"> </span>no<span class="w"> </span>session<span class="w"> </span>is<span class="w"> </span>started,<span class="w"> </span>start<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>session
+if<span class="w"> </span>test<span class="w"> </span>-z<span class="w"> </span><span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>;<span class="w"> </span>then
+<span class="w">    </span>tmux
 fi
-# when quitting tmux, try to attach
-while test -z <span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>; do
-    tmux attach || break
+#<span class="w"> </span>when<span class="w"> </span>quitting<span class="w"> </span>tmux,<span class="w"> </span>try<span class="w"> </span>to<span class="w"> </span>attach
+while<span class="w"> </span>test<span class="w"> </span>-z<span class="w"> </span><span class="cp">${</span><span class="n">TMUX</span><span class="cp">}</span>;<span class="w"> </span>do
+<span class="w">    </span>tmux<span class="w"> </span>attach<span class="w"> </span>||<span class="w"> </span>break
 done
-</pre></div>
-
+</code></pre></div>
 
 <p>Et désormais je lance irssi de la manière suivante:</p>
-<div class="highlight"><pre><span></span><span class="err"># IRSSI IN TMUX</span>
-<span class="err"># switch to irssi session (and if necessary starts this session before)</span>
-<span class="err">irssi()</span>
-<span class="err">{</span>
-<span class="err">    if tmux has -t irssi &gt;/dev/null; then</span>
-<span class="err">         tmux switch -t irssi</span>
-<span class="err">    else</span>
-<span class="err">        TMUX=&quot;&quot; tmux new -d -s irssi /usr/bin/irssi</span>
-<span class="err">        tmux switch -t irssi</span>
-<span class="err">    fi</span>
-<span class="err">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span><span class="nv">IRSSI</span><span class="w"> </span><span class="nv">IN</span><span class="w"> </span><span class="nv">TMUX</span>
+#<span class="w"> </span><span class="nv">switch</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">irssi</span><span class="w"> </span><span class="nv">session</span><span class="w"> </span><span class="ss">(</span><span class="nv">and</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">necessary</span><span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nv">session</span><span class="w"> </span><span class="nv">before</span><span class="ss">)</span>
+<span class="nv">irssi</span><span class="ss">()</span>
+{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">tmux</span><span class="w"> </span><span class="nv">has</span><span class="w"> </span><span class="o">-</span><span class="nv">t</span><span class="w"> </span><span class="nv">irssi</span><span class="w"> </span><span class="o">&gt;/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">null</span><span class="c1">; then</span>
+<span class="w">         </span><span class="nv">tmux</span><span class="w"> </span><span class="nv">switch</span><span class="w"> </span><span class="o">-</span><span class="nv">t</span><span class="w"> </span><span class="nv">irssi</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nv">TMUX</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">tmux</span><span class="w"> </span><span class="nv">new</span><span class="w"> </span><span class="o">-</span><span class="nv">d</span><span class="w"> </span><span class="o">-</span><span class="nv">s</span><span class="w"> </span><span class="nv">irssi</span><span class="w"> </span><span class="o">/</span><span class="nv">usr</span><span class="o">/</span><span class="nv">bin</span><span class="o">/</span><span class="nv">irssi</span>
+<span class="w">        </span><span class="nv">tmux</span><span class="w"> </span><span class="nv">switch</span><span class="w"> </span><span class="o">-</span><span class="nv">t</span><span class="w"> </span><span class="nv">irssi</span>
+<span class="w">    </span><span class="nv">fi</span>
+}
+</code></pre></div>
 
 <p>Si vous utilisez zsh et/ou urxvt, et que vous souhaitez tenter l'essai, je
 vous suggère de jeter un coup d'oeil à <a href="https://github.com/chmduquesne/dotfiles/">ma configuration</a> (les

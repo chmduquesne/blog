@@ -13,7 +13,7 @@
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
 <section id="content">
-<h2>Articles tagged with gif</h2>
+    <h2>Articles tagged with gif</h2>
 
                 <header>
                     <h1><a href="couper-une-video-et-extraire-une-scene-dun-film.html"
@@ -24,18 +24,16 @@
                     <p>Comme promis dans le dernier billet, voici comment on fait pour
 extraire une scène d'un film, par exemple pour en faire un fichier
 .gif (cf post précédent)... Pour cela vous utiliserez mencoder :</p>
-<div class="highlight"><pre><span></span><span class="err">sudo apt-get install mencoder</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sudo apt-get install mencoder
+</code></pre></div>
 
 <p>Et la syntaxe est la suivante :</p>
-<div class="highlight"><pre><span></span><span class="err">mencoder -ss     h:mm:ss    \</span>
-<span class="err">         -endpos h:mm:ss    \</span>
-<span class="err">         film_origine.avi   \</span>
-<span class="err">         -o extrait.avi     \</span>
-<span class="err">         -oac copy -ovc copy</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>mencoder -ss     h:mm:ss    \
+         -endpos h:mm:ss    \
+         film_origine.avi   \
+         -o extrait.avi     \
+         -oac copy -ovc copy
+</code></pre></div>
 
 <ul>
 <li>L'argument de -ss est le temps à partir duquel commence la

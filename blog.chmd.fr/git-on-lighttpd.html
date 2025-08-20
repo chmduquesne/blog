@@ -27,21 +27,20 @@
 <p>I switched to lighttpd. The main reason for this change was the ease of
 configuration: for example, with apache, when you want to serve the same
 website with and without ssl, you end up doing something like this:</p>
-<div class="highlight"><pre><span></span># file: /etc/apache2/sites-available/domain.com.conf
-<span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
-    Include /etc/apache2/domain.com.inc.conf
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span>file:<span class="w"> </span>/etc/apache2/sites-available/domain.com.conf
+<span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="err">*:80</span><span class="nt">&gt;</span>
+<span class="w">    </span>Include<span class="w"> </span>/etc/apache2/domain.com.inc.conf
 <span class="nt">&lt;/VirtualHost&gt;</span>
-<span class="nt">&lt;VirtualHost</span> <span class="err">*:443</span><span class="nt">&gt;</span>
-    Include /etc/apache2/domain.com.inc.conf
-    SSLEngine On
-    SSLCertificateFile /etc/ssl/private/domain.com.pem
+<span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="err">*:443</span><span class="nt">&gt;</span>
+<span class="w">    </span>Include<span class="w"> </span>/etc/apache2/domain.com.inc.conf
+<span class="w">    </span>SSLEngine<span class="w"> </span>On
+<span class="w">    </span>SSLCertificateFile<span class="w"> </span>/etc/ssl/private/domain.com.pem
 <span class="nt">&lt;/VirtualHost&gt;</span>
 
-# file: /etc/apache2/sites-available/domain.com.inc.conf
-ServerName domain.com
-DocumentRoot /var/www/domain.com
-</pre></div>
-
+#<span class="w"> </span>file:<span class="w"> </span>/etc/apache2/sites-available/domain.com.inc.conf
+ServerName<span class="w"> </span>domain.com
+DocumentRoot<span class="w"> </span>/var/www/domain.com
+</code></pre></div>
 
 <p>Including the website config as a separate file is pretty much the only
 way to accomplish this without duplicating this config in both
@@ -49,16 +48,15 @@ virtualhosts. That is two files to maintain, for one domain.  If you want
 to do this for every domain you control, you have to multiply the files
 and includes.</p>
 <p>Doing this with lighttpd is really easier:</p>
-<div class="highlight"><pre><span></span><span class="err"># file /etc/lighttpd/lighttpd.conf</span>
-<span class="err">$SERVER[&quot;socket&quot;] == &quot;:443&quot; {</span>
-<span class="err">    ssl.engine              = &quot;enable&quot;</span>
-<span class="err">    ssl.pemfile             = &quot;/etc/ssl/private/domain.com.pem&quot;</span>
-<span class="err">}</span>
-<span class="err">$HTTP[&quot;host&quot;] == &quot;domain.com&quot; {</span>
-<span class="err">    server.document-root    = &quot;/var/www/domain.com&quot;</span>
-<span class="err">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="c1"># file /etc/lighttpd/lighttpd.conf</span>
+<span class="o">$</span><span class="n">SERVER</span><span class="p">[</span><span class="s2">&quot;socket&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;:443&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ssl</span><span class="o">.</span><span class="n">engine</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;enable&quot;</span>
+<span class="w">    </span><span class="n">ssl</span><span class="o">.</span><span class="n">pemfile</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/etc/ssl/private/domain.com.pem&quot;</span>
+<span class="p">}</span>
+<span class="o">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;domain.com&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">server</span><span class="o">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/var/www/domain.com&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <h1>git and lighttpd</h1>
 <p>Now, let's do cool things. One of the subdomains I own is dedicated to
@@ -73,25 +71,24 @@ hosting my public git repositories. I (quite obviously) named it
 </ul>
 <p>Combining the two was tricky, but I ended up finding how to proceed. Here
 is the relevant part of my config:</p>
-<div class="highlight"><pre><span></span><span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="ss">&quot;host&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="ss">&quot;git.chmd.fr&quot;</span> <span class="err">{</span>
+<div class="highlight"><pre><span></span><code><span class="o">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;git.chmd.fr&quot;</span><span class="w"> </span><span class="p">{</span>
 
-    <span class="o">#</span> <span class="n">This</span> <span class="n">takes</span> <span class="n">care</span> <span class="k">of</span> <span class="n">serving</span> <span class="n">gitweb</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span>    <span class="o">=</span> <span class="ss">&quot;/usr/share/gitweb&quot;</span>
-    <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span> <span class="ss">&quot;.cgi&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;&quot;</span> <span class="p">)</span>
-    <span class="n">server</span><span class="p">.</span><span class="n">indexfiles</span> <span class="o">=</span> <span class="p">(</span> <span class="ss">&quot;gitweb.cgi&quot;</span> <span class="p">)</span>
+<span class="w">    </span><span class="c1"># This takes care of serving gitweb</span>
+<span class="w">    </span><span class="n">server</span><span class="o">.</span><span class="n">document</span><span class="o">-</span><span class="n">root</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/usr/share/gitweb&quot;</span>
+<span class="w">    </span><span class="n">cgi</span><span class="o">.</span><span class="n">assign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;.cgi&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="n">server</span><span class="o">.</span><span class="n">indexfiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;gitweb.cgi&quot;</span><span class="w"> </span><span class="p">)</span>
 
-    <span class="o">#</span> <span class="k">And</span> <span class="n">this</span> <span class="n">condition</span> <span class="n">matches</span> <span class="n">git</span> <span class="n">objects</span>
-    <span class="err">$</span><span class="n">HTTP</span><span class="p">[</span><span class="ss">&quot;url&quot;</span><span class="p">]</span> <span class="o">=~</span> <span class="ss">&quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot;</span> <span class="err">{</span>
-        <span class="k">alias</span><span class="p">.</span><span class="n">url</span>  <span class="o">+=</span> <span class="p">(</span> <span class="ss">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;/usr/lib/git-core/git-http-backend&quot;</span><span class="p">)</span>
-        <span class="n">cgi</span><span class="p">.</span><span class="n">assign</span> <span class="o">=</span> <span class="p">(</span><span class="ss">&quot;&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">setenv</span><span class="p">.</span><span class="k">add</span><span class="o">-</span><span class="n">environment</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="ss">&quot;GIT_PROJECT_ROOT&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;/home/www/git-public-repos/&quot;</span><span class="p">,</span>
-            <span class="ss">&quot;GIT_HTTP_EXPORT_ALL&quot;</span> <span class="o">=&gt;</span> <span class="ss">&quot;&quot;</span>
-            <span class="p">)</span>
-    <span class="err">}</span>
-<span class="err">}</span>
-</pre></div>
-
+<span class="w">    </span><span class="c1"># And this condition matches git objects</span>
+<span class="w">    </span><span class="o">$</span><span class="n">HTTP</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=~</span><span class="w"> </span><span class="s2">&quot;(?x)^/(.*/(HEAD | info/refs | objects/(info/[^/]+ | [0-9a-f]{2}/[0-9a-f]{38} | pack/pack-[0-9a-f]{40}\.(pack|idx)) | git-(upload|receive)-pack))$&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">alias</span><span class="o">.</span><span class="n">url</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;/usr/lib/git-core/git-http-backend&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cgi</span><span class="o">.</span><span class="n">assign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">setenv</span><span class="o">.</span><span class="n">add</span><span class="o">-</span><span class="n">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">            </span><span class="s2">&quot;GIT_PROJECT_ROOT&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;/home/www/git-public-repos/&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;GIT_HTTP_EXPORT_ALL&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p>Combined with the trick from above, you can get this to work on both http
 and https. I hope this will help others!</p>

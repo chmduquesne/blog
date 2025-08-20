@@ -13,7 +13,7 @@
         <h1><a href="http://blog.chmd.fr">Ch-M.D <strong></strong></a></h1>
     </header><!-- /#banner -->
 <section id="content">
-<h2>Articles tagged with apache</h2>
+    <h2>Articles tagged with apache</h2>
 
                 <header>
                     <h1><a href="ssh-over-ssl-episode-3-avoiding-using-a-patched-apache.html"
@@ -53,45 +53,41 @@ have decided to do the SSL part by myself. Thus, I configure apache to
 serve normally on the port 80, and I use stunnel to secure apache on the
 port 443. Here is how I do it: I remove the SSL part of my apache config
 and I add in my (normal, unencrypted) apache configuration:</p>
-<div class="highlight"><pre><span></span>ProxyRequests On
-AllowConnect 22
-<span class="nt">&lt; Proxy</span> <span class="err">*</span><span class="nt">&gt;</span>
-    Order deny,allow
-    Deny from all
+<div class="highlight"><pre><span></span><code>ProxyRequests<span class="w"> </span>On
+AllowConnect<span class="w"> </span>22
+<span class="nt">&lt; Proxy</span><span class="w"> </span><span class="err">*</span><span class="nt">&gt;</span>
+<span class="w">    </span>Order<span class="w"> </span>deny,allow
+<span class="w">    </span>Deny<span class="w"> </span>from<span class="w"> </span>all
 <span class="nt">&lt;/Proxy&gt;</span>
-<span class="nt">&lt;Proxy</span> <span class="err">127.0.0.1</span><span class="nt">&gt;</span>
-    Order deny,allow
-    Allow from all
+<span class="nt">&lt;Proxy</span><span class="w"> </span><span class="err">127.0.0.1</span><span class="nt">&gt;</span>
+<span class="w">    </span>Order<span class="w"> </span>deny,allow
+<span class="w">    </span>Allow<span class="w"> </span>from<span class="w"> </span>all
 <span class="nt">&lt;/Proxy&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Then, I install stunnel, and I set it up to listen on the port 443
 (https) and to forward it to the port 80 (http).</p>
-<div class="highlight"><pre><span></span><span class="n">cert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">stunnel</span><span class="o">/</span><span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span><span class="w"></span>
-<span class="p">...</span><span class="w"></span>
-<span class="o">[</span><span class="n">https</span><span class="o">]</span><span class="w"></span>
-<span class="n">accept</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">443</span><span class="w"></span>
-<span class="k">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">80</span><span class="w"></span>
-<span class="n">TIMEOUTclose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">cert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">stunnel</span><span class="o">/</span><span class="n">stunnel</span><span class="p">.</span><span class="n">pem</span>
+<span class="p">...</span>
+<span class="o">[</span><span class="n">https</span><span class="o">]</span>
+<span class="n">accept</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">443</span>
+<span class="k">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">80</span>
+<span class="n">TIMEOUTclose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
 
 <p>stunnel requires a bit of configuration. From the <a href="http://www.stunnel.org/?page=docs">documentation</a>, here
 is how to generate a certificate:</p>
-<div class="highlight"><pre><span></span><span class="err">cd /etc/stunnel</span>
-<span class="err">openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem</span>
-<span class="err">chown stunnel:stunnel stunnel.pem</span>
-<span class="err">chmod 600 stunnel.pem</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>cd /etc/stunnel
+openssl req -new -x509 -days 365 -nodes -config stunnel.cnf -out stunnel.pem -keyout stunnel.pem
+chown stunnel:stunnel stunnel.pem
+chmod 600 stunnel.pem
+</code></pre></div>
 
 <p>I also nedded to add in /etc/hosts.allow</p>
-<div class="highlight"><pre><span></span><span class="n">sshd</span><span class="o">:</span> <span class="n">ALL</span>
-<span class="n">stunnel</span><span class="o">:</span> <span class="n">ALL</span>
-<span class="n">https</span><span class="o">:</span> <span class="n">ALL</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">sshd</span><span class="o">:</span><span class="w"> </span><span class="n">ALL</span>
+<span class="n">stunnel</span><span class="o">:</span><span class="w"> </span><span class="n">ALL</span>
+<span class="n">https</span><span class="o">:</span><span class="w"> </span><span class="n">ALL</span>
+</code></pre></div>
 
 <p>And that is all. I restart stunnel and httpd and I can enjoy SSH
 over SSL. (actually since I did not want double encryption, I have

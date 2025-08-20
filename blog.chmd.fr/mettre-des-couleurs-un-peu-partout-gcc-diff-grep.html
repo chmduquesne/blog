@@ -30,32 +30,30 @@ un peu ce qui existe déjà, et on tombe sur colorgcc. C'est
 disponible sur pas mal de distributions, c'est juste un script perl
 à appeler à la place de gcc, et ça rajoute des couleurs. Pour en
 profiter, il suffit de glisser dans vos Makefile</p>
-<div class="highlight"><pre><span></span><span class="err">CXX=/usr/bin/colorgcc</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>CXX=/usr/bin/colorgcc
+</code></pre></div>
 
 <p>Avec les autotools, on peut régler ça à l'invocation du script
 configure :</p>
-<div class="highlight"><pre><span></span><span class="err">./configure CXX=/usr/bin/colorgcc</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>./configure CXX=/usr/bin/colorgcc
+</code></pre></div>
 
 <p>Bon. Pas mal. Maintenant, les diff. Au boulot, je n'ai pas mieux
 sous la main qu'un svn comme gestionnaire de version. Quand je me
 tape des svn diff, j'aime bien que ça soit un peu lisible. Et si on
 se mettait ça en couleurs? En lisant un peu la doc, on voit qu'il
 suffit de se faire un script. Mettons diffwrap.sh.</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/bin/sh</span>
 <span class="c1"># Configure your favorite diff program here.</span>
 <span class="nv">DIFF</span><span class="o">=</span><span class="s2">&quot;/usr/bin/colordiff&quot;</span>
 <span class="c1"># Subversion provides the paths we need as the sixth and seventh</span>
@@ -63,56 +61,50 @@ suffit de se faire un script. Mettons diffwrap.sh.</p>
 <span class="nv">LEFT</span><span class="o">=</span><span class="si">${</span><span class="nv">6</span><span class="si">}</span>
 <span class="nv">RIGHT</span><span class="o">=</span><span class="si">${</span><span class="nv">7</span><span class="si">}</span>
 <span class="c1"># Call the diff command</span>
-<span class="nv">$DIFF</span> <span class="nv">$LEFT</span> <span class="nv">$RIGHT</span>
+<span class="nv">$DIFF</span><span class="w"> </span><span class="nv">$LEFT</span><span class="w"> </span><span class="nv">$RIGHT</span>
 <span class="c1"># Return an errorcode of 0 if no differences were detected, 1 if some were.</span>
 <span class="c1"># Any other errorcode will be treated as fatal.</span>
-</pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 
 <p>J'ai installé colordiff pour faire le boulot. Il suffit après
 d'éditer \~/.subversion/config, et d'ajouter, section [helpers]</p>
-<div class="highlight"><pre><span></span><span class="err">diff-cmd = /path/to/diffwrap.sh</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>diff-cmd = /path/to/diffwrap.sh
+</code></pre></div>
 
 <p>Bon ok, mais quand je fais make, j'ai toujours beaucoup de sortie
 Il n'y aurait pas moyen de se cantonner aux erreurs gcc lorsqu'il y
 en a? Aller, on va baisser un peu ça avec un petit peu (le -j3 est
 pour multithreader le make : j'ai un dual core, autant en
 profiter).</p>
-<div class="highlight"><pre><span></span><span class="err">alias make=&#39;make -j3 -s&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>alias make=&#39;make -j3 -s&#39;
+</code></pre></div>
 
 <p>Bien entendu, en tant qu'adepte de vim, j'utilise aussi beaucoup
 :make. Dans le .vimrc, il peut s'avérer utile de glisser alors:</p>
-<div class="highlight"><pre><span></span><span class="err">autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set makeprg=make\ -j3\ -s</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>autocmd BufNewFile,BufRead,BufEnter <span class="gs">*.cpp,*</span>.hpp set makeprg=make\ -j3\ -s
+</code></pre></div>
 
 <p>Au passage, j'espère que vous connaissiez
 <a href="http://www.vim.org/scripts/script.php?script_id=1520">omnicppcomplete</a>,
 qui va chez moi dans la même section du .vimrc:</p>
-<div class="highlight"><pre><span></span><span class="err">autocmd BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>autocmd BufNewFile,BufRead,BufEnter <span class="gs">*.cpp,*</span>.hpp set omnifunc=omni#cpp#complete#Main
+</code></pre></div>
 
 <p>On combine tout ça à quelques alias assez connus, et on vit un peu
 mieux dans sa console...</p>
-<div class="highlight"><pre><span></span><span class="err"># SOME COLORS</span>
-<span class="err">if [ -x /usr/bin/dircolors ]; then</span>
-<span class="err">    eval &quot;`dircolors -b`&quot;</span>
-<span class="err">    alias ls=&#39;ls --color=auto&#39;</span>
-<span class="err">    alias dir=&#39;dir --color=auto&#39;</span>
-<span class="err">    alias vdir=&#39;vdir --color=auto&#39;</span>
-<span class="err">    alias grep=&#39;grep --color=auto&#39;</span>
-<span class="err">    alias fgrep=&#39;fgrep --color=auto&#39;</span>
-<span class="err">    alias egrep=&#39;egrep --color=auto&#39;</span>
-<span class="err">    alias diff=&#39;colordiff&#39;</span>
-<span class="err">    alias less=&#39;less -R&#39;</span>
-<span class="err">fi</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span><span class="nv">SOME</span><span class="w"> </span><span class="nv">COLORS</span>
+<span class="k">if</span><span class="w"> </span>[<span class="w"> </span><span class="o">-</span><span class="nv">x</span><span class="w"> </span><span class="o">/</span><span class="nv">usr</span><span class="o">/</span><span class="nv">bin</span><span class="o">/</span><span class="nv">dircolors</span><span class="w"> </span>]<span class="c1">; then</span>
+<span class="w">    </span><span class="nv">eval</span><span class="w"> </span><span class="s2">&quot;`dircolors -b`&quot;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;ls --color=auto&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">dir</span><span class="o">=</span><span class="s1">&#39;dir --color=auto&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">vdir</span><span class="o">=</span><span class="s1">&#39;vdir --color=auto&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">grep</span><span class="o">=</span><span class="s1">&#39;grep --color=auto&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">fgrep</span><span class="o">=</span><span class="s1">&#39;fgrep --color=auto&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">egrep</span><span class="o">=</span><span class="s1">&#39;egrep --color=auto&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">diff</span><span class="o">=</span><span class="s1">&#39;colordiff&#39;</span>
+<span class="w">    </span><span class="nv">alias</span><span class="w"> </span><span class="nv">less</span><span class="o">=</span><span class="s1">&#39;less -R&#39;</span>
+<span class="nv">fi</span>
+</code></pre></div>
 
 <p>Si vous avez des trucs utiles, n'hésitez pas! Je suis en
 particulier à la recherche d'un script vim qui exploiterait un rien

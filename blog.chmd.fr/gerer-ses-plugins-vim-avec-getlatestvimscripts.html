@@ -37,9 +37,8 @@ simplement dire à vim de gérer tous vos scripts d'un coup. Pour cela, il
 vous suffit de maintenir à jour la liste des scripts qui vous intéressent
 dans le fichier <code>~/.vim/GetLatest/GetLatestVimScripts.dat</code>. Le format de
 ce fichier est simple:</p>
-<div class="highlight"><pre><span></span><span class="err">&lt;numéro du script&gt; &lt;numéro de version installée du script&gt; :AutoInstall: &lt;nom du script&gt;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>&lt;numéro du script&gt; &lt;numéro de version installée du script&gt; :AutoInstall: &lt;nom du script&gt;
+</code></pre></div>
 
 <p>Le numéro du script est dans l'url sur sourceforge, donné par <code>scriptid</code>.
 La version installée du script est maintenue directement par la commande
@@ -47,18 +46,17 @@ La version installée du script est maintenue directement par la commande
 <p>Maintenant, votre répertoire <code>~/.vim</code> est assez facile à transporter. J'ai
 pour habitude d'en garder une copie "vide", avec une arborescence sous la
 forme:</p>
-<div class="highlight"><pre><span></span><span class="err">\.vim/</span>
-<span class="err">    |-GetLatest/</span>
-<span class="err">               |-GetLatestVimScripts.dat</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>\.vim/
+    |-GetLatest/
+               |-GetLatestVimScripts.dat
+</code></pre></div>
 
 <p><em>Un test?</em></p>
 <p>Vous pouvez tester l'astuce assez simplement: Sauvez votre répertoire
 <code>~/.vim</code> (si vous en avez un) en le bougeant sous un autre nom, et faites
 en un nouveau ou vous recréerez l'arborescence décrite précedemment.
 Insérez dans GetLatestVimScripts.dat les lignes suivantes:</p>
-<div class="highlight"><pre><span></span><span class="gh">ScriptID SourceID Filename</span>
+<div class="highlight"><pre><span></span><code><span class="gh">ScriptID SourceID Filename</span>
 <span class="gh">--------------------------</span>
 # Les lignes commençant par &#39;#&#39; sont des commentaires
 # Les deux premières lignes sont nécessaires
@@ -67,8 +65,7 @@ Insérez dans GetLatestVimScripts.dat les lignes suivantes:</p>
 # le premier numéro a été obtenu dans l&#39;url du script:
 # http://www.vim.org/scripts/script.php?script_id=1643
 1643 1 :AutoInstall: supertab.vim
-</pre></div>
-
+</code></pre></div>
 
 <ul>
 <li>Ouvrez vim, tapez :GLVS. Le script va se mettre à jour de
@@ -97,7 +94,7 @@ attendant, retirer ce mot clé.</p>
 que j'utilise. C'est très orienté C++. Mon conseil, c'est de vous
 abonner au flux rss de vim.org, comme ça vous serez au courant des
 plugins sympa qui sortent.</p>
-<div class="highlight"><pre><span></span><span class="gh">ScriptID SourceID Filename</span>
+<div class="highlight"><pre><span></span><code><span class="gh">ScriptID SourceID Filename</span>
 <span class="gh">--------------------------</span>
 39   1 :AutoInstall: matchit.zip
 40   1 :AutoInstall: Drawit.vim
@@ -124,7 +121,7 @@ plugins sympa qui sortent.</p>
 2540 1 :AutoInstall: snipMate.zip
 2645 1 :AutoInstall: colourscheme_bandit.vim
 2646 1 :AutoInstall: ctags_highlighting.vba
-</pre></div>
+</code></pre></div>
     </div>
     <div class="comments">
         <h2>Comments !</h2>
